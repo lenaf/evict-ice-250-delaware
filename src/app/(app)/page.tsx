@@ -84,7 +84,7 @@ export default function Home() {
               </h3>
               <ul className="space-y-3 text-base leading-relaxed">
                 <li>
-                  Downtown Buffalo's 250 Delaware Avenue houses four ICE offices
+                  Downtown Buffalo&apos;s 250 Delaware Avenue houses four ICE offices
                   that control operations, detention management, reporting,
                   logistics, and administration for all of New York State
                   outside of NYC.
