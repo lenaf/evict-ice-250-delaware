@@ -1,40 +1,26 @@
-import { getPayload } from "@/lib/payload";
-import { RenderSections } from "@/components/RenderSections";
-import type { Page } from "@/payload-types";
-
-export default async function Home() {
-  const payload = await getPayload();
-
-  const pages = await payload.find({
-    collection: "pages",
-    where: {
-      slug: {
-        equals: "home",
-      },
-    },
-    depth: 3,
-  });
-
-  const page = pages.docs[0] as Page;
-
-  if (!page) {
-    return (
-      <div className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-4">No homepage found</h1>
-        <p>
-          Create a page with slug containing &ldquo;home&rdquo; in the admin at
-          /admin
-        </p>
-      </div>
-    );
-  }
-
-  const sections = page.sections || [];
-
+export default function Home() {
   return (
-    // add padding top for nav
     <main className="min-h-screen pt-20">
-      <RenderSections sections={sections} />
+      <div className="container mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold mb-6">Delaware Eviction Prevention</h1>
+        <p className="text-xl mb-8">
+          Resources and information to help Delaware residents facing eviction.
+        </p>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-4">Emergency Resources</h2>
+          <ul className="space-y-2">
+            <li>• Emergency Rental Assistance</li>
+            <li>• Legal Aid Services</li>
+            <li>• Housing Counseling</li>
+          </ul>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-4">Know Your Rights</h2>
+          <p>Understanding your rights as a tenant is crucial. Learn about eviction procedures, notice requirements, and your legal protections.</p>
+        </section>
+      </div>
     </main>
   );
 }
