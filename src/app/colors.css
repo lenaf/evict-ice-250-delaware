@@ -1,0 +1,33 @@
+/* Auto-generated from /src/config/theme.ts - DO NOT EDIT */
+@theme {
+  --color-primary: oklch(0.58 0.22 27);        /* #DC2626 */
+  --color-primary-content: oklch(1.00 0.00 0);  /* #FFFFFF */
+  
+  --color-secondary: oklch(0.38 0.14 266);      /* #1E3A8A */
+  --color-secondary-content: oklch(1.00 0.00 0);  /* #FFFFFF */
+  
+  --color-accent: oklch(0.71 0.13 215);          /* #06B6D4 */
+  --color-accent-content: oklch(1.00 0.00 0);  /* #FFFFFF */
+  
+  --color-neutral: oklch(0.28 0.04 260);        /* #1E293B */
+  --color-neutral-content: oklch(0.98 0.00 248);  /* #F8FAFC */
+  
+  --color-base-100: oklch(1.00 0.00 0);       /* #FFFFFF */
+  --color-base-200: oklch(0.98 0.00 248);       /* #F8FAFC */
+  --color-base-300: oklch(0.97 0.01 248);       /* #F1F5F9 */
+  --color-base-content: oklch(0.21 0.04 266);  /* #0F172A */
+  
+  --color-info: oklch(0.42 0.18 266);          /* #1E40AF */
+  --color-info-content: oklch(1.00 0.00 0);  /* #FFFFFF */
+  
+  --color-success: oklch(0.63 0.17 149);    /* #16A34A */
+  --color-success-content: oklch(1.00 0.00 0);  /* #FFFFFF */
+  
+  --color-warning: oklch(0.80 0.16 86);    /* #EAB308 */
+  --color-warning-content: oklch(0.21 0.04 266);  /* #0F172A */
+  
+  --color-error: oklch(0.58 0.22 27);        /* #DC2626 */
+  --color-error-content: oklch(1.00 0.00 0);  /* #FFFFFF */
+  
+  --rounded-btn: 0.5rem;
+}
