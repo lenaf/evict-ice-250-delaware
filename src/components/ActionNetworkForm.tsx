@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 const HELP_OPTIONS = [
   "Research",
@@ -29,53 +29,71 @@ export function ActionNetworkForm() {
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const anContainerRef = useRef<HTMLDivElement>(null);
+  const anFormReady = useRef<HTMLFormElement | null>(null);
 
-  const loadAnWidget = useCallback((): Promise<HTMLFormElement> => {
-    return new Promise((resolve, reject) => {
-      const container = anContainerRef.current;
-      if (!container) return reject(new Error("Container not found"));
+  // Load AN widget on mount so it's ready when user submits
+  useEffect(() => {
+    const container = anContainerRef.current;
+    if (!container) return;
 
-      // Clear any previous widget content
-      container.innerHTML = "";
+    const script = document.createElement("script");
+    script.src = AN_WIDGET_URL;
+    script.async = true;
+    script.onerror = (err) => console.error("AN widget failed to load:", err);
+    container.appendChild(script);
 
-      // Remove any previously injected AN scripts
-      document
-        .querySelectorAll('script[src*="actionnetwork.org/widgets"]')
-        .forEach((s) => s.remove());
+    // Poll until the AN form renders
+    let attempts = 0;
+    const interval = setInterval(() => {
+      const form = container.querySelector("form");
+      if (form) {
+        anFormReady.current = form;
+        console.log("AN form loaded, fields:", Array.from(form.elements).map((el) => (el as HTMLInputElement).name || (el as HTMLElement).id).filter(Boolean));
+        clearInterval(interval);
+      }
+      if (++attempts > 100) {
+        console.warn("AN form never loaded");
+        clearInterval(interval);
+      }
+    }, 200);
 
-      // Inject a fresh script
-      const script = document.createElement("script");
-      script.src = AN_WIDGET_URL;
-      script.async = true;
-      document.body.appendChild(script);
-
-      // Poll for the form to appear
-      let attempts = 0;
-      const interval = setInterval(() => {
-        const form = container.querySelector("form");
-        if (form) {
-          clearInterval(interval);
-          resolve(form);
-        }
-        if (++attempts > 50) {
-          clearInterval(interval);
-          reject(new Error("AN form did not load"));
-        }
-      }, 100);
-    });
+    return () => clearInterval(interval);
   }, []);
+
+  const setAnField = useCallback(
+    (form: HTMLFormElement, selector: string, value: string) => {
+      const el = form.querySelector<HTMLInputElement>(selector);
+      if (!el) return;
+      // Use native setter to bypass any framework wrappers
+      const nativeSetter = Object.getOwnPropertyDescriptor(
+        HTMLInputElement.prototype,
+        "value",
+      )?.set;
+      if (nativeSetter) nativeSetter.call(el, value);
+      else el.value = value;
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+      el.dispatchEvent(new Event("blur", { bubbles: true }));
+    },
+    [],
+  );
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("submitting");
 
     try {
-      // Load a fresh AN widget
-      const anForm = await loadAnWidget();
+      const anForm = anFormReady.current;
+      if (!anForm) {
+        throw new Error("Action Network form not loaded yet");
+      }
 
-      // Fill or inject Action Network form fields
-      const setField = (name: string, selector: string, value: string) => {
-        let el = anForm.querySelector<HTMLInputElement>(selector);
+      // Inject or overwrite hidden fields for person data
+      const injectField = (name: string, value: string) => {
+        if (!value) return;
+        let el = anForm.querySelector<HTMLInputElement>(
+          `input[name="${name}"]`,
+        );
         if (el) {
           el.value = value;
         } else {
@@ -87,56 +105,85 @@ export function ActionNetworkForm() {
         }
       };
 
-      setField(
-        "answer[first_name]",
-        '#form-first_name, [name="answer[first_name]"]',
-        formData.firstName
+      // AN uses these field names for person identification
+      injectField("subscription[email]", formData.email);
+      injectField("subscription[given_name]", formData.firstName);
+      injectField("subscription[family_name]", formData.lastName);
+      // Also inject person[] format as fallback
+      injectField(
+        "person[email_addresses_attributes][0][address]",
+        formData.email,
       );
-      setField(
-        "answer[last_name]",
-        '#form-last_name, [name="answer[last_name]"]',
-        formData.lastName
-      );
-      setField(
-        "answer[email]",
-        '#form-email, [name="answer[email]"]',
-        formData.email
-      );
-      setField(
-        "answer[phone]",
-        '#form-phone, [name="answer[phone]"]',
-        formData.phone
-      );
-
-      // Set the matching Interests radio button
-      const skillValue =
-        formData.helpType === "Other" ? "Other" : formData.helpType;
-      const radio = anForm.querySelector<HTMLInputElement>(
-        `input[name="Interests"][value="${skillValue}"]`
-      );
-      if (radio) radio.checked = true;
-
-      // If "Other", fill in the text field
-      if (formData.helpType === "Other" && formData.helpOther) {
-        setField(
-          "Interests - Other",
-          '#Interests-_-Other, [name="Interests - Other"]',
-          formData.helpOther
-        );
+      injectField("person[given_name]", formData.firstName);
+      injectField("person[family_name]", formData.lastName);
+      if (formData.phone) {
+        injectField("person[phone_numbers_attributes][0][number]", formData.phone);
+        injectField("answer[phone]", formData.phone);
       }
 
-      // Click the AN submit button
-      const submitBtn = anForm.querySelector<HTMLInputElement>(
-        'input[type="submit"], button[type="submit"]'
+      // Also try filling any visible fields AN may have rendered (for logged-out users)
+      setAnField(anForm, "#form-first_name", formData.firstName);
+      setAnField(anForm, "#form-last_name", formData.lastName);
+      setAnField(anForm, "#form-email", formData.email);
+      setAnField(anForm, "#form-phone_number", formData.phone);
+
+      // Set the Interests radio if user selected a help type
+      if (formData.helpType) {
+        const radios = anForm.querySelectorAll<HTMLInputElement>('input[name="Interests"]');
+        radios.forEach((radio) => {
+          if (radio.value === formData.helpType) {
+            radio.checked = true;
+            radio.dispatchEvent(new Event("change", { bubbles: true }));
+            radio.dispatchEvent(new Event("click", { bubbles: true }));
+          }
+        });
+      }
+
+      // If "Other", fill the text field
+      if (formData.helpType === "Other" && formData.helpOther) {
+        setAnField(anForm, '[name="Interests - Other"]', formData.helpOther);
+      }
+
+      // Small delay to let AN's JS process the field changes
+      await new Promise((r) => setTimeout(r, 300));
+
+      // Submit via AN's own button
+      const submitBtn = anForm.querySelector<HTMLElement>(
+        'input[type="submit"], button[type="submit"]',
       );
       if (submitBtn) {
         submitBtn.click();
       } else {
-        anForm.submit();
+        anForm.requestSubmit();
       }
 
-      // Wait for AN to process, then show success
-      setTimeout(() => setStatus("success"), 1500);
+      // Watch for AN's success response (it typically changes the form content)
+      let resolved = false;
+      const observer = new MutationObserver(() => {
+        const container = anContainerRef.current;
+        if (container) {
+          const thankYou = container.querySelector(
+            ".action_message_area, .after-submit, #thanks",
+          );
+          if (thankYou) {
+            resolved = true;
+            observer.disconnect();
+            setStatus("success");
+          }
+        }
+      });
+      observer.observe(anContainerRef.current!, {
+        childList: true,
+        subtree: true,
+      });
+
+      // Fallback timeout
+      setTimeout(() => {
+        observer.disconnect();
+        if (!resolved) {
+          setStatus("success");
+        }
+      }, 4000);
     } catch (err) {
       console.error("Submission error:", err);
       setStatus("error");
@@ -145,28 +192,28 @@ export function ActionNetworkForm() {
 
   return (
     <>
-      {/* Hidden Action Network form container — always rendered */}
+      {/* Hidden AN widget — loaded on mount, used for submission */}
       <div
         ref={anContainerRef}
         id="can-form-area-join-us-426"
         aria-hidden="true"
         style={{
-          position: "absolute",
-          left: "-9999px",
+          position: "fixed",
+          top: 0,
+          left: 0,
           width: "1px",
           height: "1px",
+          opacity: 0,
           overflow: "hidden",
           pointerEvents: "none",
+          zIndex: -1,
         }}
       />
 
       {status === "success" ? (
         <div className="text-center py-8">
           <p className="font-black text-5xl mb-3">You&apos;re in!</p>
-          <p className="text-sm opacity-80">
-            We&apos;ll be in touch soon. Together, we&apos;ll evict ICE from 250
-            Delaware.
-          </p>
+          <p className="text-sm opacity-80">We&apos;ll be in touch soon.</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
