@@ -109,15 +109,7 @@ export function ActionNetworkForm() {
       injectField("subscription[email]", formData.email);
       injectField("subscription[given_name]", formData.firstName);
       injectField("subscription[family_name]", formData.lastName);
-      // Also inject person[] format as fallback
-      injectField(
-        "person[email_addresses_attributes][0][address]",
-        formData.email,
-      );
-      injectField("person[given_name]", formData.firstName);
-      injectField("person[family_name]", formData.lastName);
       if (formData.phone) {
-        injectField("person[phone_numbers_attributes][0][number]", formData.phone);
         injectField("answer[phone]", formData.phone);
       }
 
@@ -251,7 +243,7 @@ export function ActionNetworkForm() {
           />
           <input
             type="tel"
-            placeholder="Phone number"
+            placeholder="Phone number (optional)"
             value={formData.phone}
             onChange={(e) =>
               setFormData({ ...formData, phone: e.target.value })
