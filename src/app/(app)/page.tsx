@@ -1,8 +1,33 @@
 import { CountdownTimer } from "@/components/CountdownTimer";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Evict ICE from 250 Delaware",
+  url: "https://evictice250delaware.com",
+  description:
+    "Community campaign to evict ICE from 250 Delaware Avenue in Buffalo, NY. Uniland leases space to DHS for deportation operations across New York State.",
+  publisher: {
+    "@type": "Organization",
+    name: "Evict ICE 250 Delaware",
+    url: "https://evictice250delaware.com",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "250 Delaware Avenue",
+      addressLocality: "Buffalo",
+      addressRegion: "NY",
+      addressCountry: "US",
+    },
+  },
+};
+
 export default function Home() {
   return (
     <main className="min-h-screen pt-[72px]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* ========== HERO SECTION ========== */}
       <section className="relative bg-black text-white px-6 md:px-12 py-16 md:py-24">
         <div className="container mx-auto max-w-5xl">
