@@ -2,19 +2,14 @@ import "@/app/globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
-import { Source_Sans_3, Nunito_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 
-const sourceSans = Source_Sans_3({
-  weight: ["300", "400", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-source-sans",
-});
 
-const nunitoSans = Nunito_Sans({
-  weight: ["400", "600", "700", "800"],
+
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-nunito-sans",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -78,9 +73,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${sourceSans.variable} ${nunitoSans.variable} font-sans`}
+        className={inter.variable}
         style={{
-          fontFamily: 'var(--font-source-sans), sans-serif',
+          fontFamily: 'var(--font-inter), system-ui, sans-serif',
         }}
       >
         <Header />
