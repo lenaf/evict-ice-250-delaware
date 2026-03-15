@@ -114,7 +114,8 @@ export default function Home() {
       <section className="bg-[#1E3A8A] text-white px-6 md:px-10 py-14 md:py-20">
         <div className="max-w-6xl mx-auto">
           <h2 className="font-black text-2xl md:text-3xl leading-tight mb-4">
-            When a <span className="text-[#FFD600]">wall away</span> feels like a <span className="text-[#FFD600]">world away</span> —
+            When a <span className="text-[#FFD600]">wall away</span> feels like
+            a <span className="text-[#FFD600]">world away</span> —
           </h2>
           <p className="font-black text-lg md:text-xl uppercase tracking-wide text-white/70 mb-4">
             you know you&apos;re at 250 Delaware.
@@ -134,8 +135,12 @@ export default function Home() {
       <section className="bg-[#FFD600] text-black px-6 md:px-10 py-10 md:py-14 border-y-2 border-black">
         <div className="max-w-6xl mx-auto">
           <h2 className="font-black text-[clamp(2rem,5vw,3.5rem)] leading-[0.95]">
-            We have <InlineDaysLeft targetDate="2027-03-31T00:00:00" className="text-[#DC2626]" /> to change
-            that.
+            We have
+            <InlineDaysLeft
+              targetDate="2027-03-31T00:00:00"
+              className="text-[#DC2626]"
+            />
+            to change that.
           </h2>
         </div>
       </section>
@@ -207,7 +212,7 @@ export default function Home() {
           <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase">
             Good neighbors stand together.
           </h2>
-          <div className="text-base md:text-lg leading-relaxed text-black/70 md:border-l md:border-black/10 md:pl-12">
+          <div className="text-base md:text-lg leading-relaxed text-black/70 md:border-l-2 md:border-black/10 md:pl-12">
             <p className="mb-4">
               This campaign is powered by the people of Buffalo — families,
               businesses, civil rights and faith leaders, grassroots
@@ -244,7 +249,7 @@ export default function Home() {
       </section>
 
       {/* ========== Closing ========== */}
-      <section className="bg-[#FFD600] text-black px-6 md:px-10 py-10 md:py-14 border-t-2 border-black">
+      <section className="bg-[#1E3A8A] text-white px-6 md:px-10 py-10 md:py-14">
         <div className="max-w-6xl mx-auto flex items-end justify-between gap-6">
           <h2 className="font-black text-[clamp(2rem,5vw,3.5rem)] leading-[0.95]">
             We are just getting started.
@@ -254,7 +259,7 @@ export default function Home() {
             alt="Evict ICE from 250 Delaware"
             width={120}
             height={30}
-            className="w-20 md:w-28 h-auto shrink-0"
+            className="w-20 md:w-28 h-auto shrink-0 brightness-0 invert"
           />
         </div>
       </section>

@@ -53,7 +53,7 @@ export function Header() {
       {bannerOpen && (
         <div className="sticky top-0 z-[60] bg-[#DC2626] text-center py-2 px-4">
           <p className="text-sm md:text-base font-semibold tracking-wide">
-            <span className="text-white font-semibold text-base md:text-lg tracking-[0.08em]">{days}</span>
+            <span className="text-[#FFD600] font-black text-lg md:text-xl tracking-[0.08em]">{days}</span>
             <span className="text-white/90"> DAYS UNTIL THE DHS LEASE EXPIRES</span>
           </p>
           <button

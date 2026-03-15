@@ -48,7 +48,14 @@ export function ActionNetworkForm() {
       const form = container.querySelector("form");
       if (form) {
         anFormReady.current = form;
-        console.log("AN form loaded, fields:", Array.from(form.elements).map((el) => (el as HTMLInputElement).name || (el as HTMLElement).id).filter(Boolean));
+        console.log(
+          "AN form loaded, fields:",
+          Array.from(form.elements)
+            .map(
+              (el) => (el as HTMLInputElement).name || (el as HTMLElement).id,
+            )
+            .filter(Boolean),
+        );
         clearInterval(interval);
       }
       if (++attempts > 100) {
@@ -121,7 +128,9 @@ export function ActionNetworkForm() {
 
       // Set the Interests radio if user selected a help type
       if (formData.helpType) {
-        const radios = anForm.querySelectorAll<HTMLInputElement>('input[name="Interests"]');
+        const radios = anForm.querySelectorAll<HTMLInputElement>(
+          'input[name="Interests"]',
+        );
         radios.forEach((radio) => {
           if (radio.value === formData.helpType) {
             radio.checked = true;
