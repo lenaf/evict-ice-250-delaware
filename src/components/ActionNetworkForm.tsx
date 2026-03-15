@@ -39,7 +39,7 @@ export function ActionNetworkForm() {
     const script = document.createElement("script");
     script.src = AN_WIDGET_URL;
     script.async = true;
-    script.onerror = (err) => console.error("AN widget failed to load:", err);
+    script.onerror = () => {};
     container.appendChild(script);
 
     // Poll until the AN form renders
@@ -48,18 +48,9 @@ export function ActionNetworkForm() {
       const form = container.querySelector("form");
       if (form) {
         anFormReady.current = form;
-        console.log(
-          "AN form loaded, fields:",
-          Array.from(form.elements)
-            .map(
-              (el) => (el as HTMLInputElement).name || (el as HTMLElement).id,
-            )
-            .filter(Boolean),
-        );
         clearInterval(interval);
       }
       if (++attempts > 100) {
-        console.warn("AN form never loaded");
         clearInterval(interval);
       }
     }, 200);
@@ -88,6 +79,14 @@ export function ActionNetworkForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("submitting");
+
+    // Track form submission in GA4
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("event", "form_submit", {
+        event_category: "engagement",
+        event_label: formData.helpType || "none selected",
+      });
+    }
 
     try {
       const anForm = anFormReady.current;
@@ -186,7 +185,7 @@ export function ActionNetworkForm() {
         }
       }, 4000);
     } catch (err) {
-      console.error("Submission error:", err);
+      void err;
       setStatus("error");
     }
   }
@@ -221,8 +220,7 @@ export function ActionNetworkForm() {
           <div className="grid grid-cols-2 gap-3">
             <input
               type="text"
-              placeholder="First name"
-              required
+              placeholder="First name (optional)"
               value={formData.firstName}
               onChange={(e) =>
                 setFormData({ ...formData, firstName: e.target.value })
@@ -231,8 +229,7 @@ export function ActionNetworkForm() {
             />
             <input
               type="text"
-              placeholder="Last name"
-              required
+              placeholder="Last name (optional)"
               value={formData.lastName}
               onChange={(e) =>
                 setFormData({ ...formData, lastName: e.target.value })
@@ -242,7 +239,7 @@ export function ActionNetworkForm() {
           </div>
           <input
             type="email"
-            placeholder="Email address"
+            placeholder="Email address *"
             required
             value={formData.email}
             onChange={(e) =>
@@ -253,10 +250,13 @@ export function ActionNetworkForm() {
           <input
             type="tel"
             placeholder="Phone number (optional)"
+            pattern="[0-9+\-\s()]*"
+            maxLength={20}
             value={formData.phone}
-            onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
-            }
+            onChange={(e) => {
+              const sanitized = e.target.value.replace(/[^\d\s\-+()]/g, "");
+              setFormData({ ...formData, phone: sanitized });
+            }}
             className="w-full px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]"
           />
 
