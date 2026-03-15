@@ -7,8 +7,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 
-
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -48,12 +46,14 @@ export const metadata: Metadata = {
     siteName: "Evict ICE 250 Delaware",
     locale: "en_US",
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Evict ICE from 250 Delaware - Buffalo, NY",
-    description:
-      "Uniland leases 250 Delaware to DHS for New York State ICE operations. Join Buffalonians organizing to stop the lease renewal.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Evict ICE from 250 Delaware - Buffalo, NY Community Campaign",
+      },
+    ],
   },
   alternates: {
     canonical: "https://evictice250delaware.com",
@@ -75,7 +75,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LCM2M97XM7" />
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-LCM2M97XM7"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LCM2M97XM7');`,
@@ -85,7 +88,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <body
         className={inter.variable}
         style={{
-          fontFamily: 'var(--font-inter), system-ui, sans-serif',
+          fontFamily: "var(--font-inter), system-ui, sans-serif",
         }}
       >
         <Header />
