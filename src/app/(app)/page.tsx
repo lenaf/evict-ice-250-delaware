@@ -138,7 +138,7 @@ export default function Home() {
             We have
             <InlineDaysLeft
               targetDate="2027-03-31T00:00:00"
-              className="text-[#DC2626]"
+              className="text-[#DC2626] mx-2"
             />
             to change that.
           </h2>
