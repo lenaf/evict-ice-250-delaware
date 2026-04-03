@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
+import { UpcomingSlots } from "@/components/UpcomingSlots";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -79,26 +79,21 @@ export default function Home() {
       </section>
 
       {/* ========== Intro ========== */}
-      <section className="bg-black text-white px-6 md:px-10 py-8 md:py-10">
-        <div className="max-w-6xl mx-auto md:flex md:items-center md:justify-between md:gap-20">
-          <div>
-            <p className="text-base md:text-lg leading-relaxed text-white/70 mb-4">
-              Uniland leases 250 Delaware to DHS for New York State ICE
-              operations. That lease expires on{" "}
-              <strong className="text-white">March 31, 2027</strong>.
-            </p>
-            <p className="font-black text-lg md:text-xl text-[#FFD600] mb-8 md:mb-0">
-              We&apos;re calling on Uniland to not renew the lease.
-            </p>
-          </div>
-          <Link
-            href="#join"
-            className="block sm:inline-block md:shrink-0 bg-[#DC2626] text-white font-bold text-base tracking-wide px-6 py-3 hover:bg-[#FFD600] hover:text-black transition-all text-center"
-          >
-            JOIN US
-          </Link>
+      <section className="bg-[#1E3A8A] text-white px-6 md:px-10 py-8 md:py-10">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-base md:text-lg leading-relaxed text-white/70 mb-4">
+            Uniland leases 250 Delaware to DHS for New York State ICE
+            operations. That lease expires on{" "}
+            <strong className="text-white">March 31, 2027</strong>.
+          </p>
+          <p className="font-bold text-lg md:text-xl text-[#FFD600] leading-relaxed mt-6">
+            We&apos;re calling on Uniland to not renew the lease.
+          </p>
         </div>
       </section>
+
+      {/* ========== Upcoming Volunteer Slots ========== */}
+      <UpcomingSlots />
 
       {/* ========== Stats ========== */}
       <section className="bg-[#DC2626] text-white px-6 md:px-10 py-10 md:py-14 border-y-2 border-black">

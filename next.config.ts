@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://actionnetwork.org https://*.actionnetwork.org",
               "img-src 'self' data: https:",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://actionnetwork.org https://*.actionnetwork.org https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+              "connect-src 'self' https://actionnetwork.org https://*.actionnetwork.org https://va.vercel-scripts.com https://vitals.vercel-insights.com https://*.supabase.co",
               "frame-src 'none'",
               "object-src 'none'",
               "base-uri 'self'",
