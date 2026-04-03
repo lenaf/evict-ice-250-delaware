@@ -10,6 +10,8 @@ function getFromEmail() {
   return process.env.FROM_EMAIL || "Evict ICE 250 Delaware <noreply@evictice250delaware.com>";
 }
 
+const REPLY_TO = "evictice250delaware@proton.me";
+
 function getSiteUrl() {
   return process.env.NEXT_PUBLIC_SITE_URL || "https://evictice250delaware.com";
 }
@@ -79,6 +81,7 @@ export async function sendConfirmationEmail(
 
   await getResend().emails.send({
     from: getFromEmail(),
+    replyTo: REPLY_TO,
     to,
     subject: `You're signed up: ${slot.title}`,
     html: `
@@ -124,6 +127,7 @@ export async function sendReminderEmail(
 
   await getResend().emails.send({
     from: getFromEmail(),
+    replyTo: REPLY_TO,
     to,
     subject: `Reminder: ${slot.title} is tomorrow`,
     html: `
@@ -167,6 +171,7 @@ export async function sendCancellationNotice(
 
   await getResend().emails.send({
     from: getFromEmail(),
+    replyTo: REPLY_TO,
     to,
     subject,
     html: `
