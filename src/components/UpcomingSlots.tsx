@@ -43,20 +43,20 @@ export const UpcomingSlots: React.FC = () => {
   return (
     <section className="bg-white text-black px-6 md:px-10 py-14 md:py-20">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-baseline justify-between mb-2">
-          <h2 className="font-black text-3xl md:text-4xl">Stand With Us.</h2>
+        <h2 className="font-black text-3xl md:text-4xl mb-2">Stand With Us.</h2>
+        <p className="text-base md:text-lg text-black/70 mb-8">We need people on the ground.</p>
+        <div className="space-y-4">
+          {slots.map((slot) => (
+            <SlotCard key={slot.id} slot={slot} />
+          ))}
+        </div>
+        <div className="mt-6 text-center">
           <Link
             href="/show-up"
             className="text-sm font-bold text-[#DC2626] hover:text-black transition-colors uppercase tracking-wider"
           >
             See all slots &rarr;
           </Link>
-        </div>
-        <p className="text-base md:text-lg text-black/70 mb-8">We need people on the ground.</p>
-        <div className="space-y-4">
-          {slots.map((slot) => (
-            <SlotCard key={slot.id} slot={slot} />
-          ))}
         </div>
       </div>
     </section>

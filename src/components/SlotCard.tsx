@@ -13,6 +13,7 @@ interface SlotCardProps {
 export const SlotCard: React.FC<SlotCardProps> = ({ slot: initialSlot }) => {
   const [slot, setSlot] = useState(initialSlot);
   const [showModal, setShowModal] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const refreshSlot = async () => {
     try {
@@ -39,7 +40,19 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot: initialSlot }) => {
             <h3 className="font-black text-xl md:text-2xl mb-1">{slot.title}</h3>
             <p className="text-sm text-black/60 mb-1">{slot.location}</p>
             {slot.description && (
-              <p className="text-sm text-black/70 mt-2">{slot.description}</p>
+              <div className="mt-2">
+                <p
+                  className={`text-sm text-black/70 ${!expanded ? "line-clamp-3" : ""}`}
+                >
+                  {slot.description}
+                </p>
+                <button
+                  onClick={() => setExpanded(!expanded)}
+                  className="text-sm font-bold text-[#DC2626] hover:text-black transition-colors cursor-pointer mt-1"
+                >
+                  {expanded ? "View less" : "View more"}
+                </button>
+              </div>
             )}
             <div className="mt-4 max-w-xs">
               <ProgressBar
