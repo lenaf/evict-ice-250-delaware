@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { UpcomingSlots } from "@/components/UpcomingSlots";
@@ -146,7 +147,15 @@ export default function Home() {
         className="bg-white text-black px-6 md:px-10 py-14 md:py-20 scroll-mt-14"
       >
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-black text-3xl md:text-4xl mb-10">The Facts</h2>
+          <div className="flex items-end justify-between mb-10">
+            <h2 className="font-black text-3xl md:text-4xl">The Facts</h2>
+            <Link
+              href="/facts"
+              className="text-[#DC2626] font-black text-sm uppercase tracking-wider hover:text-black transition-colors"
+            >
+              Read more &rarr;
+            </Link>
+          </div>
           <div className="grid md:grid-cols-2 gap-10">
             <div className="border-l-2 border-[#1E3A8A] pl-6">
               <h3 className="font-black text-xl md:text-2xl text-[#1E3A8A] mb-4">
