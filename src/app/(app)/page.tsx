@@ -167,9 +167,16 @@ export default function Home() {
                 </li>
                 <li>
                   And it&apos;s not just coordination and administration — 250
-                  Delaware has <span className="text-[#DC2626] font-bold">holding cells</span> where
-                  <span className="text-black font-bold"> adults and children are held
-                  for days before transfer or deportation.</span>
+                  Delaware has{" "}
+                  <span className="text-[#DC2626] font-bold">
+                    holding cells
+                  </span>{" "}
+                  where
+                  <span className="text-black font-bold">
+                    {" "}
+                    adults and children are held for days before transfer or
+                    deportation.
+                  </span>
                 </li>
               </ul>
             </div>
@@ -214,8 +221,9 @@ export default function Home() {
             Our coalition
           </h2>
           <p className="text-base md:text-lg leading-relaxed text-black/60 max-w-2xl mb-8">
-            This campaign is powered by the people of Buffalo — families,
-            organizations, elected officials, and neighbors standing together.
+            This campaign is powered by the people of Buffalo — activists,
+            families, organizations, elected officials, and neighbors standing
+            together.
           </p>
           <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 items-center">
             {[
