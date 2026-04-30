@@ -56,7 +56,7 @@ export function Header() {
       {bannerOpen && (
         <div className="sticky top-0 z-[60] bg-[#DC2626] text-center py-2 px-4">
           <p className="text-sm md:text-base font-semibold tracking-wide">
-            <span className="text-[#FFD600] font-black text-lg md:text-xl tracking-[0.08em]">
+            <span className="text-[#FFD600] font-black text-lg md:text-xl tracking-[0.08em] mr-2">
               {days}
             </span>
             <span className="text-white/90">
@@ -106,12 +106,45 @@ export function Header() {
 
           {/* Desktop nav links */}
           <div className="ml-auto hidden md:flex items-center gap-8">
-            <Link
-              href="/facts"
-              className={`font-black text-lg tracking-wide transition-colors ${textColor}`}
-            >
-              THE FACTS
-            </Link>
+            <div className="relative group">
+              <Link
+                href="/facts"
+                className={`font-black text-lg tracking-wide transition-colors flex items-center gap-1 ${textColor}`}
+              >
+                THE FACTS
+                <svg className="w-3.5 h-3.5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                  <path strokeLinecap="square" d="M19 9l-7 7-7-7" />
+                </svg>
+              </Link>
+              <div className="absolute top-full left-0 pt-2 hidden group-hover:block">
+                <div className="bg-[#FFD600] border-2 border-black min-w-[220px]">
+                  <Link
+                    href="/facts/what-happens-inside"
+                    className={`block px-5 py-3 font-black text-sm tracking-wide uppercase border-b border-black/10 transition-colors ${textColor}`}
+                  >
+                    What Happens Inside
+                  </Link>
+                  <Link
+                    href="/facts/who-profits"
+                    className={`block px-5 py-3 font-black text-sm tracking-wide uppercase border-b border-black/10 transition-colors ${textColor}`}
+                  >
+                    Who Profits
+                  </Link>
+                  <Link
+                    href="/facts/who-pays"
+                    className={`block px-5 py-3 font-black text-sm tracking-wide uppercase border-b border-black/10 transition-colors ${textColor}`}
+                  >
+                    Who Pays
+                  </Link>
+                  <Link
+                    href="/facts/who-pulls-the-strings"
+                    className={`block px-5 py-3 font-black text-sm tracking-wide uppercase transition-colors ${textColor}`}
+                  >
+                    Who Pulls the Strings
+                  </Link>
+                </div>
+              </div>
+            </div>
             <Link
               href="#join"
               className={`font-black text-lg tracking-wide transition-colors ${textColor}`}
@@ -185,6 +218,34 @@ export function Header() {
                 className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
               >
                 THE FACTS
+              </Link>
+              <Link
+                href="/facts/what-happens-inside"
+                onClick={() => setMenuOpen(false)}
+                className={`font-black text-base tracking-wide py-2 pl-4 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
+              >
+                What Happens Inside
+              </Link>
+              <Link
+                href="/facts/who-profits"
+                onClick={() => setMenuOpen(false)}
+                className={`font-black text-base tracking-wide py-2 pl-4 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
+              >
+                Who Profits
+              </Link>
+              <Link
+                href="/facts/who-pays"
+                onClick={() => setMenuOpen(false)}
+                className={`font-black text-base tracking-wide py-2 pl-4 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
+              >
+                Who Pays
+              </Link>
+              <Link
+                href="/facts/who-pulls-the-strings"
+                onClick={() => setMenuOpen(false)}
+                className={`font-black text-base tracking-wide py-2 pl-4 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
+              >
+                Who Pulls the Strings
               </Link>
               <Link
                 href="#join"
