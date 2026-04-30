@@ -165,6 +165,11 @@ export default function Home() {
                   Capital Region, and Mid-Hudson — all of it — is coordinated
                   from 250 Delaware.
                 </li>
+                <li>
+                  And it&apos;s not just coordination and administration — 250
+                  Delaware has holding cells where adults and children are held
+                  for days before transfer or deportation.
+                </li>
               </ul>
             </div>
             <div className="border-l-2 border-[#DC2626] pl-6">
@@ -213,25 +218,121 @@ export default function Home() {
           </p>
           <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 items-center">
             {[
-              { src: "/sponsors/bojak-for-assembly.png", name: "Adam Bojak for Assembly", href: "https://www.bojakforassembly.com/", square: false },
-              { src: "/sponsors/buffalo-united.png", name: "Buffalo Coalition United", href: "https://www.buffalounitedcoalition.org/", square: true },
-              { src: "/sponsors/lwvbn.png", name: "League of Women Voters of Buffalo-Niagara", href: "https://www.lwvbn.org/", square: false },
-              { src: "/sponsors/burning-books.jpeg", name: "Burning Books", href: "https://www.burningbooks.com/", square: true },
-              { src: "/sponsors/jfmf.webp", name: "Justice for Migrant Families WNY", href: "https://www.justiceformigrantfamilies.org/", square: false },
-              { src: "/sponsors/justice-for-geraldine-martin.png", name: "Justice for Geraldine and Martin", href: "https://www.instagram.com/justiceforgeraldineandmartin/", square: true },
-              { src: "/sponsors/liberate-buffalo-state.png", name: "Liberate Buffalo State", href: "https://www.instagram.com/liberate.buff.state/", square: true },
-              { src: "/sponsors/ocb.png", name: "Our City Buffalo", href: "https://www.ourcitybuffalo.com/", square: false },
-              { src: "/sponsors/ocab.png", name: "Our City Action Buffalo", href: "https://www.ourcityactionbuffalo.com/", square: false },
-              { src: "/sponsors/ppg.png", name: "Partnership for the Public Good", href: "https://ppgbuffalo.org/", square: false },
-              { src: "/sponsors/rivera-for-senate.png", name: "Jon Rivera for State Senate", href: "https://www.riverafornysenate.com/", square: false },
-              { src: "/sponsors/rootsaction.png", name: "RootsAction", href: "https://rootsaction.org/", square: false },
-              { src: "/sponsors/rose-jade.png", name: "Rose Jade Consulting", href: "https://www.rosejadeconsulting.com/", square: false },
-              { src: "/sponsors/surj-buffalo.png", name: "SURJ Buffalo", href: "https://surj.org/chapter/surj-buffalo/", square: true },
-              { src: "/sponsors/ujima.png", name: "Ujima Company", href: "https://www.ujimacoinc.org/", square: false },
-              { src: "/sponsors/wny-peace-center.jpeg", name: "WNY Peace Center", href: "https://wnypeace.org/", square: true, large: true },
-              { src: "/sponsors/wnycosh.jpeg", name: "WNYCOSH", href: "https://wnycosh.org/", square: false },
-              { src: "/sponsors/wny-bridge-brigade.png", name: "WNY Bridge Brigade", href: "https://wnybb.org/", square: false },
-              { src: "/sponsors/buffalo-dsa.webp", name: "Buffalo DSA", href: "https://buffalodsa.org/", square: false },
+              {
+                src: "/sponsors/bojak-for-assembly.png",
+                name: "Adam Bojak for Assembly",
+                href: "https://www.bojakforassembly.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/buffalo-united.png",
+                name: "Buffalo Coalition United",
+                href: "https://www.buffalounitedcoalition.org/",
+                square: true,
+              },
+              {
+                src: "/sponsors/lwvbn.png",
+                name: "League of Women Voters of Buffalo-Niagara",
+                href: "https://www.lwvbn.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/burning-books.jpeg",
+                name: "Burning Books",
+                href: "https://www.burningbooks.com/",
+                square: true,
+              },
+              {
+                src: "/sponsors/jfmf.webp",
+                name: "Justice for Migrant Families WNY",
+                href: "https://www.justiceformigrantfamilies.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/justice-for-geraldine-martin.png",
+                name: "Justice for Geraldine and Martin",
+                href: "https://www.instagram.com/justiceforgeraldineandmartin/",
+                square: true,
+              },
+              {
+                src: "/sponsors/liberate-buffalo-state.png",
+                name: "Liberate Buffalo State",
+                href: "https://www.instagram.com/liberate.buff.state/",
+                square: true,
+              },
+              {
+                src: "/sponsors/ocb.png",
+                name: "Our City Buffalo",
+                href: "https://www.ourcitybuffalo.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/ocab.png",
+                name: "Our City Action Buffalo",
+                href: "https://www.ourcityactionbuffalo.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/ppg.png",
+                name: "Partnership for the Public Good",
+                href: "https://ppgbuffalo.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/rivera-for-senate.png",
+                name: "Jon Rivera for State Senate",
+                href: "https://www.riverafornysenate.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/rootsaction.png",
+                name: "RootsAction",
+                href: "https://rootsaction.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/rose-jade.png",
+                name: "Rose Jade Consulting",
+                href: "https://www.rosejadeconsulting.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/surj-buffalo.png",
+                name: "SURJ Buffalo",
+                href: "https://surj.org/chapter/surj-buffalo/",
+                square: true,
+              },
+              {
+                src: "/sponsors/ujima.png",
+                name: "Ujima Company",
+                href: "https://www.ujimacoinc.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/wny-peace-center.jpeg",
+                name: "WNY Peace Center",
+                href: "https://wnypeace.org/",
+                square: true,
+                large: true,
+              },
+              {
+                src: "/sponsors/wnycosh.jpeg",
+                name: "WNYCOSH",
+                href: "https://wnycosh.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/wny-bridge-brigade.png",
+                name: "WNY Bridge Brigade",
+                href: "https://wnybb.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/buffalo-dsa.webp",
+                name: "Buffalo DSA",
+                href: "https://buffalodsa.org/",
+                square: false,
+              },
             ].map((sponsor) => (
               <a
                 key={sponsor.name}
