@@ -167,8 +167,9 @@ export default function Home() {
                 </li>
                 <li>
                   And it&apos;s not just coordination and administration — 250
-                  Delaware has holding cells where adults and children are held
-                  for days before transfer or deportation.
+                  Delaware has <span className="text-[#DC2626] font-bold">holding cells</span> where
+                  <span className="text-black font-bold"> adults and children are held
+                  for days before transfer or deportation.</span>
                 </li>
               </ul>
             </div>
