@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { UpcomingSlots } from "@/components/UpcomingSlots";
+import { Squada_One } from "next/font/google";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -255,7 +256,7 @@ export default function Home() {
                 src: "/sponsors/jfmf.webp",
                 name: "Justice for Migrant Families WNY",
                 href: "https://www.justiceformigrantfamilies.org/",
-                square: false,
+                square: true,
               },
               {
                 src: "/sponsors/justice-for-geraldine-martin.png",
@@ -285,7 +286,7 @@ export default function Home() {
                 src: "/sponsors/ppg.png",
                 name: "Partnership for the Public Good",
                 href: "https://ppgbuffalo.org/",
-                square: false,
+                square: true,
               },
               {
                 src: "/sponsors/rivera-for-senate.png",
@@ -341,6 +342,30 @@ export default function Home() {
                 name: "Buffalo DSA",
                 href: "https://buffalodsa.org/",
                 square: false,
+              },
+              {
+                src: "/sponsors/buffalo-niagara-lgbtq-history.png",
+                name: "Buffalo Niagara LGBTQ History Project",
+                href: "https://bflolgbtqhistoryproject.org/",
+                square: true,
+              },
+              {
+                src: "/sponsors/colored-girls-bike-too.webp",
+                name: "Colored Girls Bike Too",
+                href: "https://www.instagram.com/coloredgirlsbiketoo/",
+                square: true,
+              },
+              {
+                src: "/sponsors/nyic.png",
+                name: "NYIC",
+                href: "https://www.nyic.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/u-belong-coalition.png",
+                name: "U-Belong Coalition",
+                href: "https://www.instagram.com/ubelongcoalition/",
+                large: true,
               },
             ].map((sponsor) => (
               <a
