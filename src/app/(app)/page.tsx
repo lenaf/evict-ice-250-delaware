@@ -367,6 +367,30 @@ export default function Home() {
                 href: "https://www.instagram.com/ubelongcoalition/",
                 large: true,
               },
+              {
+                src: "/sponsors/buffalo-latino-village.png",
+                name: "Buffalo Latino Village",
+                href: "https://buffalolatinovillage.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/push-buffalo.png",
+                name: "PUSH Buffalo",
+                href: "https://www.pushbuffalo.org/",
+                square: true,
+              },
+              {
+                src: "/sponsors/suny-buffalo-bds.jpeg",
+                name: "SUNY Buffalo BDS",
+                href: "https://www.instagram.com/sunybds_ub/",
+                square: true,
+              },
+              {
+                src: "/sponsors/cooperation-buffalo.jpg",
+                name: "Cooperation Buffalo",
+                href: "https://www.cooperationbuffalo.org/",
+                square: true,
+              },
             ].map((sponsor) => (
               <a
                 key={sponsor.name}
@@ -381,7 +405,7 @@ export default function Home() {
                   alt={sponsor.name}
                   width={120}
                   height={120}
-                  className={`w-auto object-contain ${sponsor.large ? "max-h-18 md:max-h-22" : sponsor.square ? "max-h-12 md:max-h-14" : "max-h-9 md:max-h-11"}`}
+                  className={`w-auto object-contain ${sponsor.large ? "max-h-18 md:max-h-22" : sponsor.square ? "max-h-14 md:max-h-16" : "max-h-9 md:max-h-11"}`}
                 />
               </a>
             ))}
