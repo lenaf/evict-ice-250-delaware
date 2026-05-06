@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { UpcomingSlots } from "@/components/UpcomingSlots";
+import { Squada_One } from "next/font/google";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -174,6 +175,19 @@ export default function Home() {
                   Capital Region, and Mid-Hudson — all of it — is coordinated
                   from 250 Delaware.
                 </li>
+                <li>
+                  And it&apos;s not just coordination and administration — 250
+                  Delaware has{" "}
+                  <span className="text-[#DC2626] font-bold">
+                    holding cells
+                  </span>{" "}
+                  where
+                  <span className="text-black font-bold">
+                    {" "}
+                    adults and children are held for days before transfer or
+                    deportation.
+                  </span>
+                </li>
               </ul>
             </div>
             <div className="border-l-2 border-[#DC2626] pl-6">
@@ -210,23 +224,200 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========== Good Neighbors ========== */}
+      {/* ========== Coalition ========== */}
       <section className="bg-white text-black px-6 md:px-10 py-14 md:py-20">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-start">
-          <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase">
-            Good neighbors stand together.
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase mb-3">
+            Our coalition
           </h2>
-          <div className="text-base md:text-lg leading-relaxed text-black/70 md:border-l-2 md:border-black/10 md:pl-12">
-            <p className="mb-4">
-              This campaign is powered by the people of Buffalo — families,
-              businesses, civil rights and faith leaders, grassroots
-              organizations, elected officials, labor unions, and neighbors like
-              you.
-            </p>
-            <p className="font-bold text-black">
-              Our coalition is growing every day. Stay tuned for the full list
-              calling for non-renewal.
-            </p>
+          <p className="text-base md:text-lg leading-relaxed text-black/60 max-w-2xl mb-8">
+            This campaign is powered by the people of Buffalo — activists,
+            families, organizations, elected officials, and neighbors standing
+            together.
+          </p>
+          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 items-center">
+            {[
+              {
+                src: "/sponsors/bojak-for-assembly.png",
+                name: "Adam Bojak for Assembly",
+                href: "https://www.bojakforassembly.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/buffalo-united.png",
+                name: "Buffalo Coalition United",
+                href: "https://www.buffalounitedcoalition.org/",
+                square: true,
+              },
+              {
+                src: "/sponsors/lwvbn.png",
+                name: "League of Women Voters of Buffalo-Niagara",
+                href: "https://www.lwvbn.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/burning-books.jpeg",
+                name: "Burning Books",
+                href: "https://www.burningbooks.com/",
+                square: true,
+              },
+              {
+                src: "/sponsors/jfmf.webp",
+                name: "Justice for Migrant Families WNY",
+                href: "https://www.justiceformigrantfamilies.org/",
+                square: true,
+              },
+              {
+                src: "/sponsors/justice-for-geraldine-martin.png",
+                name: "Justice for Geraldine and Martin",
+                href: "https://www.instagram.com/justiceforgeraldineandmartin/",
+                square: true,
+              },
+              {
+                src: "/sponsors/liberate-buffalo-state.png",
+                name: "Liberate Buffalo State",
+                href: "https://www.instagram.com/liberate.buff.state/",
+                square: true,
+              },
+              {
+                src: "/sponsors/ocb.png",
+                name: "Our City Buffalo",
+                href: "https://www.ourcitybuffalo.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/ocab.png",
+                name: "Our City Action Buffalo",
+                href: "https://www.ourcityactionbuffalo.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/ppg.png",
+                name: "Partnership for the Public Good",
+                href: "https://ppgbuffalo.org/",
+                square: true,
+              },
+              {
+                src: "/sponsors/rivera-for-senate.png",
+                name: "Jon Rivera for State Senate",
+                href: "https://www.riverafornysenate.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/rootsaction.png",
+                name: "RootsAction",
+                href: "https://rootsaction.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/rose-jade.png",
+                name: "Rose Jade Consulting",
+                href: "https://www.rosejadeconsulting.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/surj-buffalo.png",
+                name: "SURJ Buffalo",
+                href: "https://surj.org/chapter/surj-buffalo/",
+                square: true,
+              },
+              {
+                src: "/sponsors/ujima.png",
+                name: "Ujima Company",
+                href: "https://www.ujimacoinc.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/wny-peace-center.jpeg",
+                name: "WNY Peace Center",
+                href: "https://wnypeace.org/",
+                square: true,
+                large: true,
+              },
+              {
+                src: "/sponsors/wnycosh.jpeg",
+                name: "WNYCOSH",
+                href: "https://wnycosh.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/wny-bridge-brigade.png",
+                name: "WNY Bridge Brigade",
+                href: "https://wnybb.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/buffalo-dsa.webp",
+                name: "Buffalo DSA",
+                href: "https://buffalodsa.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/buffalo-niagara-lgbtq-history.png",
+                name: "Buffalo Niagara LGBTQ History Project",
+                href: "https://bflolgbtqhistoryproject.org/",
+                square: true,
+              },
+              {
+                src: "/sponsors/colored-girls-bike-too.webp",
+                name: "Colored Girls Bike Too",
+                href: "https://www.instagram.com/coloredgirlsbiketoo/",
+                square: true,
+              },
+              {
+                src: "/sponsors/nyic.png",
+                name: "NYIC",
+                href: "https://www.nyic.org/",
+                square: false,
+              },
+              {
+                src: "/sponsors/u-belong-coalition.png",
+                name: "U-Belong Coalition",
+                href: "https://www.instagram.com/ubelongcoalition/",
+                large: true,
+              },
+              {
+                src: "/sponsors/buffalo-latino-village.png",
+                name: "Buffalo Latino Village",
+                href: "https://buffalolatinovillage.com/",
+                square: false,
+              },
+              {
+                src: "/sponsors/push-buffalo.png",
+                name: "PUSH Buffalo",
+                href: "https://www.pushbuffalo.org/",
+                square: true,
+              },
+              {
+                src: "/sponsors/suny-buffalo-bds.jpeg",
+                name: "SUNY Buffalo BDS",
+                href: "https://www.instagram.com/sunybds_ub/",
+                square: true,
+              },
+              {
+                src: "/sponsors/cooperation-buffalo.jpg",
+                name: "Cooperation Buffalo",
+                href: "https://www.cooperationbuffalo.org/",
+                square: true,
+              },
+            ].map((sponsor) => (
+              <a
+                key={sponsor.name}
+                href={sponsor.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center p-1 h-16 md:h-18 hover:opacity-70 transition-opacity"
+                title={sponsor.name}
+              >
+                <Image
+                  src={sponsor.src}
+                  alt={sponsor.name}
+                  width={120}
+                  height={120}
+                  className={`w-auto object-contain ${sponsor.large ? "max-h-18 md:max-h-22" : sponsor.square ? "max-h-14 md:max-h-16" : "max-h-9 md:max-h-11"}`}
+                />
+              </a>
+            ))}
           </div>
         </div>
       </section>
