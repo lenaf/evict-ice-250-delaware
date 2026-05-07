@@ -305,6 +305,9 @@ export function ActionNetworkForm() {
             )}
           </fieldset>
 
+          <p className="text-xs text-black/50">
+            Your info is only used to keep you updated on this campaign. We never share it with third parties.
+          </p>
           <button
             type="submit"
             disabled={status === "submitting"}

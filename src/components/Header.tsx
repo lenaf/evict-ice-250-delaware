@@ -107,13 +107,13 @@ export function Header() {
           {/* Desktop nav links */}
           <div className="ml-auto hidden md:flex items-center gap-8">
             <Link
-              href="#facts"
+              href={isHome ? "#facts" : "/#facts"}
               className={`font-black text-lg tracking-wide transition-colors ${textColor}`}
             >
               THE FACTS
             </Link>
             <Link
-              href="#join"
+              href={isHome ? "#join" : "/#join"}
               className={`font-black text-lg tracking-wide transition-colors ${textColor}`}
             >
               JOIN US
@@ -180,14 +180,14 @@ export function Header() {
                 SHOW UP
               </Link>
               <Link
-                href="#facts"
+                href={isHome ? "#facts" : "/#facts"}
                 onClick={() => setMenuOpen(false)}
                 className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
               >
                 THE FACTS
               </Link>
               <Link
-                href="#join"
+                href={isHome ? "#join" : "/#join"}
                 onClick={() => setMenuOpen(false)}
                 className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
               >

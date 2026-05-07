@@ -106,6 +106,9 @@ export const SignupForm: React.FC<SignupFormProps> = ({ slot, onSuccess, onClose
         }}
         className="w-full px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]"
       />
+      <p className="text-xs text-black/50">
+        Your info is only used to coordinate this event. We never share it with third parties.
+      </p>
       <button
         type="submit"
         disabled={!isValid || status === "submitting"}
