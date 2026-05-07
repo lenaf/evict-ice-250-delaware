@@ -392,6 +392,12 @@ export default function Home() {
                 href: "https://www.cooperationbuffalo.org/",
                 square: true,
               },
+              {
+                src: "/sponsors/breadhive.jpg",
+                name: "BreadHive",
+                href: "https://www.breadhive.com/",
+                large: true,
+              },
             ].map((sponsor) => (
               <a
                 key={sponsor.name}
