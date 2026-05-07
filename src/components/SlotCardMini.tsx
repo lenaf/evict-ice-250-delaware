@@ -14,9 +14,12 @@ export const SlotCardMini: React.FC<SlotCardMiniProps> = ({ slot }) => {
   return (
     <>
       <div className="border-2 border-black p-4 hover:border-[#DC2626] transition-colors flex flex-col gap-2">
-        <div>
+        <div className="flex items-center gap-2">
           <span className="bg-[#FFD600] text-black font-bold text-xs px-1.5 py-0.5 whitespace-nowrap">
-            {formatDate(slot.date)} · {formatTime(slot.start_time)}
+            {formatDate(slot.date)}
+          </span>
+          <span className="text-black/60 font-bold text-xs whitespace-nowrap">
+            {formatTime(slot.start_time)}
           </span>
         </div>
         <h3 className="font-black text-sm md:text-base leading-tight">

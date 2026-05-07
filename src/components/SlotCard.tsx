@@ -29,9 +29,12 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot: initialSlot }) => {
       <div className="border-2 border-black p-6 hover:border-[#DC2626] transition-colors">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div className="flex-1">
-            <div className="mb-1">
+            <div className="mb-1 flex items-center gap-2">
               <span className="bg-[#FFD600] text-black font-bold text-sm px-2 py-0.5 whitespace-nowrap">
-                {formatDate(slot.date)} · {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
+                {formatDate(slot.date)}
+              </span>
+              <span className="text-black/60 font-bold text-sm whitespace-nowrap">
+                {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
               </span>
             </div>
             <h3 className="font-black text-xl md:text-2xl mb-1">{slot.title}</h3>

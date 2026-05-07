@@ -398,6 +398,12 @@ export default function Home() {
                 href: "https://www.breadhive.com/",
                 large: true,
               },
+              {
+                src: "/sponsors/little-peoples-victory.webp",
+                name: "Little People's Victory",
+                href: "https://www.littlepeoplesvictory.com/",
+                square: true,
+              },
             ].map((sponsor) => (
               <a
                 key={sponsor.name}
