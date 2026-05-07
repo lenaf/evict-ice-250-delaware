@@ -83,7 +83,7 @@ export default function Home() {
       <section className="bg-[#1E3A8A] text-white px-6 md:px-10 py-8 md:py-10">
         <div className="max-w-6xl mx-auto">
           <p className="text-base md:text-lg leading-relaxed text-white/70 mb-4">
-            Uniland leases 250 Delaware to DHS for New York State ICE
+            Uniland leases 250 Delaware to the federal government for ICE
             operations. That lease expires on{" "}
             <strong className="text-white">March 31, 2027</strong>.
           </p>

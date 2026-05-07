@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Evict ICE from 250 Delaware - Buffalo, NY",
     description:
-      "Uniland leases 250 Delaware to DHS for New York State ICE operations. Join Buffalonians organizing to stop the lease renewal.",
+      "Uniland leases 250 Delaware to DHS for ICE operations. Join Buffalonians organizing to stop the lease renewal.",
     url: "https://evictice250delaware.com",
     siteName: "Evict ICE 250 Delaware",
     locale: "en_US",
