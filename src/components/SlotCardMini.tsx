@@ -11,17 +11,12 @@ interface SlotCardMiniProps {
 
 export const SlotCardMini: React.FC<SlotCardMiniProps> = ({ slot }) => {
   const [showModal, setShowModal] = useState(false);
-  const isEvent = slot.type === "event";
-
   return (
     <>
       <div className="border-2 border-black p-4 hover:border-[#DC2626] transition-colors flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <span className="bg-[#FFD600] text-black font-bold text-xs px-1.5 py-0.5">
+        <div>
+          <span className="bg-[#FFD600] text-black font-bold text-xs px-1.5 py-0.5 whitespace-nowrap">
             {formatDate(slot.date)} · {formatTime(slot.start_time)}
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-wide text-black/40">
-            {isEvent ? "Event" : "Picket"}
           </span>
         </div>
         <h3 className="font-black text-sm md:text-base leading-tight">

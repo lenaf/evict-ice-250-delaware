@@ -24,19 +24,14 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot: initialSlot }) => {
     }
   };
 
-  const isEvent = slot.type === "event";
-
   return (
     <>
       <div className="border-2 border-black p-6 hover:border-[#DC2626] transition-colors">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="bg-[#FFD600] text-black font-bold text-sm px-2 py-0.5">
+            <div className="mb-1">
+              <span className="bg-[#FFD600] text-black font-bold text-sm px-2 py-0.5 whitespace-nowrap">
                 {formatDate(slot.date)} · {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
-              </span>
-              <span className="text-xs font-bold uppercase tracking-wide text-black/40">
-                {isEvent ? "Event" : "Picket"}
               </span>
             </div>
             <h3 className="font-black text-xl md:text-2xl mb-1">{slot.title}</h3>
