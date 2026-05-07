@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { UpcomingSlots } from "@/components/UpcomingSlots";
+import { TipForm } from "@/components/TipForm";
 import { Squada_One } from "next/font/google";
 
 const jsonLd = {
@@ -430,6 +431,22 @@ export default function Home() {
             <div className="w-full max-w-md mx-auto">
               <ActionNetworkForm />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========== Send Us a Tip ========== */}
+      <section className="bg-white text-black px-6 md:px-10 py-14 md:py-20 border-t-2 border-black">
+        <div className="max-w-6xl mx-auto">
+          <div className="max-w-xl">
+            <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase mb-3">
+              Send Us a Tip
+            </h2>
+            <p className="text-base md:text-lg leading-relaxed text-black/60 mb-8">
+              Know something about the building? Have an idea for the campaign?
+              Drop us an anonymous message.
+            </p>
+            <TipForm />
           </div>
         </div>
       </section>
