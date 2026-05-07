@@ -25,7 +25,7 @@ export const ShowUp: React.FC = () => {
             Stand With Us.
           </h1>
           <p className="text-lg md:text-xl text-white/80 max-w-2xl">
-            We need people on the ground. Sign up for a volunteer shift and help us
+            Join us for our weekly pickets and community events to help
             evict ICE from 250 Delaware.
           </p>
         </div>

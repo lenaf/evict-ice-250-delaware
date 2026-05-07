@@ -24,17 +24,19 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot: initialSlot }) => {
     }
   };
 
+  const isEvent = slot.type === "event";
+
   return (
     <>
       <div className="border-2 border-black p-6 hover:border-[#DC2626] transition-colors">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div className="flex-1">
-            <div className="flex items-baseline gap-3 mb-1">
-              <span className="bg-[#FFD600] text-black font-black text-sm px-2 py-0.5">
-                {formatDate(slot.date)}
+            <div className="flex items-center gap-2 mb-1">
+              <span className="bg-[#FFD600] text-black font-bold text-sm px-2 py-0.5">
+                {formatDate(slot.date)} · {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
               </span>
-              <span className="text-sm text-black/60">
-                {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
+              <span className="text-xs font-bold uppercase tracking-wide text-black/40">
+                {isEvent ? "Event" : "Picket"}
               </span>
             </div>
             <h3 className="font-black text-xl md:text-2xl mb-1">{slot.title}</h3>
@@ -54,19 +56,32 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot: initialSlot }) => {
                 </button>
               </div>
             )}
-            <div className="mt-4 max-w-xs">
-              <ProgressBar
-                current={slot.signup_count || 0}
-                target={slot.target_volunteers}
-              />
-            </div>
+            {slot.target_volunteers != null && (
+              <div className="mt-4 max-w-xs">
+                <ProgressBar
+                  current={slot.signup_count || 0}
+                  target={slot.target_volunteers}
+                />
+              </div>
+            )}
           </div>
-          <button
-            onClick={() => setShowModal(true)}
-            className="shrink-0 bg-[#DC2626] hover:bg-black cursor-pointer text-white font-black text-sm tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all text-center"
-          >
-            Sign Up
-          </button>
+          {slot.signup_link ? (
+            <a
+              href={slot.signup_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 bg-[#DC2626] hover:bg-black text-white font-black text-sm tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all text-center no-underline"
+            >
+              Sign Up
+            </a>
+          ) : (
+            <button
+              onClick={() => setShowModal(true)}
+              className="shrink-0 bg-[#DC2626] hover:bg-black cursor-pointer text-white font-black text-sm tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all text-center"
+            >
+              Sign Up
+            </button>
+          )}
         </div>
       </div>
 

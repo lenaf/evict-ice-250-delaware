@@ -1,12 +1,14 @@
 export interface Slot {
   id: string;
+  type: "picket" | "event";
   title: string;
   description: string | null;
   date: string; // YYYY-MM-DD
   start_time: string; // HH:MM
   end_time: string; // HH:MM
   location: string;
-  target_volunteers: number;
+  target_volunteers: number | null;
+  signup_link: string | null;
   recurrence: "none" | "weekly" | "biweekly";
   recurrence_end_date: string | null;
   parent_slot_id: string | null;

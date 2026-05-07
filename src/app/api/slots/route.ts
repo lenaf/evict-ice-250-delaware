@@ -46,7 +46,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { title, description, date, start_time, end_time, location, target_volunteers, recurrence, recurrence_end_date } = body;
+  const { type, title, description, date, start_time, end_time, location, target_volunteers, signup_link, recurrence, recurrence_end_date } = body;
 
   if (!title || !date || !start_time || !end_time) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -56,13 +56,15 @@ export async function POST(request: Request) {
   const { data: slot, error } = await supabaseAdmin
     .from("slots")
     .insert({
+      type: type || "picket",
       title,
       description: description || null,
       date,
       start_time,
       end_time,
       location: location || "250 Delaware Ave, Buffalo, NY",
-      target_volunteers: target_volunteers || 5,
+      target_volunteers: target_volunteers || null,
+      signup_link: signup_link || null,
       recurrence: recurrence || "none",
       recurrence_end_date: recurrence_end_date || null,
     })
@@ -83,13 +85,15 @@ export async function POST(request: Request) {
 
     while (currentDate <= endDate) {
       slots.push({
+        type: type || "picket",
         title,
         description: description || null,
         date: currentDate.toISOString().split("T")[0],
         start_time,
         end_time,
         location: location || "250 Delaware Ave, Buffalo, NY",
-        target_volunteers: target_volunteers || 5,
+        target_volunteers: target_volunteers || null,
+        signup_link: signup_link || null,
         recurrence,
         recurrence_end_date,
         parent_slot_id: slot.id,

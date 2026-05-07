@@ -11,6 +11,7 @@ interface SlotFormProps {
 }
 
 export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, onCancel }) => {
+  const [type, setType] = useState<"picket" | "event">(initial?.type || "picket");
   const [title, setTitle] = useState(initial?.title || "");
   const [description, setDescription] = useState(initial?.description || "");
   const [date, setDate] = useState(initial?.date || "");
@@ -19,7 +20,10 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
   const [location, setLocation] = useState(
     initial?.location || "250 Delaware Ave, Buffalo, NY",
   );
-  const [target, setTarget] = useState(initial?.target_volunteers || 5);
+  const [target, setTarget] = useState<string>(
+    initial?.target_volunteers != null ? String(initial.target_volunteers) : "",
+  );
+  const [signupLink, setSignupLink] = useState(initial?.signup_link || "");
   const [recurrence, setRecurrence] = useState(initial?.recurrence || "none");
   const [recurrenceEnd, setRecurrenceEnd] = useState(
     initial?.recurrence_end_date || "",
@@ -31,13 +35,15 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
     setSaving(true);
 
     const body = {
+      type,
       title,
       description: description || null,
       date,
       start_time: startTime,
       end_time: endTime,
       location,
-      target_volunteers: target,
+      target_volunteers: target ? parseInt(target) : null,
+      signup_link: signupLink || null,
       recurrence,
       recurrence_end_date: recurrence !== "none" ? recurrenceEnd : null,
     };
@@ -71,6 +77,17 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
       <h2 className="font-black text-2xl">
         {initial ? "Edit Slot" : "Create Slot"}
       </h2>
+      <div>
+        <label className="block text-xs font-bold mb-1 uppercase">Type *</label>
+        <select
+          value={type}
+          onChange={(e) => setType(e.target.value as "picket" | "event")}
+          className="w-full px-3 py-2 border-2 border-black text-sm focus:outline-none focus:border-[#DC2626]"
+        >
+          <option value="picket">Picket</option>
+          <option value="event">Event</option>
+        </select>
+      </div>
       <input
         type="text"
         placeholder="Title *"
@@ -127,14 +144,27 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
       />
       <div>
         <label className="block text-xs font-bold mb-1 uppercase">
-          Target volunteers (minimum needed)
+          Target volunteers (optional)
         </label>
         <input
           type="number"
           min={1}
           value={target}
-          onChange={(e) => setTarget(parseInt(e.target.value) || 1)}
-          className="w-24 px-3 py-2 border-2 border-black text-sm focus:outline-none focus:border-[#DC2626]"
+          onChange={(e) => setTarget(e.target.value)}
+          placeholder="Leave blank if n/a"
+          className="w-full px-3 py-2 border-2 border-black text-sm focus:outline-none focus:border-[#DC2626]"
+        />
+      </div>
+      <div>
+        <label className="block text-xs font-bold mb-1 uppercase">
+          External signup link (optional)
+        </label>
+        <input
+          type="url"
+          value={signupLink}
+          onChange={(e) => setSignupLink(e.target.value)}
+          placeholder="https://..."
+          className="w-full px-3 py-2 border-2 border-black text-sm focus:outline-none focus:border-[#DC2626]"
         />
       </div>
       {!initial && (

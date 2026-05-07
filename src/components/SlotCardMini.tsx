@@ -11,27 +11,42 @@ interface SlotCardMiniProps {
 
 export const SlotCardMini: React.FC<SlotCardMiniProps> = ({ slot }) => {
   const [showModal, setShowModal] = useState(false);
+  const isEvent = slot.type === "event";
 
   return (
     <>
-      <div className="border-2 border-black p-4 hover:border-[#DC2626] transition-colors flex items-center justify-between gap-4">
-        <div>
-          <span className="bg-[#FFD600] text-black font-black text-xs px-2 py-0.5">
-            {formatDate(slot.date)}
+      <div className="border-2 border-black p-4 hover:border-[#DC2626] transition-colors flex flex-col gap-2">
+        <div className="flex items-center gap-2">
+          <span className="bg-[#FFD600] text-black font-bold text-xs px-1.5 py-0.5">
+            {formatDate(slot.date)} · {formatTime(slot.start_time)}
           </span>
-          <h3 className="font-black text-base md:text-lg mt-2 leading-tight">
-            {slot.title}
-          </h3>
-          <p className="text-xs text-black/60 mt-1">
-            {formatTime(slot.start_time)} – {formatTime(slot.end_time)} · {slot.location}
-          </p>
+          <span className="text-[10px] font-bold uppercase tracking-wide text-black/40">
+            {isEvent ? "Event" : "Picket"}
+          </span>
         </div>
-        <button
-          onClick={() => setShowModal(true)}
-          className="shrink-0 bg-[#DC2626] hover:bg-black cursor-pointer text-white font-black text-xs tracking-wider py-2 px-4 border-2 border-[#DC2626] hover:border-black uppercase transition-all"
-        >
-          Sign Up
-        </button>
+        <h3 className="font-black text-sm md:text-base leading-tight">
+          {slot.title}
+        </h3>
+        <p className="text-xs text-black/60">
+          {slot.location}
+        </p>
+        {slot.signup_link ? (
+          <a
+            href={slot.signup_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="self-start bg-[#DC2626] hover:bg-black text-white font-black text-xs tracking-wider py-2 px-4 border-2 border-[#DC2626] hover:border-black uppercase transition-all mt-1 no-underline"
+          >
+            Sign Up
+          </a>
+        ) : (
+          <button
+            onClick={() => setShowModal(true)}
+            className="self-start bg-[#DC2626] hover:bg-black cursor-pointer text-white font-black text-xs tracking-wider py-2 px-4 border-2 border-[#DC2626] hover:border-black uppercase transition-all mt-1"
+          >
+            Sign Up
+          </button>
+        )}
       </div>
 
       {showModal && (
