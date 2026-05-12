@@ -230,12 +230,6 @@ export default function Home() {
           <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 items-center">
             {[
               {
-                src: "/sponsors/bojak-for-assembly.png",
-                name: "Adam Bojak for Assembly",
-                href: "https://www.bojakforassembly.com/",
-                square: false,
-              },
-              {
                 src: "/sponsors/buffalo-united.png",
                 name: "Buffalo Coalition United",
                 href: "https://www.buffalounitedcoalition.org/",
@@ -288,12 +282,6 @@ export default function Home() {
                 name: "Partnership for the Public Good",
                 href: "https://ppgbuffalo.org/",
                 square: true,
-              },
-              {
-                src: "/sponsors/rivera-for-senate.png",
-                name: "Jon Rivera for State Senate",
-                href: "https://www.riverafornysenate.com/",
-                square: false,
               },
               {
                 src: "/sponsors/rootsaction.png",
@@ -403,6 +391,12 @@ export default function Home() {
                 name: "Little People's Victory",
                 href: "https://www.littlepeoplesvictory.com/",
                 square: true,
+              },
+              {
+                src: "/sponsors/king-urban-life-center.webp",
+                name: "King Urban Life Center",
+                href: "https://www.kingurbanlifecenter.org/",
+                square: false,
               },
             ].map((sponsor) => (
               <a
