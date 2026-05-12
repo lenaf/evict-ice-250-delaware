@@ -398,6 +398,12 @@ export default function Home() {
                 href: "https://www.kingurbanlifecenter.org/",
                 square: false,
               },
+              {
+                src: "/sponsors/jonathan-rivera.png",
+                name: "Assemblymember Jon D. Rivera",
+                href: "https://nyassembly.gov/mem/Jonathan-Rivera",
+                square: false,
+              },
             ].map((sponsor) => (
               <a
                 key={sponsor.name}
