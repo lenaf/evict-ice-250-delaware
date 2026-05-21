@@ -404,6 +404,22 @@ export default function Home() {
                 href: "https://nyassembly.gov/mem/Jonathan-Rivera",
                 square: false,
               },
+              {
+                src: "/sponsors/fitz-books.png",
+                name: "Fitz Books & Waffles",
+                href: "https://www.fitzbooks.net/",
+                large: true,
+              },
+              {
+                src: "/sponsors/wnyea.jpg",
+                name: "WNY Environmental Alliance",
+                href: "https://www.wnyea.org/",
+              },
+              {
+                src: "/sponsors/rights-of-nature-wny.png",
+                name: "Rights of Nature WNY",
+                href: "https://www.wnyea.org/rights-of-nature.html",
+              },
             ].map((sponsor) => (
               <a
                 key={sponsor.name}
