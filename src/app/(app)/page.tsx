@@ -420,6 +420,11 @@ export default function Home() {
                 name: "Rights of Nature WNY",
                 href: "https://www.wnyea.org/rights-of-nature.html",
               },
+              {
+                src: "/sponsors/panys.webp",
+                name: "Peace Action New York State",
+                href: "https://www.panys.org/",
+              },
             ].map((sponsor) => (
               <a
                 key={sponsor.name}
