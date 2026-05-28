@@ -24,7 +24,7 @@ export const ShowUp: React.FC = () => {
           <h1 className="font-black text-4xl md:text-5xl leading-[0.95] mb-4">
             Stand With Us.
           </h1>
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl">
+          <p className="text-lg md:text-xl text-white max-w-2xl">
             Join us for our weekly pickets and community events to help
             evict ICE from 250 Delaware.
           </p>

@@ -26,6 +26,9 @@
     font-weight: 900;
     letter-spacing: -0.02em;
     line-height: 0.95;
+  }
+
+  h1, h2 {
     text-transform: uppercase;
   }
 }
@@ -39,7 +42,6 @@
     border-radius: 0 !important;
   }
 
-
   :focus-visible {
     outline: 3px solid #FFD600;
     outline-offset: 2px;
@@ -47,5 +49,37 @@
 
   a {
     transition: color 0.15s ease;
+  }
+
+  /* ── Typography scale ──────────────────────────────────────────────── */
+  /* Font weight, tracking, and line-height come from the base layer.    */
+  /* These classes handle responsive sizing only.                         */
+
+  .type-hero {
+    font-size: 2.25rem; /* text-4xl */
+  }
+  @media (min-width: 768px) {
+    .type-hero { font-size: 3rem; }    /* text-5xl */
+  }
+  @media (min-width: 1024px) {
+    .type-hero { font-size: 3.75rem; } /* text-6xl */
+  }
+
+  .type-section {
+    font-size: 1.5rem; /* text-2xl */
+  }
+  @media (min-width: 768px) {
+    .type-section { font-size: 1.875rem; } /* text-3xl */
+  }
+
+  /* ── Highlight ──────────────────────────────────────────────────────── */
+  /* Color is set per-section via --section-highlight CSS custom property. */
+  /* Black sections:  red  (#DC2626)                                       */
+  /* Blue sections:   yellow (#FFD600)                                     */
+  /* White sections:  red  (#DC2626)                                       */
+  /* Yellow sections: red  (#DC2626)                                       */
+
+  .highlight {
+    color: var(--section-highlight, currentColor);
   }
 }

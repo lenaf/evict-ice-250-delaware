@@ -59,13 +59,13 @@ export function Header() {
             <span className="text-[#FFD600] font-black text-lg md:text-xl tracking-[0.08em] mr-2">
               {days}
             </span>
-            <span className="text-white/90">
+            <span className="text-white">
               DAYS UNTIL THE DHS LEASE EXPIRES
             </span>
           </p>
           <button
             onClick={() => setBannerOpen(false)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-white hover:text-[#FFD600] transition-colors"
             aria-label="Dismiss banner"
           >
             <svg
@@ -107,7 +107,7 @@ export function Header() {
           {/* Desktop nav links */}
           <div className="ml-auto hidden md:flex items-center gap-8">
             <Link
-              href={isHome ? "#facts" : "/#facts"}
+                href="/facts"
               className={`font-black text-lg tracking-wide transition-colors ${textColor}`}
             >
               THE FACTS
@@ -170,26 +170,26 @@ export function Header() {
 
         {/* Mobile menu dropdown */}
         {menuOpen && (
-          <div className="md:hidden bg-[#FFD600] border-t-2 border-[#1E3A8A]/20 px-4 pb-4">
+          <div className="md:hidden bg-[#FFD600] border-t-2 border-[#1E3A8A] px-4 pb-4">
             <nav className="flex flex-col gap-1">
               <Link
                 href="/show-up"
                 onClick={() => setMenuOpen(false)}
-                className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
+                className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A] transition-colors ${textColor}`}
               >
                 SHOW UP
               </Link>
               <Link
-                href={isHome ? "#facts" : "/#facts"}
+                href="/facts"
                 onClick={() => setMenuOpen(false)}
-                className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
+                className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A] transition-colors ${textColor}`}
               >
                 THE FACTS
               </Link>
               <Link
                 href={isHome ? "#join" : "/#join"}
                 onClick={() => setMenuOpen(false)}
-                className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A]/10 transition-colors ${textColor}`}
+                className={`font-black text-xl tracking-wide py-3 border-b border-[#1E3A8A] transition-colors ${textColor}`}
               >
                 JOIN US
               </Link>

@@ -46,7 +46,7 @@ export const UpcomingSlots: React.FC = () => {
         <div className="flex items-baseline justify-between mb-4">
           <div>
             <h2 className="font-black text-2xl md:text-3xl leading-tight">Stand With Us.</h2>
-            <p className="text-sm md:text-base text-black/70">Join us for our weekly pickets and community events.</p>
+            <p className="text-sm md:text-base text-black">Join us for our weekly pickets and community events.</p>
           </div>
           <Link
             href="/show-up"

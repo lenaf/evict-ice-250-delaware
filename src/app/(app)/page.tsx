@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { UpcomingSlots } from "@/components/UpcomingSlots";
@@ -83,7 +84,7 @@ export default function Home() {
       {/* ========== Intro ========== */}
       <section className="bg-[#1E3A8A] text-white px-6 md:px-10 py-8 md:py-10">
         <div className="max-w-6xl mx-auto">
-          <p className="text-base md:text-lg leading-relaxed text-white/70 mb-4">
+          <p className="text-base md:text-lg leading-relaxed text-white mb-4">
             Uniland leases 250 Delaware to the federal government for ICE
             operations. That lease expires on{" "}
             <strong className="text-white">March 31, 2027</strong>.
@@ -114,10 +115,10 @@ export default function Home() {
             When a <span className="text-[#FFD600]">wall away</span> feels like
             a <span className="text-[#FFD600]">world away</span> —
           </h2>
-          <p className="font-black text-lg md:text-xl uppercase tracking-wide text-white/70 mb-4">
+          <p className="font-black text-lg md:text-xl uppercase tracking-wide text-white mb-4">
             you know you&apos;re at 250 Delaware.
           </p>
-          <p className="text-base md:text-lg leading-relaxed text-white/80">
+          <p className="text-base md:text-lg leading-relaxed text-white">
             On the first floor, there&apos;s a fine dining restaurant, and
             across the lobby is the entrance to a luxury hotel. People come and
             go from the building every day without realizing that just a few
@@ -148,13 +149,21 @@ export default function Home() {
         className="bg-white text-black px-6 md:px-10 py-14 md:py-20 scroll-mt-14"
       >
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-black text-3xl md:text-4xl mb-10">The Facts</h2>
+          <div className="flex items-end justify-between mb-10">
+            <h2 className="font-black text-3xl md:text-4xl">The Facts</h2>
+            <Link
+              href="/facts"
+              className="text-[#DC2626] font-black text-sm uppercase tracking-wider hover:text-black transition-colors"
+            >
+              Read more &rarr;
+            </Link>
+          </div>
           <div className="grid md:grid-cols-2 gap-10">
             <div className="border-l-2 border-[#1E3A8A] pl-6">
-              <h3 className="font-black text-xl md:text-2xl text-[#1E3A8A] mb-4">
+              <h3 className="font-black text-xl md:text-2xl uppercase text-[#1E3A8A] mb-4">
                 Buffalo DHS Operations
               </h3>
-              <ul className="space-y-4 text-base leading-relaxed text-black/70">
+              <ul className="space-y-4 text-base leading-relaxed text-black">
                 <li>
                   Downtown Buffalo&apos;s 250 Delaware Avenue houses four ICE
                   offices that control operations, detention management,
@@ -183,10 +192,10 @@ export default function Home() {
               </ul>
             </div>
             <div className="border-l-2 border-[#DC2626] pl-6">
-              <h3 className="font-black text-xl md:text-2xl text-[#DC2626] mb-4">
+              <h3 className="font-black text-xl md:text-2xl uppercase text-[#DC2626] mb-4">
                 Who Owns 250 Delaware
               </h3>
-              <ul className="space-y-4 text-base leading-relaxed text-black/70">
+              <ul className="space-y-4 text-base leading-relaxed text-black">
                 <li>
                   Uniland Development (the Montante family) owns the building
                   and Delaware North (the Jacobs family) is the anchor tenant.
@@ -222,7 +231,7 @@ export default function Home() {
           <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase mb-3">
             Our coalition
           </h2>
-          <p className="text-base md:text-lg leading-relaxed text-black/60 max-w-2xl mb-8">
+          <p className="text-base md:text-lg leading-relaxed text-black max-w-2xl mb-8">
             This campaign is powered by the people of Buffalo — activists,
             families, organizations, elected officials, and neighbors standing
             together.
@@ -454,7 +463,7 @@ export default function Home() {
             <h2 className="font-black text-3xl md:text-4xl leading-[0.95] mb-4">
               Tell us about you.
             </h2>
-            <p className="text-base md:text-lg leading-relaxed text-white/70 max-w-md">
+            <p className="text-base md:text-lg leading-relaxed text-white max-w-md">
               Whether you can knock on doors, make graphics, do research, or
               just want to stay informed — we need you. Sign up and we&apos;ll
               be in touch.
@@ -475,7 +484,7 @@ export default function Home() {
             <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase mb-3">
               Send Us a Tip
             </h2>
-            <p className="text-base md:text-lg leading-relaxed text-black/60 mb-8">
+            <p className="text-base md:text-lg leading-relaxed text-black mb-8">
               Know something about the building? Have an idea for the campaign?
               Drop us an anonymous message.
             </p>

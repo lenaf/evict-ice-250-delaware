@@ -33,16 +33,16 @@ export const SlotCard: React.FC<SlotCardProps> = ({ slot: initialSlot }) => {
               <span className="bg-[#FFD600] text-black font-bold text-sm px-2 py-0.5 whitespace-nowrap">
                 {formatDate(slot.date)}
               </span>
-              <span className="text-black/60 font-bold text-sm whitespace-nowrap">
+              <span className="text-black font-bold text-sm whitespace-nowrap">
                 {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
               </span>
             </div>
             <h3 className="font-black text-xl md:text-2xl mb-1">{slot.title}</h3>
-            <p className="text-sm text-black/60 mb-1">{slot.location}</p>
+            <p className="text-sm text-black mb-1">{slot.location}</p>
             {slot.description && (
               <div className="mt-2">
                 <p
-                  className={`text-sm text-black/70 ${!expanded ? "line-clamp-3" : ""}`}
+                  className={`text-sm text-black ${!expanded ? "line-clamp-3" : ""}`}
                 >
                   {slot.description}
                 </p>

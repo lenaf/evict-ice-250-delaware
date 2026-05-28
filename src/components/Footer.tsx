@@ -8,7 +8,7 @@ export function Footer() {
           &copy; {new Date().getFullYear()} Evict ICE from 250 Delaware
         </p>
         <nav className="flex items-center gap-6 text-xs uppercase tracking-wider">
-          <Link href="#facts" className="text-white/40 hover:text-[#FFD600] transition-colors">The Facts</Link>
+          <Link href="/facts" className="text-white/40 hover:text-[#FFD600] transition-colors">The Facts</Link>
           <Link href="#join" className="text-white/40 hover:text-[#FFD600] transition-colors">Join Us</Link>
           <a
             href="https://www.instagram.com/evictice250delaware/"

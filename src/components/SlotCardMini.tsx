@@ -18,14 +18,14 @@ export const SlotCardMini: React.FC<SlotCardMiniProps> = ({ slot }) => {
           <span className="bg-[#FFD600] text-black font-bold text-xs px-1.5 py-0.5 whitespace-nowrap">
             {formatDate(slot.date)}
           </span>
-          <span className="text-black/60 font-bold text-xs whitespace-nowrap">
+          <span className="text-black font-bold text-xs whitespace-nowrap">
             {formatTime(slot.start_time)}
           </span>
         </div>
         <h3 className="font-black text-sm md:text-base leading-tight">
           {slot.title}
         </h3>
-        <p className="text-xs text-black/60">
+        <p className="text-xs text-black">
           {slot.location}
         </p>
         {slot.signup_link ? (
