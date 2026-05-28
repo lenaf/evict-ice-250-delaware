@@ -19,13 +19,13 @@ export const WhatHappensInside: React.FC = () => {
           <h1 className="type-hero text-white mb-6">
             What Happens Inside
           </h1>
-          <p className="text-lg md:text-xl font-normal text-white leading-snug mb-2">
+          <p className="text-lg md:text-xl font-normal text-white leading-snug mb-2 highlight">
             This isn&apos;t just an office building.
           </p>
           <p className="text-base md:text-lg text-white leading-relaxed mb-10">
-            <span className="highlight">Holding cells. Raids. Surveillance. Deportations.</span>{" "}
-            This is what the federal government runs out of a building in
-            downtown Buffalo.
+            From 250 Delaware Avenue in downtown Buffalo, ICE runs the{" "}
+            <strong className="">machinery of terror</strong>{" "}
+            across all of western and upstate New York.
           </p>
           <div className="flex justify-between text-sm border-t border-white/20 pt-6">
             <Link
@@ -50,15 +50,10 @@ export const WhatHappensInside: React.FC = () => {
         <div className="md:flex md:gap-14 md:items-start">
           <div className="md:flex-1">
             <p className="text-base md:text-lg leading-relaxed mb-4">
-              From 250 Delaware Avenue in downtown Buffalo, ICE runs the{" "}
-              <strong className="highlight">machinery of terror</strong>{" "}
-              across all of western and upstate New York.
-            </p>
-            <p className="text-base md:text-lg leading-relaxed mb-4">
               250 Delaware is one of only{" "}
               <strong>25 ICE field offices</strong>{" "}
               nationwide. It controls everything that happens in upstate and
-              Western New York — every region outside of NYC.
+              Western New York, every region outside of NYC.
             </p>
             <p className="text-base md:text-lg leading-relaxed">
               Sub-offices in Albany, Syracuse, Batavia, and Champlain all
@@ -89,21 +84,55 @@ export const WhatHappensInside: React.FC = () => {
         </p>
       </Section>
 
+      {/* ========== THE SCALE ========== */}
+      <Section variant="black">
+        <h2 className="type-section mb-6">The scale</h2>
+        <p className="text-base md:text-lg leading-relaxed mb-4">
+          In 2025 alone:{" "}
+          <strong className="highlight">
+            7,258 people were taken into custody
+          </strong>{" "}
+          across upstate and Western New York.
+        </p>
+        <p className="text-base md:text-lg leading-relaxed mb-4">
+          Every arrest. Every raid. Every deportation order.
+        </p>
+        <p className="font-black text-lg md:text-xl leading-relaxed">
+          All coordinated from 250 Delaware Avenue.
+        </p>
+      </Section>
+
+      {/* ========== WHAT HAPPENS BEHIND CLOSED DOOR ========== */}
+      <Section variant="yellow">
+        <h2 className="type-section mb-4">What Happens Behind Closed Door</h2>
+        <p className="text-base md:text-lg leading-relaxed">
+          Based on limited information from{" "}
+          <SourceLink
+            href="https://www.ice.gov/ero"
+            label="ICE's own published structure"
+          />
+          , supplemented by accounts from advocates and journalists, here is
+          what we know happens inside this building.
+        </p>
+      </Section>
+
       {/* ========== HOLDING CELLS ========== */}
       <Section variant="white">
         <h2 className="type-section mb-6">Holding cells</h2>
         <p className="text-base md:text-lg leading-relaxed mb-6">
-          People are detained inside this building — including children.
-          According to 245 days of data collected by the Deportation Data
-          Project (June 2025 – February 2026):
+          People are detained inside this building&mdash;including children.{" "}
+          According to the 245 days of data available collected by the
+          Deportation Data Project (June 2025 - February 2026):
         </p>
         <ul className="space-y-3 text-base md:text-lg leading-relaxed mb-8 pl-4">
           <li className="flex gap-3 items-start">
             <span className="inline-block w-2 h-2 bg-[#DC2626] shrink-0 mt-[0.4em]" aria-hidden="true" />
             <span>
               <strong>233 people were detained</strong>{" "}
-              at the facility —{" "}
-              <strong className="highlight">nearly one new person captured and held each day.</strong>
+              at the facility. That is{" "}
+              <strong className="highlight">
+                nearly one new person captured and held each day.
+              </strong>
             </span>
           </li>
           <li className="flex gap-3 items-start">
@@ -116,17 +145,17 @@ export const WhatHappensInside: React.FC = () => {
           </li>
           <li className="flex gap-3 items-start">
             <span className="inline-block w-2 h-2 bg-[#DC2626] shrink-0 mt-[0.4em]" aria-hidden="true" />
-            <span>Over half were detained longer than 24 hours.</span>
+            <span>Over half detained longer than 24 hours</span>
           </li>
           <li className="flex gap-3 items-start">
             <span className="inline-block w-2 h-2 bg-[#DC2626] shrink-0 mt-[0.4em]" aria-hidden="true" />
-            <span>Nearly a third were held more than 3 days.</span>
+            <span>Nearly a third held more than 3 days</span>
           </li>
         </ul>
         <p className="text-base md:text-lg leading-relaxed mb-8">
-          Then most are transferred thousands of miles away — to Louisiana,
-          Texas, Ohio, Florida — far from their families, lawyers, and
-          communities.
+          Then most are transferred thousands of miles away&mdash;to
+          Louisiana, Texas, Ohio, Florida&mdash;far from families, lawyers,
+          and communities.
         </p>
         <p className="font-light text-xs text-black mt-10 pt-4 border-t border-black/20">
           Source:{" "}
@@ -139,10 +168,11 @@ export const WhatHappensInside: React.FC = () => {
 
       {/* ========== RAID COORDINATION ========== */}
       <Section variant="black">
-        <h2 className="type-section mb-4">Raid coordination</h2>
+        <h2 className="type-section mb-4">Raid Coordination</h2>
         <p className="text-base md:text-lg leading-relaxed mb-6">
           From this building, ICE plans and executes raids across the entire
-          region. Recent operations coordinated from 250 Delaware:
+          region. Recent operations coordinated from 250 Delaware that has
+          attacked our own community:
         </p>
         <ul className="space-y-3 text-base md:text-lg mb-8 pl-4">
           <li className="flex gap-3 items-start">
@@ -181,9 +211,9 @@ export const WhatHappensInside: React.FC = () => {
         </p>
       </Section>
 
-      {/* ========== ARRESTS BY APPOINTMENT + DOLORES ========== */}
+      {/* ========== ARRESTS-BY APPOINTMENT + DOLORES ========== */}
       <Section variant="white">
-        <h2 className="type-section mb-4">Arrests by appointment</h2>
+        <h2 className="type-section mb-4">Arrests-by Appointment</h2>
         <p className="text-base md:text-lg leading-relaxed mb-12">
           ICE orders people to appear for &ldquo;routine check-ins&rdquo; at
           250 Delaware, then{" "}
@@ -207,19 +237,20 @@ export const WhatHappensInside: React.FC = () => {
         </p>
         <p className="text-base md:text-lg leading-relaxed mb-8">
           <strong>She was transferred the same day.</strong> First to Ohio,
-          then Louisiana, before a court order mandated her return to New York.
-          After more than a month in detention a federal judge ordered her release, ruling that ICE had violated her due process rights by arresting her without warning. 
+          then Louisiana, before a court order mandated her return to New York. 
+          After more than a month in detention a federal judge ordered her release, 
+          ruling that ICE had violated her due process rights.
         </p>
         <p className="font-light text-xs text-black mt-10 pt-4 border-t border-black/20">
           Sources:{" "}
           <SourceLink
-            href="https://investigativepost.org/2026/04/14/upstate-ny-ice-arrests-surge-under-trump/"
-            label="Investigative Post"
+            href="https://www.nytimes.com/2025/02/15/us/ice-check-ins-arrests.html"
+            label="ICE now targeting Afghans, rule followers"
           />
           {", "}
           <SourceLink
-            href="https://www.nytimes.com/2025/02/15/us/ice-check-ins-arrests.html"
-            label="NYT: ICE targeting rule followers"
+            href="https://investigativepost.org/2026/04/14/upstate-ny-ice-arrests-surge-under-trump/"
+            label="ICE seizes advocate for migrant farmworkers"
           />
         </p>
       </Section>
@@ -227,7 +258,7 @@ export const WhatHappensInside: React.FC = () => {
       {/* ========== DETENTION & DISAPPEARANCE ========== */}
       <Section variant="blue">
         <h2 className="type-section mb-2">
-          Detention &amp; disappearance
+          Detention &amp; Disappearance
         </h2>
         <p className="font-black text-lg md:text-xl highlight mb-6">
           From 250 Delaware, ICE makes people disappear.
@@ -265,7 +296,7 @@ export const WhatHappensInside: React.FC = () => {
             <span>
               June 2024:{" "}
               <strong className="highlight">
-                ~40 detainees staged a hunger strike
+                ~40 detainees staged hunger strike
               </strong>{" "}
               over conditions
             </span>
@@ -273,7 +304,7 @@ export const WhatHappensInside: React.FC = () => {
         </ul>
         <p className="text-base md:text-lg leading-relaxed mb-8">
           Others are transferred thousands of miles away to Texas, Louisiana,
-          Ohio, and Florida — severing them from their support systems.
+          Ohio, and Florida&mdash;severing them from their support systems.
         </p>
         <p className="font-light text-xs text-white mt-10 pt-4 border-t border-white/20">
           Sources:{" "}
@@ -301,10 +332,20 @@ export const WhatHappensInside: React.FC = () => {
           Every member of the community is being watched.
         </p>
         <p className="text-base md:text-lg leading-relaxed mb-6">
-          Your movements are being tracked — and it all feeds back to 250
+          Your movements are being tracked and it all feeds back to 250
           Delaware.
         </p>
+        <p className="text-base md:text-lg font-black mb-3">
+          ICE&apos;s surveillance tools:
+        </p>
         <ul className="space-y-3 text-base md:text-lg mb-8 pl-4">
+          <li className="flex gap-3 items-start">
+            <span className="inline-block w-2 h-2 bg-[#DC2626] shrink-0 mt-[0.4em]" aria-hidden="true" />
+            <span>
+              License plate reader networks (including Flock Safety cameras in
+              Buffalo, Amherst, and Cheektowaga)
+            </span>
+          </li>
           <li className="flex gap-3 items-start">
             <span className="inline-block w-2 h-2 bg-[#DC2626] shrink-0 mt-[0.4em]" aria-hidden="true" />
             <span>Social media monitoring</span>
@@ -336,15 +377,19 @@ export const WhatHappensInside: React.FC = () => {
 
       {/* ========== CLOSING ========== */}
       <Section variant="yellow">
-        <h2 className="text-[clamp(2rem,5vw,3.5rem)] normal-case mb-4">
+        <h2 className="type-section mb-4">This Building Is the Problem</h2>
+        <h3 className="text-[clamp(1.5rem,4vw,2.5rem)] font-black normal-case mb-4">
           250 Delaware Avenue isn&apos;t just where ICE has offices.
-        </h2>
-        <p className="text-lg md:text-xl font-black mb-6">
+        </h3>
+        <p className="text-lg md:text-xl font-black mb-4">
           It&apos;s the nerve center for a system of terror that reaches every
           corner of upstate New York.
         </p>
+        <p className="font-black text-2xl md:text-3xl mb-2">
+          The lease expires March 2027.
+        </p>
         <p className="font-black text-2xl md:text-3xl highlight">
-          The lease expires March 2027. We can end this.
+          We can end this.
         </p>
       </Section>
 
