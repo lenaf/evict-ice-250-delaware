@@ -207,7 +207,8 @@ export const WhatHappensInside: React.FC = () => {
         </p>
         <p className="text-base md:text-lg leading-relaxed mb-8">
           <strong>She was transferred the same day.</strong> First to Ohio,
-          then Louisiana. On May 28, 2026 — after more than a month in detention — a federal judge ordered her release, ruling that ICE had violated her due process rights by arresting her without warning. 
+          then Louisiana, before a court order mandated her return to New York.
+          After more than a month in detention — a federal judge ordered her release, ruling that ICE had violated her due process rights by arresting her without warning. 
         </p>
         <p className="font-light text-xs text-black mt-10 pt-4 border-t border-black/20">
           Sources:{" "}
