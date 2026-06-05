@@ -88,6 +88,7 @@ export const Admin: React.FC = () => {
         {showForm && (
           <div className="mb-10 p-6 border-2 border-[#FFD600] bg-[#FFD600]/5">
             <SlotForm
+              key={editingSlot?.id ?? "new"}
               initial={editingSlot}
               password={password}
               onSaved={() => {
