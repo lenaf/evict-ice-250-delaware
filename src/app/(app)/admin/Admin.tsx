@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import type { Slot } from "@/types/slots";
 import { formatDate, formatTime } from "@/lib/format";
 import { LoginForm } from "./LoginForm";
@@ -15,6 +15,13 @@ export const Admin: React.FC = () => {
   const [editingSlot, setEditingSlot] = useState<Slot | undefined>();
   const [expandedSlot, setExpandedSlot] = useState<string | null>(null);
   const [authError, setAuthError] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (showForm) {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [showForm, editingSlot]);
 
   const fetchSlots = useCallback(async (pw: string) => {
     setLoading(true);
@@ -67,7 +74,7 @@ export const Admin: React.FC = () => {
 
   const today = new Date().toISOString().split("T")[0];
   const upcoming = slots.filter((s) => s.date >= today);
-  const past = slots.filter((s) => s.date < today);
+  const past = slots.filter((s) => s.date < today).reverse();
 
   return (
     <main className="min-h-screen bg-white pt-28 pb-20 px-6 md:px-10">
@@ -86,7 +93,10 @@ export const Admin: React.FC = () => {
         </div>
 
         {showForm && (
-          <div className="mb-10 p-6 border-2 border-[#FFD600] bg-[#FFD600]/5">
+          <div
+            ref={formRef}
+            className="mb-10 p-6 border-2 border-[#FFD600] bg-[#FFD600]/5"
+          >
             <SlotForm
               key={editingSlot?.id ?? "new"}
               initial={editingSlot}

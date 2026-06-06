@@ -14,8 +14,8 @@ export async function GET(request: Request) {
   const { data: slots, error } = await supabaseAdmin
     .from("slots")
     .select("*")
-    .order("date", { ascending: false })
-    .order("start_time", { ascending: false });
+    .order("date", { ascending: true })
+    .order("start_time", { ascending: true });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
