@@ -113,10 +113,10 @@ const statements: Statement[] = [
 ];
 
 const FADE_MS = 250;
-// Base dwell + reading time, so long statements stay on screen longer.
+// Dwell scales with the visible teaser's length (not the full statement).
 const dwellFor = (s: Statement): number => {
-  const words = s.paragraphs.join(" ").split(/\s+/).length;
-  return Math.min(22000, Math.max(8000, Math.round(words * 280)));
+  const words = (s.keyPoint ?? s.paragraphs[0]).trim().split(/\s+/).length;
+  return Math.min(10000, Math.max(5000, Math.round(words * 180)));
 };
 
 export const Statements: React.FC = () => {
@@ -174,23 +174,27 @@ export const Statements: React.FC = () => {
     };
   }, [modalOpen]);
 
-  // Touch swipe (mobile): swipe left → next, right → previous.
-  const touchStartX = useRef<number | null>(null);
+  // Touch swipe (mobile): a clearly horizontal drag past the threshold advances
+  // the carousel. Mostly-vertical gestures are ignored so page scroll still works.
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const onTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   };
   const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    touchStartX.current = null;
-    if (Math.abs(dx) > 40) go(dx < 0 ? index + 1 : index - 1);
+    if (!touchStart.current) return;
+    const dx = e.changedTouches[0].clientX - touchStart.current.x;
+    const dy = e.changedTouches[0].clientY - touchStart.current.y;
+    touchStart.current = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      go(dx < 0 ? index + 1 : index - 1);
+    }
   };
 
   return (
-    <section className="bg-[#1E3A8A] text-white px-4 md:px-6 py-16 md:py-24">
+    <section className="bg-[#1E3A8A] text-white px-4 md:px-6 py-12 md:py-24">
       <div>
         <div
-          className="flex items-center gap-4 md:gap-16"
+          className="flex items-center gap-2 md:gap-16"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onTouchStart={onTouchStart}
@@ -202,13 +206,13 @@ export const Statements: React.FC = () => {
           <button
             onClick={() => go(index - 1)}
             aria-label="Previous statement"
-            className="shrink-0 text-5xl md:text-7xl leading-none text-white/60 hover:text-[#FFD600] transition-colors cursor-pointer"
+            className="shrink-0 text-4xl md:text-7xl leading-none text-white/60 hover:text-[#FFD600] transition-colors cursor-pointer"
           >
             ‹
           </button>
 
           <div
-            className={`flex-1 min-w-0 flex flex-col justify-center min-h-[20rem] md:min-h-[16rem] transition-opacity duration-200 ${
+            className={`flex-1 min-w-0 flex flex-col justify-center min-h-[13rem] md:min-h-[16rem] transition-opacity duration-200 ${
               visible ? "opacity-100" : "opacity-0"
             }`}
             aria-live="polite"
@@ -216,7 +220,7 @@ export const Statements: React.FC = () => {
           >
             <span
               aria-hidden
-              className="self-start font-serif text-7xl md:text-9xl leading-[0.5] text-white/25 select-none -mb-2 md:-mb-4"
+              className="self-start font-serif text-6xl md:text-9xl leading-[0.5] text-white/25 select-none -mb-2 md:-mb-4"
             >
               &ldquo;
             </span>
@@ -224,7 +228,7 @@ export const Statements: React.FC = () => {
               {(current.keyPoint ?? current.paragraphs[0]).trim()}
             </p>
 
-            <div className="mt-8 flex flex-col items-center gap-4">
+            <div className="mt-6 md:mt-8 flex flex-col items-center gap-3 md:gap-4">
               <a
                 href={current.href}
                 target="_blank"
@@ -247,7 +251,7 @@ export const Statements: React.FC = () => {
           <button
             onClick={() => go(index + 1)}
             aria-label="Next statement"
-            className="shrink-0 text-5xl md:text-7xl leading-none text-white/60 hover:text-[#FFD600] transition-colors cursor-pointer"
+            className="shrink-0 text-4xl md:text-7xl leading-none text-white/60 hover:text-[#FFD600] transition-colors cursor-pointer"
           >
             ›
           </button>
