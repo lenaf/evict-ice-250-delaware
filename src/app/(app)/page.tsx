@@ -4,6 +4,7 @@ import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { UpcomingSlots } from "@/components/UpcomingSlots";
 import { TipForm } from "@/components/TipForm";
+import { Statements } from "./Statements";
 import { Squada_One } from "next/font/google";
 
 const jsonLd = {
@@ -455,6 +456,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ========== Coalition statements ========== */}
+      <Statements />
 
       {/* ========== Join Form ========== */}
       <section id="join" className="scroll-mt-14">
