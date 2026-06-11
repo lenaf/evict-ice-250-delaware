@@ -48,26 +48,43 @@ const sponsors: Sponsor[] = [
   { src: "/sponsors/panys.webp", name: "Peace Action New York State", href: "https://www.panys.org/" },
 ];
 
-// A swipeable row of partner logos. Layout/scroll/arrows come from SwipeCarousel.
+const LogoMark: React.FC<{ sponsor: Sponsor }> = ({ sponsor }) => (
+  <a
+    href={sponsor.href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center justify-center h-20 md:h-24 hover:opacity-70 transition-opacity"
+    title={sponsor.name}
+  >
+    <Image
+      src={sponsor.src}
+      alt={sponsor.name}
+      width={140}
+      height={140}
+      className={`w-auto object-contain ${sponsor.large ? "max-h-14 md:max-h-16" : sponsor.square ? "max-h-12 md:max-h-14" : "max-h-9 md:max-h-11"}`}
+    />
+  </a>
+);
+
+// Pack the logos into two rows by stacking each pair into a vertical column the
+// carousel scrolls through — twice the density without crowding either row.
+const columns: Sponsor[][] = [];
+for (let i = 0; i < sponsors.length; i += 2) {
+  columns.push(sponsors.slice(i, i + 2));
+}
+
+// A swipeable two-row grid of partner logos. Scroll/arrows/dots come from SwipeCarousel.
 export const CoalitionLogos: React.FC = () => (
   <SwipeCarousel tone="dark" ariaLabel="Coalition partners">
-    {sponsors.map((sponsor) => (
-      <a
-        key={sponsor.name}
-        href={sponsor.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="shrink-0 snap-start flex items-center justify-center h-20 md:h-24 hover:opacity-70 transition-opacity"
-        title={sponsor.name}
+    {columns.map((pair, i) => (
+      <div
+        key={i}
+        className="shrink-0 snap-start flex flex-col justify-center gap-4 md:gap-6"
       >
-        <Image
-          src={sponsor.src}
-          alt={sponsor.name}
-          width={140}
-          height={140}
-          className={`w-auto object-contain ${sponsor.large ? "max-h-14 md:max-h-16" : sponsor.square ? "max-h-12 md:max-h-14" : "max-h-9 md:max-h-11"}`}
-        />
-      </a>
+        {pair.map((sponsor) => (
+          <LogoMark key={sponsor.name} sponsor={sponsor} />
+        ))}
+      </div>
     ))}
   </SwipeCarousel>
 );

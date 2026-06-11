@@ -138,11 +138,17 @@ export const Statements: React.FC = () => {
         {statements.map((statement, i) => (
           <figure
             key={statement.org}
-            className="shrink-0 snap-start w-[85vw] sm:w-[24rem] md:w-[28rem] flex flex-col bg-white/[0.06] p-6 md:p-8"
+            className="shrink-0 snap-start w-[85vw] sm:w-[24rem] md:w-[28rem] flex flex-col"
           >
+            <svg
+              aria-hidden
+              viewBox="0 0 42 24"
+              className="self-start w-7 h-4 md:w-8 md:h-5 fill-white mt-2 mb-3"
+            >
+              <path d="M0 24C0 13 5 5 16 2L17.5 6C11 8.5 8.5 12 8.5 16H16V24H0ZM24 24C24 13 29 5 40 2L41.5 6C35 8.5 32.5 12 32.5 16H40V24H24Z" />
+            </svg>
             <blockquote className="flex-1 text-lg md:text-xl leading-snug">
-              &ldquo;{(statement.keyPoint ?? statement.paragraphs[0]).trim()}
-              &rdquo;
+              {(statement.keyPoint ?? statement.paragraphs[0]).trim()}
             </blockquote>
             <div className="mt-5 flex flex-col items-start gap-2">
               <a

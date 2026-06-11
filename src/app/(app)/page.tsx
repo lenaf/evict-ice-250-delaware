@@ -98,6 +98,50 @@ export default function Home() {
       {/* ========== Stand With Us (photos) ========== */}
       <OnTheGroundCarousel />
 
+      {/* ========== Donate CTA ========== */}
+      <Section
+        variant="yellow"
+        innerClassName="grid md:grid-cols-2 gap-8 md:gap-10 items-center"
+      >
+        <div>
+          <h2 className="font-black text-3xl md:text-4xl leading-[0.95] uppercase mb-3">
+            Chip in to keep the{" "}
+            <span className="text-[#DC2626]">billboards</span> up.
+          </h2>
+          <p className="text-base md:text-lg leading-relaxed max-w-xl mb-6">
+            Every dollar funds billboards across from ICE headquarters and
+            materials for our weekly demonstrations. All contributions are
+            tax-deductible.
+          </p>
+          <Link
+            href="/donate"
+            className="inline-block text-center bg-[#DC2626] hover:bg-black text-white font-black text-lg uppercase tracking-wider px-8 py-4 border-2 border-black transition cursor-pointer"
+          >
+            Donate &rarr;
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="relative aspect-[4/3] border-2 border-black">
+            <Image
+              src="/photos/campaign/billboard-uniland-owns.jpg"
+              alt="Billboard reading 'Uniland owns ICE headquarters — Evict ICE!'"
+              fill
+              sizes="(min-width: 768px) 25vw, 50vw"
+              className="object-cover object-center"
+            />
+          </div>
+          <div className="relative aspect-[4/3] border-2 border-black">
+            <Image
+              src="/photos/campaign/billboard-250-delaware.jpg"
+              alt="Billboard reading 'ICE headquarters is located at 250 Delaware'"
+              fill
+              sizes="(min-width: 768px) 25vw, 50vw"
+              className="object-cover object-center"
+            />
+          </div>
+        </div>
+      </Section>
+
       {/* ========== Stats ========== */}
       <Section variant="red" pad="compact">
         <p className="font-black text-xl md:text-3xl leading-tight uppercase">
