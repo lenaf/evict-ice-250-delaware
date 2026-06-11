@@ -134,11 +134,15 @@ export const Statements: React.FC = () => {
 
   return (
     <section className="bg-[#1E3A8A] text-white py-12 md:py-20">
-      <SwipeCarousel tone="light" ariaLabel="Coalition statements">
+      <SwipeCarousel
+        tone="light"
+        ariaLabel="Coalition statements"
+        gapClassName="gap-4 md:gap-10"
+      >
         {statements.map((statement, i) => (
           <figure
             key={statement.org}
-            className="shrink-0 snap-start w-[85vw] sm:w-[24rem] md:w-[28rem] flex flex-col"
+            className="shrink-0 snap-center md:snap-start w-[82vw] md:w-[calc(50%-1.25rem)] flex flex-col"
           >
             <svg
               aria-hidden

@@ -48,12 +48,14 @@ const sponsors: Sponsor[] = [
   { src: "/sponsors/panys.webp", name: "Peace Action New York State", href: "https://www.panys.org/" },
 ];
 
+// Each logo keeps its natural width (sized by a capped height) so the gap
+// between them stays even — wide wordmarks just take more room than square marks.
 const LogoMark: React.FC<{ sponsor: Sponsor }> = ({ sponsor }) => (
   <a
     href={sponsor.href}
     target="_blank"
     rel="noopener noreferrer"
-    className="flex items-center justify-center h-20 md:h-24 hover:opacity-70 transition-opacity"
+    className="shrink-0 flex items-center justify-center hover:opacity-70 transition-opacity"
     title={sponsor.name}
   >
     <Image
@@ -61,27 +63,29 @@ const LogoMark: React.FC<{ sponsor: Sponsor }> = ({ sponsor }) => (
       alt={sponsor.name}
       width={140}
       height={140}
-      className={`w-auto object-contain ${sponsor.large ? "max-h-14 md:max-h-16" : sponsor.square ? "max-h-12 md:max-h-14" : "max-h-9 md:max-h-11"}`}
+      className={`w-auto object-contain ${sponsor.large ? "max-h-10 md:max-h-16" : sponsor.square ? "max-h-9 md:max-h-14" : "max-h-7 md:max-h-11"}`}
     />
   </a>
 );
 
-// Pack the logos into two rows by stacking each pair into a vertical column the
-// carousel scrolls through — twice the density without crowding either row.
-const columns: Sponsor[][] = [];
-for (let i = 0; i < sponsors.length; i += 2) {
-  columns.push(sponsors.slice(i, i + 2));
+// Group logos into viewport-width pages. Each page wraps its logos (rather than
+// letting the strip clip them), so a whole logo is never cut off at the edge;
+// the carousel then snaps one full page at a time.
+const PER_PAGE = 12;
+const pages: Sponsor[][] = [];
+for (let i = 0; i < sponsors.length; i += PER_PAGE) {
+  pages.push(sponsors.slice(i, i + PER_PAGE));
 }
 
-// A swipeable two-row grid of partner logos. Scroll/arrows/dots come from SwipeCarousel.
+// A swipeable, paginated grid of partner logos. Scroll/arrows/dots come from SwipeCarousel.
 export const CoalitionLogos: React.FC = () => (
-  <SwipeCarousel tone="dark" ariaLabel="Coalition partners">
-    {columns.map((pair, i) => (
+  <SwipeCarousel tone="dark" ariaLabel="Coalition partners" gapClassName="gap-0">
+    {pages.map((page, i) => (
       <div
         key={i}
-        className="shrink-0 snap-start flex flex-col justify-center gap-4 md:gap-6"
+        className="shrink-0 snap-start w-full flex flex-wrap content-center items-center justify-center gap-x-6 gap-y-5 md:gap-x-10 md:gap-y-7"
       >
-        {pair.map((sponsor) => (
+        {page.map((sponsor) => (
           <LogoMark key={sponsor.name} sponsor={sponsor} />
         ))}
       </div>

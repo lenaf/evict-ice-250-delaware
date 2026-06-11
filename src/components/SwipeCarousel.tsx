@@ -25,6 +25,8 @@ export const SwipeCarousel: React.FC<SwipeCarouselProps> = ({
   const trackRef = useRef<HTMLDivElement>(null);
   const [pageCount, setPageCount] = useState(1);
   const [activePage, setActivePage] = useState(0);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
 
   // Derive a page model from the native scroll position so the dots reflect how
   // much of the strip is left. Pages are clientWidth-sized chunks of scrollWidth.
@@ -35,6 +37,8 @@ export const SwipeCarousel: React.FC<SwipeCarouselProps> = ({
     const active = Math.round(el.scrollLeft / el.clientWidth);
     setPageCount(pages);
     setActivePage(Math.min(active, pages - 1));
+    setAtStart(el.scrollLeft <= 1);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1);
   }, []);
 
   useEffect(() => {
@@ -42,10 +46,16 @@ export const SwipeCarousel: React.FC<SwipeCarouselProps> = ({
     if (!el) return;
     update();
     el.addEventListener("scroll", update, { passive: true });
+    // Lazy-loaded images start near-zero width, so the strip can measure as a
+    // single page at mount; recompute as each child image finishes loading.
+    el.addEventListener("load", update, { capture: true });
+    window.addEventListener("resize", update);
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => {
       el.removeEventListener("scroll", update);
+      el.removeEventListener("load", update, { capture: true });
+      window.removeEventListener("resize", update);
       ro.disconnect();
     };
   }, [update]);
@@ -75,12 +85,12 @@ export const SwipeCarousel: React.FC<SwipeCarouselProps> = ({
 
   return (
     <div>
-      <div className="relative px-6 md:px-10">
-        {hasPages && (
+      <div className="relative px-10 md:px-16">
+        {hasPages && !atStart && (
           <button
             onClick={() => scrollByDir(-1)}
             aria-label="Previous"
-            className={`flex absolute left-1 md:left-4 top-1/2 -translate-y-1/2 z-10 items-center justify-center text-4xl md:text-5xl leading-none transition cursor-pointer ${arrow}`}
+            className={`flex absolute left-2 md:left-5 top-1/2 -translate-y-1/2 z-10 items-center justify-center text-4xl md:text-5xl leading-none transition cursor-pointer ${arrow}`}
           >
             ‹
           </button>
@@ -89,18 +99,18 @@ export const SwipeCarousel: React.FC<SwipeCarouselProps> = ({
         <div className="max-w-6xl mx-auto">
           <div
             ref={trackRef}
-            className={`flex ${gapClassName} overflow-x-auto snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
+            className={`flex ${gapClassName} overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
             aria-label={ariaLabel}
           >
             {children}
           </div>
         </div>
 
-        {hasPages && (
+        {hasPages && !atEnd && (
           <button
             onClick={() => scrollByDir(1)}
             aria-label="Next"
-            className={`flex absolute right-1 md:right-4 top-1/2 -translate-y-1/2 z-10 items-center justify-center text-4xl md:text-5xl leading-none transition cursor-pointer ${arrow}`}
+            className={`flex absolute right-2 md:right-5 top-1/2 -translate-y-1/2 z-10 items-center justify-center text-4xl md:text-5xl leading-none transition cursor-pointer ${arrow}`}
           >
             ›
           </button>
