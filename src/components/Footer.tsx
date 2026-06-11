@@ -8,13 +8,14 @@ export function Footer() {
           &copy; {new Date().getFullYear()} Evict ICE from 250 Delaware
         </p>
         <nav className="flex items-center gap-6 text-xs uppercase tracking-wider">
-          <Link href="/facts" className="text-white/40 hover:text-[#FFD600] transition-colors">The Facts</Link>
-          <Link href="#join" className="text-white/40 hover:text-[#FFD600] transition-colors">Join Us</Link>
+          <Link href="/donate" className="text-white/40 hover:text-[#FFD600] transition">Donate</Link>
+          <Link href="/facts" className="text-white/40 hover:text-[#FFD600] transition">The Facts</Link>
+          <Link href="#join" className="text-white/40 hover:text-[#FFD600] transition">Join Us</Link>
           <a
             href="https://www.instagram.com/evictice250delaware/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white/40 hover:text-[#FFD600] transition-colors"
+            className="text-white/40 hover:text-[#FFD600] transition"
             aria-label="Instagram"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

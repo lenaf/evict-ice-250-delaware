@@ -74,7 +74,7 @@ export async function sendConfirmationEmail(
   },
   cancelToken: string,
 ) {
-  const cancelUrl = `${getSiteUrl()}/show-up/cancel?token=${cancelToken}`;
+  const cancelUrl = `${getSiteUrl()}/events/cancel?token=${cancelToken}`;
   const gcalUrl = googleCalUrl(slot);
   const icsContent = generateIcsContent(slot);
   const icsBase64 = Buffer.from(icsContent).toString("base64");
@@ -123,7 +123,7 @@ export async function sendReminderEmail(
   },
   cancelToken: string,
 ) {
-  const cancelUrl = `${getSiteUrl()}/show-up/cancel?token=${cancelToken}`;
+  const cancelUrl = `${getSiteUrl()}/events/cancel?token=${cancelToken}`;
 
   await getResend().emails.send({
     from: getFromEmail(),
@@ -184,7 +184,7 @@ export async function sendCancellationNotice(
           <p style="margin: 0 0 4px; color: #555;">${formatTime(slot.start_time)} – ${formatTime(slot.end_time)}</p>
           <p style="margin: 0; color: #555;">${slot.location}</p>
         </div>
-        ${changeType === "updated" ? `<p><a href="${getSiteUrl()}/show-up" style="color: #1E3A8A; font-weight: bold;">View updated details</a></p>` : ""}
+        ${changeType === "updated" ? `<p><a href="${getSiteUrl()}/events" style="color: #1E3A8A; font-weight: bold;">View updated details</a></p>` : ""}
       </div>
     `,
   });

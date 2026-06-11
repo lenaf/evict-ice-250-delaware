@@ -29,7 +29,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         />
         <button
           type="submit"
-          className="w-full bg-black text-white font-bold py-3 hover:bg-[#1E3A8A] transition-colors cursor-pointer"
+          className="w-full bg-black text-white font-bold py-3 hover:opacity-80 transition cursor-pointer"
         >
           Log in
         </button>

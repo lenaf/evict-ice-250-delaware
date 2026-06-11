@@ -1,14 +1,29 @@
 import React from "react";
+import Link from "next/link";
 
 export type SectionVariant = "black" | "blue" | "yellow" | "white" | "red";
 
 interface SectionProps {
   variant: SectionVariant;
   children: React.ReactNode;
-  /** Additional classes — use to override padding or add scroll-mt etc. */
+  /** Top-of-page section: adds padding to clear the sticky header. */
+  hero?: boolean;
+  /** "compact" for short accent bands; defaults to full content padding. */
+  pad?: "default" | "compact";
+  /** Renders the whole band as a clickable link. */
+  href?: string;
+  /** Additional classes on the outer band (borders, hover, scroll-mt, etc.). */
   className?: string;
+  /** Additional classes on the inner max-width container (grid, text-center). */
+  innerClassName?: string;
   id?: string;
 }
+
+// One source of truth for section gutters + width across the app.
+const GUTTER = "px-6 md:px-10";
+const BODY_PAD = "py-14 md:py-20";
+const COMPACT_PAD = "py-10 md:py-14"; // short accent bands
+const HERO_PAD = "pt-28 md:pt-32 pb-14 md:pb-20"; // clears the sticky header
 
 const variantConfig: Record<
   SectionVariant,
@@ -37,18 +52,35 @@ const variantConfig: Record<
 export const Section: React.FC<SectionProps> = ({
   variant,
   children,
+  hero = false,
+  pad = "default",
+  href,
   className = "",
+  innerClassName = "",
   id,
 }) => {
   const { classes, highlight } = variantConfig[variant];
+  const verticalPad = hero
+    ? HERO_PAD
+    : pad === "compact"
+      ? COMPACT_PAD
+      : BODY_PAD;
+  const band = `${classes} ${GUTTER} ${verticalPad} ${className}`;
+  const style = { "--section-highlight": highlight } as React.CSSProperties;
+  const inner = (
+    <div className={`max-w-6xl mx-auto ${innerClassName}`}>{children}</div>
+  );
 
+  if (href) {
+    return (
+      <Link href={href} id={id} className={`block ${band}`} style={style}>
+        {inner}
+      </Link>
+    );
+  }
   return (
-    <section
-      id={id}
-      className={`${classes} px-6 md:px-10 py-14 md:py-20 ${className}`}
-      style={{ "--section-highlight": highlight } as React.CSSProperties}
-    >
-      <div className="max-w-6xl mx-auto">{children}</div>
+    <section id={id} className={band} style={style}>
+      {inner}
     </section>
   );
 };

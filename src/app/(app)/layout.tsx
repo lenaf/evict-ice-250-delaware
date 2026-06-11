@@ -86,13 +86,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body
-        className={inter.variable}
+        className={`${inter.variable} flex min-h-screen flex-col`}
         style={{
           fontFamily: "var(--font-inter), system-ui, sans-serif",
         }}
       >
         <Header />
-        {children}
+        <div className="flex flex-1 flex-col">{children}</div>
         <Footer />
         <ScrollToTop />
         <Analytics />

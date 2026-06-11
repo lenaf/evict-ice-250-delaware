@@ -268,7 +268,7 @@ export function ActionNetworkForm() {
               {HELP_OPTIONS.map((option) => (
                 <label
                   key={option}
-                  className={`flex items-center gap-2 px-3 py-2 border-2 text-sm cursor-pointer transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2 border-2 text-sm cursor-pointer transition ${
                     formData.helpType === option
                       ? "border-black bg-black text-white font-semibold"
                       : "border-black/20 hover:border-black"
@@ -311,7 +311,7 @@ export function ActionNetworkForm() {
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="w-full bg-[#DC2626] hover:bg-black disabled:opacity-50 text-white font-black text-xl tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all"
+            className="w-full bg-[#DC2626] hover:opacity-80 disabled:opacity-50 text-white font-black text-xl tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all"
           >
             {status === "submitting" ? "Signing up..." : "Join the Fight"}
           </button>

@@ -10,7 +10,7 @@ export const SourceLink: React.FC<SourceLinkProps> = ({ href, label }) => (
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="underline hover:text-[#DC2626] transition-colors"
+    className="underline hover:text-[#DC2626] transition"
   >
     {label}
   </a>

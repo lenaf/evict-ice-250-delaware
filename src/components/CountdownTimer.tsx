@@ -16,5 +16,9 @@ export function InlineDaysLeft({ targetDate, className }: { targetDate: string; 
     return () => clearInterval(id);
   }, [targetDate]);
 
-  return <span className={className}>{days} days</span>;
+  return (
+    <span className={className} suppressHydrationWarning>
+      {days} days
+    </span>
+  );
 }

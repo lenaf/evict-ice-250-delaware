@@ -13,7 +13,7 @@ export const WhoPays: React.FC = () => {
           <p className="text-sm uppercase tracking-wider text-white/40 mb-3">
             <Link
               href="/facts"
-              className="hover:text-white transition-colors"
+              className="hover:text-white transition"
             >
               The Facts
             </Link>
@@ -37,13 +37,13 @@ export const WhoPays: React.FC = () => {
         <div className="max-w-3xl mx-auto flex justify-between text-sm">
           <Link
             href="/facts/who-profits"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             &larr; Previous: Who Profits
           </Link>
           <Link
             href="/facts/who-pulls-the-strings"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             Next: Who Pulls the Strings &rarr;
           </Link>
@@ -137,13 +137,13 @@ export const WhoPays: React.FC = () => {
         <div className="max-w-3xl mx-auto flex justify-between text-sm">
           <Link
             href="/facts/who-profits"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             &larr; Previous: Who Profits
           </Link>
           <Link
             href="/facts/who-pulls-the-strings"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             Next: Who Pulls the Strings &rarr;
           </Link>

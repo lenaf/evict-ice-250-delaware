@@ -10,39 +10,31 @@ export const WhatHappensInside: React.FC = () => {
   return (
     <main className="min-h-screen">
       {/* ========== HERO ========== */}
-      {/* Custom padding + layout — not using Section wrapper */}
-      <section
-        className="bg-black"
-        style={{ "--section-highlight": "#DC2626" } as React.CSSProperties}
-      >
-        <div className="max-w-6xl mx-auto px-6 md:px-10 pt-28 md:pt-36 pb-10 md:pb-16">
-          <h1 className="type-hero text-white mb-6">
-            What Happens Inside
-          </h1>
-          <p className="text-lg md:text-xl font-normal text-white leading-snug mb-2 highlight">
-            This isn&apos;t just an office building.
-          </p>
-          <p className="text-base md:text-lg text-white leading-relaxed mb-10">
-            From 250 Delaware Avenue in downtown Buffalo, ICE runs the{" "}
-            <strong className="">machinery of terror</strong>{" "}
-            across all of western and upstate New York.
-          </p>
-          <div className="flex justify-between text-sm border-t border-white/20 pt-6">
-            <Link
-              href="/facts"
-              className="uppercase tracking-wider font-light text-white hover:text-[#DC2626] transition-colors"
-            >
-              &larr; The Facts
-            </Link>
-            <Link
-              href="/facts/who-profits"
-              className="uppercase tracking-wider font-light text-white hover:text-[#DC2626] transition-colors"
-            >
-              Next: Who Profits &rarr;
-            </Link>
-          </div>
+      <Section variant="black" hero>
+        <h1 className="type-hero text-white mb-6">What Happens Inside</h1>
+        <p className="text-lg md:text-xl font-normal text-white leading-snug mb-2 highlight">
+          This isn&apos;t just an office building.
+        </p>
+        <p className="text-base md:text-lg text-white leading-relaxed mb-10">
+          From 250 Delaware Avenue in downtown Buffalo, ICE runs the{" "}
+          <strong className="">machinery of terror</strong> across all of
+          western and upstate New York.
+        </p>
+        <div className="flex justify-between text-sm border-t border-white/20 pt-6">
+          <Link
+            href="/facts"
+            className="uppercase tracking-wider font-light text-white hover:text-[#DC2626] transition"
+          >
+            &larr; The Facts
+          </Link>
+          <Link
+            href="/facts/who-profits"
+            className="uppercase tracking-wider font-light text-white hover:text-[#DC2626] transition"
+          >
+            Next: Who Profits &rarr;
+          </Link>
         </div>
-      </section>
+      </Section>
 
       {/* ========== COMMAND CENTER ========== */}
       <Section variant="blue">
@@ -403,14 +395,14 @@ export const WhatHappensInside: React.FC = () => {
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
-            href="/show-up"
-            className="bg-[#DC2626] text-white font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-[#DC2626] hover:bg-white hover:text-black hover:border-white transition-colors cursor-pointer text-center"
+            href="/events"
+            className="bg-[#DC2626] text-white font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-[#DC2626] hover:opacity-80 transition cursor-pointer text-center"
           >
             Show up
           </Link>
           <Link
             href="/#join"
-            className="bg-transparent text-white font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-colors cursor-pointer text-center"
+            className="bg-transparent text-white font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-white hover:opacity-80 transition cursor-pointer text-center"
           >
             Join the coalition
           </Link>

@@ -64,7 +64,7 @@ export const TipForm: React.FC = () => {
       <button
         type="submit"
         disabled={!message.trim() || status === "submitting"}
-        className="bg-[#DC2626] hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-white font-black text-sm tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black disabled:hover:bg-[#DC2626] disabled:hover:border-[#DC2626] uppercase transition-all"
+        className="bg-[#DC2626] hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-white font-black text-sm tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all"
       >
         {status === "submitting" ? "Sending..." : "Send Tip"}
       </button>

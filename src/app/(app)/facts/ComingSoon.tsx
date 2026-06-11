@@ -14,7 +14,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({ title, subtitle }) => {
       <section className="bg-black text-white px-6 md:px-10 pt-28 md:pt-36 pb-14 md:pb-20">
         <div className="max-w-6xl mx-auto">
           <p className="text-sm uppercase tracking-wider text-white/40 mb-3">
-            <Link href="/facts" className="hover:text-white transition-colors">
+            <Link href="/facts" className="hover:text-white transition">
               The Facts
             </Link>
           </p>
@@ -44,13 +44,13 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({ title, subtitle }) => {
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/facts/what-happens-inside"
-              className="inline-block bg-black text-white font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-black hover:bg-[#DC2626] hover:border-[#DC2626] transition-colors cursor-pointer text-center"
+              className="inline-block bg-black text-white font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-black hover:opacity-80 transition cursor-pointer text-center"
             >
               Read: What Happens Inside &rarr;
             </Link>
             <Link
               href="/facts"
-              className="inline-block bg-white text-black font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-black hover:border-[#DC2626] hover:text-[#DC2626] transition-colors cursor-pointer text-center"
+              className="inline-block bg-white text-black font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-black hover:border-[#DC2626] hover:text-[#DC2626] transition cursor-pointer text-center"
             >
               &larr; Back to The Facts
             </Link>

@@ -202,7 +202,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
         <button
           type="submit"
           disabled={saving}
-          className="bg-[#DC2626] hover:bg-black disabled:opacity-50 text-white font-bold py-2 px-6 transition-colors cursor-pointer"
+          className="bg-[#DC2626] hover:opacity-80 disabled:opacity-50 text-white font-bold py-2 px-6 transition cursor-pointer"
         >
           {saving ? "Saving..." : initial ? "Update" : "Create"}
         </button>

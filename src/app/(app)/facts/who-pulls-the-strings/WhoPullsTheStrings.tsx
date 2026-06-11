@@ -13,7 +13,7 @@ export const WhoPullsTheStrings: React.FC = () => {
           <p className="text-sm uppercase tracking-wider text-white/40 mb-3">
             <Link
               href="/facts"
-              className="hover:text-white transition-colors"
+              className="hover:text-white transition"
             >
               The Facts
             </Link>
@@ -37,13 +37,13 @@ export const WhoPullsTheStrings: React.FC = () => {
         <div className="max-w-3xl mx-auto flex justify-between text-sm">
           <Link
             href="/facts/who-pays"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             &larr; Previous: Who Pays
           </Link>
           <Link
             href="/facts"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             Back to The Facts
           </Link>
@@ -150,7 +150,7 @@ export const WhoPullsTheStrings: React.FC = () => {
           </p>
           <Link
             href="/letters/delaware-north"
-            className="bg-white text-black font-black text-base uppercase tracking-wider px-10 py-5 border-2 border-white hover:bg-black hover:text-white hover:border-black transition-colors cursor-pointer inline-block"
+            className="bg-white text-black font-black text-base uppercase tracking-wider px-10 py-5 border-2 border-white hover:opacity-80 hover:border-black transition cursor-pointer inline-block"
           >
             Sign the letter &rarr;
           </Link>
@@ -168,14 +168,14 @@ export const WhoPullsTheStrings: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/show-up"
-              className="bg-[#FFD600] text-black font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-[#FFD600] hover:bg-white hover:border-white transition-colors cursor-pointer text-center"
+              href="/events"
+              className="bg-[#FFD600] text-black font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-[#FFD600] hover:opacity-80 transition cursor-pointer text-center"
             >
               Show up
             </Link>
             <Link
               href="/#join"
-              className="bg-white text-black font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-white hover:bg-[#FFD600] hover:border-[#FFD600] transition-colors cursor-pointer text-center"
+              className="bg-white text-black font-black text-sm uppercase tracking-wider px-8 py-4 border-2 border-white hover:opacity-80 transition cursor-pointer text-center"
             >
               Join the coalition
             </Link>
@@ -188,13 +188,13 @@ export const WhoPullsTheStrings: React.FC = () => {
         <div className="max-w-3xl mx-auto flex justify-between text-sm">
           <Link
             href="/facts/who-pays"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             &larr; Previous: Who Pays
           </Link>
           <Link
             href="/facts"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             Back to The Facts
           </Link>

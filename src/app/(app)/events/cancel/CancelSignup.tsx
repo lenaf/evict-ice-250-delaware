@@ -42,8 +42,8 @@ export const CancelSignup: React.FC = () => {
               Your spot has been freed up for someone else. Thanks for letting us know.
             </p>
             <Link
-              href="/show-up"
-              className="inline-block bg-[#1E3A8A] text-white font-bold px-6 py-3 hover:bg-black transition-colors"
+              href="/events"
+              className="inline-block bg-[#1E3A8A] text-white font-bold px-6 py-3 hover:opacity-80 transition"
             >
               Browse other shifts
             </Link>

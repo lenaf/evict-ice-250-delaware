@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { SwipeCarousel } from "@/components/SwipeCarousel";
 
 interface Statement {
   org: string;
   href: string;
   logo: string;
-  // Optional ~3-line teaser shown first; the full statement opens on "Read
-  // full statement". If omitted, the full statement shows immediately.
+  // Optional ~3-line teaser shown on the card; the full statement opens on
+  // "Read full statement". If omitted, the single paragraph is the full text.
   keyPoint?: string;
   paragraphs: string[];
 }
@@ -112,58 +113,15 @@ const statements: Statement[] = [
   },
 ];
 
-const FADE_MS = 250;
-// Dwell scales with the visible teaser's length (not the full statement).
-const dwellFor = (s: Statement): number => {
-  const words = (s.keyPoint ?? s.paragraphs[0]).trim().split(/\s+/).length;
-  return Math.min(10000, Math.max(5000, Math.round(words * 180)));
-};
-
 export const Statements: React.FC = () => {
-  const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  const count = statements.length;
-  const current = statements[index];
-  const hasMore = Boolean(current.keyPoint);
-
-  // Crossfade to a target slide.
-  const go = useCallback(
-    (target: number) => {
-      setVisible(false);
-      setTimeout(() => {
-        setIndex(((target % count) + count) % count);
-        setVisible(true);
-      }, FADE_MS);
-    },
-    [count],
-  );
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-
-  // Auto-advance, paused on hover, while the full-statement modal is open, or
-  // for reduced-motion visitors. Re-runs on index change so manual nav resets
-  // the timer, and dwell scales with length.
-  useEffect(() => {
-    if (reducedMotion || hovered || modalOpen) return;
-    const id = setTimeout(() => go(index + 1), dwellFor(statements[index]));
-    return () => clearTimeout(id);
-  }, [index, reducedMotion, hovered, modalOpen, go]);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const open = openIndex !== null ? statements[openIndex] : null;
 
   // While the modal is open: close on Escape and lock background scroll.
   useEffect(() => {
-    if (!modalOpen) return;
+    if (openIndex === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setModalOpen(false);
+      if (e.key === "Escape") setOpenIndex(null);
     };
     document.addEventListener("keydown", onKey);
     const prevOverflow = document.body.style.overflow;
@@ -172,135 +130,70 @@ export const Statements: React.FC = () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
     };
-  }, [modalOpen]);
-
-  // Touch swipe (mobile): a clearly horizontal drag past the threshold advances
-  // the carousel. Mostly-vertical gestures are ignored so page scroll still works.
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (!touchStart.current) return;
-    const dx = e.changedTouches[0].clientX - touchStart.current.x;
-    const dy = e.changedTouches[0].clientY - touchStart.current.y;
-    touchStart.current = null;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-      go(dx < 0 ? index + 1 : index - 1);
-    }
-  };
+  }, [openIndex]);
 
   return (
-    <section className="bg-[#1E3A8A] text-white px-4 md:px-6 py-12 md:py-24">
-      <div>
-        <div
-          className="flex items-center gap-2 md:gap-16"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-          aria-roledescription="carousel"
-          aria-label="Coalition statements"
-        >
-          {/* Side arrows */}
-          <button
-            onClick={() => go(index - 1)}
-            aria-label="Previous statement"
-            className="shrink-0 text-4xl md:text-7xl leading-none text-white/60 hover:text-[#FFD600] transition-colors cursor-pointer"
+    <section className="bg-[#1E3A8A] text-white py-12 md:py-20">
+      <SwipeCarousel tone="light" ariaLabel="Coalition statements">
+        {statements.map((statement, i) => (
+          <figure
+            key={statement.org}
+            className="shrink-0 snap-start w-[85vw] sm:w-[24rem] md:w-[28rem] flex flex-col bg-white/[0.06] p-6 md:p-8"
           >
-            ‹
-          </button>
-
-          <div
-            className={`flex-1 min-w-0 flex flex-col justify-center min-h-[13rem] md:min-h-[16rem] transition-opacity duration-200 ${
-              visible ? "opacity-100" : "opacity-0"
-            }`}
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <span
-              aria-hidden
-              className="self-start font-serif text-6xl md:text-9xl leading-[0.5] text-white/25 select-none -mb-2 md:-mb-4"
-            >
-              &ldquo;
-            </span>
-            <p className="text-center text-2xl md:text-4xl font-medium leading-snug">
-              {(current.keyPoint ?? current.paragraphs[0]).trim()}
-            </p>
-
-            <div className="mt-6 md:mt-8 flex flex-col items-center gap-3 md:gap-4">
+            <blockquote className="flex-1 text-lg md:text-xl leading-snug">
+              &ldquo;{(statement.keyPoint ?? statement.paragraphs[0]).trim()}
+              &rdquo;
+            </blockquote>
+            <div className="mt-5 flex flex-col items-start gap-2">
               <a
-                href={current.href}
+                href={statement.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-black text-sm md:text-base uppercase tracking-wider text-[#FFD600] hover:text-white transition-colors"
+                className="font-black text-sm uppercase tracking-wider text-[#FFD600] hover:text-white transition"
               >
-                {current.org}
+                {statement.org}
               </a>
-              {hasMore && (
+              {statement.keyPoint && (
                 <button
-                  onClick={() => setModalOpen(true)}
-                  className="text-xs font-bold uppercase tracking-wider text-white/80 underline underline-offset-4 hover:text-[#FFD600] transition-colors cursor-pointer"
+                  onClick={() => setOpenIndex(i)}
+                  className="text-xs font-bold uppercase tracking-wider text-white/70 underline underline-offset-4 hover:text-[#FFD600] transition cursor-pointer"
                 >
                   Read full statement
                 </button>
               )}
             </div>
-          </div>
-
-          <button
-            onClick={() => go(index + 1)}
-            aria-label="Next statement"
-            className="shrink-0 text-4xl md:text-7xl leading-none text-white/60 hover:text-[#FFD600] transition-colors cursor-pointer"
-          >
-            ›
-          </button>
-        </div>
-
-        {/* Dots */}
-        <div className="flex items-center justify-center gap-2 mt-10">
-          {statements.map((s, i) => (
-            <button
-              key={s.org}
-              onClick={() => go(i)}
-              aria-label={`Go to statement ${i + 1}: ${s.org}`}
-              aria-current={i === index}
-              className={`w-2.5 h-2.5 rounded-full transition-colors cursor-pointer ${
-                i === index ? "bg-[#FFD600]" : "bg-white/40 hover:bg-white/70"
-              }`}
-            />
-          ))}
-        </div>
-      </div>
+          </figure>
+        ))}
+      </SwipeCarousel>
 
       {/* Full-statement modal */}
-      {modalOpen && (
+      {open && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
           role="dialog"
           aria-modal="true"
-          aria-label={`${current.org} full statement`}
+          aria-label={`${open.org} full statement`}
         >
           <div className="relative bg-white text-black border-2 border-black w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 md:p-10">
             <div className="flex items-start justify-between gap-4 mb-6">
               <a
-                href={current.href}
+                href={open.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-black text-base uppercase tracking-wider text-[#1E3A8A] hover:text-[#DC2626] transition-colors"
+                className="font-black text-base uppercase tracking-wider text-[#1E3A8A] hover:text-[#DC2626] transition"
               >
-                {current.org}
+                {open.org}
               </a>
               <button
-                onClick={() => setModalOpen(false)}
+                onClick={() => setOpenIndex(null)}
                 aria-label="Close"
-                className="shrink-0 w-9 h-9 flex items-center justify-center border-2 border-black text-black font-black hover:bg-black hover:text-white transition-colors cursor-pointer"
+                className="shrink-0 w-9 h-9 flex items-center justify-center border-2 border-black text-black font-black hover:opacity-80 transition cursor-pointer"
               >
                 ✕
               </button>
             </div>
             <blockquote className="space-y-4">
-              {current.paragraphs.map((p, i) => (
+              {open.paragraphs.map((p, i) => (
                 <p key={i} className="text-base md:text-lg leading-relaxed">
                   {p}
                 </p>

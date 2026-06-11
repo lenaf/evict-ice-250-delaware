@@ -17,7 +17,7 @@ const InstitutionCard: React.FC<InstitutionCardProps> = ({
   org,
   href,
 }) => (
-  <div className="border-2 border-black p-4 hover:border-[#DC2626] transition-colors">
+  <div className="border-2 border-black p-4 hover:border-[#DC2626] transition">
     <p className="font-black text-sm text-black">{person}</p>
     <p className="text-sm text-black/60">
       {role},{" "}
@@ -26,7 +26,7 @@ const InstitutionCard: React.FC<InstitutionCardProps> = ({
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline hover:text-[#DC2626] transition-colors"
+          className="underline hover:text-[#DC2626] transition"
         >
           {org}
         </a>
@@ -44,7 +44,7 @@ export const WhoProfits: React.FC = () => {
       <section className="bg-black text-white px-6 md:px-10 pt-28 md:pt-36 pb-14 md:pb-20">
         <div className="max-w-6xl mx-auto">
           <p className="text-sm uppercase tracking-wider text-white/40 mb-3">
-            <Link href="/facts" className="hover:text-white transition-colors">
+            <Link href="/facts" className="hover:text-white transition">
               The Facts
             </Link>
           </p>
@@ -66,13 +66,13 @@ export const WhoProfits: React.FC = () => {
         <div className="max-w-3xl mx-auto flex justify-between text-sm">
           <Link
             href="/facts/what-happens-inside"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             &larr; Previous: What Happens Inside
           </Link>
           <Link
             href="/facts/who-pays"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             Next: Who Pays &rarr;
           </Link>
@@ -809,7 +809,7 @@ export const WhoProfits: React.FC = () => {
           </p>
           <Link
             href="/letters/uniland"
-            className="bg-white text-black font-black text-base uppercase tracking-wider px-10 py-5 border-2 border-white hover:bg-black hover:text-white hover:border-black transition-colors cursor-pointer inline-block"
+            className="bg-white text-black font-black text-base uppercase tracking-wider px-10 py-5 border-2 border-white hover:opacity-80 hover:border-black transition cursor-pointer inline-block"
           >
             Sign the letter &rarr;
           </Link>
@@ -821,13 +821,13 @@ export const WhoProfits: React.FC = () => {
         <div className="max-w-3xl mx-auto flex justify-between text-sm">
           <Link
             href="/facts/what-happens-inside"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             &larr; Previous: What Happens Inside
           </Link>
           <Link
             href="/facts/who-pays"
-            className="text-black/40 hover:text-[#DC2626] transition-colors"
+            className="text-black/40 hover:text-[#DC2626] transition"
           >
             Next: Who Pays &rarr;
           </Link>

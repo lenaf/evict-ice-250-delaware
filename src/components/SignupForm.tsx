@@ -112,7 +112,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ slot, onSuccess, onClose
       <button
         type="submit"
         disabled={!isValid || status === "submitting"}
-        className="w-full bg-[#DC2626] hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-white font-black text-lg tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black disabled:hover:bg-[#DC2626] disabled:hover:border-[#DC2626] uppercase transition-all"
+        className="w-full bg-[#DC2626] hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-white font-black text-lg tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all"
       >
         {status === "submitting" ? "Signing up..." : "Sign Up"}
       </button>
@@ -123,7 +123,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ slot, onSuccess, onClose
         <button
           type="button"
           onClick={onClose}
-          className="text-sm text-black/50 hover:text-black transition-colors cursor-pointer"
+          className="text-sm text-black/50 hover:text-black transition cursor-pointer"
         >
           Cancel
         </button>

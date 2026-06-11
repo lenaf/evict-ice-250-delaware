@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
+import { CoalitionLogos } from "@/components/CoalitionLogos";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
-import { UpcomingSlots } from "@/components/UpcomingSlots";
+import { OnTheGroundCarousel } from "@/components/OnTheGroundCarousel";
 import { TipForm } from "@/components/TipForm";
 import { Statements } from "./Statements";
-import { Squada_One } from "next/font/google";
+import { Section } from "@/components/Section";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -37,129 +38,117 @@ export default function Home() {
       />
 
       {/* ========== HERO ========== */}
-      <section className="bg-[#FFD600]">
-        {/* Mobile: stacked */}
-        <div className="md:hidden">
-          <div className="px-6 pt-24 pb-10 flex justify-center">
-            <Image
-              src="/logo-transparent.png"
-              alt="Evict ICE from 250 Delaware"
-              width={700}
-              height={170}
-              className="w-full max-w-xs h-auto"
-              priority
-            />
-          </div>
-          <div className="relative w-full h-48 sm:h-64">
-            <Image
-              src="/250-Delaware.png"
-              alt="250 Delaware Avenue building in downtown Buffalo, NY"
-              fill
-              className="object-contain object-bottom"
-            />
-          </div>
+      <section className="relative w-full min-h-[22rem] md:min-h-[34rem] bg-black flex items-center overflow-hidden">
+        {/* Photo on the right; a solid black column sits on the left, with the
+            photo's left edge blended into it so there's no hard line. */}
+        <div className="absolute inset-y-0 right-0 w-full md:w-[70%]">
+          <Image
+            src="/photos/campaign/rally-megaphone-crowd.jpg"
+            alt="Demonstrators gather outside 250 Delaware Avenue as a speaker addresses the crowd with a megaphone"
+            fill
+            priority
+            sizes="(min-width: 768px) 70vw, 100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent md:via-black/25" />
         </div>
-        {/* Desktop: side by side */}
-        <div className="hidden md:block relative overflow-hidden">
-          <div className="absolute bottom-0 right-[-5%] w-[40%] h-[90%] z-20 pointer-events-none">
-            <Image
-              src="/250-Delaware.png"
-              alt="250 Delaware Avenue building in downtown Buffalo, NY"
-              fill
-              className="object-contain object-bottom"
-            />
-          </div>
-          <div className="relative z-10 max-w-6xl mx-auto px-10 pt-32 pb-28 pr-[44%]">
-            <Image
-              src="/logo-transparent.png"
-              alt="Evict ICE from 250 Delaware"
-              width={700}
-              height={170}
-              className="w-full max-w-xl h-auto"
-              priority
-            />
+        <div className="relative z-10 w-full px-6 md:px-10">
+          <div className="max-w-6xl mx-auto">
+            <h1 className="uppercase tracking-tight leading-[0.95] text-white max-w-sm [text-shadow:0_2px_16px_rgba(0,0,0,0.65)]">
+              <span className="block text-[clamp(1.1rem,3vw,1.75rem)] font-light tracking-[-0.04em] mb-1 md:mb-1.5">
+                Uniland Development
+              </span>
+              <span className="block text-[clamp(1.1rem,3vw,1.75rem)] font-light tracking-[-0.04em]">
+                &amp; Delaware North
+              </span>
+              <span className="block text-[clamp(2.75rem,7.5vw,5.5rem)] font-black tracking-[0.22em] mt-4 md:mt-6">
+                stop
+              </span>
+              <span className="block text-[clamp(1.75rem,4.5vw,3.25rem)] font-light">
+                leasing to
+              </span>
+              <span className="block text-[clamp(5rem,13vw,9.75rem)] font-black tracking-[0.14em] text-[#DC2626]">
+                ICE
+              </span>
+            </h1>
           </div>
         </div>
       </section>
 
-      {/* ========== Intro ========== */}
-      <section className="bg-[#1E3A8A] text-white px-6 md:px-10 py-8 md:py-10">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-base md:text-lg leading-relaxed text-white mb-4">
-            Uniland leases 250 Delaware to the federal government for ICE
-            operations. That lease expires on{" "}
-            <strong className="text-white">March 31, 2027</strong>.
-          </p>
-          <p className="font-bold text-lg md:text-xl text-[#FFD600] leading-relaxed mt-6">
-            We&apos;re calling on Uniland to not renew the lease.
-          </p>
-        </div>
+      {/* ========== Coalition statement ========== */}
+      <Section variant="blue">
+        <p className="text-lg md:text-2xl font-medium text-white/80 leading-relaxed mb-4 md:mb-5">
+          Uniland leases 250 Delaware to ICE. The lease expires{" "}
+          <span className="font-bold text-[#FFD600]">March 31, 2027</span>.
+        </p>
+        <p className="font-light text-[clamp(1.25rem,2.6vw,1.875rem)] leading-[1.1] md:whitespace-nowrap">
+          We are a coalition of Buffalonians calling on Uniland to{" "}
+          <span className="font-black text-[#FFD600]">EVICT ICE</span>.
+        </p>
+      </Section>
+
+      {/* ========== Coalition partners (full-width) ========== */}
+      <section className="bg-white py-10 md:py-14">
+        <CoalitionLogos />
       </section>
 
-      {/* ========== Upcoming Volunteer Slots ========== */}
-      <UpcomingSlots />
+      {/* ========== Coalition statements (quotes) ========== */}
+      <Statements />
+
+      {/* ========== Stand With Us (photos) ========== */}
+      <OnTheGroundCarousel />
 
       {/* ========== Stats ========== */}
-      <section className="bg-[#DC2626] text-white px-6 md:px-10 py-10 md:py-14 border-y-2 border-black">
-        <div className="max-w-6xl mx-auto">
-          <p className="font-black text-xl md:text-3xl leading-tight uppercase">
-            <span className="text-[#FFD600]">7,258</span> people were taken
-            across Upstate and Western NY in 2025
-          </p>
-        </div>
-      </section>
+      <Section variant="red" pad="compact">
+        <p className="font-black text-xl md:text-3xl leading-tight uppercase">
+          <span className="text-[#FFD600]">7,258</span> people were taken across
+          Upstate and Western NY in 2025
+        </p>
+      </Section>
 
       {/* ========== 250 Delaware story ========== */}
-      <section className="bg-[#1E3A8A] text-white px-6 md:px-10 py-14 md:py-20">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-black text-2xl md:text-3xl leading-tight mb-4">
-            When a <span className="text-[#FFD600]">wall away</span> feels like
-            a <span className="text-[#FFD600]">world away</span> —
-          </h2>
-          <p className="font-black text-lg md:text-xl uppercase tracking-wide text-white mb-4">
-            you know you&apos;re at 250 Delaware.
-          </p>
-          <p className="text-base md:text-lg leading-relaxed text-white">
-            On the first floor, there&apos;s a fine dining restaurant, and
-            across the lobby is the entrance to a luxury hotel. People come and
-            go from the building every day without realizing that just a few
-            floors above them, on the seventh floor, ICE is deciding the fate of
-            our neighbors — whether they will be allowed to remain in the city
-            they call home or face indefinite detention and deportation.
-          </p>
-        </div>
-      </section>
+      <Section variant="blue">
+        <h2 className="font-black text-2xl md:text-3xl leading-tight mb-4">
+          When a <span className="text-[#FFD600]">wall away</span> feels like a{" "}
+          <span className="text-[#FFD600]">world away</span> —
+        </h2>
+        <p className="font-black text-lg md:text-xl uppercase tracking-wide text-white mb-4">
+          you know you&apos;re at 250 Delaware.
+        </p>
+        <p className="text-base md:text-lg leading-relaxed text-white">
+          On the first floor, there&apos;s a fine dining restaurant, and across
+          the lobby is the entrance to a luxury hotel. People come and go from
+          the building every day without realizing that just a few floors above
+          them, on the seventh floor, ICE is deciding the fate of our neighbors
+          — whether they will be allowed to remain in the city they call home or
+          face indefinite detention and deportation.
+        </p>
+      </Section>
 
       {/* ========== 1 Year ========== */}
-      <section className="bg-[#FFD600] text-black px-6 md:px-10 py-10 md:py-14 border-y-2 border-black">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-black text-[clamp(2rem,5vw,3.5rem)] leading-[0.95]">
-            We have
-            <InlineDaysLeft
-              targetDate="2027-03-31T00:00:00"
-              className="text-[#DC2626] mx-2"
-            />
-            to change that.
-          </h2>
-        </div>
-      </section>
+      <Section variant="yellow" pad="compact">
+        <h2 className="font-black text-[clamp(2rem,5vw,3.5rem)] leading-[0.95]">
+          We have
+          <InlineDaysLeft
+            targetDate="2027-03-31T00:00:00"
+            className="text-[#DC2626] mx-2"
+          />
+          to change that.
+        </h2>
+      </Section>
 
       {/* ========== The Facts ========== */}
-      <section
-        id="facts"
-        className="bg-white text-black px-6 md:px-10 py-14 md:py-20 scroll-mt-14"
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-end justify-between mb-10">
-            <h2 className="font-black text-3xl md:text-4xl">The Facts</h2>
-            <Link
-              href="/facts"
-              className="text-[#DC2626] font-black text-sm uppercase tracking-wider hover:text-black transition-colors"
-            >
-              Read more &rarr;
-            </Link>
-          </div>
-          <div className="grid md:grid-cols-2 gap-10">
+      <Section variant="white" id="facts" className="scroll-mt-14">
+        <div className="flex items-end justify-between mb-10">
+          <h2 className="font-black text-3xl md:text-4xl">The Facts</h2>
+          <Link
+            href="/facts"
+            className="text-[#DC2626] font-black text-sm uppercase tracking-wider hover:text-black transition"
+          >
+            Read more &rarr;
+          </Link>
+        </div>
+        <div className="grid md:grid-cols-2 gap-10">
             <div className="border-l-2 border-[#1E3A8A] pl-6">
               <h3 className="font-black text-xl md:text-2xl uppercase text-[#1E3A8A] mb-4">
                 Buffalo DHS Operations
@@ -214,251 +203,7 @@ export default function Home() {
               </ul>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ========== Tax Dollars ========== */}
-      <section className="bg-black text-white px-6 md:px-10 py-10 md:py-14">
-        <div className="max-w-6xl mx-auto">
-          <p className="font-black text-lg md:text-2xl leading-tight uppercase tracking-wide">
-            Our tax dollars are helping landlords profit from mass deportations.
-          </p>
-        </div>
-      </section>
-
-      {/* ========== Coalition ========== */}
-      <section className="bg-white text-black px-6 md:px-10 py-14 md:py-20">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase mb-3">
-            Our coalition
-          </h2>
-          <p className="text-base md:text-lg leading-relaxed text-black max-w-2xl mb-8">
-            This campaign is powered by the people of Buffalo — activists,
-            families, organizations, elected officials, and neighbors standing
-            together.
-          </p>
-          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 items-center">
-            {[
-              {
-                src: "/sponsors/buffalo-united.png",
-                name: "Buffalo Coalition United",
-                href: "https://www.buffalounitedcoalition.org/",
-                square: true,
-              },
-              {
-                src: "/sponsors/lwvbn.png",
-                name: "League of Women Voters of Buffalo-Niagara",
-                href: "https://www.lwvbn.org/",
-                square: false,
-              },
-              {
-                src: "/sponsors/burning-books.jpeg",
-                name: "Burning Books",
-                href: "https://www.burningbooks.com/",
-                square: true,
-              },
-              {
-                src: "/sponsors/jfmf.webp",
-                name: "Justice for Migrant Families WNY",
-                href: "https://www.justiceformigrantfamilies.org/",
-                square: true,
-              },
-              {
-                src: "/sponsors/justice-for-geraldine-martin.png",
-                name: "Justice for Geraldine and Martin",
-                href: "https://www.instagram.com/justiceforgeraldineandmartin/",
-                square: true,
-              },
-              {
-                src: "/sponsors/liberate-buffalo-state.png",
-                name: "Liberate Buffalo State",
-                href: "https://www.instagram.com/liberate.buff.state/",
-                square: true,
-              },
-              {
-                src: "/sponsors/ocb.png",
-                name: "Our City Buffalo",
-                href: "https://www.ourcitybuffalo.com/",
-                square: false,
-              },
-              {
-                src: "/sponsors/ocab.png",
-                name: "Our City Action Buffalo",
-                href: "https://www.ourcityactionbuffalo.com/",
-                square: false,
-              },
-              {
-                src: "/sponsors/ppg.png",
-                name: "Partnership for the Public Good",
-                href: "https://ppgbuffalo.org/",
-                square: true,
-              },
-              {
-                src: "/sponsors/rootsaction.png",
-                name: "RootsAction",
-                href: "https://rootsaction.org/",
-                square: false,
-              },
-              {
-                src: "/sponsors/rose-jade.png",
-                name: "Rose Jade Consulting",
-                href: "https://www.rosejadeconsulting.com/",
-                square: false,
-              },
-              {
-                src: "/sponsors/surj-buffalo.png",
-                name: "SURJ Buffalo",
-                href: "https://surj.org/chapter/surj-buffalo/",
-                square: true,
-              },
-              {
-                src: "/sponsors/ujima.png",
-                name: "Ujima Company",
-                href: "https://www.ujimacoinc.org/",
-                square: false,
-              },
-              {
-                src: "/sponsors/wny-peace-center.jpeg",
-                name: "WNY Peace Center",
-                href: "https://wnypeace.org/",
-                square: true,
-                large: true,
-              },
-              {
-                src: "/sponsors/wnycosh.jpeg",
-                name: "WNYCOSH",
-                href: "https://wnycosh.org/",
-                square: false,
-              },
-              {
-                src: "/sponsors/wny-bridge-brigade.png",
-                name: "WNY Bridge Brigade",
-                href: "https://wnybb.org/",
-                square: false,
-              },
-              {
-                src: "/sponsors/buffalo-dsa.webp",
-                name: "Buffalo DSA",
-                href: "https://buffalodsa.org/",
-                square: false,
-              },
-              {
-                src: "/sponsors/buffalo-niagara-lgbtq-history.png",
-                name: "Buffalo Niagara LGBTQ History Project",
-                href: "https://bflolgbtqhistoryproject.org/",
-                square: true,
-              },
-              {
-                src: "/sponsors/colored-girls-bike-too.webp",
-                name: "Colored Girls Bike Too",
-                href: "https://www.instagram.com/coloredgirlsbiketoo/",
-                square: true,
-              },
-              {
-                src: "/sponsors/nyic.png",
-                name: "NYIC",
-                href: "https://www.nyic.org/",
-                square: false,
-              },
-              {
-                src: "/sponsors/u-belong-coalition.png",
-                name: "U-Belong Coalition",
-                href: "https://www.instagram.com/ubelongcoalition/",
-                large: true,
-              },
-              {
-                src: "/sponsors/buffalo-latino-village.png",
-                name: "Buffalo Latino Village",
-                href: "https://buffalolatinovillage.com/",
-                square: false,
-              },
-              {
-                src: "/sponsors/push-buffalo.png",
-                name: "PUSH Buffalo",
-                href: "https://www.pushbuffalo.org/",
-                square: true,
-              },
-              {
-                src: "/sponsors/suny-buffalo-bds.jpeg",
-                name: "SUNY Buffalo BDS",
-                href: "https://www.instagram.com/sunybds_ub/",
-                square: true,
-              },
-              {
-                src: "/sponsors/cooperation-buffalo.jpg",
-                name: "Cooperation Buffalo",
-                href: "https://www.cooperationbuffalo.org/",
-                square: true,
-              },
-              {
-                src: "/sponsors/breadhive.jpg",
-                name: "BreadHive",
-                href: "https://www.breadhive.com/",
-                large: true,
-              },
-              {
-                src: "/sponsors/little-peoples-victory.webp",
-                name: "Little People's Victory",
-                href: "https://www.littlepeoplesvictory.com/",
-                square: true,
-              },
-              {
-                src: "/sponsors/king-urban-life-center.webp",
-                name: "King Urban Life Center",
-                href: "https://www.kingurbanlifecenter.org/",
-                square: false,
-              },
-              {
-                src: "/sponsors/jonathan-rivera.png",
-                name: "Assemblymember Jon D. Rivera",
-                href: "https://nyassembly.gov/mem/Jonathan-Rivera",
-                square: false,
-              },
-              {
-                src: "/sponsors/fitz-books.png",
-                name: "Fitz Books & Waffles",
-                href: "https://www.fitzbooks.net/",
-                large: true,
-              },
-              {
-                src: "/sponsors/wnyea.jpg",
-                name: "WNY Environmental Alliance",
-                href: "https://www.wnyea.org/",
-              },
-              {
-                src: "/sponsors/rights-of-nature-wny.png",
-                name: "Rights of Nature WNY",
-                href: "https://www.wnyea.org/rights-of-nature.html",
-              },
-              {
-                src: "/sponsors/panys.webp",
-                name: "Peace Action New York State",
-                href: "https://www.panys.org/",
-              },
-            ].map((sponsor) => (
-              <a
-                key={sponsor.name}
-                href={sponsor.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center p-1 h-16 md:h-18 hover:opacity-70 transition-opacity"
-                title={sponsor.name}
-              >
-                <Image
-                  src={sponsor.src}
-                  alt={sponsor.name}
-                  width={120}
-                  height={120}
-                  className={`w-auto object-contain ${sponsor.large ? "max-h-18 md:max-h-22" : sponsor.square ? "max-h-14 md:max-h-16" : "max-h-9 md:max-h-11"}`}
-                />
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========== Coalition statements ========== */}
-      <Statements />
+      </Section>
 
       {/* ========== Join Form ========== */}
       <section id="join" className="scroll-mt-14">
@@ -482,36 +227,36 @@ export default function Home() {
       </section>
 
       {/* ========== Send Us a Tip ========== */}
-      <section className="bg-white text-black px-6 md:px-10 py-14 md:py-20 border-t-2 border-black">
-        <div className="max-w-6xl mx-auto">
-          <div className="max-w-xl">
-            <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase mb-3">
-              Send Us a Tip
-            </h2>
-            <p className="text-base md:text-lg leading-relaxed text-black mb-8">
-              Know something about the building? Have an idea for the campaign?
-              Drop us an anonymous message.
-            </p>
-            <TipForm />
-          </div>
+      <Section variant="white" className="border-t-2 border-black">
+        <div className="max-w-xl">
+          <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase mb-3">
+            Send Us a Tip
+          </h2>
+          <p className="text-base md:text-lg leading-relaxed text-black mb-8">
+            Know something about the building? Have an idea for the campaign?
+            Drop us an anonymous message.
+          </p>
+          <TipForm />
         </div>
-      </section>
+      </Section>
 
       {/* ========== Closing ========== */}
-      <section className="bg-[#1E3A8A] text-white px-6 md:px-10 py-10 md:py-14">
-        <div className="max-w-6xl mx-auto flex items-end justify-between gap-6">
-          <h2 className="font-black text-[clamp(2rem,5vw,3.5rem)] leading-[0.95]">
-            We are just getting started.
-          </h2>
-          <Image
-            src="/logo-transparent.png"
-            alt="Evict ICE from 250 Delaware"
-            width={120}
-            height={30}
-            className="w-20 md:w-28 h-auto shrink-0 brightness-0 invert"
-          />
-        </div>
-      </section>
+      <Section
+        variant="blue"
+        pad="compact"
+        innerClassName="flex items-end justify-between gap-6"
+      >
+        <h2 className="font-black text-[clamp(2rem,5vw,3.5rem)] leading-[0.95]">
+          We are just getting started.
+        </h2>
+        <Image
+          src="/logo-transparent.png"
+          alt="Evict ICE from 250 Delaware"
+          width={120}
+          height={30}
+          className="w-20 md:w-28 h-auto shrink-0 brightness-0 invert"
+        />
+      </Section>
     </main>
   );
 }

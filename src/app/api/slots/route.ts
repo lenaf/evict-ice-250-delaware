@@ -3,16 +3,21 @@ import { supabaseAdmin } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 
-// GET /api/slots — list upcoming slots with signup counts
-export async function GET() {
+// GET /api/slots — list slots with signup counts.
+// Defaults to upcoming only; pass ?range=all to include past events too.
+export async function GET(request: Request) {
+  const includeAll =
+    new URL(request.url).searchParams.get("range") === "all";
   const today = new Date().toISOString().split("T")[0];
 
-  const { data: slots, error } = await supabaseAdmin
+  let query = supabaseAdmin
     .from("slots")
     .select("*")
-    .gte("date", today)
     .order("date", { ascending: true })
     .order("start_time", { ascending: true });
+  if (!includeAll) query = query.gte("date", today);
+
+  const { data: slots, error } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -29,7 +34,7 @@ export async function GET() {
     countMap[row.slot_id] = (countMap[row.slot_id] || 0) + 1;
   }
 
-  const slotsWithCounts = slots.map((slot) => ({
+  const slotsWithCounts = (slots ?? []).map((slot) => ({
     ...slot,
     signup_count: countMap[slot.id] || 0,
   }));

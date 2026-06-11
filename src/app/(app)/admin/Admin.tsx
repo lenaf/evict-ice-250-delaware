@@ -86,7 +86,7 @@ export const Admin: React.FC = () => {
               setEditingSlot(undefined);
               setShowForm(true);
             }}
-            className="bg-[#DC2626] hover:bg-black text-white font-bold text-sm py-2 px-5 transition-colors cursor-pointer"
+            className="bg-[#DC2626] hover:opacity-80 text-white font-bold text-sm py-2 px-5 transition cursor-pointer"
           >
             + New Slot
           </button>
@@ -144,7 +144,7 @@ export const Admin: React.FC = () => {
                           onClick={() =>
                             setExpandedSlot(expandedSlot === slot.id ? null : slot.id)
                           }
-                          className="text-xs font-bold text-[#1E3A8A] hover:text-black px-2 py-1 border border-[#1E3A8A] hover:border-black transition-colors cursor-pointer"
+                          className="text-xs font-bold text-[#1E3A8A] hover:text-black px-2 py-1 border border-[#1E3A8A] hover:border-black transition cursor-pointer"
                         >
                           {expandedSlot === slot.id ? "Hide" : "Signups"}
                         </button>
@@ -153,13 +153,13 @@ export const Admin: React.FC = () => {
                             setEditingSlot(slot);
                             setShowForm(true);
                           }}
-                          className="text-xs font-bold text-black/50 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition-colors cursor-pointer"
+                          className="text-xs font-bold text-black/50 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(slot.id)}
-                          className="text-xs font-bold text-[#DC2626] hover:text-white hover:bg-[#DC2626] px-2 py-1 border border-[#DC2626] transition-colors cursor-pointer"
+                          className="text-xs font-bold text-[#DC2626] hover:opacity-80 px-2 py-1 border border-[#DC2626] transition cursor-pointer"
                         >
                           Delete
                         </button>
@@ -197,7 +197,7 @@ export const Admin: React.FC = () => {
                           onClick={() =>
                             setExpandedSlot(expandedSlot === slot.id ? null : slot.id)
                           }
-                          className="text-xs font-bold text-black/40 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition-colors cursor-pointer"
+                          className="text-xs font-bold text-black/40 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
                         >
                           {expandedSlot === slot.id ? "Hide" : "Signups"}
                         </button>
