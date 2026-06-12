@@ -10,6 +10,11 @@ interface SwipeCarouselProps {
   tone?: "light" | "dark";
   /** Gap utility classes between items. */
   gapClassName?: string;
+  /** Max-width utility for the track (default centers at max-w-6xl). Pass
+   *  "max-w-none" to let the strip span the full width. */
+  maxWidthClassName?: string;
+  /** Horizontal padding of the arrow gutter (default "px-10 md:px-16"). */
+  paddingClassName?: string;
 }
 
 // Shared swipeable horizontal strip: native scroll/swipe with prev/next arrows
@@ -21,6 +26,8 @@ export const SwipeCarousel: React.FC<SwipeCarouselProps> = ({
   ariaLabel,
   tone = "dark",
   gapClassName = "gap-4 md:gap-6",
+  maxWidthClassName = "max-w-6xl",
+  paddingClassName = "px-10 md:px-16",
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [pageCount, setPageCount] = useState(1);
@@ -85,7 +92,7 @@ export const SwipeCarousel: React.FC<SwipeCarouselProps> = ({
 
   return (
     <div>
-      <div className="relative px-10 md:px-16">
+      <div className={`relative ${paddingClassName}`}>
         {hasPages && !atStart && (
           <button
             onClick={() => scrollByDir(-1)}
@@ -96,7 +103,7 @@ export const SwipeCarousel: React.FC<SwipeCarouselProps> = ({
           </button>
         )}
 
-        <div className="max-w-6xl mx-auto">
+        <div className={`${maxWidthClassName} mx-auto`}>
           <div
             ref={trackRef}
             className={`flex ${gapClassName} overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
