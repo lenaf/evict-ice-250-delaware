@@ -60,6 +60,7 @@ const sponsors: Sponsor[] = [
   { src: "/sponsors/rights-of-nature-wny.png", name: "Rights of Nature WNY", href: "https://www.wnyea.org/rights-of-nature.html", size: "lg" },
   { src: "/sponsors/panys.webp", name: "Peace Action New York State", href: "https://www.panys.org/", size: "md" },
   { src: "/sponsors/east-side-stewards.png", name: "East Side Stewards", href: "https://www.eastsidestewards.com/", size: "lg" },
+  { src: "/sponsors/do-something-southtowns.jpeg", name: "Do Something! Southtowns", href: "https://dosomethingsouthtowns.org/", size: "lg" },
 ];
 
 // Each logo fills its grid cell and centers; the image is capped by height (its
