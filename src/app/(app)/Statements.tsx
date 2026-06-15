@@ -143,7 +143,7 @@ export const Statements: React.FC = () => {
         {statements.map((statement, i) => (
           <figure
             key={statement.org}
-            className="shrink-0 snap-start w-[82vw] md:w-[calc(50%-1.25rem)] px-8 md:px-0 flex flex-col"
+            className="shrink-0 snap-center md:snap-start w-[82vw] md:w-[calc(50%-1.25rem)] px-8 md:px-0 flex flex-col"
           >
             <svg
               aria-hidden
