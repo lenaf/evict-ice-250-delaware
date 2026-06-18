@@ -127,7 +127,7 @@ export default async function DonatePage({
             >
               {CONTACT_EMAIL}
             </a>
-            . All contributions are tax-deductible.
+            . 
           </p>
         </div>
       </div>
