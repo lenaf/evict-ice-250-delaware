@@ -21,6 +21,11 @@ const funds = [
     rest: " for demonstrations and community education programs",
     body: "We're out in front of 250 Delaware Ave every Tuesday from 4:30–5:30pm and we co-host regular workshops with campaign co-sponsors. That takes time, materials, and resources — your contribution makes it a reality.",
   },
+  {
+    lead: "Legal Support",
+    rest: "",
+     body: "We are training Buffalo residents and a new generation of community organizers to confront authoritarianism through non-violent direct action. Giving to this will ensure we receive adequate legal advice to keep community members safe before and after each demonstration."
+  }
 ];
 
 const photos = [
