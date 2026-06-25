@@ -21,9 +21,9 @@ interface SectionProps {
 
 // One source of truth for section gutters + width across the app.
 const GUTTER = "px-6 md:px-10";
-const BODY_PAD = "py-14 md:py-20";
-const COMPACT_PAD = "py-10 md:py-14"; // short accent bands
-const HERO_PAD = "pt-28 md:pt-32 pb-14 md:pb-20"; // clears the sticky header
+const BODY_PAD = "py-10 md:py-14";
+const COMPACT_PAD = "py-6 md:py-10"; // short accent bands
+const HERO_PAD = "pt-20 md:pt-24 pb-10 md:pb-14"; // clears the sticky header
 
 const variantConfig: Record<
   SectionVariant,

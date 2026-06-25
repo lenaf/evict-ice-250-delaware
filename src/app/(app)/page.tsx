@@ -294,7 +294,7 @@ export default function Home() {
           We are just getting started.
         </h2>
         <Image
-          src="/logo-transparent.png"
+          src="/logos/evict-ice/logo-transparent.png"
           alt="Evict ICE from 250 Delaware"
           width={120}
           height={30}
