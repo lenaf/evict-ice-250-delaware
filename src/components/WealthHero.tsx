@@ -33,7 +33,7 @@ export const WealthHero: React.FC<WealthHeroProps> = ({
     </div>
 
     {/* Faces over a soft money-bag bed (no border) */}
-    <div className="relative py-6 md:py-10">
+    <div className="relative pt-6 md:pt-10 -mb-4 md:-mb-6">
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden opacity-[0.18] [mask-image:radial-gradient(ellipse_at_center,black,transparent_85%)]"
         aria-hidden="true"
