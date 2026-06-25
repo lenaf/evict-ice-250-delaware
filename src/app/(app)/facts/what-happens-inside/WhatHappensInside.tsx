@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { SourceLink } from "../SourceLink";
+import { FactsReadNext } from "@/components/FactsReadNext";
 
 export const WhatHappensInside: React.FC = () => {
   return (
@@ -20,20 +21,6 @@ export const WhatHappensInside: React.FC = () => {
           <strong className="">machinery of terror</strong> across all of
           western and upstate New York.
         </p>
-        <div className="flex justify-between text-sm border-t border-white/20 pt-6">
-          <Link
-            href="/facts"
-            className="uppercase tracking-wider font-light text-white hover:text-[#DC2626] transition"
-          >
-            &larr; The Facts
-          </Link>
-          <Link
-            href="/facts/who-profits"
-            className="uppercase tracking-wider font-light text-white hover:text-[#DC2626] transition"
-          >
-            Next: Who Profits &rarr;
-          </Link>
-        </div>
       </Section>
 
       {/* ========== COMMAND CENTER ========== */}
@@ -67,7 +54,7 @@ export const WhatHappensInside: React.FC = () => {
             </p>
           </div>
         </div>
-        <p className="font-light text-xs text-white mt-10 pt-4 border-t border-white/20">
+        <p className="font-light text-xs text-white/50 mt-4">
           Source:{" "}
           <SourceLink
             href="https://www.ice.gov/contact/field-offices"
@@ -149,7 +136,7 @@ export const WhatHappensInside: React.FC = () => {
           Louisiana, Texas, Ohio, Florida&mdash;far from families, lawyers,
           and communities.
         </p>
-        <p className="font-light text-xs text-black mt-10 pt-4 border-t border-black/20">
+        <p className="font-light text-xs text-black/40 mt-4">
           Source:{" "}
           <SourceLink
             href="https://deportationdata.org"
@@ -194,7 +181,7 @@ export const WhatHappensInside: React.FC = () => {
             </span>
           </li>
         </ul>
-        <p className="font-light text-xs text-white mt-10 pt-4 border-t border-white/20">
+        <p className="font-light text-xs text-white/50 mt-4">
           Source:{" "}
           <SourceLink
             href="https://investigativepost.org/2026/04/14/upstate-ny-ice-arrests-surge-under-trump/"
@@ -233,7 +220,7 @@ export const WhatHappensInside: React.FC = () => {
           After more than a month in detention a federal judge ordered her release, 
           ruling that ICE had violated her due process rights.
         </p>
-        <p className="font-light text-xs text-black mt-10 pt-4 border-t border-black/20">
+        <p className="font-light text-xs text-black/40 mt-4">
           Sources:{" "}
           <SourceLink
             href="https://www.nytimes.com/2025/02/15/us/ice-check-ins-arrests.html"
@@ -298,7 +285,7 @@ export const WhatHappensInside: React.FC = () => {
           Others are transferred thousands of miles away to Texas, Louisiana,
           Ohio, and Florida&mdash;severing them from their support systems.
         </p>
-        <p className="font-light text-xs text-white mt-10 pt-4 border-t border-white/20">
+        <p className="font-light text-xs text-white/50 mt-4">
           Sources:{" "}
           <SourceLink
             href="https://www.ice.gov/remove/removal"
@@ -356,7 +343,7 @@ export const WhatHappensInside: React.FC = () => {
         <p className="font-black text-lg md:text-xl uppercase tracking-wide mb-6">
           Everything collected. Everything analyzed. All from this address.
         </p>
-        <p className="font-light text-xs text-white mt-10 pt-4 border-t border-white/20">
+        <p className="font-light text-xs text-white/50 mt-4">
           Sources:{" "}
           <SourceLink href="https://www.404media.co" label="404 Media" />
           {", "}
@@ -384,6 +371,12 @@ export const WhatHappensInside: React.FC = () => {
           We can end this.
         </p>
       </Section>
+
+      <FactsReadNext
+        title="Who Profits"
+        description="The Montante family collects $2 million a year from ICE for housing operations at 250 Delaware. The lease is theirs to renew — or not."
+        href="/facts/who-profits"
+      />
 
       {/* ========== CTA ========== */}
       <Section variant="black">

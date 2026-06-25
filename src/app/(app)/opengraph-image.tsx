@@ -8,7 +8,7 @@ export const contentType = "image/png";
 
 export default async function OGImage() {
   const logoData = await readFile(
-    join(process.cwd(), "public", "logo-transparent.png")
+    join(process.cwd(), "public", "logos", "evict-ice", "logo-transparent.png")
   );
   const logoSrc = `data:image/png;base64,${logoData.toString("base64")}`;
 

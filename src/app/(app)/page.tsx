@@ -183,70 +183,80 @@ export default function Home() {
 
       {/* ========== The Facts ========== */}
       <Section variant="white" id="facts" className="scroll-mt-14">
-        <div className="flex items-end justify-between mb-10">
-          <h2 className="font-black text-3xl md:text-4xl">The Facts</h2>
-          <Link
-            href="/facts"
-            className="text-[#DC2626] font-black text-sm uppercase tracking-wider hover:text-black transition"
-          >
-            Read more &rarr;
-          </Link>
-        </div>
+        <h2 className="font-black text-3xl md:text-4xl mb-10">The Facts</h2>
         <div className="grid md:grid-cols-2 gap-10">
-            <div className="border-l-2 border-[#1E3A8A] pl-6">
-              <h3 className="font-black text-xl md:text-2xl uppercase text-[#1E3A8A] mb-4">
-                Buffalo DHS Operations
-              </h3>
-              <ul className="space-y-4 text-base leading-relaxed text-black">
-                <li>
-                  Downtown Buffalo&apos;s 250 Delaware Avenue houses four ICE
-                  offices that control operations, detention management,
-                  reporting, logistics, and administration for all of New York
-                  State outside of NYC.
-                </li>
-                <li>
-                  Every ICE action in Western New York, Central New York, the
-                  Finger Lakes, Southern Tier, North Country, Mohawk Valley,
-                  Capital Region, and Mid-Hudson — all of it — is coordinated
-                  from 250 Delaware.
-                </li>
-                <li>
-                  And it&apos;s not just coordination and administration — 250
-                  Delaware has{" "}
-                  <span className="text-[#DC2626] font-bold">
-                    holding cells
-                  </span>{" "}
-                  where
-                  <span className="text-black font-bold">
-                    {" "}
-                    adults and children are held for days before transfer or
-                    deportation.
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div className="border-l-2 border-[#DC2626] pl-6">
-              <h3 className="font-black text-xl md:text-2xl uppercase text-[#DC2626] mb-4">
-                Who Owns 250 Delaware
-              </h3>
-              <ul className="space-y-4 text-base leading-relaxed text-black">
-                <li>
-                  Uniland Development (the Montante family) owns the building
-                  and Delaware North (the Jacobs family) is the anchor tenant.
-                  In 2013, the Erie County Industrial Development Agency
-                  approved $9.6 million in property and sales tax breaks for
-                  this project — public money that subsidized a building now
-                  profiting from ICE operations.
-                </li>
-                <li>
-                  Today, Uniland collects $2 million per year from ICE&apos;s
-                  lease, while taxpayers continue to subsidize the building
-                  through generous tax abatement that cost Buffalo and Erie
-                  County $791,000 in 2024 alone.
-                </li>
-              </ul>
+          <div className="border-l-2 border-[#1E3A8A] pl-6">
+            <h3 className="font-black text-xl md:text-2xl uppercase text-[#1E3A8A] mb-4">
+              What Happens Inside
+            </h3>
+            <ul className="space-y-4 text-base leading-relaxed text-black">
+              <li>
+                Downtown Buffalo&apos;s 250 Delaware Avenue houses four ICE
+                offices that control operations, detention management,
+                reporting, logistics, and administration for all of New York
+                State outside of NYC.
+              </li>
+              <li>
+                Every ICE action in Western New York, Central New York, the
+                Finger Lakes, Southern Tier, North Country, Mohawk Valley,
+                Capital Region, and Mid-Hudson — all of it — is coordinated
+                from 250 Delaware.
+              </li>
+              <li>
+                And it&apos;s not just coordination and administration — 250
+                Delaware has{" "}
+                <span className="text-[#DC2626] font-bold">holding cells</span>{" "}
+                where
+                <span className="text-black font-bold">
+                  {" "}
+                  adults and children are held for days before transfer or
+                  deportation.
+                </span>
+              </li>
+            </ul>
+            <Link
+              href="/facts/what-happens-inside"
+              className="inline-block mt-5 font-black text-sm uppercase tracking-wider text-black hover:text-[#DC2626] transition"
+            >
+              Read more &rarr;
+            </Link>
+          </div>
+          <div className="border-l-2 border-[#DC2626] pl-6">
+            <h3 className="font-black text-xl md:text-2xl uppercase text-[#DC2626] mb-4">
+              Who Owns 250 Delaware
+            </h3>
+            <ul className="space-y-4 text-base leading-relaxed text-black">
+              <li>
+                Uniland Development (the Montante family) owns the building
+                and Delaware North (the Jacobs family) is the anchor tenant.
+                In 2013, the Erie County Industrial Development Agency
+                approved $9.6 million in property and sales tax breaks for
+                this project — public money that subsidized a building now
+                profiting from ICE operations.
+              </li>
+              <li>
+                Today, Uniland collects $2 million per year from ICE&apos;s
+                lease, while taxpayers continue to subsidize the building
+                through generous tax abatement that cost Buffalo and Erie
+                County $791,000 in 2024 alone.
+              </li>
+            </ul>
+            <div className="mt-5 flex flex-col gap-2">
+              <Link
+                href="/facts/who-profits"
+                className="font-black text-sm uppercase tracking-wider text-black hover:text-[#DC2626] transition"
+              >
+                Read more about Uniland and the Montantes &rarr;
+              </Link>
+              <Link
+                href="/facts/who-pulls-the-strings"
+                className="font-black text-sm uppercase tracking-wider text-black hover:text-[#DC2626] transition"
+              >
+                Read more about Delaware North and the Jacobs &rarr;
+              </Link>
             </div>
           </div>
+        </div>
       </Section>
 
       {/* ========== Join Form ========== */}

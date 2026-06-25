@@ -9,7 +9,7 @@ export function Footer() {
         </p>
         <nav className="flex items-center gap-6 text-xs uppercase tracking-wider">
           <Link href="/donate" className="text-white/40 hover:text-[#FFD600] transition">Donate</Link>
-          <Link href="/facts" className="text-white/40 hover:text-[#FFD600] transition">The Facts</Link>
+          <Link href="/#facts" className="text-white/40 hover:text-[#FFD600] transition">The Facts</Link>
           <Link href="#join" className="text-white/40 hover:text-[#FFD600] transition">Join Us</Link>
           <a
             href="https://www.instagram.com/evictice250delaware/"
