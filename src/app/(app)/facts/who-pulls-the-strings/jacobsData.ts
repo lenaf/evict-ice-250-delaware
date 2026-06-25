@@ -1,4 +1,4 @@
-import type { AffiliationEntry, PersonData, WealthRef } from "@/types/affiliation";
+import type { AffiliationEntry, PersonData } from "@/types/affiliation";
 import type { PowerMapDonation } from "@/components/PowerMap";
 
 export const JACOBS_PEOPLE: PersonData[] = [
@@ -120,27 +120,6 @@ export const JACOBS_PEOPLE: PersonData[] = [
 
 // Short labels for each person, indexed to match JACOBS_PEOPLE order.
 export const JACOBS_SHORT_NAMES = ["Jeremy Sr.", "Jerry Jr.", "Lou", "Charlie"];
-
-// Verified wealth references shown under each photo. Only Jeremy Sr. has a
-// documented personal net worth (Forbes); the sons share the family fortune.
-export const JACOBS_WEALTH: Record<string, WealthRef> = {
-  "Jeremy Sr.": {
-    label: "Buffalo's only Forbes billionaire · ~$4.6B (2025)",
-    href: "https://buffalonews.com/news/local/business/jeremy-jacobs-sr-is-buffalo-niagaras-only-billionaire-forbes-says/article_26f0bac8-0aa3-5cc9-bee5-f398a84c3766.html",
-  },
-  "Jerry Jr.": {
-    label: "Co-CEO of family-owned Delaware North",
-    href: "https://www.delawarenorth.com/who-we-are/executive-team/",
-  },
-  Lou: {
-    label: "Co-CEO of family-owned Delaware North",
-    href: "https://www.delawarenorth.com/who-we-are/executive-team/",
-  },
-  Charlie: {
-    label: "CEO of the Boston Bruins · shares the family fortune",
-    href: "https://en.wikipedia.org/wiki/Charlie_Jacobs",
-  },
-};
 
 // Top political donations shown as edges in the power map (verified figures).
 export const JACOBS_DONATIONS: PowerMapDonation[] = [

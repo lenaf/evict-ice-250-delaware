@@ -12,11 +12,10 @@ import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { FactsReadNext } from "@/components/FactsReadNext";
 import Link from "next/link";
-import { toPowerMapPeople, toWealthPeople } from "../peopleMappers";
+import { toPowerMapPeople, toHeroPeople } from "../peopleMappers";
 import {
   MONTANTE_PEOPLE,
   MONTANTE_SHORT_NAMES,
-  MONTANTE_WEALTH,
   MONTANTE_DONATIONS,
   MONTANTE_AFFILIATIONS,
 } from "./montanteData";
@@ -27,17 +26,8 @@ export const WhoProfits: React.FC = () => {
       {/* ========== WEALTH / FAMILY INTRO ========== */}
       <Section variant="black" hero>
         <WealthHero
-          title="The Montante Family"
-          watermark="/illustrations/ice-badge.svg"
-          bigStat={{
-            amount: "$2.5M / year",
-            label: (
-              <>
-                to Uniland from ICE &amp; CBP rent at 250 Delaware — more than
-                $11 million since 2002
-              </>
-            ),
-          }}
+          question="Who Profits?"
+          family="The Montante Family"
           lede={
             <>
               Through Uniland Development —{" "}
@@ -62,11 +52,7 @@ export const WhoProfits: React.FC = () => {
               . The lease is theirs to renew.
             </>
           }
-          people={toWealthPeople(
-            MONTANTE_PEOPLE,
-            MONTANTE_SHORT_NAMES,
-            MONTANTE_WEALTH
-          )}
+          people={toHeroPeople(MONTANTE_PEOPLE)}
         />
       </Section>
 

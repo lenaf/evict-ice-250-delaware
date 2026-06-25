@@ -1,4 +1,4 @@
-import type { AffiliationEntry, PersonData, WealthRef } from "@/types/affiliation";
+import type { AffiliationEntry, PersonData } from "@/types/affiliation";
 import type { PowerMapDonation } from "@/components/PowerMap";
 
 export const MONTANTE_PEOPLE: PersonData[] = [
@@ -146,27 +146,6 @@ export const MONTANTE_PEOPLE: PersonData[] = [
 
 // Short labels for each person, indexed to match MONTANTE_PEOPLE order.
 export const MONTANTE_SHORT_NAMES = ["Carl Sr.", "Michael", "Laura", "Carl Jr."];
-
-// Verified wealth / scale references shown under each photo. No public personal
-// net worth exists for the Montantes — anchored to Uniland's documented scale.
-export const MONTANTE_WEALTH: Record<string, WealthRef> = {
-  "Carl Sr.": {
-    label: "Co-founded Uniland — WNY's largest developer, 16.5M+ sq ft",
-    href: "https://uniland.com/unillargest-commercial-real-estate-developer-2025/",
-  },
-  Michael: {
-    label: "CEO of Uniland · #21 on Buffalo's Power 250 (2026)",
-    href: "https://uniland.com/buffalo-power-250-2026/",
-  },
-  Laura: {
-    label: "VP, Uniland · Buffalo Power 200 Women honoree",
-    href: "https://uniland.com/laura-zaepfel-power-200-women-2024/",
-  },
-  "Carl Jr.": {
-    label: "VP, Uniland — WNY's largest commercial developer",
-    href: "https://uniland.com/carl-j-montante-jr/",
-  },
-};
 
 // Top political donations shown as edges in the power map (verified, NYSBOE/FEC).
 export const MONTANTE_DONATIONS: PowerMapDonation[] = [

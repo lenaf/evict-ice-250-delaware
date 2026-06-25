@@ -14,11 +14,10 @@ import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { FactsReadNext } from "@/components/FactsReadNext";
 
-import { toPowerMapPeople, toWealthPeople } from "../peopleMappers";
+import { toPowerMapPeople, toHeroPeople } from "../peopleMappers";
 import {
   JACOBS_PEOPLE,
   JACOBS_SHORT_NAMES,
-  JACOBS_WEALTH,
   JACOBS_DONATIONS,
   JACOBS_AFFILIATIONS,
 } from "./jacobsData";
@@ -28,17 +27,8 @@ export const WhoPullsTheStrings: React.FC = () => {
       {/* ========== WEALTH / FAMILY INTRO ========== */}
       <Section variant="black" hero>
         <WealthHero
-          title="The Jacobs Family"
-          bigStat={{
-            amount: "$4.6B",
-            label: (
-              <>
-                Jeremy Jacobs Sr.&apos;s fortune (Forbes, 2025) — and the
-                family&apos;s global HQ sits directly above the ICE field office
-                at 250 Delaware
-              </>
-            ),
-          }}
+          question="Who Pulls the Strings?"
+          family="The Jacobs Family"
           lede={
             <>
               The Jacobs family owns Delaware North outright, and Jeremy Jacobs
@@ -70,7 +60,7 @@ export const WhoPullsTheStrings: React.FC = () => {
               that bears their name.
             </>
           }
-          people={toWealthPeople(JACOBS_PEOPLE, JACOBS_SHORT_NAMES, JACOBS_WEALTH)}
+          people={toHeroPeople(JACOBS_PEOPLE)}
         />
       </Section>
 

@@ -1,6 +1,6 @@
-import type { PersonData, WealthRef } from "@/types/affiliation";
+import type { PersonData } from "@/types/affiliation";
 import type { PowerMapPerson } from "@/components/PowerMap";
-import type { WealthPerson } from "@/components/WealthHero";
+import type { HeroPerson } from "@/components/WealthHero";
 
 // Family PersonData[] → PowerMap node people (tagged with the short name).
 export function toPowerMapPeople(
@@ -17,16 +17,11 @@ export function toPowerMapPeople(
   }));
 }
 
-// Family PersonData[] → WealthHero faces (tagged with the wealth reference).
-export function toWealthPeople(
-  people: PersonData[],
-  shortNames: string[],
-  wealth: Record<string, WealthRef>
-): WealthPerson[] {
-  return people.map((p, i) => ({
+// Family PersonData[] → WealthHero faces (just name, title, photo).
+export function toHeroPeople(people: PersonData[]): HeroPerson[] {
+  return people.map((p) => ({
     name: p.name,
     title: p.title,
     photo: p.photo,
-    wealth: wealth[shortNames[i]],
   }));
 }
