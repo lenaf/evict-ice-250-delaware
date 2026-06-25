@@ -46,7 +46,7 @@ const TYPE_LABEL: Record<FilterType, string> = {
   arts: "Arts",
   education: "Education",
   business: "Business",
-  civic: "Civic & Faith",
+  civic: "Civic",
 };
 
 const JURISDICTION_LABEL: Record<Jurisdiction, string> = {
@@ -628,56 +628,31 @@ export const PowerMap: React.FC<PowerMapProps> = ({
 
   return (
     <div>
-      {/* Area selector — above the map */}
-      <p className="mb-4 text-xs font-black uppercase tracking-widest text-white/40">
-        Click an area of power to focus the map
+      {/* Area selector — a row of toggle buttons above the map */}
+      <p className="mb-3 text-xs font-black uppercase tracking-widest text-white/40">
+        Click an area to focus the network
       </p>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-5 mb-6">
-        <button
-          onClick={() => setTypes(new Set())}
-          className="text-left cursor-pointer group"
-        >
-          <span
-            className={`block font-black text-sm uppercase tracking-wider transition ${
-              types.size === 0
-                ? "text-[#FFD600]"
-                : "text-white group-hover:text-[#FFD600]"
-            }`}
-          >
-            All
-          </span>
-          <span className="mt-1 block text-xs leading-snug text-white/45">
-            The full web
-          </span>
-        </button>
-        {areaOptions.map((t) => {
-          const on = types.has(t);
+      <div className="flex flex-wrap gap-2 mb-6">
+        {(() => {
+          const chip = (active: boolean) =>
+            `text-sm font-black uppercase tracking-wider px-4 py-2 border-2 transition cursor-pointer ${
+              active
+                ? "bg-[#FFD600] text-black border-[#FFD600]"
+                : "bg-transparent text-white/70 border-white/25 hover:border-white/60"
+            }`;
           return (
-            <button
-              key={t}
-              onClick={() => selectArea(t)}
-              className="text-left cursor-pointer group"
-            >
-              <span
-                className={`block font-black text-sm uppercase tracking-wider transition ${
-                  on ? "text-[#FFD600]" : "text-white group-hover:text-[#FFD600]"
-                }`}
-              >
-                {TYPE_LABEL[t]}
-              </span>
-              {areas?.[t]?.stat && (
-                <span className="mt-1 block text-xs font-black text-[#FFD600]/80 leading-snug">
-                  {areas[t]!.stat}
-                </span>
-              )}
-              {areas?.[t]?.blurb && (
-                <span className="mt-0.5 block text-xs leading-snug text-white/45">
-                  {areas[t]!.blurb}
-                </span>
-              )}
-            </button>
+            <>
+              <button onClick={() => setTypes(new Set())} className={chip(types.size === 0)}>
+                All
+              </button>
+              {areaOptions.map((t) => (
+                <button key={t} onClick={() => selectArea(t)} className={chip(types.has(t))}>
+                  {TYPE_LABEL[t]}
+                </button>
+              ))}
+            </>
           );
-        })}
+        })()}
       </div>
 
       {/* Focused-area summary, shown above the map */}

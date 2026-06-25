@@ -237,7 +237,7 @@ export const WhoPullsTheStrings: React.FC = () => {
 
       {/* ========== WEB OF POWER ========== */}
       <Section variant="black" className="border-t border-white/10">
-        <SectionHeading>The Web of Power</SectionHeading>
+        <SectionHeading>Network of Influence</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
           And with the public subsidies and a billion-dollar fortune behind
           them, the Jacobses feed money back into the politicians and

@@ -35,13 +35,11 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   },
   politician: {
     blurb: "Governors & local officials",
-    stat: "$290,000+ to politicians",
+    stat: "$284,467+ to state and local politians between 2015-2024",
     summary: (
       <>
-        Carl Montante and Laura Zaepfel have given more than $220,000 to New
-        York politicians since 1999 — to Governors Pataki, Spitzer, Paterson,
-        Cuomo and Hochul, the officials who control development approvals and
-        the lease at 250 Delaware.
+        The family has been very generous to Governors Pataki, Spitzer, Paterson,
+        Cuomo and Hochul.
       </>
     ),
   },
@@ -89,26 +87,11 @@ export const WhoProfits: React.FC = () => {
           family="The Montante Family"
           lede={
             <>
-              Through Uniland Development —{" "}
-              <strong className="text-[#FFD600]">
-                Western New York&apos;s largest commercial developer
-              </strong>{" "}
-              — the Montantes are among{" "}
-              <SourceLink
-                href="https://littlesis.org/news/buffalos-immigrant-detention-profiteers/"
-                label="Buffalo's biggest immigrant-detention profiteers"
-              />
-              . They collect{" "}
-              <strong className="text-[#FFD600]">$2.5 million a year</strong>{" "}
-              from ICE and CBP to house their operations at 250 Delaware and 300
-              Airborne Parkway, and have taken in{" "}
-              <strong className="text-[#FFD600]">more than $11 million</strong>{" "}
-              since 2002 — in a building handed{" "}
-              <SourceLink
-                href="https://news.wbfo.org/post/uniland-receives-tax-breaks-delawarechippewa-project"
-                label="$9.6 million in public tax breaks"
-              />
-              . The lease is theirs to renew.
+              The Montante family own Uniland Development, the largest commercial real estate development company ins Western NY.
+              They make $1.95 million a year in rent from ICE.
+              Plus another $.56 million a year in rent from Customs and Border Protection.
+              All in, they profit $2.5 million a year from immigration enforcement.
+              
             </>
           }
           people={toHeroPeople(MONTANTE_PEOPLE)}
@@ -118,7 +101,9 @@ export const WhoProfits: React.FC = () => {
       {/* ========== TAX BREAKS ========== */}
       <Section variant="black" className="border-t border-white/10">
         <SectionHeading>
-          Despite the wealth, they still take the handouts.
+          They profit at the expense of our community safety. Yet they managed
+          to get a deal to take our tax dollars to &ldquo;benefit the
+          community.&rdquo;
         </SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-10">
           250 Delaware was built with{" "}
@@ -168,7 +153,7 @@ export const WhoProfits: React.FC = () => {
 
       {/* ========== WEB OF POWER ========== */}
       <Section variant="black" className="border-t border-white/10">
-        <SectionHeading>The Web of Power</SectionHeading>
+        <SectionHeading>Network of Influence</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
           And with the public subsidies and personal wealth in hand, the
           Montantes feed money back into the institutions and politicians that
