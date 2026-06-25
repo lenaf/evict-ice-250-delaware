@@ -23,9 +23,11 @@ export interface PowerMapDonation {
   person: string; // matches PowerMapPerson.shortName
   recipient: string; // politician / committee name
   amount: string; // edge label, e.g. "$100,000"
+  period?: string; // when the amount was given, e.g. "2016" or "since 1999"
   jurisdiction: Jurisdiction;
   detail?: string; // optional note shown in the modal
   href?: string;
+  photo?: string; // optional headshot for the politician node
 }
 
 // Which filter "type" each org category maps to.
@@ -208,6 +210,7 @@ function buildGraph(
         vx: 0,
         vy: 0,
         category: "government",
+        coverImage: d.photo,
         description: d.detail,
         href: d.href,
         donationDetail: d.detail,
@@ -218,13 +221,15 @@ function buildGraph(
       });
     }
     const node = orgMap.get(id)!;
-    node.connections!.push({ person: d.person, role: `${d.amount} in donations` });
+    if (!node.coverImage && d.photo) node.coverImage = d.photo;
+    const amountWithPeriod = d.period ? `${d.amount} (${d.period})` : d.amount;
+    node.connections!.push({ person: d.person, role: `${amountWithPeriod} in donations` });
     node.degree += 1;
     links.push({
       source: `person:${d.person}`,
       target: id,
       category: "government",
-      label: d.amount,
+      label: amountWithPeriod,
       kind: "donation",
     });
   }
@@ -340,10 +345,11 @@ function simulate(nodes: SimNode[], links: SimLink[]) {
   return nodes;
 }
 
-// Per-area editorial content: a short blurb under the chip and a longer
-// summary shown above the map when that area is focused.
+// Per-area editorial content: a short blurb + a headline stat under the label,
+// and a longer summary shown above the map when that area is focused.
 export interface AreaInfo {
   blurb: string;
+  stat?: string; // e.g. cumulative giving — "$290,000+ to politicians"
   summary?: React.ReactNode;
 }
 
@@ -460,11 +466,11 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
         />
         <text
           textAnchor="middle"
-          fontSize={14}
-          fontWeight={300}
+          fontSize={15}
+          fontWeight={700}
           fill="#fff"
           stroke="#000"
-          strokeWidth={2.5}
+          strokeWidth={4}
           paintOrder="stroke"
           style={{ fontFamily: "Inter, sans-serif" }}
         >
@@ -496,11 +502,11 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
       </text>
       <text
         textAnchor="middle"
-        fontSize={14}
-        fontWeight={300}
+        fontSize={15}
+        fontWeight={700}
         fill="#fff"
         stroke="#000"
-        strokeWidth={2.5}
+        strokeWidth={4}
         paintOrder="stroke"
         style={{ fontFamily: "Inter, sans-serif" }}
       >
@@ -620,6 +626,58 @@ export const PowerMap: React.FC<PowerMapProps> = ({
 
   return (
     <div>
+      {/* Area selector — above the map */}
+      <p className="mb-4 text-xs font-black uppercase tracking-widest text-white/40">
+        Click an area of power to focus the map
+      </p>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-5 mb-6">
+        <button
+          onClick={() => setTypes(new Set())}
+          className="text-left cursor-pointer group"
+        >
+          <span
+            className={`block font-black text-sm uppercase tracking-wider transition ${
+              types.size === 0
+                ? "text-[#FFD600]"
+                : "text-white group-hover:text-[#FFD600]"
+            }`}
+          >
+            All
+          </span>
+          <span className="mt-1 block text-xs leading-snug text-white/45">
+            The full web
+          </span>
+        </button>
+        {areaOptions.map((t) => {
+          const on = types.has(t);
+          return (
+            <button
+              key={t}
+              onClick={() => selectArea(t)}
+              className="text-left cursor-pointer group"
+            >
+              <span
+                className={`block font-black text-sm uppercase tracking-wider transition ${
+                  on ? "text-[#FFD600]" : "text-white group-hover:text-[#FFD600]"
+                }`}
+              >
+                {TYPE_LABEL[t]}
+              </span>
+              {areas?.[t]?.stat && (
+                <span className="mt-1 block text-xs font-black text-[#FFD600]/80 leading-snug">
+                  {areas[t]!.stat}
+                </span>
+              )}
+              {areas?.[t]?.blurb && (
+                <span className="mt-0.5 block text-xs leading-snug text-white/45">
+                  {areas[t]!.blurb}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Focused-area summary, shown above the map */}
       {activeArea && activeSummary && (
         <div className="mb-6 text-lg md:text-xl leading-relaxed text-white/80">
@@ -665,12 +723,12 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                       x={lx}
                       y={ly}
                       textAnchor="middle"
-                      fontSize={12.5}
-                      fontWeight={isDon ? 800 : 500}
+                      fontSize={13}
+                      fontWeight={isDon ? 800 : 700}
                       fill={isDon ? "#FFD600" : "#fff"}
-                      fillOpacity={isDon ? 1 : 0.75}
+                      fillOpacity={isDon ? 1 : 0.92}
                       stroke="#000"
-                      strokeWidth={3}
+                      strokeWidth={4}
                       paintOrder="stroke"
                       style={{ fontFamily: "Inter, sans-serif" }}
                     >
@@ -686,7 +744,11 @@ export const PowerMap: React.FC<PowerMapProps> = ({
           {nodes.map((n) => {
             const dim = !nodeVisible(n);
             return (
-              <g key={n.id} opacity={dim ? 0.12 : 1}>
+              <g
+                key={n.id}
+                opacity={dim ? 0.12 : 1}
+                style={{ pointerEvents: dim ? "none" : undefined }}
+              >
                 {n.type === "person" ? (
                   <PersonNodeG n={n} onClick={() => setSelected(n)} />
                 ) : (
@@ -696,38 +758,6 @@ export const PowerMap: React.FC<PowerMapProps> = ({
             );
           })}
         </svg>
-      </div>
-
-      {/* Area selector — click an area of power to focus the map */}
-      <p className="mt-8 mb-4 text-xs font-black uppercase tracking-widest text-white/40">
-        Click an area of power to focus the map{activeArea ? " · click again to clear" : ""}
-      </p>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-5">
-        {areaOptions.map((t) => {
-          const on = types.has(t);
-          return (
-            <button
-              key={t}
-              onClick={() => selectArea(t)}
-              className="text-left cursor-pointer group"
-            >
-              <span
-                className={`block font-black text-sm uppercase tracking-wider transition ${
-                  on
-                    ? "text-[#FFD600]"
-                    : "text-white group-hover:text-[#FFD600]"
-                }`}
-              >
-                {TYPE_LABEL[t]}
-              </span>
-              {areas?.[t]?.blurb && (
-                <span className="mt-1 block text-xs leading-snug text-white/45">
-                  {areas[t]!.blurb}
-                </span>
-              )}
-            </button>
-          );
-        })}
       </div>
 
       {/* Jurisdiction — secondary filter */}

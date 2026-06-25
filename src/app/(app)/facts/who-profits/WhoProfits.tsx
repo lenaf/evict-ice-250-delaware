@@ -22,6 +22,7 @@ import {
 const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   civic: {
     blurb: "The Catholic Church",
+    stat: "25+ yrs on the Bishop's Council",
     summary: (
       <>
         Carl Montante Sr. sat on the Diocese of Buffalo&apos;s Bishop&apos;s
@@ -34,6 +35,7 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   },
   politician: {
     blurb: "Governors & local officials",
+    stat: "$290,000+ to politicians",
     summary: (
       <>
         Carl Montante and Laura Zaepfel have given more than $220,000 to New
@@ -45,6 +47,7 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   },
   education: {
     blurb: "Catholic schools",
+    stat: "Buildings on 3 campuses",
     summary: (
       <>
         Uniland built academic halls, a field house and student housing for
@@ -55,6 +58,7 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   },
   arts: {
     blurb: "Buffalo Philharmonic",
+    stat: "$1.5M to the BPO",
     summary: (
       <>
         Carl Montante Sr. is a past chairman of the Buffalo Philharmonic

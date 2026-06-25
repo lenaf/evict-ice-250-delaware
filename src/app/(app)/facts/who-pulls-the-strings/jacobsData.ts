@@ -123,11 +123,11 @@ export const JACOBS_SHORT_NAMES = ["Jeremy Sr.", "Jerry Jr.", "Lou", "Charlie"];
 
 // Top political donations shown as edges in the power map (verified figures).
 export const JACOBS_DONATIONS: PowerMapDonation[] = [
-  { person: "Jeremy Sr.", recipient: "Trump Victory", amount: "$100,000", jurisdiction: "federal", detail: "Jeremy Jacobs Sr. to Trump's 2016 joint fundraising committee.", href: "https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North" },
-  { person: "Jeremy Sr.", recipient: "Gov. Kathy Hochul", amount: "$401,854 (family)", jurisdiction: "state", detail: "Family total to Hochul's campaigns since 1999 (NY State Board of Elections).", href: "https://data.ny.gov/d/4j2b-6a2j" },
-  { person: "Jeremy Sr.", recipient: "Republican National Committee", amount: "$33,400", jurisdiction: "federal", detail: "Jeremy Jacobs Sr., 2016 cycle.", href: "https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North" },
-  { person: "Jerry Jr.", recipient: "Rep. Hakeem Jeffries", amount: "$17,000 (family)", jurisdiction: "federal", detail: "U.S. House Democratic Leader · family total.", href: "https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North" },
-  { person: "Charlie", recipient: "Mass. Democratic Party", amount: "$20,000", jurisdiction: "state", detail: "Charles Jacobs, 2025.", href: "https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North" },
+  { person: "Jeremy Sr.", recipient: "Trump Victory", amount: "$100,000", period: "2016", jurisdiction: "federal", detail: "Jeremy Jacobs Sr. to Trump's 2016 joint fundraising committee.", href: "https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North" },
+  { person: "Jeremy Sr.", recipient: "Gov. Kathy Hochul", amount: "$401,854 (family)", period: "since 1999", jurisdiction: "state", detail: "Family total to Hochul's campaigns since 1999 (NY State Board of Elections).", href: "https://data.ny.gov/d/4j2b-6a2j" },
+  { person: "Jeremy Sr.", recipient: "Republican National Committee", amount: "$33,400", period: "2016", jurisdiction: "federal", detail: "Jeremy Jacobs Sr., 2016 cycle.", href: "https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North" },
+  { person: "Jerry Jr.", recipient: "Rep. Hakeem Jeffries", amount: "$17,000 (family)", period: "2024–25", jurisdiction: "federal", detail: "U.S. House Democratic Leader · family total.", href: "https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North" },
+  { person: "Charlie", recipient: "Mass. Democratic Party", amount: "$20,000", period: "2025", jurisdiction: "state", detail: "Charles Jacobs, 2025.", href: "https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North" },
 ];
 
 export const JACOBS_AFFILIATIONS: AffiliationEntry[] = JACOBS_PEOPLE.flatMap(

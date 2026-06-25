@@ -23,6 +23,7 @@ import {
 const JACOBS_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   politician: {
     blurb: "Federal elections & the parks",
+    stat: "$1.75M+ to politicians",
     summary: (
       <>
         Delaware North runs hospitality concessions in national parks and
@@ -46,6 +47,7 @@ const JACOBS_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   },
   education: {
     blurb: "University at Buffalo",
+    stat: "$30M founding gift",
     summary: (
       <>
         A $30 million gift named UB&apos;s medical school, and the family has
@@ -56,6 +58,7 @@ const JACOBS_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   },
   civic: {
     blurb: "Philanthropy & civic boards",
+    stat: "$10.3M family foundation",
     summary: (
       <>
         The Jacobs Family Foundation, the Corps Network, United Way and the
