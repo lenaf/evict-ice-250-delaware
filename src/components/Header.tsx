@@ -10,11 +10,6 @@ function getDaysLeft() {
   return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
-const ABOUT_ITEMS = [
-  { label: "Who We Are", href: "/#about" },
-  { label: "Coalition & Sponsors", href: "/#coalition" },
-  { label: "Contact", href: "/#join" },
-];
 
 const FACTS_ITEMS = [
   { label: "What Happens Inside", href: "/facts/what-happens-inside" },
@@ -109,28 +104,6 @@ export function Header() {
 
           {/* Desktop nav links */}
           <div className="ml-auto hidden md:flex items-center gap-10">
-            {/* ABOUT dropdown */}
-            <div className="relative group">
-              <button
-                className={`font-black text-xl tracking-wide transition flex items-center gap-1 ${textColor}`}
-              >
-                ABOUT <span className="text-sm">▾</span>
-              </button>
-              <div className="absolute top-full left-0 hidden group-hover:block pt-3 z-50">
-                <div className="bg-black border-2 border-[#DC2626] min-w-[260px]">
-                  {ABOUT_ITEMS.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="block px-5 py-3.5 font-black text-sm uppercase tracking-wider text-white hover:bg-[#DC2626] transition whitespace-nowrap border-b-2 border-white/10 last:border-b-0"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
             {/* THE FACTS dropdown */}
             <div className="relative group">
               <button
@@ -158,6 +131,12 @@ export function Header() {
               className={`font-black text-xl tracking-wide transition ${textColor}`}
             >
               EVENTS
+            </Link>
+            <Link
+              href="/#join"
+              className={`font-black text-xl tracking-wide transition ${textColor}`}
+            >
+              JOIN US
             </Link>
             <a
               href="https://www.instagram.com/evictice250delaware/"
@@ -211,27 +190,12 @@ export function Header() {
               >
                 DONATE
               </Link>
-              {/* ABOUT sub-items */}
-              <Link
-                href="/#about"
-                onClick={() => setMenuOpen(false)}
-                className={`font-black text-xl tracking-wide py-3 border-b border-white/10 transition ${textColor}`}
-              >
-                Who We Are
-              </Link>
-              <Link
-                href="/#coalition"
-                onClick={() => setMenuOpen(false)}
-                className={`font-black text-xl tracking-wide py-3 border-b border-white/10 transition ${textColor}`}
-              >
-                Coalition &amp; Sponsors
-              </Link>
               <Link
                 href="/#join"
                 onClick={() => setMenuOpen(false)}
                 className={`font-black text-xl tracking-wide py-3 border-b border-white/10 transition ${textColor}`}
               >
-                Contact
+                JOIN US
               </Link>
               {/* THE FACTS sub-items */}
               <Link
