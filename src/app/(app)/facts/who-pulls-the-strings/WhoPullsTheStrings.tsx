@@ -5,11 +5,9 @@ import Link from "next/link";
 import { SourceLink } from "../SourceLink";
 import { MoneyTree } from "@/components/MoneyTree";
 import { WealthHero } from "@/components/WealthHero";
-import { PowerMap } from "@/components/PowerMap";
-import { PoliticalDonations } from "@/components/PoliticalDonations";
+import { PowerMap, type AreaInfo } from "@/components/PowerMap";
 import { GivingTimeline } from "@/components/GivingTimeline";
-import { StackedBars } from "@/components/StackedBars";
-import { JACOBS_GIVING_SERIES, JACOBS_GIVING_DATA } from "./jacobsGiving";
+import type { FilterType } from "@/types/affiliation";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { FactsReadNext } from "@/components/FactsReadNext";
@@ -21,6 +19,62 @@ import {
   JACOBS_DONATIONS,
   JACOBS_AFFILIATIONS,
 } from "./jacobsData";
+// Editorial copy for each area of power (draft — refine from the source doc).
+const JACOBS_AREAS: Partial<Record<FilterType, AreaInfo>> = {
+  politician: {
+    blurb: "Federal elections & the parks",
+    summary: (
+      <>
+        Delaware North runs hospitality concessions in national parks and
+        stadiums nationwide, so the family&apos;s political money flows federal:
+        $65,000 to Trump&apos;s 2016 transition, $100,000 to Trump Victory, and
+        $401,854 to Gov. Hochul — whose husband Delaware North employed as
+        general counsel.
+      </>
+    ),
+  },
+  business: {
+    blurb: "Sports, banking & gaming",
+    summary: (
+      <>
+        Delaware North, the Boston Bruins and the NHL, a seat on M&amp;T
+        Bank&apos;s board, the American Gaming Association — the family&apos;s
+        reach spans the industries that live on government contracts and
+        regulation.
+      </>
+    ),
+  },
+  education: {
+    blurb: "University at Buffalo",
+    summary: (
+      <>
+        A $30 million gift named UB&apos;s medical school, and the family has
+        chaired the University at Buffalo Council for years — Jerry Jr. was
+        appointed chair by Gov. Hochul in 2025.
+      </>
+    ),
+  },
+  civic: {
+    blurb: "Philanthropy & civic boards",
+    summary: (
+      <>
+        The Jacobs Family Foundation, the Corps Network, United Way and the
+        Partnership for New York City — tax-advantaged giving that buys standing
+        across civic and political life.
+      </>
+    ),
+  },
+  arts: {
+    blurb: "Boston institutions",
+    summary: (
+      <>
+        Through the Bruins, NESN and the Sports Museum, the family&apos;s
+        influence reaches into Boston&apos;s sports and cultural institutions.
+      </>
+    ),
+  },
+};
+
 export const WhoPullsTheStrings: React.FC = () => {
   return (
     <main className="min-h-screen">
@@ -185,101 +239,15 @@ export const WhoPullsTheStrings: React.FC = () => {
         </p>
       </Section>
 
-      {/* ========== POLITICAL DONATIONS ========== */}
+      {/* ========== WEB OF POWER ========== */}
       <Section variant="black" className="border-t border-white/10">
-        <SectionHeading>
-          Where the Money Goes
-        </SectionHeading>
-        <div className="mb-12">
-          <GivingTimeline
-            caption="Delaware North Company PAC — receipts by election cycle"
-            bars={[
-              { cycle: "2012", amount: 65000 },
-              { cycle: "2014", amount: 254933 },
-              { cycle: "2016", amount: 225398 },
-              { cycle: "2018", amount: 211500 },
-              { cycle: "2020", amount: 70481 },
-              { cycle: "2022", amount: 47900 },
-              { cycle: "2024", amount: 262414 },
-              { cycle: "2026", amount: 156653 },
-            ]}
-            note="Federal PAC receipts only; family members' individual giving and New York State contributions are counted separately below. 2026 cycle still in progress."
-            source={{
-              href: "https://www.fec.gov/data/committee/C00532887/",
-              label: "FEC committee C00532887",
-            }}
-          />
-        </div>
-        <PoliticalDonations
-          total="$1.15M+"
-          timeframe="Individual federal giving · 2008–2026"
-          average="≈ $64,000 / year"
-          totalCaption={
-            <>
-              Since 2008, family members listing Delaware North as their
-              employer have given more than $1.15 million in individual federal
-              contributions (chart above) — and that is before the Delaware
-              North PAC&apos;s own giving and the family&apos;s New York State
-              donations. The PAC has steered roughly $380,000 to candidates and
-              parties; the family has given Gov. Hochul more than $400,000 over
-              her career — $104,000 in 2025 alone — and steered some $167,000
-              around Donald Trump&apos;s 2016 run. The
-              giving crosses party lines — it tracks wherever federal park and
-              concession contracts and New York State decisions sit.
-            </>
-          }
-          intro={
-            <>
-              The Jacobs family&apos;s most concrete tie to Albany isn&apos;t a
-              donation at all: Delaware North employed Gov. Hochul&apos;s
-              husband, Bill Hochul, as general counsel from 2016 to 2023,
-              paying him{" "}
-              <SourceLink
-                href="https://littlesis.org/news/who-is-bankrolling-new-yorks-gubernatorial-candidates/"
-                label="roughly $450,000–$650,000 a year"
-              />{" "}
-              (about $585,000 in 2017) — making the family a major source of
-              the Hochuls&apos; household income. On top of that, the donations
-              below buy access on every side. Federal gifts are searchable in{" "}
-              <SourceLink
-                href="https://www.fec.gov/data/receipts/?contributor_name=Jacobs&contributor_employer=Delaware+North"
-                label="FEC records"
-              />
-              ; the PAC&apos;s giving is detailed by{" "}
-              <SourceLink
-                href="https://www.investigativepost.org/2026/02/18/trumps-national-parks-nominee-has-major-conflict-of-interest/"
-                label="Investigative Post"
-              />
-              .
-            </>
-          }
-        />
-        <div className="mt-10">
-          <StackedBars
-            series={JACOBS_GIVING_SERIES}
-            data={JACOBS_GIVING_DATA}
-            caption="Money to politicians, grouped by 4-year period"
-            note="Family members' individual federal (FEC) and New York State (NYSBOE) contributions since 2004, grouped into 4-year periods and colored by the recipient's party — separate from the Delaware North PAC above. Tap or hover any period for the federal/state split and top recipients. Major recipients are party-coded; smaller PAC and local gifts are bucketed as 'Other.'"
-            source={{
-              href: "https://data.ny.gov/d/4j2b-6a2j",
-              label: "NYSBOE + FEC",
-            }}
-          />
-        </div>
-      </Section>
-
-      {/* ========== POWER MAP ========== */}
-      <Section variant="black" className="border-t border-white/10">
-        <SectionHeading>
-          The Web of Power
-        </SectionHeading>
+        <SectionHeading>The Web of Power</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
-          Four men. The University at Buffalo, the NHL, Buffalo&apos;s biggest
-          bank, the Governor&apos;s office, and the building that houses ICE.
-          The bigger the node, the more seats it holds in Buffalo and Boston&apos;s
-          civic and business life. Yellow lines are political donations — the
-          dollars that follow the relationships. Filter by type or jurisdiction,
-          and tap any node to see who sits where.
+          And with the public subsidies and a billion-dollar fortune behind
+          them, the Jacobses feed money back into the politicians and
+          institutions that protect their interests — from federal elections to
+          the Governor&apos;s office. Yellow lines are political donations; the
+          bigger the node, the more seats it holds.
         </p>
         <PowerMap
           people={toPowerMapPeople(JACOBS_PEOPLE, JACOBS_SHORT_NAMES)}
@@ -287,6 +255,7 @@ export const WhoPullsTheStrings: React.FC = () => {
             (a) => a.org !== "Delaware North"
           )}
           donations={JACOBS_DONATIONS}
+          areas={JACOBS_AREAS}
         />
       </Section>
 

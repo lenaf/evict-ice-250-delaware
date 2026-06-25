@@ -340,10 +340,18 @@ function simulate(nodes: SimNode[], links: SimLink[]) {
   return nodes;
 }
 
+// Per-area editorial content: a short blurb under the chip and a longer
+// summary shown above the map when that area is focused.
+export interface AreaInfo {
+  blurb: string;
+  summary?: React.ReactNode;
+}
+
 interface PowerMapProps {
   people: PowerMapPerson[];
   affiliations: AffiliationEntry[];
   donations?: PowerMapDonation[];
+  areas?: Partial<Record<FilterType, AreaInfo>>;
 }
 
 // Wrap a long org name onto up to two lines for the node label
@@ -550,6 +558,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   people,
   affiliations,
   donations,
+  areas,
 }) => {
   const graph = useMemo(
     () => buildGraph(people, affiliations, donations),
@@ -594,6 +603,15 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   const nodes = laidOut ?? graph.nodes;
   const byId = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
 
+  // The focused area (when exactly one type is selected) and its summary copy.
+  const activeArea = types.size === 1 ? [...types][0] : null;
+  const activeSummary = activeArea ? areas?.[activeArea]?.summary : undefined;
+  const areaOptions = (Object.keys(TYPE_LABEL) as FilterType[]).filter((t) =>
+    presentTypes.has(t)
+  );
+  const selectArea = (t: FilterType) =>
+    setTypes((prev) => (prev.has(t) && prev.size === 1 ? new Set() : new Set([t])));
+
   // Render the graph only after the client-side simulation has run, so SSR and
   // first client render stay identical (avoids hydration mismatch).
   if (!laidOut) {
@@ -602,6 +620,13 @@ export const PowerMap: React.FC<PowerMapProps> = ({
 
   return (
     <div>
+      {/* Focused-area summary, shown above the map */}
+      {activeArea && activeSummary && (
+        <div className="mb-6 text-lg md:text-xl leading-relaxed text-white/80">
+          {activeSummary}
+        </div>
+      )}
+
       <div className="relative w-full" style={{ aspectRatio: `${W} / ${H}` }}>
         <svg
           viewBox={`${-PAD} ${-PAD} ${W + 2 * PAD} ${H + 2 * PAD}`}
@@ -673,24 +698,40 @@ export const PowerMap: React.FC<PowerMapProps> = ({
         </svg>
       </div>
 
-      {/* Filter chips — type + jurisdiction */}
-      <div className="mt-5 space-y-2">
-        <FilterRow
-          label="Type"
-          options={(Object.keys(TYPE_LABEL) as FilterType[]).filter((t) =>
-            presentTypes.has(t)
-          )}
-          labels={TYPE_LABEL}
-          active={types}
-          onToggle={(v) =>
-            setTypes((prev) => {
-              const next = new Set(prev);
-              if (next.has(v)) next.delete(v);
-              else next.add(v);
-              return next;
-            })
-          }
-        />
+      {/* Area selector — click an area of power to focus the map */}
+      <p className="mt-8 mb-4 text-xs font-black uppercase tracking-widest text-white/40">
+        Click an area of power to focus the map{activeArea ? " · click again to clear" : ""}
+      </p>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-5">
+        {areaOptions.map((t) => {
+          const on = types.has(t);
+          return (
+            <button
+              key={t}
+              onClick={() => selectArea(t)}
+              className="text-left cursor-pointer group"
+            >
+              <span
+                className={`block font-black text-sm uppercase tracking-wider transition ${
+                  on
+                    ? "text-[#FFD600]"
+                    : "text-white group-hover:text-[#FFD600]"
+                }`}
+              >
+                {TYPE_LABEL[t]}
+              </span>
+              {areas?.[t]?.blurb && (
+                <span className="mt-1 block text-xs leading-snug text-white/45">
+                  {areas[t]!.blurb}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Jurisdiction — secondary filter */}
+      <div className="mt-6">
         <FilterRow
           label="Where"
           options={(Object.keys(JURISDICTION_LABEL) as Jurisdiction[]).filter(
@@ -710,7 +751,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
       </div>
 
       <p className="mt-4 text-xs text-white/40 uppercase tracking-widest font-black">
-        Tap any node to read more · bigger node = more ties · tap a chip to filter
+        Tap any node to read more · bigger node = more ties
       </p>
 
       {/* Modal */}

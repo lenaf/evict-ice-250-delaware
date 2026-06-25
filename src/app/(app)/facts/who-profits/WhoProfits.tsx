@@ -4,10 +4,8 @@ import React from "react";
 import { SourceLink } from "../SourceLink";
 import { MoneyTree } from "@/components/MoneyTree";
 import { WealthHero } from "@/components/WealthHero";
-import { PoliticalDonations } from "@/components/PoliticalDonations";
-import { StackedBars } from "@/components/StackedBars";
-import { MONTANTE_GIVING_SERIES, MONTANTE_GIVING_DATA } from "./montanteGiving";
-import { PowerMap } from "@/components/PowerMap";
+import { PowerMap, type AreaInfo } from "@/components/PowerMap";
+import type { FilterType } from "@/types/affiliation";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { FactsReadNext } from "@/components/FactsReadNext";
@@ -19,6 +17,63 @@ import {
   MONTANTE_DONATIONS,
   MONTANTE_AFFILIATIONS,
 } from "./montanteData";
+
+// Editorial copy for each area of power (draft — refine from the source doc).
+const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
+  civic: {
+    blurb: "The Catholic Church",
+    summary: (
+      <>
+        Carl Montante Sr. sat on the Diocese of Buffalo&apos;s Bishop&apos;s
+        Council of the Laity for 25+ years, chaired the diocese&apos;s Catholic
+        Health System, and was given the Bishop&apos;s Medal in 2009 — even as
+        Pope Leo XIV condemned the immigration crackdown the family profits from
+        as &ldquo;inhuman.&rdquo;
+      </>
+    ),
+  },
+  politician: {
+    blurb: "Governors & local officials",
+    summary: (
+      <>
+        Carl Montante and Laura Zaepfel have given more than $220,000 to New
+        York politicians since 1999 — to Governors Pataki, Spitzer, Paterson,
+        Cuomo and Hochul, the officials who control development approvals and
+        the lease at 250 Delaware.
+      </>
+    ),
+  },
+  education: {
+    blurb: "Catholic schools",
+    summary: (
+      <>
+        Uniland built academic halls, a field house and student housing for
+        Canisius High School and Canisius University, and the family&apos;s name
+        sits on buildings and a library across Buffalo&apos;s Catholic colleges.
+      </>
+    ),
+  },
+  arts: {
+    blurb: "Buffalo Philharmonic",
+    summary: (
+      <>
+        Carl Montante Sr. is a past chairman of the Buffalo Philharmonic
+        Orchestra; the family has given as much as $1.5 million, and Uniland is
+        the BPO&apos;s lead corporate sponsor.
+      </>
+    ),
+  },
+  business: {
+    blurb: "The development lobby",
+    summary: (
+      <>
+        The family holds seats across Buffalo&apos;s business establishment —
+        the Buffalo Niagara Partnership, Invest Buffalo Niagara, NAIOP — the
+        bodies that shape regional development policy.
+      </>
+    ),
+  },
+};
 
 export const WhoProfits: React.FC = () => {
   return (
@@ -114,75 +169,21 @@ export const WhoProfits: React.FC = () => {
         </p>
       </Section>
 
-      {/* ========== POLITICAL DONATIONS ========== */}
+      {/* ========== WEB OF POWER ========== */}
       <Section variant="black" className="border-t border-white/10">
-        <SectionHeading>
-          Where the Money Goes
-        </SectionHeading>
-        <PoliticalDonations
-          total="$415,000+"
-          timeframe="Family + Uniland, per LittleSis (2018) · $296,000 verified from family filings"
-          totalCaption={
-            <>
-              The Montantes don&apos;t just profit from immigration enforcement
-              — they fund the political infrastructure that enables it.
-              LittleSis put the family-and-Uniland total at more than $415,000;
-              the family members&apos; own federal and state filings, charted
-              below, independently verify about $296,000 through 2026. The
-              giving leans Democratic but crosses party lines — they buy access
-              on every side.
-            </>
-          }
-          intro={
-            <>
-              The same family that cashes ICE rent checks funds politicians at
-              every level of government — Republicans and Democrats alike. The
-              largest dollars flow to the state and local offices that control
-              Uniland&apos;s development approvals and lease business. Every
-              figure below is fact-checkable: state and local totals come from{" "}
-              <SourceLink
-                href="https://data.ny.gov/d/4j2b-6a2j"
-                label="NY State Board of Elections filings"
-              />
-              ; federal gifts from{" "}
-              <SourceLink
-                href="https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=montante"
-                label="FEC records"
-              />
-              .
-            </>
-          }
-        />
-        <div className="mt-10">
-          <StackedBars
-            series={MONTANTE_GIVING_SERIES}
-            data={MONTANTE_GIVING_DATA}
-            caption="Money to politicians, grouped by 4-year period"
-            note="Family members' individual federal (FEC) and New York State (NYSBOE) contributions since 2004, grouped into 4-year periods and colored by the recipient's party. Tap or hover any period to see the federal/state split and top recipients. Major recipients are party-coded; smaller PAC and local gifts are bucketed as 'Other.'"
-            source={{
-              href: "https://data.ny.gov/d/4j2b-6a2j",
-              label: "NYSBOE + FEC",
-            }}
-          />
-        </div>
-      </Section>
-
-      {/* ========== POWER MAP ========== */}
-      <Section variant="black" className="border-t border-white/10">
-        <SectionHeading>
-          The Web of Power
-        </SectionHeading>
+        <SectionHeading>The Web of Power</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
-          Four people. Dozens of institutions. The bigger the node, the more
-          seats it holds in Buffalo&apos;s civic, religious, and business life.
-          Yellow lines are political donations — the dollars that follow the
-          relationships. Filter by type or jurisdiction, and tap any node to see
-          who sits where.
+          And with the public subsidies and personal wealth in hand, the
+          Montantes feed money back into the institutions and politicians that
+          protect their interests — buying influence across Buffalo&apos;s
+          civic, religious, and political life. Yellow lines are political
+          donations; the bigger the node, the more seats it holds.
         </p>
         <PowerMap
           people={toPowerMapPeople(MONTANTE_PEOPLE, MONTANTE_SHORT_NAMES)}
           affiliations={MONTANTE_AFFILIATIONS}
           donations={MONTANTE_DONATIONS}
+          areas={MONTANTE_AREAS}
         />
       </Section>
 
