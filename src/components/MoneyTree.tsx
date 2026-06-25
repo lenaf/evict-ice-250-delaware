@@ -36,7 +36,7 @@ interface MoneyTreeProps {
 
 // Inline money bag — green outline sack with a $
 export function DollarBill() {
-  const C = "#5C8A5C"; // muted sage green
+  const C = "#5CC95C"; // bright money green
   return (
     <svg viewBox="0 0 32 32" className="w-full h-auto block" fill="none" aria-hidden="true">
       <path

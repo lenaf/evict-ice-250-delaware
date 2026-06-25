@@ -120,13 +120,6 @@ export const WhoProfits: React.FC = () => {
 
       {/* ========== TAX BREAKS ========== */}
       <Section variant="black" className="border-t border-white/10">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/illustrations/handout.svg"
-          alt=""
-          aria-hidden="true"
-          className="w-28 md:w-36 mb-5 opacity-70 invert"
-        />
         <SectionHeading>
           Despite the wealth, they still take the handouts.
         </SectionHeading>

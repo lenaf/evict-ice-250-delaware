@@ -35,7 +35,7 @@ export const WealthHero: React.FC<WealthHeroProps> = ({
     {/* Faces over a soft money-bag bed (no border) */}
     <div className="relative pt-6 md:pt-10 -mb-4 md:-mb-6">
       <div
-        className="pointer-events-none absolute inset-0 overflow-hidden opacity-[0.18] [mask-image:radial-gradient(ellipse_at_center,black,transparent_85%)]"
+        className="pointer-events-none absolute inset-0 overflow-hidden opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_85%)]"
         aria-hidden="true"
       >
         <div
@@ -46,6 +46,15 @@ export const WealthHero: React.FC<WealthHeroProps> = ({
             <DollarBill key={i} />
           ))}
         </div>
+      </div>
+
+      {/* A row of money bags raining down onto the family */}
+      <div className="relative flex flex-nowrap justify-center gap-4 md:gap-6 mb-5 overflow-hidden">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div key={i} className="w-6 md:w-7 shrink-0">
+            <DollarBill />
+          </div>
+        ))}
       </div>
 
       <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
