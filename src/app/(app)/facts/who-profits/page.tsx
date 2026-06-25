@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { ComingSoon } from "../ComingSoon";
-// Full page is built but not yet published — restore when ready:
-// import { WhoProfits } from "./WhoProfits";
+import { WhoProfits } from "./WhoProfits";
 
 export const metadata: Metadata = {
   title: "Who Profits — The Facts",
@@ -10,17 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function WhoProfitsPage() {
-  return (
-    <ComingSoon
-      title="Who Profits"
-      teaser={
-        <>
-          How the Montante family and Uniland Development collect millions a
-          year from ICE &mdash; in a building taxpayers helped subsidize. The
-          full money trail is coming soon.
-        </>
-      }
-    />
-  );
-  // return <WhoProfits />;
+  return <WhoProfits />;
 }
