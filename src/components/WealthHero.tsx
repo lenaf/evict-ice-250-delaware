@@ -57,7 +57,7 @@ export const WealthHero: React.FC<WealthHeroProps> = ({
         ))}
       </div>
 
-      <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      <div className="relative grid grid-cols-4 gap-2 md:gap-6">
         {people.map((p) => (
           <div key={p.name}>
             <div className="aspect-square overflow-hidden bg-white/5">
@@ -68,10 +68,12 @@ export const WealthHero: React.FC<WealthHeroProps> = ({
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <p className="mt-3 font-black text-sm text-white leading-tight">
+            <p className="mt-2 md:mt-3 font-black text-[11px] md:text-sm text-white leading-tight">
               {p.name}
             </p>
-            <p className="mt-0.5 text-xs text-white/50 leading-snug">{p.title}</p>
+            <p className="mt-0.5 text-[10px] md:text-xs text-white/50 leading-snug">
+              {p.title}
+            </p>
           </div>
         ))}
       </div>
