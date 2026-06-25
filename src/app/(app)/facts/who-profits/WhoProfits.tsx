@@ -136,7 +136,7 @@ export const WhoProfits: React.FC = () => {
               amount: "$9.6M",
               label: "ECIDA tax breaks",
               payer: "Handed over by Erie County taxpayers, who were told the subsidy would build the community up.",
-              bags: 19,
+              bags: 96,
               source: {
                 href: "https://news.wbfo.org/post/uniland-receives-tax-breaks-delawarechippewa-project",
                 label: "WBFO",
@@ -146,7 +146,7 @@ export const WhoProfits: React.FC = () => {
               amount: "$791K",
               label: "Property tax abatement",
               payer: "Erie County taxpayers — forgone public revenue, ongoing",
-              bags: 2,
+              bags: 8,
               recurring: true,
             },
           ]}

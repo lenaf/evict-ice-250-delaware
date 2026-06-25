@@ -169,7 +169,7 @@ export const WhoPullsTheStrings: React.FC = () => {
               amount: "$807K",
               label: "ECIDA sales tax waiver",
               payer: "Erie County taxpayers · approved Nov 2013, a month before groundbreaking",
-              bags: 1,
+              bags: 8,
               source: {
                 href: "https://investigativepost.org/2013/11/26/delaware-norths-endless-subsidies/",
                 label: "Investigative Post",
@@ -179,7 +179,7 @@ export const WhoPullsTheStrings: React.FC = () => {
               amount: "$4M",
               label: "State job-creation credits",
               payer: "New York State taxpayers · ~$61,500 per promised job",
-              bags: 4,
+              bags: 40,
               source: {
                 href: "https://investigativepost.org/2013/11/26/delaware-norths-endless-subsidies/",
                 label: "Investigative Post",

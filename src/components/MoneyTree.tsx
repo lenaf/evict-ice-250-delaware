@@ -36,7 +36,7 @@ interface MoneyTreeProps {
 
 // Inline money bag — green outline sack with a $
 export function DollarBill() {
-  const C = "#5CC95C"; // bright money green
+  const C = "#5C8A5C"; // muted sage green
   return (
     <svg viewBox="0 0 32 32" className="w-full h-auto block" fill="none" aria-hidden="true">
       <path
@@ -124,8 +124,11 @@ export const MoneyTree: React.FC<MoneyTreeProps> = ({ sources, people, entityNam
       )}
 
       {/* Where the money comes from */}
-      <p className="text-xs font-black uppercase tracking-widest text-[#FFD600] mb-4 text-center">
+      <p className="text-xs font-black uppercase tracking-widest text-[#FFD600] mb-1 text-center">
         Public money in
+      </p>
+      <p className="text-[11px] text-white/40 mb-4 text-center">
+        each bag = $100,000
       </p>
 
       {/* Money sources — subgrid keeps bags / amount / label / payer aligned across columns */}

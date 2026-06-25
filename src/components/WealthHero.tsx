@@ -32,24 +32,9 @@ export const WealthHero: React.FC<WealthHeroProps> = ({
       {lede}
     </div>
 
-    {/* Faces over a soft money-bag bed (no border) */}
-    <div className="relative pt-6 md:pt-10 -mb-4 md:-mb-6">
-      <div
-        className="pointer-events-none absolute inset-0 overflow-hidden opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_85%)]"
-        aria-hidden="true"
-      >
-        <div
-          className="grid gap-3"
-          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(38px, 1fr))" }}
-        >
-          {Array.from({ length: 240 }).map((_, i) => (
-            <DollarBill key={i} />
-          ))}
-        </div>
-      </div>
-
-      {/* A row of money bags raining down onto the family */}
-      <div className="relative flex flex-nowrap justify-center gap-4 md:gap-6 mb-5 overflow-hidden">
+    {/* A row of money bags above the family */}
+    <div className="pt-2">
+      <div className="flex flex-nowrap justify-center gap-4 md:gap-6 mb-5 overflow-hidden">
         {Array.from({ length: 20 }).map((_, i) => (
           <div key={i} className="w-6 md:w-7 shrink-0">
             <DollarBill />
