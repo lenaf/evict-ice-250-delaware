@@ -4,7 +4,6 @@ import React from "react";
 import { SourceLink } from "../SourceLink";
 import { MoneyTree } from "@/components/MoneyTree";
 import { WealthHero } from "@/components/WealthHero";
-import { HandsDivider } from "@/components/HandsDivider";
 import { PowerMap, type AreaInfo } from "@/components/PowerMap";
 import type { FilterType } from "@/types/affiliation";
 import { Section } from "@/components/Section";
@@ -115,8 +114,6 @@ export const WhoProfits: React.FC = () => {
           people={toHeroPeople(MONTANTE_PEOPLE)}
         />
       </Section>
-
-      <HandsDivider />
 
       {/* ========== TAX BREAKS ========== */}
       <Section variant="black" className="border-t border-white/10">

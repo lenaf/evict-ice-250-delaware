@@ -5,7 +5,6 @@ import Link from "next/link";
 import { SourceLink } from "../SourceLink";
 import { MoneyTree } from "@/components/MoneyTree";
 import { WealthHero } from "@/components/WealthHero";
-import { HandsDivider } from "@/components/HandsDivider";
 import { PowerMap, type AreaInfo } from "@/components/PowerMap";
 import { GivingTimeline } from "@/components/GivingTimeline";
 import type { FilterType } from "@/types/affiliation";
@@ -121,8 +120,6 @@ export const WhoPullsTheStrings: React.FC = () => {
           people={toHeroPeople(JACOBS_PEOPLE)}
         />
       </Section>
-
-      <HandsDivider />
 
       {/* ========== SUBSIDIES ========== */}
       <Section variant="black" className="border-t border-white/10">
