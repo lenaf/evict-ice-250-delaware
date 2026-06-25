@@ -612,6 +612,8 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   // The focused area (when exactly one type is selected) and its summary copy.
   const activeArea = types.size === 1 ? [...types][0] : null;
   const activeSummary = activeArea ? areas?.[activeArea]?.summary : undefined;
+  // Edge labels only show once the map is filtered — they're overwhelming in the full view.
+  const anyFilter = types.size > 0 || jurs.size > 0;
   const areaOptions = (Object.keys(TYPE_LABEL) as FilterType[]).filter((t) =>
     presentTypes.has(t)
   );
@@ -718,7 +720,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                     strokeWidth={1.5}
                     strokeDasharray="5 4"
                   />
-                  {l.label && visible && (
+                  {l.label && visible && anyFilter && (
                     <text
                       x={lx}
                       y={ly}
