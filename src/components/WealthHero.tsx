@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
+import type { WealthRef } from "@/types/affiliation";
 import { DollarBill } from "./MoneyTree";
 
 export interface WealthPerson {
   name: string;
   title: string;
   photo: string;
-  wealth?: { label: string; href?: string };
+  wealth?: WealthRef;
 }
 
 interface WealthHeroProps {

@@ -12,8 +12,15 @@ import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { FactsReadNext } from "@/components/FactsReadNext";
 import Link from "next/link";
+import { toPowerMapPeople, toWealthPeople } from "../peopleMappers";
+import {
+  MONTANTE_PEOPLE,
+  MONTANTE_SHORT_NAMES,
+  MONTANTE_WEALTH,
+  MONTANTE_DONATIONS,
+  MONTANTE_AFFILIATIONS,
+} from "./montanteData";
 
-import { MONTANTE_PEOPLE, MONTANTE_SHORT_NAMES, MONTANTE_WEALTH, MONTANTE_DONATIONS, MONTANTE_AFFILIATIONS } from "./montanteData";
 export const WhoProfits: React.FC = () => {
   return (
     <main className="min-h-screen">
@@ -55,12 +62,11 @@ export const WhoProfits: React.FC = () => {
               . The lease is theirs to renew.
             </>
           }
-          people={MONTANTE_PEOPLE.map((p, i) => ({
-            name: p.name,
-            title: p.title,
-            photo: p.photo,
-            wealth: MONTANTE_WEALTH[MONTANTE_SHORT_NAMES[i]],
-          }))}
+          people={toWealthPeople(
+            MONTANTE_PEOPLE,
+            MONTANTE_SHORT_NAMES,
+            MONTANTE_WEALTH
+          )}
         />
       </Section>
 
@@ -188,14 +194,7 @@ export const WhoProfits: React.FC = () => {
           who sits where.
         </p>
         <PowerMap
-          people={MONTANTE_PEOPLE.map((p, i) => ({
-            id: p.id,
-            name: p.name,
-            shortName: MONTANTE_SHORT_NAMES[i],
-            title: p.title,
-            photo: p.photo,
-            bioParas: p.bioParas,
-          }))}
+          people={toPowerMapPeople(MONTANTE_PEOPLE, MONTANTE_SHORT_NAMES)}
           affiliations={MONTANTE_AFFILIATIONS}
           donations={MONTANTE_DONATIONS}
         />

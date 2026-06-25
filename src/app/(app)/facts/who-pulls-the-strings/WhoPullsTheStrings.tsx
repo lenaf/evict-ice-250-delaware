@@ -14,7 +14,14 @@ import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { FactsReadNext } from "@/components/FactsReadNext";
 
-import { JACOBS_PEOPLE, JACOBS_SHORT_NAMES, JACOBS_WEALTH, JACOBS_DONATIONS, JACOBS_AFFILIATIONS } from "./jacobsData";
+import { toPowerMapPeople, toWealthPeople } from "../peopleMappers";
+import {
+  JACOBS_PEOPLE,
+  JACOBS_SHORT_NAMES,
+  JACOBS_WEALTH,
+  JACOBS_DONATIONS,
+  JACOBS_AFFILIATIONS,
+} from "./jacobsData";
 export const WhoPullsTheStrings: React.FC = () => {
   return (
     <main className="min-h-screen">
@@ -63,12 +70,7 @@ export const WhoPullsTheStrings: React.FC = () => {
               that bears their name.
             </>
           }
-          people={JACOBS_PEOPLE.map((p, i) => ({
-            name: p.name,
-            title: p.title,
-            photo: p.photo,
-            wealth: JACOBS_WEALTH[JACOBS_SHORT_NAMES[i]],
-          }))}
+          people={toWealthPeople(JACOBS_PEOPLE, JACOBS_SHORT_NAMES, JACOBS_WEALTH)}
         />
       </Section>
 
@@ -290,14 +292,7 @@ export const WhoPullsTheStrings: React.FC = () => {
           and tap any node to see who sits where.
         </p>
         <PowerMap
-          people={JACOBS_PEOPLE.map((p, i) => ({
-            id: p.id,
-            name: p.name,
-            shortName: JACOBS_SHORT_NAMES[i],
-            title: p.title,
-            photo: p.photo,
-            bioParas: p.bioParas,
-          }))}
+          people={toPowerMapPeople(JACOBS_PEOPLE, JACOBS_SHORT_NAMES)}
           affiliations={JACOBS_AFFILIATIONS.filter(
             (a) => a.org !== "Delaware North"
           )}

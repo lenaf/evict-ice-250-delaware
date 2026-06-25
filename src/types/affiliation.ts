@@ -42,6 +42,12 @@ export interface BioSegment {
   highlight?: boolean;
 }
 
+// A short labeled reference with an optional source link.
+export interface WealthRef {
+  label: string;
+  href?: string;
+}
+
 // A family member: bio + the institutional affiliations they hold.
 export interface PersonData {
   id: string;

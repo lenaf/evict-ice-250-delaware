@@ -1,4 +1,4 @@
-import type { AffiliationEntry, PersonData } from "@/types/affiliation";
+import type { AffiliationEntry, PersonData, WealthRef } from "@/types/affiliation";
 import type { PowerMapDonation } from "@/components/PowerMap";
 
 export const MONTANTE_PEOPLE: PersonData[] = [
@@ -149,7 +149,7 @@ export const MONTANTE_SHORT_NAMES = ["Carl Sr.", "Michael", "Laura", "Carl Jr."]
 
 // Verified wealth / scale references shown under each photo. No public personal
 // net worth exists for the Montantes — anchored to Uniland's documented scale.
-export const MONTANTE_WEALTH: Record<string, { label: string; href?: string }> = {
+export const MONTANTE_WEALTH: Record<string, WealthRef> = {
   "Carl Sr.": {
     label: "Co-founded Uniland — WNY's largest developer, 16.5M+ sq ft",
     href: "https://uniland.com/unillargest-commercial-real-estate-developer-2025/",

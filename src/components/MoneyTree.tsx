@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import type { WealthRef } from "@/types/affiliation";
 
 export interface MoneySource {
   amount: string;
@@ -17,7 +18,7 @@ export interface MoneyPerson {
   title: string;
   photo: string;
   // Short, sourced wealth or property reference shown under the photo.
-  wealth?: { label: string; href?: string };
+  wealth?: WealthRef;
   meta?: React.ReactNode;
 }
 
