@@ -49,12 +49,6 @@ const TYPE_LABEL: Record<FilterType, string> = {
   civic: "Civic",
 };
 
-const JURISDICTION_LABEL: Record<Jurisdiction, string> = {
-  local: "Local",
-  state: "State",
-  federal: "Federal",
-};
-
 const CATEGORY_COLOR: Record<AffiliationCategory, string> = {
   catholic: "#A855F7",
   education: "#3B82F6",
@@ -518,46 +512,6 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
   );
 }
 
-// A row of toggle chips for one filter axis.
-function FilterRow<T extends string>({
-  label,
-  options,
-  labels,
-  active,
-  onToggle,
-}: {
-  label: string;
-  options: T[];
-  labels: Record<T, string>;
-  active: Set<T>;
-  onToggle: (v: T) => void;
-}) {
-  if (options.length === 0) return null;
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="text-[10px] font-black uppercase tracking-widest text-white/30 w-12 shrink-0">
-        {label}
-      </span>
-      {options.map((o) => {
-        const on = active.has(o);
-        return (
-          <button
-            key={o}
-            onClick={() => onToggle(o)}
-            className={`text-[11px] font-black uppercase tracking-wider px-3 py-1.5 border-2 transition cursor-pointer ${
-              on
-                ? "bg-[#FFD600] text-black border-[#FFD600]"
-                : "bg-transparent text-white/60 border-white/20 hover:border-white/50"
-            }`}
-          >
-            {labels[o]}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
 export const PowerMap: React.FC<PowerMapProps> = ({
   people,
   affiliations,
@@ -571,7 +525,6 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   const [laidOut, setLaidOut] = useState<SimNode[] | null>(null);
   const [selected, setSelected] = useState<SimNode | null>(null);
   const [types, setTypes] = useState<Set<FilterType>>(new Set());
-  const [jurs, setJurs] = useState<Set<Jurisdiction>>(new Set());
   const ran = useRef(false);
 
   // Which filter chips are present in this graph (so we don't show empty ones).
@@ -580,17 +533,11 @@ export const PowerMap: React.FC<PowerMapProps> = ({
     graph.nodes.forEach((n) => n.nodeType && s.add(n.nodeType));
     return s;
   }, [graph]);
-  const presentJurs = useMemo(() => {
-    const s = new Set<Jurisdiction>();
-    graph.nodes.forEach((n) => n.jurisdiction && s.add(n.jurisdiction));
-    return s;
-  }, [graph]);
 
-  // A node passes the filters if it matches every active axis (people always pass).
+  // A node passes the filter if it matches the active area (people always pass).
   const nodeVisible = (n: SimNode): boolean => {
     if (n.type === "person") return true;
     if (types.size && !(n.nodeType && types.has(n.nodeType))) return false;
-    if (jurs.size && !(n.jurisdiction && jurs.has(n.jurisdiction))) return false;
     return true;
   };
 
@@ -606,6 +553,83 @@ export const PowerMap: React.FC<PowerMapProps> = ({
 
   const nodes = laidOut ?? graph.nodes;
   const byId = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
+
+  // Resolve edge-label positions so they don't overlap each other or the nodes.
+  // Each visible label starts at its curve anchor, then a few relaxation passes
+  // push overlapping boxes apart (along the least-overlap axis) and out of nodes.
+  const labelPos = useMemo(() => {
+    const FS = 8.5;
+    const items: {
+      i: number;
+      x: number;
+      y: number;
+      hw: number;
+      hh: number;
+    }[] = [];
+    graph.links.forEach((l, i) => {
+      if (!l.label) return;
+      const s = byId.get(l.source);
+      const t = byId.get(l.target);
+      if (!s || !t) return;
+      if (t.type !== "person" && types.size && !(t.nodeType && types.has(t.nodeType)))
+        return; // matches nodeVisible(t)
+      const dx = t.x - s.x;
+      const dy = t.y - s.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const k = 0.13 * len * (i % 2 === 0 ? 1 : -1);
+      const cx = (s.x + t.x) / 2 + (-dy / len) * k;
+      const cy = (s.y + t.y) / 2 + (dx / len) * k;
+      items.push({
+        i,
+        x: 0.25 * s.x + 0.5 * cx + 0.25 * t.x,
+        y: 0.25 * s.y + 0.5 * cy + 0.25 * t.y,
+        hw: (l.label.length * FS * 0.55) / 2 + 2,
+        hh: FS / 2 + 2,
+      });
+    });
+
+    const visNodes = nodes.filter((n) => n.type === "person" || nodeVisible(n));
+    for (let pass = 0; pass < 80; pass++) {
+      // label ↔ label
+      for (let a = 0; a < items.length; a++) {
+        for (let b = a + 1; b < items.length; b++) {
+          const A = items[a];
+          const B = items[b];
+          const ox = A.hw + B.hw - Math.abs(A.x - B.x);
+          const oy = A.hh + B.hh - Math.abs(A.y - B.y);
+          if (ox > 0 && oy > 0) {
+            if (oy < ox) {
+              const p = (oy / 2 + 0.4) * (A.y <= B.y ? 1 : -1);
+              A.y -= p;
+              B.y += p;
+            } else {
+              const p = (ox / 2 + 0.4) * (A.x <= B.x ? 1 : -1);
+              A.x -= p;
+              B.x += p;
+            }
+          }
+        }
+      }
+      // label ↔ node (push label clear of node circles)
+      for (const A of items) {
+        for (const n of visNodes) {
+          const dx = A.x - n.x;
+          const dy = A.y - n.y;
+          const d = Math.hypot(dx, dy) || 0.01;
+          const min = n.r + A.hh + 4;
+          if (d < min) {
+            const push = (min - d) * 0.5;
+            A.x += (dx / d) * push;
+            A.y += (dy / d) * push;
+          }
+        }
+      }
+    }
+    const map = new Map<number, { x: number; y: number }>();
+    items.forEach((it) => map.set(it.i, { x: it.x, y: it.y }));
+    return map;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [byId, graph.links, nodes, types]);
 
   // The focused area (when exactly one type is selected) and its summary copy.
   const activeArea = types.size === 1 ? [...types][0] : null;
@@ -691,24 +715,41 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                     strokeWidth={1.5}
                     strokeDasharray="5 4"
                   />
-                  {l.label && visible && (
-                    <text
-                      x={lx}
-                      y={ly}
-                      textAnchor="middle"
-                      dominantBaseline="central"
-                      fontSize={8.5}
-                      fontWeight={isDon ? 700 : 400}
-                      fill={isDon ? "#FFD600" : "#fff"}
-                      fillOpacity={isDon ? 1 : 0.75}
-                      stroke="#000"
-                      strokeWidth={2.5}
-                      paintOrder="stroke"
-                      style={{ fontFamily: "Inter, sans-serif" }}
-                    >
-                      {l.label}
-                    </text>
-                  )}
+                  {l.label && visible && (() => {
+                    const lp = labelPos.get(i) ?? { x: lx, y: ly };
+                    const moved = Math.hypot(lp.x - lx, lp.y - ly) > 10;
+                    return (
+                      <>
+                        {moved && (
+                          <line
+                            x1={lx}
+                            y1={ly}
+                            x2={lp.x}
+                            y2={lp.y}
+                            stroke="#fff"
+                            strokeOpacity={0.15}
+                            strokeWidth={0.75}
+                          />
+                        )}
+                        <text
+                          x={lp.x}
+                          y={lp.y}
+                          textAnchor="middle"
+                          dominantBaseline="central"
+                          fontSize={8.5}
+                          fontWeight={isDon ? 700 : 400}
+                          fill={isDon ? "#FFD600" : "#fff"}
+                          fillOpacity={isDon ? 1 : 0.75}
+                          stroke="#000"
+                          strokeWidth={2.5}
+                          paintOrder="stroke"
+                          style={{ fontFamily: "Inter, sans-serif" }}
+                        >
+                          {l.label}
+                        </text>
+                      </>
+                    );
+                  })()}
                 </g>
               );
             })}
@@ -734,27 +775,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
         </svg>
       </div>
 
-      {/* Jurisdiction — secondary filter */}
-      <div className="mt-6">
-        <FilterRow
-          label="Where"
-          options={(Object.keys(JURISDICTION_LABEL) as Jurisdiction[]).filter(
-            (j) => presentJurs.has(j)
-          )}
-          labels={JURISDICTION_LABEL}
-          active={jurs}
-          onToggle={(v) =>
-            setJurs((prev) => {
-              const next = new Set(prev);
-              if (next.has(v)) next.delete(v);
-              else next.add(v);
-              return next;
-            })
-          }
-        />
-      </div>
-
-      <p className="mt-4 text-xs text-white/40 uppercase tracking-widest font-black">
+      <p className="mt-6 text-xs text-white/40 uppercase tracking-widest font-black">
         Tap any node to read more · bigger node = more ties
       </p>
 
