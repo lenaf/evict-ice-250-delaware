@@ -745,7 +745,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
       )}
 
       <div
-        className={`relative w-full ${selected ? "invisible" : ""}`}
+        className={`relative w-[calc(100%+2rem)] -mx-4 sm:w-full sm:mx-0 ${selected ? "invisible" : ""}`}
         style={{ aspectRatio: `${W} / ${H}` }}
       >
         <svg
