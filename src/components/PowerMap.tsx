@@ -806,10 +806,6 @@ export const PowerMap: React.FC<PowerMapProps> = ({
         </svg>
       </div>
 
-      <p className="mt-6 text-xs text-white/40 uppercase tracking-widest font-black">
-        Tap any node to read more · bigger node = more ties
-      </p>
-
       {/* Modal */}
       {selected && (
         <div
