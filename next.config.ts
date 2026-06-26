@@ -1,10 +1,13 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        // Strict CSP for the public site. Exclude the Payload admin (/cms)
+        // and Payload's REST API (/api/*), whose admin bundle needs looser rules.
+        source: "/((?!cms|api/).*)",
         headers: [
           {
             key: "X-Frame-Options",
@@ -47,4 +50,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);
