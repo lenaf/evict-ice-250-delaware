@@ -22,21 +22,20 @@ const JACOBS_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   politician: {
     summary: (
       <>
-        Delaware North runs hospitality concessions in national parks and
-        stadiums nationwide, so the family&apos;s political money flows federal:
-        $65,000 to Trump&apos;s 2016 transition, $100,000 to Trump Victory, and
-        $401,854 to Gov. Hochul — whose husband Delaware North employed as
-        general counsel.
+      Delaware North does a significant amount of business with the federal government, operating hospitality concessions at many national parks and stadiums — making them reliant on government contracts and regulation.
+        Eleven Jacobs family members donated the maximum allowable to Trump including Jeremy Jacobs Sr. and many of his children and their spouses.
+Maximum donations also came from the family&apos;s business enterprises including Patina Restaurant Group and Delaware North Companies.
+
       </>
     ),
   },
   business: {
     summary: (
       <>
-        Delaware North, the Boston Bruins and the NHL, a seat on M&amp;T
-        Bank&apos;s board, the American Gaming Association — the family&apos;s
-        reach spans the industries that live on government contracts and
-        regulation.
+        Delaware North&apos;s global hospitality and gaming empire, a seat on
+        M&amp;T Bank&apos;s board, and the chair of the American Gaming
+        Association&apos;s CEO roundtable — the family&apos;s reach spans the
+        industries that live on government contracts and regulation.
       </>
     ),
   },
@@ -58,11 +57,13 @@ const JACOBS_AREAS: Partial<Record<FilterType, AreaInfo>> = {
       </>
     ),
   },
-  arts: {
+  sports: {
     summary: (
       <>
-        Through the Bruins, NESN and the Sports Museum, the family&apos;s
-        influence reaches into Boston&apos;s sports and cultural institutions.
+        The family owns the Boston Bruins and chairs the NHL&apos;s Board of
+        Governors, sits on the board of regional sports network NESN, and backs
+        the Bruins Foundation and Boston&apos;s Sports Museum — a sports and
+        entertainment empire built on the same hospitality business.
       </>
     ),
   },
@@ -189,10 +190,8 @@ export const WhoPullsTheStrings: React.FC = () => {
           the <strong className="text-white">business</strong> boards that win
           government contracts, and earn{" "}
           <strong className="text-white">tax breaks</strong> through
-          philanthropy. They take money from taxpayers — and get called{" "}
-          <strong className="text-[#FFD600]">philanthropists</strong> for it. Map
-          their network of deals, donations, and favors, and we can start to hold
-          them accountable. Click a sphere to dig in.
+          philanthropy. Map their network of deals, donations, and favors, and we
+          can start to hold them accountable. Click a sphere to dig in.
         </p>
         <PowerMap
           people={toPowerMapPeople(JACOBS_PEOPLE, JACOBS_SHORT_NAMES)}

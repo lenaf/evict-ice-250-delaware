@@ -5,6 +5,7 @@ export type AffiliationCategory =
   | "catholic"
   | "business"
   | "cultural"
+  | "sports"
   | "charity"
   | "civic"
   | "government";
@@ -13,6 +14,7 @@ export type AffiliationCategory =
 export type Jurisdiction = "local" | "state" | "federal";
 export type FilterType =
   | "politician"
+  | "sports"
   | "arts"
   | "education"
   | "business"

@@ -28,7 +28,7 @@ export const JACOBS_PEOPLE: PersonData[] = [
     ],
     affiliations: [
       { org: "Delaware North", role: "Chairman", category: "business", faviconDomain: "delawarenorth.com", coverImage: "/logos/affiliations/delaware-north.jpg", href: "https://www.delawarenorth.com" },
-      { org: "Boston Bruins / NHL", role: "Owner & Governor; NHL Board Chair since 2007", category: "business", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg", href: "https://www.nhl.com/bruins" },
+      { org: "Boston Bruins / NHL", role: "Owner & Governor; NHL Board Chair since 2007", category: "sports", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg", href: "https://www.nhl.com/bruins" },
       { org: "University at Buffalo Council", role: "Former Chairman (appointed 1998)", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", href: "https://www.buffalo.edu/ubcouncil/members.html", contribution: "Jeremy Sr. chaired the UB Council for years; son Jerry Jr. now holds the chair, appointed by Gov. Hochul", description: "Jeremy Sr. chaired the University at Buffalo Council for years; his son Jerry Jr. now holds the chair, appointed by Gov. Hochul. ICE — operating from 250 Delaware, the building Delaware North is headquartered in — has targeted UB students and faculty." },
       { org: "Jacobs School of Medicine (UB)", role: "Namesake; $30M founding donor", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", contribution: "$30 million founding gift — the family's name is on UB's medical school", description: "The Jacobs family's $30 million gift named UB's medical school. The same family's headquarters sits above the ICE field office." },
       { org: "Jacobs Institute", role: "Chairman", category: "charity", faviconDomain: "jacobsinstitute.org", coverImage: "/logos/affiliations/jacobs-institute.jpg", href: "https://www.jacobsinstitute.org", contribution: "Founded and funds the vascular medical-innovation center that bears the family name", description: "A vascular medical-innovation center the family founded and chairs." },
@@ -58,7 +58,7 @@ export const JACOBS_PEOPLE: PersonData[] = [
     ],
     affiliations: [
       { org: "Delaware North", role: "CEO", category: "business", faviconDomain: "delawarenorth.com", coverImage: "/logos/affiliations/delaware-north.jpg", href: "https://www.delawarenorth.com" },
-      { org: "Boston Bruins / NHL", role: "Alternate Governor", category: "business", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg" },
+      { org: "Boston Bruins / NHL", role: "Alternate Governor", category: "sports", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg" },
       { org: "University at Buffalo Council", role: "Current Chair (appointed by Gov. Hochul, 2025)", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", href: "https://www.buffalo.edu/ubcouncil/members.html", description: "Gov. Hochul appointed Jerry Jr. chair of the UB Council in March 2025 — the same governor whose husband Delaware North paid hundreds of thousands of dollars a year as general counsel." },
       { org: "M&T Bank", role: "Board of Directors (2025)", category: "business", faviconDomain: "mtb.com", coverImage: "/logos/affiliations/mtbank.jpg", href: "https://ir.mtb.com", description: "Elected to the board of Buffalo's largest bank in 2025." },
       { org: "Mimivax", role: "Board Chair", category: "business", faviconDomain: "mimivax.com", description: "Chairs the board of the Buffalo biotech company." },
@@ -86,7 +86,7 @@ export const JACOBS_PEOPLE: PersonData[] = [
     ],
     affiliations: [
       { org: "Delaware North", role: "CEO", category: "business", faviconDomain: "delawarenorth.com", coverImage: "/logos/affiliations/delaware-north.jpg", href: "https://www.delawarenorth.com" },
-      { org: "Boston Bruins / NHL", role: "Alternate Governor", category: "business", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg" },
+      { org: "Boston Bruins / NHL", role: "Alternate Governor", category: "sports", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg" },
       { org: "American Gaming Association", role: "CEO Roundtable Chair (2026)", category: "business", jurisdiction: "federal", faviconDomain: "americangaming.org", coverImage: "/logos/affiliations/aga.jpg", href: "https://www.americangaming.org", description: "Chairs the CEO Roundtable of the casino industry's main lobbying group." },
       { org: "FeedMore WNY", role: "Board of Directors; Capital Campaign Chair", category: "charity", faviconDomain: "feedmorewny.org", coverImage: "/logos/affiliations/feedmore.jpg", href: "https://www.feedmorewny.org" },
       { org: "Everglades Foundation", role: "Chairman's Advisory Council", category: "charity", faviconDomain: "evergladesfoundation.org", coverImage: "/logos/affiliations/everglades.jpg", href: "https://www.evergladesfoundation.org" },
@@ -109,10 +109,10 @@ export const JACOBS_PEOPLE: PersonData[] = [
     ],
     affiliations: [
       { org: "Delaware North", role: "CEO", category: "business", faviconDomain: "delawarenorth.com", coverImage: "/logos/affiliations/delaware-north.jpg", href: "https://www.delawarenorth.com" },
-      { org: "Boston Bruins / NHL", role: "CEO & Alternate Governor", category: "business", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg", href: "https://www.nhl.com/bruins" },
-      { org: "Boston Bruins Foundation", role: "Founder & Chairman", category: "charity", faviconDomain: "bostonbruins.com", coverImage: "/logos/affiliations/bruins-foundation.jpg", href: "https://www.nhl.com/bruins/community/boston-bruins-foundation" },
-      { org: "NESN", role: "Board Member (22 years)", category: "business", faviconDomain: "nesn.com", coverImage: "/logos/affiliations/nesn.jpg", href: "https://www.nesn.com" },
-      { org: "The Sports Museum", role: "Board Member", category: "cultural", faviconDomain: "sportsmuseum.org", coverImage: "/logos/affiliations/sportsmuseum.jpg", href: "https://www.sportsmuseum.org" },
+      { org: "Boston Bruins / NHL", role: "CEO & Alternate Governor", category: "sports", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg", href: "https://www.nhl.com/bruins" },
+      { org: "Boston Bruins Foundation", role: "Founder & Chairman", category: "sports", faviconDomain: "bostonbruins.com", coverImage: "/logos/affiliations/bruins-foundation.jpg", href: "https://www.nhl.com/bruins/community/boston-bruins-foundation" },
+      { org: "NESN", role: "Board Member (22 years)", category: "sports", faviconDomain: "nesn.com", coverImage: "/logos/affiliations/nesn.jpg", href: "https://www.nesn.com" },
+      { org: "The Sports Museum", role: "Board Member", category: "sports", faviconDomain: "sportsmuseum.org", coverImage: "/logos/affiliations/sportsmuseum.jpg", href: "https://www.sportsmuseum.org" },
       { org: "Massachusetts Business Roundtable", role: "Member", category: "business", faviconDomain: "maroundtable.com" },
     ],
   },

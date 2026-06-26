@@ -35,6 +35,7 @@ const CATEGORY_TYPE: Record<AffiliationCategory, FilterType> = {
   education: "education",
   business: "business",
   cultural: "arts",
+  sports: "sports",
   catholic: "civic",
   charity: "civic",
   civic: "civic",
@@ -43,6 +44,7 @@ const CATEGORY_TYPE: Record<AffiliationCategory, FilterType> = {
 
 const TYPE_LABEL: Record<FilterType, string> = {
   politician: "Politicians",
+  sports: "Sports",
   arts: "Arts",
   education: "Education",
   business: "Business",
@@ -54,6 +56,7 @@ const CATEGORY_COLOR: Record<AffiliationCategory, string> = {
   education: "#3B82F6",
   business: "#FFD600",
   cultural: "#EC4899",
+  sports: "#22C55E",
   civic: "#14B8A6",
   charity: "#F97316",
   government: "#DC2626",
@@ -92,6 +95,7 @@ const CATEGORY_LABEL: Record<AffiliationCategory, string> = {
   education: "Education",
   business: "Business",
   cultural: "Cultural",
+  sports: "Sports & Entertainment",
   civic: "Civic",
   charity: "Philanthropy",
   government: "Government",

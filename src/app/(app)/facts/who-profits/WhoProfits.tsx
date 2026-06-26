@@ -163,10 +163,8 @@ export const WhoProfits: React.FC = () => {
             earn tax breaks through philanthropy
           </strong>
           . Every donation, board seat, and charitable gift is another lever of
-          influence — take money from taxpayers, then get called a
-          philanthropist for it. Map their network of deals, donations, and
-          favors, and we can start to hold them accountable. Click a sphere to
-          dig in.
+          influence. Map their network of deals, donations, and favors, and we
+          can start to hold them accountable. Click a sphere to dig in.
         </p>
         <PowerMap
           people={toPowerMapPeople(MONTANTE_PEOPLE, MONTANTE_SHORT_NAMES)}
