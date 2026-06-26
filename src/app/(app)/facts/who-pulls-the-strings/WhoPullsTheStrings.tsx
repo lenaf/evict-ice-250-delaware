@@ -86,7 +86,7 @@ export const WhoPullsTheStrings: React.FC = () => {
           lede={
             <>
              Directly above the ICE offices sit the global headquarters of Delaware North, a $3 billion hospitality company owned by the Jacobs family.
-             Jeremy Jacobs Sr. is <strong className="text-[#FFD600]">Buffalo&apos;s only Forbes billionaire</strong>, worth about <strong className="text-[#FFD600]">$4.6 billion</strong>.
+             Jeremy Jacobs Sr. is <strong className="text-[#FFD600]">Buffalo&apos;s only Forbes billionaire</strong>, worth about <strong className="text-[#FFD600]">$5.4 billion</strong>.
             </>
 
             }
@@ -138,7 +138,7 @@ export const WhoPullsTheStrings: React.FC = () => {
       <Section variant="black" className="border-t border-white/10">
         <SectionHeading>Network of Influence</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
-          Jeremy Jacobs Sr. is Buffalo&apos;s only billionaire, worth about $4.6
+          Jeremy Jacobs Sr. is Buffalo&apos;s only billionaire, worth about $5.4
           billion. That fortune buys reach: they fund politicians from federal
           elections to the Governor&apos;s office, sit on the business boards
           that win government contracts, and earn tax breaks through
