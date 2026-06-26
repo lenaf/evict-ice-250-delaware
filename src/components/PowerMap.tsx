@@ -345,11 +345,9 @@ function simulate(nodes: SimNode[], links: SimLink[]) {
   return nodes;
 }
 
-// Per-area editorial content: a short blurb + a headline stat under the label,
-// and a longer summary shown above the map when that area is focused.
+// Per-area editorial content: a summary shown above the map when that area
+// is focused.
 export interface AreaInfo {
-  blurb: string;
-  stat?: string; // e.g. cumulative giving — "$290,000+ to politicians"
   summary?: React.ReactNode;
 }
 
@@ -572,6 +570,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   );
   const [laidOut, setLaidOut] = useState<SimNode[] | null>(null);
   const [selected, setSelected] = useState<SimNode | null>(null);
+  const [hoverId, setHoverId] = useState<string | null>(null);
   const [types, setTypes] = useState<Set<FilterType>>(new Set());
   const [jurs, setJurs] = useState<Set<Jurisdiction>>(new Set());
   const ran = useRef(false);
@@ -612,8 +611,6 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   // The focused area (when exactly one type is selected) and its summary copy.
   const activeArea = types.size === 1 ? [...types][0] : null;
   const activeSummary = activeArea ? areas?.[activeArea]?.summary : undefined;
-  // Edge labels only show once the map is filtered — they're overwhelming in the full view.
-  const anyFilter = types.size > 0 || jurs.size > 0;
   const areaOptions = (Object.keys(TYPE_LABEL) as FilterType[]).filter((t) =>
     presentTypes.has(t)
   );
@@ -695,15 +692,15 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                     strokeWidth={1.5}
                     strokeDasharray="5 4"
                   />
-                  {l.label && visible && anyFilter && (
+                  {l.label && visible && (hoverId === l.source || hoverId === l.target) && (
                     <text
                       x={lx}
                       y={ly}
                       textAnchor="middle"
                       fontSize={13}
-                      fontWeight={isDon ? 800 : 700}
+                      fontWeight={isDon ? 800 : 400}
                       fill={isDon ? "#FFD600" : "#fff"}
-                      fillOpacity={isDon ? 1 : 0.92}
+                      fillOpacity={isDon ? 1 : 0.85}
                       stroke="#000"
                       strokeWidth={4}
                       paintOrder="stroke"
@@ -725,6 +722,8 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                 key={n.id}
                 opacity={dim ? 0.12 : 1}
                 style={{ pointerEvents: dim ? "none" : undefined }}
+                onMouseEnter={() => setHoverId(n.id)}
+                onMouseLeave={() => setHoverId((cur) => (cur === n.id ? null : cur))}
               >
                 {n.type === "person" ? (
                   <PersonNodeG n={n} onClick={() => setSelected(n)} />
@@ -758,7 +757,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
       </div>
 
       <p className="mt-4 text-xs text-white/40 uppercase tracking-widest font-black">
-        Tap any node to read more · bigger node = more ties
+        Hover a node to see its connections · tap to read more · bigger node = more ties
       </p>
 
       {/* Modal */}
@@ -810,7 +809,7 @@ function ModalHeader({
       <button
         onClick={onClose}
         aria-label="Close"
-        className="shrink-0 font-black text-xl leading-none px-3 py-1 border-2 border-black hover:bg-[#DC2626] hover:text-white hover:border-[#DC2626] cursor-pointer transition"
+        className="shrink-0 font-black text-xl leading-none px-3 py-1 border-2 border-black bg-black text-white hover:bg-[#DC2626] hover:border-[#DC2626] cursor-pointer transition"
       >
         ✕
       </button>

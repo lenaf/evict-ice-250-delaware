@@ -21,8 +21,6 @@ import {
 // Editorial copy for each area of power (draft — refine from the source doc).
 const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   civic: {
-    blurb: "The Catholic Church",
-    stat: "25+ yrs on the Bishop's Council",
     summary: (
       <>
         Carl Montante Sr. sat on the Diocese of Buffalo&apos;s Bishop&apos;s
@@ -34,18 +32,13 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
     ),
   },
   politician: {
-    blurb: "Governors & local officials",
-    stat: "$284,467+ to state and local politians between 2015-2024",
     summary: (
       <>
-        The family has been very generous to Governors Pataki, Spitzer, Paterson,
-        Cuomo and Hochul.
+      The family and their corporate entities have donated over $415,000 to political campaigns at every level of government.
       </>
     ),
   },
   education: {
-    blurb: "Catholic schools",
-    stat: "Buildings on 3 campuses",
     summary: (
       <>
         Uniland built academic halls, a field house and student housing for
@@ -55,8 +48,6 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
     ),
   },
   arts: {
-    blurb: "Buffalo Philharmonic",
-    stat: "$1.5M to the BPO",
     summary: (
       <>
         Carl Montante Sr. is a past chairman of the Buffalo Philharmonic
@@ -66,7 +57,6 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
     ),
   },
   business: {
-    blurb: "The development lobby",
     summary: (
       <>
         The family holds seats across Buffalo&apos;s business establishment —
@@ -88,10 +78,8 @@ export const WhoProfits: React.FC = () => {
           lede={
             <>
               The Montante family own Uniland Development, the largest commercial real estate development company ins Western NY.
-              They make $1.95 million a year in rent from ICE.
-              Plus another $.56 million a year in rent from Customs and Border Protection.
-              All in, they profit $2.5 million a year from immigration enforcement.
-              
+              They make $1.95 million a year in rent from ICE, plus $.56 million a year in rent from Customs and Border Protection.
+              With a total profit of $2.5 million a year, the Montante family is the largest local profiteer from immigration enforcement in the region.
             </>
           }
           people={toHeroPeople(MONTANTE_PEOPLE)}
