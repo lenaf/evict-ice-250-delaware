@@ -197,28 +197,24 @@ export function Header() {
               >
                 JOIN US
               </Link>
-              {/* THE FACTS sub-items */}
-              <Link
-                href="/facts/what-happens-inside"
-                onClick={() => setMenuOpen(false)}
-                className={`font-black text-xl tracking-wide py-3 border-b border-white/10 transition ${textColor}`}
-              >
-                What Happens Inside
-              </Link>
-              <Link
-                href="/facts/who-profits"
-                onClick={() => setMenuOpen(false)}
-                className={`font-black text-xl tracking-wide py-3 border-b border-white/10 transition ${textColor}`}
-              >
-                Who Profits
-              </Link>
-              <Link
-                href="/facts/who-pulls-the-strings"
-                onClick={() => setMenuOpen(false)}
-                className={`font-black text-xl tracking-wide py-3 border-b border-white/10 transition ${textColor}`}
-              >
-                Who Pulls the Strings
-              </Link>
+              {/* THE FACTS group with nested sub-items */}
+              <div className="py-3 border-b border-white/10">
+                <div className="font-black text-xl tracking-wide text-white/50">
+                  THE FACTS
+                </div>
+                <div className="flex flex-col mt-1">
+                  {FACTS_ITEMS.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`font-black text-sm uppercase tracking-wider py-2.5 pl-4 transition ${textColor}`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
               <Link
                 href="/events"
                 onClick={() => setMenuOpen(false)}
