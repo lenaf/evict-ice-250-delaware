@@ -135,7 +135,7 @@ interface SimLink {
 
 const W = 1000;
 const H = 720; // wider-than-tall field keeps the map from dominating vertically
-const PAD = 70; // viewBox breathing room so edge node labels aren't clipped
+const PAD = 36; // viewBox breathing room so edge node labels aren't clipped
 const PEOPLE_Y = 130; // horizontal row for the people nodes, near the top
 
 // Deterministic pseudo-random so layout is stable across runs
@@ -592,7 +592,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
     const maxY = Math.max(...result.map((n) => n.y + n.r + 34));
     const spanX = maxX - minX || 1;
     const spanY = maxY - minY || 1;
-    const margin = 70;
+    const margin = 45;
     const scale = Math.min(
       (W - 2 * margin) / spanX,
       (H - 2 * margin) / spanY,
@@ -728,7 +728,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   // Render the graph only after the client-side simulation has run, so SSR and
   // first client render stay identical (avoids hydration mismatch).
   if (!laidOut) {
-    return <div className="relative w-full" style={{ aspectRatio: `${W} / ${H}` }} aria-hidden="true" />;
+    return <div className="relative w-full" style={{ aspectRatio: `${W + 2 * PAD} / ${H + 2 * PAD}` }} aria-hidden="true" />;
   }
 
   return (
@@ -769,7 +769,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
 
       <div
         className={`relative w-[calc(100%+2rem)] -mx-4 sm:w-full sm:mx-0 ${selected ? "invisible" : ""}`}
-        style={{ aspectRatio: `${W} / ${H}` }}
+        style={{ aspectRatio: `${W + 2 * PAD} / ${H + 2 * PAD}` }}
       >
         <svg
           viewBox={`${-PAD} ${-PAD} ${W + 2 * PAD} ${H + 2 * PAD}`}
