@@ -143,11 +143,18 @@ export const WhoProfits: React.FC = () => {
       <Section variant="black" className="border-t border-white/10">
         <SectionHeading>Network of Influence</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
-          And with the public subsidies and personal wealth in hand, the
-          Montantes feed money back into the institutions and politicians that
-          protect their interests — buying influence across Buffalo&apos;s
-          civic, religious, and political life. Yellow lines are political
-          donations; the bigger the node, the more seats it holds.
+          In 2025, Buffalo Business First ranked Michael Montante{" "}
+          <strong className="text-[#FFD600]">No. 27</strong> and Carl Sr.{" "}
+          <strong className="text-[#FFD600]">No. 139</strong> among the most
+          powerful people in Western New York. That power is bought: they fund{" "}
+          <strong className="text-white">politicians</strong>, buy seats in the{" "}
+          <strong className="text-white">business groups</strong> that shape
+          development policy, and earn{" "}
+          <strong className="text-white">tax breaks</strong> through
+          philanthropy. They take money from taxpayers — and get called{" "}
+          <strong className="text-[#FFD600]">philanthropists</strong> for it. Map
+          their network of deals, donations, and favors, and we can start to hold
+          them accountable. Click a sphere to dig in.
         </p>
         <PowerMap
           people={toPowerMapPeople(MONTANTE_PEOPLE, MONTANTE_SHORT_NAMES)}

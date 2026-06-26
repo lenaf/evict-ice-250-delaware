@@ -231,11 +231,22 @@ export const WhoPullsTheStrings: React.FC = () => {
       <Section variant="black" className="border-t border-white/10">
         <SectionHeading>Network of Influence</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
-          And with the public subsidies and a billion-dollar fortune behind
-          them, the Jacobses feed money back into the politicians and
-          institutions that protect their interests — from federal elections to
-          the Governor&apos;s office. Yellow lines are political donations; the
-          bigger the node, the more seats it holds.
+          Jeremy Jacobs Sr. is{" "}
+          <strong className="text-[#FFD600]">
+            Buffalo&apos;s only billionaire
+          </strong>
+          , worth about <strong className="text-[#FFD600]">$4.6 billion</strong>.
+          That fortune buys reach: they fund{" "}
+          <strong className="text-white">politicians</strong> from{" "}
+          <strong className="text-white">federal elections</strong> to the{" "}
+          <strong className="text-white">Governor&apos;s office</strong>, sit on
+          the <strong className="text-white">business</strong> boards that win
+          government contracts, and earn{" "}
+          <strong className="text-white">tax breaks</strong> through
+          philanthropy. They take money from taxpayers — and get called{" "}
+          <strong className="text-[#FFD600]">philanthropists</strong> for it. Map
+          their network of deals, donations, and favors, and we can start to hold
+          them accountable. Click a sphere to dig in.
         </p>
         <PowerMap
           people={toPowerMapPeople(JACOBS_PEOPLE, JACOBS_SHORT_NAMES)}
