@@ -1,4 +1,5 @@
 import React from "react";
+import { DollarBill } from "@/components/MoneyTree";
 
 /**
  * Renders Payload Lexical rich-text JSON into React, styled to match the
@@ -107,6 +108,28 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
           <span>{renderChildren(node.children)}</span>
         </li>
       );
+
+    case "block": {
+      const fields = (node.fields as { blockType?: string; count?: number; note?: string }) || {};
+      if (fields.blockType === "moneyBags") {
+        const count = Math.max(1, Math.min(200, fields.count ?? 1));
+        return (
+          <div key={key} className="my-6">
+            <div className="flex flex-wrap gap-1.5 max-w-2xl">
+              {Array.from({ length: count }).map((_, idx) => (
+                <span key={idx} className="w-7 md:w-8">
+                  <DollarBill />
+                </span>
+              ))}
+            </div>
+            {fields.note && (
+              <p className="text-xs opacity-60 mt-2">{fields.note}</p>
+            )}
+          </div>
+        );
+      }
+      return null;
+    }
 
     case "quote":
       return (

@@ -159,6 +159,145 @@ export interface Page {
             blockType: 'richTextSection';
           }
         | {
+            question: string;
+            familyName: string;
+            familyKey: 'montante' | 'jacobs';
+            lede?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'wealthHeroBlock';
+          }
+        | {
+            sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
+            borderTop?: boolean | null;
+            familyKey: 'montante' | 'jacobs';
+            heading?: string | null;
+            intro?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            areas?: {
+              politician?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              } | null;
+              business?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              } | null;
+              education?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              } | null;
+              arts?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              } | null;
+              civic?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              } | null;
+              sports?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              } | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'powerMapBlock';
+          }
+        | {
             sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
             borderTop?: boolean | null;
             heading?: string | null;
@@ -461,6 +600,37 @@ export interface PagesSelect<T extends boolean = true> {
               hero?: T;
               borderTop?: T;
               content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        wealthHeroBlock?:
+          | T
+          | {
+              question?: T;
+              familyName?: T;
+              familyKey?: T;
+              lede?: T;
+              id?: T;
+              blockName?: T;
+            };
+        powerMapBlock?:
+          | T
+          | {
+              sectionVariant?: T;
+              borderTop?: T;
+              familyKey?: T;
+              heading?: T;
+              intro?: T;
+              areas?:
+                | T
+                | {
+                    politician?: T;
+                    business?: T;
+                    education?: T;
+                    arts?: T;
+                    civic?: T;
+                    sports?: T;
+                  };
               id?: T;
               blockName?: T;
             };

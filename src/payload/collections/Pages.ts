@@ -107,6 +107,54 @@ const CtaButtonsBlock: Block = {
   ],
 };
 
+const familyKey: Field = {
+  name: "familyKey",
+  type: "select",
+  required: true,
+  options: [
+    { label: "Montante", value: "montante" },
+    { label: "Jacobs", value: "jacobs" },
+  ],
+};
+
+// Wealth hero: question + family name + lede prose + the family photo row.
+const WealthHeroBlock: Block = {
+  slug: "wealthHeroBlock",
+  labels: { singular: "Wealth Hero", plural: "Wealth Heroes" },
+  fields: [
+    { name: "question", type: "text", required: true },
+    { name: "familyName", type: "text", required: true },
+    familyKey,
+    { name: "lede", type: "richText" },
+  ],
+};
+
+// Network-of-influence map: intro prose + the interactive PowerMap + per-area summaries.
+const PowerMapBlock: Block = {
+  slug: "powerMapBlock",
+  labels: { singular: "Power Map", plural: "Power Maps" },
+  fields: [
+    sectionVariant,
+    borderTop,
+    familyKey,
+    { name: "heading", type: "text", defaultValue: "Network of Influence" },
+    { name: "intro", type: "richText" },
+    {
+      name: "areas",
+      type: "group",
+      label: "Area summaries (shown when an area is focused)",
+      fields: [
+        { name: "politician", type: "richText" },
+        { name: "business", type: "richText" },
+        { name: "education", type: "richText" },
+        { name: "arts", type: "richText" },
+        { name: "civic", type: "richText" },
+        { name: "sports", type: "richText" },
+      ],
+    },
+  ],
+};
+
 export const Pages: CollectionConfig = {
   slug: "pages" as const,
   admin: { useAsTitle: "title", group: "📄 Content" },
@@ -131,6 +179,8 @@ export const Pages: CollectionConfig = {
       admin: { initCollapsed: true },
       blocks: [
         RichTextSection,
+        WealthHeroBlock,
+        PowerMapBlock,
         ImageBlock,
         FactsReadNextBlock,
         CtaButtonsBlock,

@@ -4,6 +4,7 @@ import {
   lexicalEditor,
   LinkFeature,
   TextStateFeature,
+  BlocksFeature,
 } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -60,6 +61,19 @@ export default buildConfig({
             },
           },
         },
+      }),
+      // A row of money-bag icons droppable into the copy (each bag ≈ $100k).
+      BlocksFeature({
+        blocks: [
+          {
+            slug: "moneyBags",
+            labels: { singular: "Money Bags", plural: "Money Bags" },
+            fields: [
+              { name: "count", type: "number", required: true, defaultValue: 1, min: 1, max: 200 },
+              { name: "note", type: "text", admin: { description: "Optional caption under the bags." } },
+            ],
+          },
+        ],
       }),
     ],
   }),

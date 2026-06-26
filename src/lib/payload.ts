@@ -131,3 +131,21 @@ export async function getFamilyData(family: FamilyKey): Promise<FamilyData | nul
     return null;
   }
 }
+
+// Load a facts page plus the family data any of its blocks reference.
+export async function loadFactsPage(slug: string) {
+  const page = await getPageBySlug(slug);
+  if (!page) return null;
+  const sections = ((page as { sections?: unknown[] }).sections ?? []) as Array<{
+    familyKey?: string;
+  }>;
+  const keys = Array.from(
+    new Set(sections.map((s) => s.familyKey).filter(Boolean)),
+  ) as FamilyKey[];
+  const familyData: Partial<Record<string, FamilyData>> = {};
+  for (const k of keys) {
+    const fd = await getFamilyData(k);
+    if (fd) familyData[k] = fd;
+  }
+  return { sections, familyData };
+}
