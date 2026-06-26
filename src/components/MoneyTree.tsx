@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import type { WealthRef } from "@/types/affiliation";
 
 export interface MoneySource {
   amount: string;
@@ -17,7 +18,7 @@ export interface MoneyPerson {
   title: string;
   photo: string;
   // Short, sourced wealth or property reference shown under the photo.
-  wealth?: { label: string; href?: string };
+  wealth?: WealthRef;
   meta?: React.ReactNode;
 }
 
@@ -121,11 +122,6 @@ export const MoneyTree: React.FC<MoneyTreeProps> = ({ sources, people, entityNam
           ))}
         </div>
       )}
-
-      {/* Where the money comes from */}
-      <p className="text-xs font-black uppercase tracking-widest text-[#FFD600] mb-4 text-center">
-        Public money in
-      </p>
 
       {/* Money sources — subgrid keeps bags / amount / label / payer aligned across columns */}
       <div

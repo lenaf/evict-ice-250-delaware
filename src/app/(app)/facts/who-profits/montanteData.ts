@@ -147,34 +147,13 @@ export const MONTANTE_PEOPLE: PersonData[] = [
 // Short labels for each person, indexed to match MONTANTE_PEOPLE order.
 export const MONTANTE_SHORT_NAMES = ["Carl Sr.", "Michael", "Laura", "Carl Jr."];
 
-// Verified wealth / scale references shown under each photo. No public personal
-// net worth exists for the Montantes — anchored to Uniland's documented scale.
-export const MONTANTE_WEALTH: Record<string, { label: string; href?: string }> = {
-  "Carl Sr.": {
-    label: "Co-founded Uniland — WNY's largest developer, 16.5M+ sq ft",
-    href: "https://uniland.com/unillargest-commercial-real-estate-developer-2025/",
-  },
-  Michael: {
-    label: "CEO of Uniland · #21 on Buffalo's Power 250 (2026)",
-    href: "https://uniland.com/buffalo-power-250-2026/",
-  },
-  Laura: {
-    label: "VP, Uniland · Buffalo Power 200 Women honoree",
-    href: "https://uniland.com/laura-zaepfel-power-200-women-2024/",
-  },
-  "Carl Jr.": {
-    label: "VP, Uniland — WNY's largest commercial developer",
-    href: "https://uniland.com/carl-j-montante-jr/",
-  },
-};
-
 // Top political donations shown as edges in the power map (verified, NYSBOE/FEC).
 export const MONTANTE_DONATIONS: PowerMapDonation[] = [
-  { person: "Carl Sr.", recipient: "Gov. Paterson", amount: "$35,000", jurisdiction: "state", detail: "Montante family to Gov. David Paterson (NYSBOE).", href: "https://data.ny.gov/d/4j2b-6a2j" },
-  { person: "Carl Sr.", recipient: "Gov. Pataki", amount: "$25,000", jurisdiction: "state", detail: "Montante family to Gov. George Pataki (NYSBOE).", href: "https://data.ny.gov/d/4j2b-6a2j" },
-  { person: "Carl Sr.", recipient: "Gov. Cuomo", amount: "$18,000", jurisdiction: "state", detail: "Montante family to Gov. Andrew Cuomo (NYSBOE).", href: "https://data.ny.gov/d/4j2b-6a2j" },
-  { person: "Carl Sr.", recipient: "Rep. Chris Collins", amount: "$13,500", jurisdiction: "federal", detail: "To U.S. Rep. Chris Collins (R, NY-27).", href: "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=montante" },
-  { person: "Laura", recipient: "Gov. Hochul", amount: "$10,000+", jurisdiction: "state", detail: "Montante/Zaepfel to Gov. Kathy Hochul (NYSBOE).", href: "https://data.ny.gov/d/4j2b-6a2j" },
+  { person: "Carl Sr.", recipient: "Gov. Paterson", amount: "$35,000", period: "2006–10", jurisdiction: "state", photo: "/photos/politicians/paterson.jpg", detail: "Montante family to Gov. David Paterson (NYSBOE).", href: "https://data.ny.gov/d/4j2b-6a2j" },
+  { person: "Carl Sr.", recipient: "Gov. Pataki", amount: "$25,000", period: "through 2006", jurisdiction: "state", photo: "/photos/politicians/pataki.jpg", detail: "Montante family to Gov. George Pataki (NYSBOE).", href: "https://data.ny.gov/d/4j2b-6a2j" },
+  { person: "Carl Sr.", recipient: "Gov. Cuomo", amount: "$18,000", period: "2010–22", jurisdiction: "state", photo: "/photos/politicians/cuomo.jpg", detail: "Montante family to Gov. Andrew Cuomo (NYSBOE).", href: "https://data.ny.gov/d/4j2b-6a2j" },
+  { person: "Carl Sr.", recipient: "Rep. Chris Collins", amount: "$13,500", period: "2012–18", jurisdiction: "federal", detail: "To U.S. Rep. Chris Collins (R, NY-27).", href: "https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=montante" },
+  { person: "Laura", recipient: "Gov. Hochul", amount: "$10,000+", period: "since 2014", jurisdiction: "state", photo: "/photos/politicians/hochul.jpg", detail: "Montante/Zaepfel to Gov. Kathy Hochul (NYSBOE).", href: "https://data.ny.gov/d/4j2b-6a2j" },
 ];
 
 export const MONTANTE_AFFILIATIONS: AffiliationEntry[] = MONTANTE_PEOPLE.flatMap(

@@ -23,9 +23,11 @@ export interface PowerMapDonation {
   person: string; // matches PowerMapPerson.shortName
   recipient: string; // politician / committee name
   amount: string; // edge label, e.g. "$100,000"
+  period?: string; // when the amount was given, e.g. "2016" or "since 1999"
   jurisdiction: Jurisdiction;
   detail?: string; // optional note shown in the modal
   href?: string;
+  photo?: string; // optional headshot for the politician node
 }
 
 // Which filter "type" each org category maps to.
@@ -33,6 +35,7 @@ const CATEGORY_TYPE: Record<AffiliationCategory, FilterType> = {
   education: "education",
   business: "business",
   cultural: "arts",
+  sports: "sports",
   catholic: "civic",
   charity: "civic",
   civic: "civic",
@@ -41,16 +44,11 @@ const CATEGORY_TYPE: Record<AffiliationCategory, FilterType> = {
 
 const TYPE_LABEL: Record<FilterType, string> = {
   politician: "Politicians",
+  sports: "Sports",
   arts: "Arts",
   education: "Education",
   business: "Business",
-  civic: "Civic & Faith",
-};
-
-const JURISDICTION_LABEL: Record<Jurisdiction, string> = {
-  local: "Local",
-  state: "State",
-  federal: "Federal",
+  civic: "Civic",
 };
 
 const CATEGORY_COLOR: Record<AffiliationCategory, string> = {
@@ -58,6 +56,7 @@ const CATEGORY_COLOR: Record<AffiliationCategory, string> = {
   education: "#3B82F6",
   business: "#FFD600",
   cultural: "#EC4899",
+  sports: "#22C55E",
   civic: "#14B8A6",
   charity: "#F97316",
   government: "#DC2626",
@@ -96,6 +95,7 @@ const CATEGORY_LABEL: Record<AffiliationCategory, string> = {
   education: "Education",
   business: "Business",
   cultural: "Cultural",
+  sports: "Sports & Entertainment",
   civic: "Civic",
   charity: "Philanthropy",
   government: "Government",
@@ -135,7 +135,7 @@ interface SimLink {
 
 const W = 1000;
 const H = 720; // wider-than-tall field keeps the map from dominating vertically
-const PAD = 70; // viewBox breathing room so edge node labels aren't clipped
+const PAD = 36; // viewBox breathing room so edge node labels aren't clipped
 const PEOPLE_Y = 130; // horizontal row for the people nodes, near the top
 
 // Deterministic pseudo-random so layout is stable across runs
@@ -208,6 +208,7 @@ function buildGraph(
         vx: 0,
         vy: 0,
         category: "government",
+        coverImage: d.photo,
         description: d.detail,
         href: d.href,
         donationDetail: d.detail,
@@ -218,13 +219,15 @@ function buildGraph(
       });
     }
     const node = orgMap.get(id)!;
-    node.connections!.push({ person: d.person, role: `${d.amount} in donations` });
+    if (!node.coverImage && d.photo) node.coverImage = d.photo;
+    const amountWithPeriod = d.period ? `${d.amount} (${d.period})` : d.amount;
+    node.connections!.push({ person: d.person, role: `${amountWithPeriod} in donations` });
     node.degree += 1;
     links.push({
       source: `person:${d.person}`,
       target: id,
       category: "government",
-      label: d.amount,
+      label: amountWithPeriod,
       kind: "donation",
     });
   }
@@ -250,9 +253,9 @@ function buildGraph(
   // Size by degree
   for (const n of nodes) {
     if (n.type === "person") {
-      n.r = 38 + n.degree * 2.6;
+      n.r = 44 + n.degree * 2.6;
     } else {
-      n.r = 15 + n.degree * 11;
+      n.r = 19 + n.degree * 11;
     }
   }
 
@@ -273,7 +276,7 @@ function buildGraph(
   return { nodes, links };
 }
 
-function simulate(nodes: SimNode[], links: SimLink[]) {
+function simulate(nodes: SimNode[], links: SimLink[], sep = 26) {
   const byId = new Map(nodes.map((n) => [n.id, n]));
   const TICKS = 320;
   for (let t = 0; t < TICKS; t++) {
@@ -287,7 +290,7 @@ function simulate(nodes: SimNode[], links: SimLink[]) {
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-        const minDist = a.r + b.r + 26;
+        const minDist = a.r + b.r + sep;
         const force = (78000 / (dist * dist)) * alpha;
         let push = force;
         if (dist < minDist) push += (minDist - dist) * 0.5; // hard separation
@@ -340,10 +343,17 @@ function simulate(nodes: SimNode[], links: SimLink[]) {
   return nodes;
 }
 
+// Per-area editorial content: a summary shown above the map when that area
+// is focused.
+export interface AreaInfo {
+  summary?: React.ReactNode;
+}
+
 interface PowerMapProps {
   people: PowerMapPerson[];
   affiliations: AffiliationEntry[];
   donations?: PowerMapDonation[];
+  areas?: Partial<Record<FilterType, AreaInfo>>;
 }
 
 // Wrap a long org name onto up to two lines for the node label
@@ -414,9 +424,9 @@ function PersonNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
       />
       <text
         x={n.x}
-        y={n.y + r + 24}
+        y={n.y + r + 22}
         textAnchor="middle"
-        fontSize={23}
+        fontSize={20}
         fontWeight={900}
         fill="#fff"
         {...HALO}
@@ -452,16 +462,16 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
         />
         <text
           textAnchor="middle"
-          fontSize={14}
-          fontWeight={300}
+          fontSize={13.5}
+          fontWeight={700}
           fill="#fff"
           stroke="#000"
-          strokeWidth={2.5}
+          strokeWidth={4}
           paintOrder="stroke"
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           {lines.map((line, i) => (
-            <tspan key={i} x={n.x} y={n.y + r + 17 + i * 16}>
+            <tspan key={i} x={n.x} y={n.y + r + 16 + i * 14}>
               {line}
             </tspan>
           ))}
@@ -488,16 +498,16 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
       </text>
       <text
         textAnchor="middle"
-        fontSize={14}
-        fontWeight={300}
+        fontSize={13.5}
+        fontWeight={700}
         fill="#fff"
         stroke="#000"
-        strokeWidth={2.5}
+        strokeWidth={4}
         paintOrder="stroke"
         style={{ fontFamily: "Inter, sans-serif" }}
       >
         {lines.map((line, i) => (
-          <tspan key={i} x={n.x} y={n.y + r + 17 + i * 16}>
+          <tspan key={i} x={n.x} y={n.y + r + 16 + i * 14}>
             {line}
           </tspan>
         ))}
@@ -506,50 +516,11 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
   );
 }
 
-// A row of toggle chips for one filter axis.
-function FilterRow<T extends string>({
-  label,
-  options,
-  labels,
-  active,
-  onToggle,
-}: {
-  label: string;
-  options: T[];
-  labels: Record<T, string>;
-  active: Set<T>;
-  onToggle: (v: T) => void;
-}) {
-  if (options.length === 0) return null;
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="text-[10px] font-black uppercase tracking-widest text-white/30 w-12 shrink-0">
-        {label}
-      </span>
-      {options.map((o) => {
-        const on = active.has(o);
-        return (
-          <button
-            key={o}
-            onClick={() => onToggle(o)}
-            className={`text-[11px] font-black uppercase tracking-wider px-3 py-1.5 border-2 transition cursor-pointer ${
-              on
-                ? "bg-[#FFD600] text-black border-[#FFD600]"
-                : "bg-transparent text-white/60 border-white/20 hover:border-white/50"
-            }`}
-          >
-            {labels[o]}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
 export const PowerMap: React.FC<PowerMapProps> = ({
   people,
   affiliations,
   donations,
+  areas,
 }) => {
   const graph = useMemo(
     () => buildGraph(people, affiliations, donations),
@@ -558,7 +529,6 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   const [laidOut, setLaidOut] = useState<SimNode[] | null>(null);
   const [selected, setSelected] = useState<SimNode | null>(null);
   const [types, setTypes] = useState<Set<FilterType>>(new Set());
-  const [jurs, setJurs] = useState<Set<Jurisdiction>>(new Set());
   const ran = useRef(false);
 
   // Which filter chips are present in this graph (so we don't show empty ones).
@@ -567,17 +537,11 @@ export const PowerMap: React.FC<PowerMapProps> = ({
     graph.nodes.forEach((n) => n.nodeType && s.add(n.nodeType));
     return s;
   }, [graph]);
-  const presentJurs = useMemo(() => {
-    const s = new Set<Jurisdiction>();
-    graph.nodes.forEach((n) => n.jurisdiction && s.add(n.jurisdiction));
-    return s;
-  }, [graph]);
 
-  // A node passes the filters if it matches every active axis (people always pass).
+  // A node passes the filter if it matches the active area (people always pass).
   const nodeVisible = (n: SimNode): boolean => {
     if (n.type === "person") return true;
     if (types.size && !(n.nodeType && types.has(n.nodeType))) return false;
-    if (jurs.size && !(n.jurisdiction && jurs.has(n.jurisdiction))) return false;
     return true;
   };
 
@@ -591,77 +555,260 @@ export const PowerMap: React.FC<PowerMapProps> = ({
     setLaidOut(result);
   }, [graph]);
 
-  const nodes = laidOut ?? graph.nodes;
+  // When an area is focused, re-run the layout on just the visible subset so
+  // the remaining nodes spread out and fill the space instead of leaving the
+  // gaps where the (now hidden) off-area nodes used to sit.
+  const focusedLayout = useMemo(() => {
+    if (!laidOut || types.size === 0) return null;
+    const visible = laidOut
+      .filter((n) => n.type === "person" || (n.nodeType && types.has(n.nodeType)))
+      .map((n) => ({ ...n, vx: 0, vy: 0 }));
+    const visIds = new Set(visible.map((n) => n.id));
+    const subLinks = graph.links.filter(
+      (l) => visIds.has(l.source) && visIds.has(l.target)
+    );
+    const persons = visible.filter((n) => n.type === "person");
+    const orgs = visible.filter((n) => n.type === "org");
+    const pc = persons.length;
+    persons.forEach((n, i) => {
+      n.x = W / 2 + (i - (pc - 1) / 2) * 200;
+      n.y = PEOPLE_Y;
+    });
+    orgs.forEach((n, i) => {
+      const a = seeded(i + 1) * Math.PI * 2;
+      const rad = 200 + seeded(i + 50) * 220;
+      n.x = W / 2 + Math.cos(a) * rad;
+      n.y = H / 2 + Math.sin(a) * rad;
+    });
+    // More separation in the focused view: fewer nodes, so give names room.
+    const result = simulate(visible, subLinks, 90);
+
+    // Fit the laid-out cloud to the canvas: center it and scale (capped) so a
+    // sparse focused view fills the empty space instead of hugging the middle.
+    // Pad below each node for its name label so it isn't clipped.
+    const minX = Math.min(...result.map((n) => n.x - n.r));
+    const maxX = Math.max(...result.map((n) => n.x + n.r));
+    const minY = Math.min(...result.map((n) => n.y - n.r));
+    const maxY = Math.max(...result.map((n) => n.y + n.r + 34));
+    const spanX = maxX - minX || 1;
+    const spanY = maxY - minY || 1;
+    const margin = 45;
+    const scale = Math.min(
+      (W - 2 * margin) / spanX,
+      (H - 2 * margin) / spanY,
+      1.5
+    );
+    const cx0 = (minX + maxX) / 2;
+    const cy0 = (minY + maxY) / 2;
+    result.forEach((n) => {
+      n.x = W / 2 + (n.x - cx0) * scale;
+      n.y = H / 2 + (n.y - cy0) * scale;
+    });
+    return result;
+  }, [laidOut, types, graph.links]);
+
+  const nodes = focusedLayout ?? laidOut ?? graph.nodes;
   const byId = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
+
+  // Resolve edge-label positions so they don't overlap each other or the nodes.
+  // Each visible label starts at its curve anchor, then a few relaxation passes
+  // push overlapping boxes apart (along the least-overlap axis) and out of nodes.
+  const labelPos = useMemo(() => {
+    const FS = 8.5;
+    const items: {
+      i: number;
+      x: number;
+      y: number;
+      hw: number;
+      hh: number;
+    }[] = [];
+    graph.links.forEach((l, i) => {
+      if (!l.label) return;
+      const s = byId.get(l.source);
+      const t = byId.get(l.target);
+      if (!s || !t) return;
+      if (t.type !== "person" && types.size && !(t.nodeType && types.has(t.nodeType)))
+        return; // matches nodeVisible(t)
+      const dx = t.x - s.x;
+      const dy = t.y - s.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const k = 0.13 * len * (i % 2 === 0 ? 1 : -1);
+      const cx = (s.x + t.x) / 2 + (-dy / len) * k;
+      const cy = (s.y + t.y) / 2 + (dx / len) * k;
+      items.push({
+        i,
+        x: 0.25 * s.x + 0.5 * cx + 0.25 * t.x,
+        y: 0.25 * s.y + 0.5 * cy + 0.25 * t.y,
+        hw: (l.label.length * FS * 0.55) / 2 + 6,
+        hh: FS / 2 + 7,
+      });
+    });
+
+    const visNodes = nodes.filter((n) => n.type === "person" || nodeVisible(n));
+
+    // Bounding boxes for each node's NAME text (sits below the circle), so edge
+    // labels avoid the names too — not just the circles.
+    const nameBoxes = visNodes.map((n) => {
+      if (n.type === "person") {
+        const w = n.label.length * 20 * 0.55;
+        return { cx: n.x, cy: n.y + n.r + 12, hw: w / 2 + 3, hh: 12 };
+      }
+      const lines = labelLines(n.label);
+      const maxLen = Math.max(...lines.map((l) => l.length));
+      const top = n.y + n.r + 2.5;
+      const bottom = n.y + n.r + 16 + (lines.length - 1) * 14;
+      return {
+        cx: n.x,
+        cy: (top + bottom) / 2,
+        hw: (maxLen * 13.5 * 0.55) / 2 + 3,
+        hh: (bottom - top) / 2 + 3,
+      };
+    });
+
+    for (let pass = 0; pass < 160; pass++) {
+      // label ↔ label
+      for (let a = 0; a < items.length; a++) {
+        for (let b = a + 1; b < items.length; b++) {
+          const A = items[a];
+          const B = items[b];
+          const ox = A.hw + B.hw - Math.abs(A.x - B.x);
+          const oy = A.hh + B.hh - Math.abs(A.y - B.y);
+          if (ox > 0 && oy > 0) {
+            if (oy < ox) {
+              const p = (oy / 2 + 0.4) * (A.y <= B.y ? 1 : -1);
+              A.y -= p;
+              B.y += p;
+            } else {
+              const p = (ox / 2 + 0.4) * (A.x <= B.x ? 1 : -1);
+              A.x -= p;
+              B.x += p;
+            }
+          }
+        }
+      }
+      // label ↔ node (push label clear of node circles)
+      for (const A of items) {
+        for (const n of visNodes) {
+          const dx = A.x - n.x;
+          const dy = A.y - n.y;
+          const d = Math.hypot(dx, dy) || 0.01;
+          const min = n.r + A.hh + 4;
+          if (d < min) {
+            const push = (min - d) * 0.5;
+            A.x += (dx / d) * push;
+            A.y += (dy / d) * push;
+          }
+        }
+        // label ↔ node-name box (AABB push, label moves only)
+        for (const ob of nameBoxes) {
+          const ox = A.hw + ob.hw - Math.abs(A.x - ob.cx);
+          const oy = A.hh + ob.hh - Math.abs(A.y - ob.cy);
+          if (ox > 0 && oy > 0) {
+            if (oy < ox) A.y += (A.y <= ob.cy ? -1 : 1) * (oy + 0.5);
+            else A.x += (A.x <= ob.cx ? -1 : 1) * (ox + 0.5);
+          }
+        }
+      }
+    }
+    const map = new Map<number, { x: number; y: number }>();
+    items.forEach((it) => map.set(it.i, { x: it.x, y: it.y }));
+    return map;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [byId, graph.links, nodes, types]);
+
+  // The focused area (when exactly one type is selected) and its summary copy.
+  const activeArea = types.size === 1 ? [...types][0] : null;
+  const activeSummary = activeArea ? areas?.[activeArea]?.summary : undefined;
+  const areaOptions = (Object.keys(TYPE_LABEL) as FilterType[]).filter((t) =>
+    presentTypes.has(t)
+  );
+  const selectArea = (t: FilterType) =>
+    setTypes((prev) => (prev.has(t) && prev.size === 1 ? new Set() : new Set([t])));
 
   // Render the graph only after the client-side simulation has run, so SSR and
   // first client render stay identical (avoids hydration mismatch).
   if (!laidOut) {
-    return <div className="relative w-full" style={{ aspectRatio: `${W} / ${H}` }} aria-hidden="true" />;
+    return <div className="relative w-full" style={{ aspectRatio: `${W + 2 * PAD} / ${H + 2 * PAD}` }} aria-hidden="true" />;
   }
 
   return (
     <div>
-      <div className="relative w-full" style={{ aspectRatio: `${W} / ${H}` }}>
+      {/* Area selector — a row of toggle buttons above the map */}
+      <p className="mb-3 text-xs font-black uppercase tracking-widest text-white/40">
+        Click an area to focus the network
+      </p>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {(() => {
+          const chip = (active: boolean) =>
+            `text-sm font-black uppercase tracking-wider px-4 py-2 border-2 transition cursor-pointer ${
+              active
+                ? "bg-[#FFD600] text-black border-[#FFD600]"
+                : "bg-transparent text-white/70 border-white/25 hover:border-white/60"
+            }`;
+          return (
+            <>
+              <button onClick={() => setTypes(new Set())} className={chip(types.size === 0)}>
+                All
+              </button>
+              {areaOptions.map((t) => (
+                <button key={t} onClick={() => selectArea(t)} className={chip(types.has(t))}>
+                  {TYPE_LABEL[t]}
+                </button>
+              ))}
+            </>
+          );
+        })()}
+      </div>
+
+      {/* Focused-area summary, shown above the map */}
+      {activeArea && activeSummary && (
+        <div className="mb-6 text-lg md:text-xl leading-relaxed text-white/80">
+          {activeSummary}
+        </div>
+      )}
+
+      <div
+        className={`relative w-[calc(100%+2rem)] -mx-4 sm:w-full sm:mx-0 ${selected ? "invisible" : ""}`}
+        style={{ aspectRatio: `${W + 2 * PAD} / ${H + 2 * PAD}` }}
+      >
         <svg
           viewBox={`${-PAD} ${-PAD} ${W + 2 * PAD} ${H + 2 * PAD}`}
           className="w-full h-full block"
           role="img"
           aria-label="Power map"
         >
-          {/* Links — curved, dashed, with a relationship / $ label at the midpoint */}
+          {/* Links — curved, dashed lines (labels drawn on top, after nodes) */}
           <g>
             {graph.links.map((l, i) => {
               const s = byId.get(l.source);
               const t = byId.get(l.target);
               if (!s || !t) return null;
-              const visible = nodeVisible(t);
+              if (!nodeVisible(t)) return null;
               const dx = t.x - s.x;
               const dy = t.y - s.y;
               const len = Math.hypot(dx, dy) || 1;
               const k = 0.13 * len * (i % 2 === 0 ? 1 : -1);
               const cx = (s.x + t.x) / 2 + (-dy / len) * k;
               const cy = (s.y + t.y) / 2 + (dx / len) * k;
-              const lx = 0.25 * s.x + 0.5 * cx + 0.25 * t.x;
-              const ly = 0.25 * s.y + 0.5 * cy + 0.25 * t.y;
-              const isDon = l.kind === "donation";
               return (
-                <g key={i} opacity={visible ? 1 : 0.06}>
-                  <path
-                    d={`M${s.x},${s.y} Q${cx},${cy} ${t.x},${t.y}`}
-                    fill="none"
-                    stroke={isDon ? "#FFD600" : "#fff"}
-                    strokeOpacity={isDon ? 0.4 : 0.22}
-                    strokeWidth={1.5}
-                    strokeDasharray="5 4"
-                  />
-                  {l.label && visible && (
-                    <text
-                      x={lx}
-                      y={ly}
-                      textAnchor="middle"
-                      fontSize={12.5}
-                      fontWeight={isDon ? 800 : 500}
-                      fill={isDon ? "#FFD600" : "#fff"}
-                      fillOpacity={isDon ? 1 : 0.75}
-                      stroke="#000"
-                      strokeWidth={3}
-                      paintOrder="stroke"
-                      style={{ fontFamily: "Inter, sans-serif" }}
-                    >
-                      {l.label}
-                    </text>
-                  )}
-                </g>
+                <path
+                  key={i}
+                  d={`M${s.x},${s.y} Q${cx},${cy} ${t.x},${t.y}`}
+                  fill="none"
+                  stroke="#fff"
+                  strokeOpacity={0.22}
+                  strokeWidth={1.5}
+                  strokeDasharray="5 4"
+                />
               );
             })}
           </g>
 
           {/* Nodes */}
           {nodes.map((n) => {
-            const dim = !nodeVisible(n);
+            if (!nodeVisible(n)) return null;
             return (
-              <g key={n.id} opacity={dim ? 0.12 : 1}>
+              <g key={n.id}>
                 {n.type === "person" ? (
                   <PersonNodeG n={n} onClick={() => setSelected(n)} />
                 ) : (
@@ -670,47 +817,73 @@ export const PowerMap: React.FC<PowerMapProps> = ({
               </g>
             );
           })}
+
+          {/* Edge labels — drawn last so they always sit on top of the nodes */}
+          {types.size > 0 && (
+            <g>
+              {graph.links.map((l, i) => {
+                if (!l.label) return null;
+                const s = byId.get(l.source);
+                const t = byId.get(l.target);
+                if (!s || !t || !nodeVisible(t)) return null;
+                const dx = t.x - s.x;
+                const dy = t.y - s.y;
+                const len = Math.hypot(dx, dy) || 1;
+                const k = 0.13 * len * (i % 2 === 0 ? 1 : -1);
+                const cx = (s.x + t.x) / 2 + (-dy / len) * k;
+                const cy = (s.y + t.y) / 2 + (dx / len) * k;
+                const lx = 0.25 * s.x + 0.5 * cx + 0.25 * t.x;
+                const ly = 0.25 * s.y + 0.5 * cy + 0.25 * t.y;
+                const lp = labelPos.get(i) ?? { x: lx, y: ly };
+                const moved = Math.hypot(lp.x - lx, lp.y - ly) > 3;
+                return (
+                  <g key={i}>
+                    {moved && (
+                      <>
+                        <line
+                          x1={lx}
+                          y1={ly}
+                          x2={lp.x}
+                          y2={lp.y}
+                          stroke="#fff"
+                          strokeOpacity={0.4}
+                          strokeWidth={0.75}
+                        />
+                        <circle cx={lx} cy={ly} r={1.6} fill="#fff" fillOpacity={0.5} />
+                      </>
+                    )}
+                    <rect
+                      x={lp.x - (l.label.length * 4.7 + 7) / 2}
+                      y={lp.y - 7}
+                      width={l.label.length * 4.7 + 7}
+                      height={14}
+                      rx={2.5}
+                      fill="#0a0a0a"
+                      fillOpacity={0.78}
+                    />
+                    <text
+                      x={lp.x}
+                      y={lp.y}
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fontSize={8.5}
+                      fontWeight={400}
+                      fill="#fff"
+                      fillOpacity={0.95}
+                      style={{ fontFamily: "Inter, sans-serif" }}
+                    >
+                      {l.label}
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+          )}
         </svg>
       </div>
 
-      {/* Filter chips — type + jurisdiction */}
-      <div className="mt-5 space-y-2">
-        <FilterRow
-          label="Type"
-          options={(Object.keys(TYPE_LABEL) as FilterType[]).filter((t) =>
-            presentTypes.has(t)
-          )}
-          labels={TYPE_LABEL}
-          active={types}
-          onToggle={(v) =>
-            setTypes((prev) => {
-              const next = new Set(prev);
-              if (next.has(v)) next.delete(v);
-              else next.add(v);
-              return next;
-            })
-          }
-        />
-        <FilterRow
-          label="Where"
-          options={(Object.keys(JURISDICTION_LABEL) as Jurisdiction[]).filter(
-            (j) => presentJurs.has(j)
-          )}
-          labels={JURISDICTION_LABEL}
-          active={jurs}
-          onToggle={(v) =>
-            setJurs((prev) => {
-              const next = new Set(prev);
-              if (next.has(v)) next.delete(v);
-              else next.add(v);
-              return next;
-            })
-          }
-        />
-      </div>
-
-      <p className="mt-4 text-xs text-white/40 uppercase tracking-widest font-black">
-        Tap any node to read more · bigger node = more ties · tap a chip to filter
+      <p className="mt-3 text-xs text-white/30">
+        Click each circle for more information.
       </p>
 
       {/* Modal */}
@@ -762,7 +935,7 @@ function ModalHeader({
       <button
         onClick={onClose}
         aria-label="Close"
-        className="shrink-0 font-black text-xl leading-none px-3 py-1 border-2 border-black hover:bg-[#DC2626] hover:text-white hover:border-[#DC2626] cursor-pointer transition"
+        className="shrink-0 font-black text-xl leading-none px-3 py-1 border-2 border-black bg-black text-white hover:bg-[#DC2626] hover:border-[#DC2626] cursor-pointer transition"
       >
         ✕
       </button>

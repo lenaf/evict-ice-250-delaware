@@ -5,6 +5,7 @@ export type AffiliationCategory =
   | "catholic"
   | "business"
   | "cultural"
+  | "sports"
   | "charity"
   | "civic"
   | "government";
@@ -13,6 +14,7 @@ export type AffiliationCategory =
 export type Jurisdiction = "local" | "state" | "federal";
 export type FilterType =
   | "politician"
+  | "sports"
   | "arts"
   | "education"
   | "business"
@@ -40,6 +42,12 @@ export interface AffiliationEntry extends Affiliation {
 export interface BioSegment {
   text: string;
   highlight?: boolean;
+}
+
+// A short labeled reference with an optional source link.
+export interface WealthRef {
+  label: string;
+  href?: string;
 }
 
 // A family member: bio + the institutional affiliations they hold.
