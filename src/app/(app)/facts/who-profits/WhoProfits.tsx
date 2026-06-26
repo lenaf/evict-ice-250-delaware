@@ -76,9 +76,14 @@ export const WhoProfits: React.FC = () => {
           family="The Montante Family"
           lede={
             <>
-              The Montante family own Uniland Development, the largest commercial real estate development company ins Western NY.
-              They make $1.95 million a year in rent from ICE, plus $.56 million a year in rent from Customs and Border Protection.
-              With a total profit of $2.5 million a year, the Montante family is the largest local profiteer from immigration enforcement in the region.
+              The Montante family own Uniland Development, the largest
+              commercial real estate development company in Western NY. They make{" "}
+              <strong className="text-[#FFD600]">$1.95 million a year</strong> in
+              rent from ICE, plus another <strong className="text-[#FFD600]">$0.56 million a year</strong>{" "}
+              from Customs and Border Protection. With a total profit of{" "}
+              <strong className="text-[#FFD600]">$2.5 million a year</strong>, the
+              Montante family is the largest local profiteer from immigration
+              enforcement in the region.
             </>
           }
           people={toHeroPeople(MONTANTE_PEOPLE)}
@@ -146,18 +151,22 @@ export const WhoProfits: React.FC = () => {
       <Section variant="black" className="border-t border-white/10">
         <SectionHeading>Network of Influence</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
-          In 2025, Buffalo Business First ranked Michael Montante{" "}
-          <strong className="text-[#FFD600]">No. 27</strong> and Carl Sr.{" "}
-          <strong className="text-[#FFD600]">No. 139</strong> among the most
-          powerful people in Western New York. That power is bought: they fund{" "}
-          <strong className="text-white">politicians</strong>, buy seats in the{" "}
-          <strong className="text-white">business groups</strong> that shape
-          development policy, and earn{" "}
-          <strong className="text-white">tax breaks</strong> through
-          philanthropy. They take money from taxpayers — and get called{" "}
-          <strong className="text-[#FFD600]">philanthropists</strong> for it. Map
-          their network of deals, donations, and favors, and we can start to hold
-          them accountable. Click a sphere to dig in.
+          In 2025, Buffalo Business First ranked Michael Montante No. 27 and
+          Carl Sr. No. 139 among the most powerful people in Western New York.
+          That power is built deliberately: they{" "}
+          <strong className="text-[#FFD600]">fund politicians</strong>,{" "}
+          <strong className="text-[#FFD600]">
+            buy seats in the business groups
+          </strong>{" "}
+          that shape development policy, and{" "}
+          <strong className="text-[#FFD600]">
+            earn tax breaks through philanthropy
+          </strong>
+          . Every donation, board seat, and charitable gift is another lever of
+          influence — take money from taxpayers, then get called a
+          philanthropist for it. Map their network of deals, donations, and
+          favors, and we can start to hold them accountable. Click a sphere to
+          dig in.
         </p>
         <PowerMap
           people={toPowerMapPeople(MONTANTE_PEOPLE, MONTANTE_SHORT_NAMES)}
