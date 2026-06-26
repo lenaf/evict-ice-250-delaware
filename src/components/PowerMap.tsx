@@ -703,6 +703,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
               const t = byId.get(l.target);
               if (!s || !t) return null;
               const visible = nodeVisible(t);
+              if (!visible) return null;
               const dx = t.x - s.x;
               const dy = t.y - s.y;
               const len = Math.hypot(dx, dy) || 1;
@@ -763,13 +764,10 @@ export const PowerMap: React.FC<PowerMapProps> = ({
 
           {/* Nodes */}
           {nodes.map((n) => {
-            const dim = !nodeVisible(n);
+            if (!nodeVisible(n)) return null;
             return (
               <g
                 key={n.id}
-                opacity={dim ? 0.12 : 1}
-                style={{ pointerEvents: dim ? "none" : undefined }}
-              >
                 {n.type === "person" ? (
                   <PersonNodeG n={n} onClick={() => setSelected(n)} />
                 ) : (
