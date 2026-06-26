@@ -5,7 +5,6 @@ import { SourceLink } from "../SourceLink";
 import { MoneyTree } from "@/components/MoneyTree";
 import { WealthHero } from "@/components/WealthHero";
 import { PowerMap, type AreaInfo } from "@/components/PowerMap";
-import { GivingTimeline } from "@/components/GivingTimeline";
 import type { FilterType } from "@/types/affiliation";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -193,26 +192,6 @@ export const WhoPullsTheStrings: React.FC = () => {
           <strong className="text-[#FFD600]">$4.17 million</strong> on a single
           building.
         </p>
-        <div className="mb-10">
-          <GivingTimeline
-            caption="250 Delaware — net property-tax break by year"
-            bars={[
-              { cycle: "2017", amount: 636836 },
-              { cycle: "2018", amount: 841428 },
-              { cycle: "2019", amount: 838234 },
-              { cycle: "2020", amount: 240431 },
-              { cycle: "2021", amount: 232868 },
-              { cycle: "2022", amount: 514988 },
-              { cycle: "2023", amount: 535517 },
-              { cycle: "2024", amount: 327420 },
-            ]}
-            note="Net tax exemption (total exemptions minus PILOT actually paid), per year, for the project filed as DNC 250, Inc. under the Erie County IDA."
-            source={{
-              href: "https://data.ny.gov/Transparency/Industrial-Development-Agencies-Project-Data/9rtk-3fkw",
-              label: "NY State IDA project data",
-            }}
-          />
-        </div>
         <p className="text-sm md:text-base leading-relaxed text-white/50">
           The family also runs a private foundation — the Margaret D. &amp;
           Jeremy M. Jacobs Family Foundation — with{" "}
