@@ -555,7 +555,35 @@ export const PowerMap: React.FC<PowerMapProps> = ({
     setLaidOut(result);
   }, [graph]);
 
-  const nodes = laidOut ?? graph.nodes;
+  // When an area is focused, re-run the layout on just the visible subset so
+  // the remaining nodes spread out and fill the space instead of leaving the
+  // gaps where the (now hidden) off-area nodes used to sit.
+  const focusedLayout = useMemo(() => {
+    if (!laidOut || types.size === 0) return null;
+    const visible = laidOut
+      .filter((n) => n.type === "person" || (n.nodeType && types.has(n.nodeType)))
+      .map((n) => ({ ...n, vx: 0, vy: 0 }));
+    const visIds = new Set(visible.map((n) => n.id));
+    const subLinks = graph.links.filter(
+      (l) => visIds.has(l.source) && visIds.has(l.target)
+    );
+    const persons = visible.filter((n) => n.type === "person");
+    const orgs = visible.filter((n) => n.type === "org");
+    const pc = persons.length;
+    persons.forEach((n, i) => {
+      n.x = W / 2 + (i - (pc - 1) / 2) * 200;
+      n.y = PEOPLE_Y;
+    });
+    orgs.forEach((n, i) => {
+      const a = seeded(i + 1) * Math.PI * 2;
+      const rad = 200 + seeded(i + 50) * 220;
+      n.x = W / 2 + Math.cos(a) * rad;
+      n.y = H / 2 + Math.sin(a) * rad;
+    });
+    return simulate(visible, subLinks);
+  }, [laidOut, types, graph.links]);
+
+  const nodes = focusedLayout ?? laidOut ?? graph.nodes;
   const byId = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
 
   // Resolve edge-label positions so they don't overlap each other or the nodes.
@@ -722,7 +750,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                     strokeWidth={1.5}
                     strokeDasharray="5 4"
                   />
-                  {l.label && visible && (() => {
+                  {l.label && visible && types.size > 0 && (() => {
                     const lp = labelPos.get(i) ?? { x: lx, y: ly };
                     const moved = Math.hypot(lp.x - lx, lp.y - ly) > 10;
                     return (
