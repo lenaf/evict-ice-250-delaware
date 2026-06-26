@@ -112,11 +112,15 @@ export const WhoProfits: React.FC = () => {
               },
             },
             {
-              amount: "$791K",
+              amount: "$521K",
               label: "Property tax abatement",
-              payer: "Erie County taxpayers — forgone public revenue, ongoing",
-              bags: 8,
+              payer: "Erie County taxpayers — net of PILOT, 2017–2024 average ($4.17M total)",
+              bags: 5,
               recurring: true,
+              source: {
+                href: "https://data.ny.gov/Transparency/Industrial-Development-Agencies-Project-Data/9rtk-3fkw",
+                label: "NY State IDA project data",
+              },
             },
           ]}
         />
