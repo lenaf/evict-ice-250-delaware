@@ -14,7 +14,7 @@ export const JACOBS_PEOPLE: PersonData[] = [
         { text: ". Since 1968, Jacobs has led Delaware North through decades of growth and expansion." },
       ],
       [
-        { text: "His three sons — Jerry Jr., Lou, and Charlie — serve as CEOs of this over-110-year-old enterprise headquartered in Buffalo. " },
+        { text: "His three sons, Jerry Jr., Lou, and Charlie, serve as CEOs of this over-110-year-old enterprise headquartered in Buffalo. " },
         { text: "The organization operates globally", highlight: true },
         { text: " in hospitality sectors including food and retail at sports venues, facility ownership and management, parks hospitality services, hotel management, gaming, and fine dining." },
       ],
@@ -29,11 +29,11 @@ export const JACOBS_PEOPLE: PersonData[] = [
     affiliations: [
       { org: "Delaware North", role: "Chairman", category: "business", faviconDomain: "delawarenorth.com", coverImage: "/logos/affiliations/delaware-north.jpg", href: "https://www.delawarenorth.com" },
       { org: "Boston Bruins / NHL", role: "Owner & Governor; NHL Board Chair since 2007", category: "sports", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg", href: "https://www.nhl.com/bruins" },
-      { org: "University at Buffalo Council", role: "Former Chairman (appointed 1998)", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", href: "https://www.buffalo.edu/ubcouncil/members.html", contribution: "Jeremy Sr. chaired the UB Council for years; son Jerry Jr. now holds the chair, appointed by Gov. Hochul", description: "Jeremy Sr. chaired the University at Buffalo Council for years; his son Jerry Jr. now holds the chair, appointed by Gov. Hochul. ICE — operating from 250 Delaware, the building Delaware North is headquartered in — has targeted UB students and faculty." },
-      { org: "Jacobs School of Medicine (UB)", role: "Namesake; $30M founding donor", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", contribution: "$30 million founding gift — the family's name is on UB's medical school", description: "The Jacobs family's $30 million gift named UB's medical school. The same family's headquarters sits above the ICE field office." },
+      { org: "University at Buffalo Council", role: "Former Chairman (appointed 1998)", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", href: "https://www.buffalo.edu/ubcouncil/members.html", contribution: "Jeremy Sr. chaired the UB Council for years; son Jerry Jr. now holds the chair, appointed by Gov. Hochul", description: "Jeremy Sr. chaired the University at Buffalo Council for years; his son Jerry Jr. now holds the chair, appointed by Gov. Hochul. ICE, operating from 250 Delaware, the building Delaware North is headquartered in, has targeted UB students and faculty." },
+      { org: "Jacobs School of Medicine (UB)", role: "Namesake; $30M founding donor", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", contribution: "$30 million founding gift; the family's name is on UB's medical school", description: "The Jacobs family's $30 million gift named UB's medical school. The same family's headquarters sits above the ICE field office." },
       { org: "Jacobs Institute", role: "Chairman", category: "charity", faviconDomain: "jacobsinstitute.org", coverImage: "/logos/affiliations/jacobs-institute.jpg", href: "https://www.jacobsinstitute.org", contribution: "Founded and funds the vascular medical-innovation center that bears the family name", description: "A vascular medical-innovation center the family founded and chairs." },
       { org: "Jacobs Family Foundation", role: "Founder & Trustee", category: "charity", href: "https://projects.propublica.org/nonprofits/organizations/933116080", contribution: "~$10M family foundation funding medical research", description: "The Margaret D. & Jeremy M. Jacobs Family Foundation (~$10M in assets) funds medical research." },
-      { org: "Trump Transition Team", role: "Donor — $65,000+", category: "government", jurisdiction: "federal", contribution: "$65,000+ to Trump's 2016 transition — eleven family members gave the maximum", description: "Eleven Jacobs family members and their corporate entities gave the maximum to Trump's 2016 transition." },
+      { org: "Trump Transition Team", role: "Donor, $65,000+", category: "government", jurisdiction: "federal", contribution: "$65,000+ to Trump's 2016 transition; eleven family members gave the maximum", description: "Eleven Jacobs family members and their corporate entities gave the maximum to Trump's 2016 transition." },
     ],
   },
   {
@@ -48,18 +48,18 @@ export const JACOBS_PEOPLE: PersonData[] = [
       [
         { text: "Beyond his executive duties, Jacobs has invested significantly in philanthropic and civic endeavors. He " },
         { text: "chairs the University at Buffalo Council's board", highlight: true },
-        { text: " — appointed by Governor Hochul — and serves on multiple boards, including the Corps Network and Mimivax. He participates in the U.S. Travel Association's CEO Roundtable and the Partnership for New York City." },
+        { text: ", appointed by Governor Hochul, and serves on multiple boards, including the Corps Network and Mimivax. He participates in the U.S. Travel Association's CEO Roundtable and the Partnership for New York City." },
       ],
       [
         { text: "ICE, operating from 250 Delaware just floors below Delaware North's headquarters, has " },
         { text: "targeted UB students and faculty", highlight: true },
-        { text: " — abducting a faculty researcher and an art student, and raiding off-campus student housing in Amherst." },
+        { text: ", abducting a faculty researcher and an art student, and raiding off-campus student housing in Amherst." },
       ],
     ],
     affiliations: [
       { org: "Delaware North", role: "CEO", category: "business", faviconDomain: "delawarenorth.com", coverImage: "/logos/affiliations/delaware-north.jpg", href: "https://www.delawarenorth.com" },
       { org: "Boston Bruins / NHL", role: "Alternate Governor", category: "sports", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg" },
-      { org: "University at Buffalo Council", role: "Current Chair (appointed by Gov. Hochul, 2025)", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", href: "https://www.buffalo.edu/ubcouncil/members.html", description: "Gov. Hochul appointed Jerry Jr. chair of the UB Council in March 2025 — the same governor whose husband Delaware North paid hundreds of thousands of dollars a year as general counsel." },
+      { org: "University at Buffalo Council", role: "Current Chair (appointed by Gov. Hochul, 2025)", category: "education", jurisdiction: "state", faviconDomain: "buffalo.edu", coverImage: "/logos/affiliations/ub.jpg", href: "https://www.buffalo.edu/ubcouncil/members.html", description: "Gov. Hochul appointed Jerry Jr. chair of the UB Council in March 2025, the same governor whose husband Delaware North paid hundreds of thousands of dollars a year as general counsel." },
       { org: "M&T Bank", role: "Board of Directors (2025)", category: "business", faviconDomain: "mtb.com", coverImage: "/logos/affiliations/mtbank.jpg", href: "https://ir.mtb.com", description: "Elected to the board of Buffalo's largest bank in 2025." },
       { org: "Mimivax", role: "Board Chair", category: "business", faviconDomain: "mimivax.com", description: "Chairs the board of the Buffalo biotech company." },
       { org: "Corps Network", role: "Board Member", category: "civic", jurisdiction: "federal", faviconDomain: "corpsnetwork.org", coverImage: "/logos/affiliations/corps.jpg" },
@@ -101,7 +101,7 @@ export const JACOBS_PEOPLE: PersonData[] = [
       [
         { text: "Charlie Jacobs serves as one of three co-CEOs of Delaware North and as " },
         { text: "CEO of the Boston Bruins", highlight: true },
-        { text: " — the NHL franchise owned by the Jacobs family." },
+        { text: ", the NHL franchise owned by the Jacobs family." },
       ],
       [
         { text: "Along with his brothers Jerry Jr. and Lou, Charlie co-leads Delaware North's global operations. The company's headquarters at 250 Delaware Avenue sit directly above the ICE offices that coordinate mass deportations across all of upstate and Western New York." },

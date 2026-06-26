@@ -24,7 +24,7 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
       <>
         Carl Montante Sr. sat on the Diocese of Buffalo&apos;s Bishop&apos;s
         Council of the Laity for 25+ years, chaired the diocese&apos;s Catholic
-        Health System, and was given the Bishop&apos;s Medal in 2009 — even as
+        Health System, and was given the Bishop&apos;s Medal in 2009, even as
         Pope Leo XIV condemned the immigration crackdown the family profits from
         as &ldquo;inhuman.&rdquo;
       </>
@@ -58,9 +58,9 @@ const MONTANTE_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   business: {
     summary: (
       <>
-        The family holds seats across Buffalo&apos;s business establishment —
-        the Buffalo Niagara Partnership, Invest Buffalo Niagara, NAIOP — the
-        bodies that shape regional development policy.
+        The family holds seats across Buffalo&apos;s business establishment: the Buffalo Niagara Partnership, Invest
+        Buffalo Niagara, and NAIOP, the bodies that shape regional development
+        policy.
       </>
     ),
   },
@@ -100,8 +100,8 @@ export const WhoProfits: React.FC = () => {
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-10">
           250 Delaware was built with{" "}
           <strong className="text-[#FFD600]">$9.6 million in public tax breaks</strong>{" "}
-          the Erie County Industrial Development Agency approved in 2013 — over
-          public opposition — to &ldquo;benefit the community.&rdquo; The
+          the Erie County Industrial Development Agency approved in 2013, over
+          public opposition, to &ldquo;benefit the community.&rdquo; The
           building still collects a property-tax abatement on top.
         </p>
         <MoneyTree
@@ -119,7 +119,7 @@ export const WhoProfits: React.FC = () => {
             {
               amount: "$521K",
               label: "Property tax abatement",
-              payer: "Erie County taxpayers — net of PILOT, 2017–2024 average ($4.17M total)",
+              payer: "Erie County taxpayers · net of PILOT, 2017–2024 average ($4.17M total)",
               bags: 5,
               recurring: true,
               source: {
@@ -135,14 +135,14 @@ export const WhoProfits: React.FC = () => {
             href="https://www.osc.ny.gov/files/local-government/publications/pdf/idabackground.pdf"
             label="PILOT deals"
           />
-          , developers pay a fraction of normal property tax — payments that
+          , developers pay a fraction of normal property tax, payments that
           often start at just 10–20% of the real bill. Commercial real-estate
           owners are also documented using depreciation write-offs to owe{" "}
           <SourceLink
             href="https://www.propublica.org/article/these-real-estate-and-oil-tycoons-used-paper-losses-to-avoid-paying-taxes-for-years"
             label="little or no federal income tax"
           />{" "}
-          for years. Personal returns aren&apos;t public — but the public
+          for years. Personal returns aren&apos;t public, but the public
           subsidies are a matter of record.
         </p>
       </Section>
@@ -157,8 +157,7 @@ export const WhoProfits: React.FC = () => {
           the business groups that shape development policy, and earn tax breaks
           through philanthropy. Every donation, board seat, and charitable gift
           is another lever of influence. Map their network of deals, donations,
-          and favors, and we can start to hold them accountable. Click a sphere
-          to dig in.
+          and favors, and we can start to hold them accountable.
         </p>
         <PowerMap
           people={toPowerMapPeople(MONTANTE_PEOPLE, MONTANTE_SHORT_NAMES)}

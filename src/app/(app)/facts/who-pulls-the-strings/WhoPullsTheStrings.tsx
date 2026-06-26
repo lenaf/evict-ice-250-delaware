@@ -21,7 +21,7 @@ const JACOBS_AREAS: Partial<Record<FilterType, AreaInfo>> = {
   politician: {
     summary: (
       <>
-      Delaware North does a significant amount of business with the federal government, operating hospitality concessions at many national parks and stadiums — making them reliant on government contracts and regulation.
+      Delaware North does a significant amount of business with the federal government, operating hospitality concessions at many national parks and stadiums, which makes them reliant on government contracts and regulation.
         Eleven Jacobs family members donated the maximum allowable to Trump including Jeremy Jacobs Sr. and many of his children and their spouses.
 Maximum donations also came from the family&apos;s business enterprises including Patina Restaurant Group and Delaware North Companies.
 
@@ -46,7 +46,7 @@ Maximum donations also came from the family&apos;s business enterprises includin
         A $30 million gift put the family&apos;s name on the University at
         Buffalo&apos;s medical school, and the Jacobses have run the UB Council
         for years. Jeremy Sr. chaired it for over a decade; in 2025 Gov. Hochul
-        appointed his son Jerry Jr. to the same seat — the same governor whose
+        appointed his son Jerry Jr. to the same seat, the same governor whose
         husband Delaware North paid as general counsel.
       </>
     ),
@@ -57,7 +57,7 @@ Maximum donations also came from the family&apos;s business enterprises includin
         The family&apos;s philanthropy doubles as standing. The Jacobs Family
         Foundation gives away hundreds of thousands a year, and family members
         sit at the head of civic institutions from United Way of Buffalo to the
-        Partnership for New York City and the federal Corps Network — visible
+        Partnership for New York City and the federal Corps Network. It is visible
         generosity that also buys access.
       </>
     ),
@@ -66,7 +66,7 @@ Maximum donations also came from the family&apos;s business enterprises includin
     summary: (
       <>
         The Jacobses own the Boston Bruins, and Jeremy Sr. chairs the NHL&apos;s
-        Board of Governors — making him one of the most powerful figures in
+        Board of Governors, which makes him one of the most powerful figures in
         professional hockey. The family also sits on the board of the regional
         sports network NESN and backs the Bruins Foundation and Boston&apos;s
         Sports Museum.
@@ -85,7 +85,7 @@ export const WhoPullsTheStrings: React.FC = () => {
           family="The Jacobs Family"
           lede={
             <>
-             Directly above the ICE offices sit the global headquarters of Delaware North — a $3 billion hospitality company owned by the Jacobs family.
+             Directly above the ICE offices sit the global headquarters of Delaware North, a $3 billion hospitality company owned by the Jacobs family.
              Jeremy Jacobs Sr. is <strong className="text-[#FFD600]">Buffalo&apos;s only Forbes billionaire</strong>, worth about <strong className="text-[#FFD600]">$4.6 billion</strong>.
             </>
 
@@ -113,8 +113,8 @@ export const WhoPullsTheStrings: React.FC = () => {
           </p>
           <p>
             Simultaneously, Delaware North applied to New York State for
-            job-creation tax credits on the 65 jobs it pledged — credits a source
-            estimated could be worth up to{" "}
+            job-creation tax credits on the 65 jobs it pledged. A source
+            estimated the credits could be worth up to{" "}
             <strong className="text-[#FFD600]">$4 million</strong> over ten years,
             or roughly{" "}
             <strong className="text-white">$61,500 per promised job</strong>.
@@ -122,8 +122,8 @@ export const WhoPullsTheStrings: React.FC = () => {
         </div>
 
         <p className="mt-12 text-sm md:text-base leading-relaxed text-white/50">
-          The family also runs a private foundation — the Margaret D. &amp;
-          Jeremy M. Jacobs Family Foundation — with{" "}
+          The family also runs a private foundation, the Margaret D. &amp;
+          Jeremy M. Jacobs Family Foundation, with{" "}
           <span className="text-white/70">$10.3 million in assets</span> and{" "}
           <span className="text-white/70">$883,000 granted in 2024</span>.
           Tax-exempt charity that doubles as a tax deduction.{" "}
@@ -143,7 +143,7 @@ export const WhoPullsTheStrings: React.FC = () => {
           elections to the Governor&apos;s office, sit on the business boards
           that win government contracts, and earn tax breaks through
           philanthropy. Map their network of deals, donations, and favors, and we
-          can start to hold them accountable. Click a sphere to dig in.
+          can start to hold them accountable.
         </p>
         <PowerMap
           people={toPowerMapPeople(JACOBS_PEOPLE, JACOBS_SHORT_NAMES)}

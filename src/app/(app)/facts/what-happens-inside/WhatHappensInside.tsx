@@ -374,7 +374,7 @@ export const WhatHappensInside: React.FC = () => {
 
       <FactsReadNext
         title="Who Profits"
-        description="The Montante family collects $2 million a year from ICE for housing operations at 250 Delaware. The lease is theirs to renew — or not."
+        description="The Montante family collects $2 million a year from ICE for housing operations at 250 Delaware. The lease is theirs to renew, or not."
         href="/facts/who-profits"
       />
 
