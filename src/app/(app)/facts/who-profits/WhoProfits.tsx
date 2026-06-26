@@ -153,18 +153,12 @@ export const WhoProfits: React.FC = () => {
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
           In 2025, Buffalo Business First ranked Michael Montante No. 27 and
           Carl Sr. No. 139 among the most powerful people in Western New York.
-          That power is built deliberately: they{" "}
-          <strong className="text-[#FFD600]">fund politicians</strong>,{" "}
-          <strong className="text-[#FFD600]">
-            buy seats in the business groups
-          </strong>{" "}
-          that shape development policy, and{" "}
-          <strong className="text-[#FFD600]">
-            earn tax breaks through philanthropy
-          </strong>
-          . Every donation, board seat, and charitable gift is another lever of
-          influence. Map their network of deals, donations, and favors, and we
-          can start to hold them accountable. Click a sphere to dig in.
+          That power is built deliberately: they fund politicians, buy seats in
+          the business groups that shape development policy, and earn tax breaks
+          through philanthropy. Every donation, board seat, and charitable gift
+          is another lever of influence. Map their network of deals, donations,
+          and favors, and we can start to hold them accountable. Click a sphere
+          to dig in.
         </p>
         <PowerMap
           people={toPowerMapPeople(MONTANTE_PEOPLE, MONTANTE_SHORT_NAMES)}

@@ -129,18 +129,10 @@ export const WhoPullsTheStrings: React.FC = () => {
       <Section variant="black" className="border-t border-white/10">
         <SectionHeading>Network of Influence</SectionHeading>
         <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
-          Jeremy Jacobs Sr. is{" "}
-          <strong className="text-[#FFD600]">
-            Buffalo&apos;s only billionaire
-          </strong>
-          , worth about <strong className="text-[#FFD600]">$4.6 billion</strong>.
-          That fortune buys reach: they fund{" "}
-          <strong className="text-white">politicians</strong> from{" "}
-          <strong className="text-white">federal elections</strong> to the{" "}
-          <strong className="text-white">Governor&apos;s office</strong>, sit on
-          the <strong className="text-white">business</strong> boards that win
-          government contracts, and earn{" "}
-          <strong className="text-white">tax breaks</strong> through
+          Jeremy Jacobs Sr. is Buffalo&apos;s only billionaire, worth about $4.6
+          billion. That fortune buys reach: they fund politicians from federal
+          elections to the Governor&apos;s office, sit on the business boards
+          that win government contracts, and earn tax breaks through
           philanthropy. Map their network of deals, donations, and favors, and we
           can start to hold them accountable. Click a sphere to dig in.
         </p>
