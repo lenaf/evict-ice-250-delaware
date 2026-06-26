@@ -276,7 +276,7 @@ function buildGraph(
   return { nodes, links };
 }
 
-function simulate(nodes: SimNode[], links: SimLink[]) {
+function simulate(nodes: SimNode[], links: SimLink[], sep = 26) {
   const byId = new Map(nodes.map((n) => [n.id, n]));
   const TICKS = 320;
   for (let t = 0; t < TICKS; t++) {
@@ -290,7 +290,7 @@ function simulate(nodes: SimNode[], links: SimLink[]) {
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-        const minDist = a.r + b.r + 26;
+        const minDist = a.r + b.r + sep;
         const force = (78000 / (dist * dist)) * alpha;
         let push = force;
         if (dist < minDist) push += (minDist - dist) * 0.5; // hard separation
@@ -580,7 +580,8 @@ export const PowerMap: React.FC<PowerMapProps> = ({
       n.x = W / 2 + Math.cos(a) * rad;
       n.y = H / 2 + Math.sin(a) * rad;
     });
-    return simulate(visible, subLinks);
+    // More separation in the focused view: fewer nodes, so give names room.
+    return simulate(visible, subLinks, 90);
   }, [laidOut, types, graph.links]);
 
   const nodes = focusedLayout ?? laidOut ?? graph.nodes;
@@ -621,6 +622,26 @@ export const PowerMap: React.FC<PowerMapProps> = ({
     });
 
     const visNodes = nodes.filter((n) => n.type === "person" || nodeVisible(n));
+
+    // Bounding boxes for each node's NAME text (sits below the circle), so edge
+    // labels avoid the names too — not just the circles.
+    const nameBoxes = visNodes.map((n) => {
+      if (n.type === "person") {
+        const w = n.label.length * 18 * 0.55;
+        return { cx: n.x, cy: n.y + n.r + 11, hw: w / 2 + 3, hh: 11 };
+      }
+      const lines = labelLines(n.label);
+      const maxLen = Math.max(...lines.map((l) => l.length));
+      const top = n.y + n.r + 2.5;
+      const bottom = n.y + n.r + 15 + (lines.length - 1) * 13;
+      return {
+        cx: n.x,
+        cy: (top + bottom) / 2,
+        hw: (maxLen * 12.5 * 0.55) / 2 + 3,
+        hh: (bottom - top) / 2 + 3,
+      };
+    });
+
     for (let pass = 0; pass < 80; pass++) {
       // label ↔ label
       for (let a = 0; a < items.length; a++) {
@@ -653,6 +674,15 @@ export const PowerMap: React.FC<PowerMapProps> = ({
             const push = (min - d) * 0.5;
             A.x += (dx / d) * push;
             A.y += (dy / d) * push;
+          }
+        }
+        // label ↔ node-name box (AABB push, label moves only)
+        for (const ob of nameBoxes) {
+          const ox = A.hw + ob.hw - Math.abs(A.x - ob.cx);
+          const oy = A.hh + ob.hh - Math.abs(A.y - ob.cy);
+          if (ox > 0 && oy > 0) {
+            if (oy < ox) A.y += (A.y <= ob.cy ? -1 : 1) * (oy + 0.5);
+            else A.x += (A.x <= ob.cx ? -1 : 1) * (ox + 0.5);
           }
         }
       }
