@@ -60,9 +60,7 @@ Maximum donations also came from the family&apos;s business enterprises includin
     summary: (
       <>
         The family owns the Boston Bruins and chairs the NHL&apos;s Board of
-        Governors, sits on the board of regional sports network NESN, and backs
-        the Bruins Foundation and Boston&apos;s Sports Museum — a sports and
-        entertainment empire built on the same hospitality business.
+        Governors.
       </>
     ),
   },

@@ -766,8 +766,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
           {nodes.map((n) => {
             if (!nodeVisible(n)) return null;
             return (
-              <g
-                key={n.id}
+              <g key={n.id}>
                 {n.type === "person" ? (
                   <PersonNodeG n={n} onClick={() => setSelected(n)} />
                 ) : (
