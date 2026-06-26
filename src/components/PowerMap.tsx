@@ -581,7 +581,30 @@ export const PowerMap: React.FC<PowerMapProps> = ({
       n.y = H / 2 + Math.sin(a) * rad;
     });
     // More separation in the focused view: fewer nodes, so give names room.
-    return simulate(visible, subLinks, 90);
+    const result = simulate(visible, subLinks, 90);
+
+    // Fit the laid-out cloud to the canvas: center it and scale (capped) so a
+    // sparse focused view fills the empty space instead of hugging the middle.
+    // Pad below each node for its name label so it isn't clipped.
+    const minX = Math.min(...result.map((n) => n.x - n.r));
+    const maxX = Math.max(...result.map((n) => n.x + n.r));
+    const minY = Math.min(...result.map((n) => n.y - n.r));
+    const maxY = Math.max(...result.map((n) => n.y + n.r + 34));
+    const spanX = maxX - minX || 1;
+    const spanY = maxY - minY || 1;
+    const margin = 70;
+    const scale = Math.min(
+      (W - 2 * margin) / spanX,
+      (H - 2 * margin) / spanY,
+      1.5
+    );
+    const cx0 = (minX + maxX) / 2;
+    const cy0 = (minY + maxY) / 2;
+    result.forEach((n) => {
+      n.x = W / 2 + (n.x - cx0) * scale;
+      n.y = H / 2 + (n.y - cy0) * scale;
+    });
+    return result;
   }, [laidOut, types, graph.links]);
 
   const nodes = focusedLayout ?? laidOut ?? graph.nodes;

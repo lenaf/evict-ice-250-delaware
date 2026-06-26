@@ -111,7 +111,7 @@ export const JACOBS_PEOPLE: PersonData[] = [
       { org: "Delaware North", role: "CEO", category: "business", faviconDomain: "delawarenorth.com", coverImage: "/logos/affiliations/delaware-north.jpg", href: "https://www.delawarenorth.com" },
       { org: "Boston Bruins / NHL", role: "CEO & Alternate Governor", category: "sports", faviconDomain: "nhl.com", coverImage: "/logos/affiliations/bruins.jpg", href: "https://www.nhl.com/bruins" },
       { org: "Boston Bruins Foundation", role: "Founder & Chairman", category: "sports", faviconDomain: "bostonbruins.com", coverImage: "/logos/affiliations/bruins-foundation.jpg", href: "https://www.nhl.com/bruins/community/boston-bruins-foundation" },
-      { org: "NESN", role: "Board Member (22 years)", category: "sports", faviconDomain: "nesn.com", coverImage: "/logos/affiliations/nesn.jpg", href: "https://www.nesn.com" },
+      { org: "NESN", role: "Board Member", category: "sports", faviconDomain: "nesn.com", coverImage: "/logos/affiliations/nesn.jpg", href: "https://www.nesn.com" },
       { org: "The Sports Museum", role: "Board Member", category: "sports", faviconDomain: "sportsmuseum.org", coverImage: "/logos/affiliations/sportsmuseum.jpg", href: "https://www.sportsmuseum.org" },
       { org: "Massachusetts Business Roundtable", role: "Member", category: "business", faviconDomain: "maroundtable.com" },
     ],
