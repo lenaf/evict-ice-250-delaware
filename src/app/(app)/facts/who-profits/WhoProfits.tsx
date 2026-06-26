@@ -9,7 +9,6 @@ import type { FilterType } from "@/types/affiliation";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { FactsReadNext } from "@/components/FactsReadNext";
-import Link from "next/link";
 import { toPowerMapPeople, toHeroPeople } from "../peopleMappers";
 import {
   MONTANTE_PEOPLE,
@@ -162,25 +161,6 @@ export const WhoProfits: React.FC = () => {
           donations={MONTANTE_DONATIONS}
           areas={MONTANTE_AREAS}
         />
-      </Section>
-
-      {/* ========== LETTER CTA ========== */}
-      <Section variant="red">
-        <div className="text-center">
-          <h2 className="font-black text-3xl md:text-4xl leading-[0.95] mb-4">
-            Tell the Montante family to end the lease.
-          </h2>
-          <p className="text-base md:text-lg text-white/80 mb-8 max-w-lg mx-auto">
-            The ICE lease at 250 Delaware expires March 31, 2027. The decision
-            to renew is Uniland&apos;s alone.
-          </p>
-          <Link
-            href="/events"
-            className="bg-white text-black font-black text-base uppercase tracking-wider px-10 py-5 border-2 border-white hover:opacity-80 hover:border-black transition cursor-pointer inline-block"
-          >
-            Show up &rarr;
-          </Link>
-        </div>
       </Section>
 
       <FactsReadNext

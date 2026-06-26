@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { SourceLink } from "../SourceLink";
 import { MoneyTree } from "@/components/MoneyTree";
 import { WealthHero } from "@/components/WealthHero";
@@ -256,25 +255,6 @@ export const WhoPullsTheStrings: React.FC = () => {
           donations={JACOBS_DONATIONS}
           areas={JACOBS_AREAS}
         />
-      </Section>
-
-      {/* ========== LETTER CTA ========== */}
-      <Section variant="red">
-        <div className="text-center">
-          <h2 className="font-black text-3xl md:text-4xl leading-[0.95] mb-4">
-            Tell Delaware North to take a stand.
-          </h2>
-          <p className="text-base md:text-lg text-white/80 mb-8 max-w-lg mx-auto">
-            They sit directly above the ICE offices. They have the power to
-            demand change. Make them hear you.
-          </p>
-          <Link
-            href="/events"
-            className="bg-white text-black font-black text-base uppercase tracking-wider px-10 py-5 border-2 border-white hover:opacity-80 hover:border-black transition cursor-pointer inline-block"
-          >
-            Show up &rarr;
-          </Link>
-        </div>
       </Section>
 
       <FactsReadNext
