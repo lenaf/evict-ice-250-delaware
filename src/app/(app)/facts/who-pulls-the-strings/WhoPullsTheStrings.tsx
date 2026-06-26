@@ -79,7 +79,7 @@ export const WhoPullsTheStrings: React.FC = () => {
           lede={
             <>
              Directly above the ICE offices sit the global headquarters of Delaware North — a $3 billion hospitality company owned by the Jacobs family.
-             Jeremy Jacobs Sr. is <strong className="text-[#FFD600]">Buffalo's only Forbes billionaire</strong>, worth about <strong className="text-[#FFD600]">$4.6 billion</strong>. 
+             Jeremy Jacobs Sr. is <strong className="text-[#FFD600]">Buffalo&apos;s only Forbes billionaire</strong>, worth about <strong className="text-[#FFD600]">$4.6 billion</strong>.
             </>
 
             }
