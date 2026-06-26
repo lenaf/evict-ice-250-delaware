@@ -754,71 +754,29 @@ export const PowerMap: React.FC<PowerMapProps> = ({
           role="img"
           aria-label="Power map"
         >
-          {/* Links — curved, dashed, with a relationship / $ label at the midpoint */}
+          {/* Links — curved, dashed lines (labels drawn on top, after nodes) */}
           <g>
             {graph.links.map((l, i) => {
               const s = byId.get(l.source);
               const t = byId.get(l.target);
               if (!s || !t) return null;
-              const visible = nodeVisible(t);
-              if (!visible) return null;
+              if (!nodeVisible(t)) return null;
               const dx = t.x - s.x;
               const dy = t.y - s.y;
               const len = Math.hypot(dx, dy) || 1;
               const k = 0.13 * len * (i % 2 === 0 ? 1 : -1);
               const cx = (s.x + t.x) / 2 + (-dy / len) * k;
               const cy = (s.y + t.y) / 2 + (dx / len) * k;
-              const lx = 0.25 * s.x + 0.5 * cx + 0.25 * t.x;
-              const ly = 0.25 * s.y + 0.5 * cy + 0.25 * t.y;
               return (
-                <g key={i} opacity={visible ? 1 : 0.06}>
-                  <path
-                    d={`M${s.x},${s.y} Q${cx},${cy} ${t.x},${t.y}`}
-                    fill="none"
-                    stroke="#fff"
-                    strokeOpacity={0.22}
-                    strokeWidth={1.5}
-                    strokeDasharray="5 4"
-                  />
-                  {l.label && visible && types.size > 0 && (() => {
-                    const lp = labelPos.get(i) ?? { x: lx, y: ly };
-                    const moved = Math.hypot(lp.x - lx, lp.y - ly) > 3;
-                    return (
-                      <>
-                        {moved && (
-                          <>
-                            <line
-                              x1={lx}
-                              y1={ly}
-                              x2={lp.x}
-                              y2={lp.y}
-                              stroke="#fff"
-                              strokeOpacity={0.4}
-                              strokeWidth={0.75}
-                            />
-                            <circle cx={lx} cy={ly} r={1.6} fill="#fff" fillOpacity={0.5} />
-                          </>
-                        )}
-                        <text
-                          x={lp.x}
-                          y={lp.y}
-                          textAnchor="middle"
-                          dominantBaseline="central"
-                          fontSize={8.5}
-                          fontWeight={400}
-                          fill="#fff"
-                          fillOpacity={0.8}
-                          stroke="#000"
-                          strokeWidth={2.5}
-                          paintOrder="stroke"
-                          style={{ fontFamily: "Inter, sans-serif" }}
-                        >
-                          {l.label}
-                        </text>
-                      </>
-                    );
-                  })()}
-                </g>
+                <path
+                  key={i}
+                  d={`M${s.x},${s.y} Q${cx},${cy} ${t.x},${t.y}`}
+                  fill="none"
+                  stroke="#fff"
+                  strokeOpacity={0.22}
+                  strokeWidth={1.5}
+                  strokeDasharray="5 4"
+                />
               );
             })}
           </g>
@@ -836,6 +794,62 @@ export const PowerMap: React.FC<PowerMapProps> = ({
               </g>
             );
           })}
+
+          {/* Edge labels — drawn last so they always sit on top of the nodes */}
+          {types.size > 0 && (
+            <g>
+              {graph.links.map((l, i) => {
+                if (!l.label) return null;
+                const s = byId.get(l.source);
+                const t = byId.get(l.target);
+                if (!s || !t || !nodeVisible(t)) return null;
+                const dx = t.x - s.x;
+                const dy = t.y - s.y;
+                const len = Math.hypot(dx, dy) || 1;
+                const k = 0.13 * len * (i % 2 === 0 ? 1 : -1);
+                const cx = (s.x + t.x) / 2 + (-dy / len) * k;
+                const cy = (s.y + t.y) / 2 + (dx / len) * k;
+                const lx = 0.25 * s.x + 0.5 * cx + 0.25 * t.x;
+                const ly = 0.25 * s.y + 0.5 * cy + 0.25 * t.y;
+                const lp = labelPos.get(i) ?? { x: lx, y: ly };
+                const moved = Math.hypot(lp.x - lx, lp.y - ly) > 3;
+                return (
+                  <g key={i}>
+                    {moved && (
+                      <>
+                        <line
+                          x1={lx}
+                          y1={ly}
+                          x2={lp.x}
+                          y2={lp.y}
+                          stroke="#fff"
+                          strokeOpacity={0.4}
+                          strokeWidth={0.75}
+                        />
+                        <circle cx={lx} cy={ly} r={1.6} fill="#fff" fillOpacity={0.5} />
+                      </>
+                    )}
+                    <text
+                      x={lp.x}
+                      y={lp.y}
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fontSize={8.5}
+                      fontWeight={400}
+                      fill="#fff"
+                      fillOpacity={0.85}
+                      stroke="#000"
+                      strokeWidth={3}
+                      paintOrder="stroke"
+                      style={{ fontFamily: "Inter, sans-serif" }}
+                    >
+                      {l.label}
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+          )}
         </svg>
       </div>
 
