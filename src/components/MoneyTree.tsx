@@ -123,14 +123,6 @@ export const MoneyTree: React.FC<MoneyTreeProps> = ({ sources, people, entityNam
         </div>
       )}
 
-      {/* Where the money comes from */}
-      <p className="text-xs font-black uppercase tracking-widest text-[#FFD600] mb-1 text-center">
-        Public money in
-      </p>
-      <p className="text-[11px] text-white/40 mb-4 text-center">
-        each bag = $100,000
-      </p>
-
       {/* Money sources — subgrid keeps bags / amount / label / payer aligned across columns */}
       <div
         className="grid gap-x-6 md:gap-x-10"
