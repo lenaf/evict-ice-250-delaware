@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    pages: Page;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -76,6 +77,7 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    pages: PagesSelect<false> | PagesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -116,6 +118,99 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  slug: string;
+  sections?:
+    | (
+        | {
+            sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
+            hero?: boolean | null;
+            borderTop?: boolean | null;
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richTextSection';
+          }
+        | {
+            sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
+            borderTop?: boolean | null;
+            heading?: string | null;
+            body?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            imagePath?: string | null;
+            alt?: string | null;
+            caption?: string | null;
+            width?: number | null;
+            height?: number | null;
+            sourceLabel?: string | null;
+            sourceHref?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageBlock';
+          }
+        | {
+            title: string;
+            description: string;
+            href: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'factsReadNextBlock';
+          }
+        | {
+            sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
+            borderTop?: boolean | null;
+            heading?: string | null;
+            intro?: string | null;
+            buttons?:
+              | {
+                  label: string;
+                  href: string;
+                  style?: ('primary' | 'outline') | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'ctaButtonsBlock';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -187,6 +282,10 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null)
@@ -235,6 +334,74 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  sections?:
+    | T
+    | {
+        richTextSection?:
+          | T
+          | {
+              sectionVariant?: T;
+              hero?: T;
+              borderTop?: T;
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageBlock?:
+          | T
+          | {
+              sectionVariant?: T;
+              borderTop?: T;
+              heading?: T;
+              body?: T;
+              imagePath?: T;
+              alt?: T;
+              caption?: T;
+              width?: T;
+              height?: T;
+              sourceLabel?: T;
+              sourceHref?: T;
+              id?: T;
+              blockName?: T;
+            };
+        factsReadNextBlock?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              href?: T;
+              id?: T;
+              blockName?: T;
+            };
+        ctaButtonsBlock?:
+          | T
+          | {
+              sectionVariant?: T;
+              borderTop?: T;
+              heading?: T;
+              intro?: T;
+              buttons?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    style?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
