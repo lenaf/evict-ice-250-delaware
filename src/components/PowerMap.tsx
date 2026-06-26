@@ -692,22 +692,31 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                     strokeWidth={1.5}
                     strokeDasharray="5 4"
                   />
-                  {l.label && visible && (hoverId === l.source || hoverId === l.target) && (
-                    <text
-                      x={lx}
-                      y={ly}
-                      textAnchor="middle"
-                      fontSize={13}
-                      fontWeight={isDon ? 800 : 400}
-                      fill={isDon ? "#FFD600" : "#fff"}
-                      fillOpacity={isDon ? 1 : 0.85}
-                      stroke="#000"
-                      strokeWidth={4}
-                      paintOrder="stroke"
-                      style={{ fontFamily: "Inter, sans-serif" }}
-                    >
-                      {l.label}
-                    </text>
+                  {l.label && visible && hoverId === l.target && (
+                    <>
+                      <rect
+                        x={lx - (l.label.length * 6.6 + 14) / 2}
+                        y={ly - 12}
+                        width={l.label.length * 6.6 + 14}
+                        height={22}
+                        rx={3}
+                        fill="#000"
+                        fillOpacity={0.85}
+                      />
+                      <text
+                        x={lx}
+                        y={ly}
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        fontSize={13}
+                        fontWeight={isDon ? 800 : 400}
+                        fill={isDon ? "#FFD600" : "#fff"}
+                        fillOpacity={isDon ? 1 : 0.9}
+                        style={{ fontFamily: "Inter, sans-serif" }}
+                      >
+                        {l.label}
+                      </text>
+                    </>
                   )}
                 </g>
               );
@@ -757,7 +766,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
       </div>
 
       <p className="mt-4 text-xs text-white/40 uppercase tracking-widest font-black">
-        Hover a node to see its connections · tap to read more · bigger node = more ties
+        Hover an institution to see the tie · tap any node to read more · bigger node = more ties
       </p>
 
       {/* Modal */}
