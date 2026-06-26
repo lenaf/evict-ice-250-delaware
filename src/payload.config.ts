@@ -62,15 +62,39 @@ export default buildConfig({
           },
         },
       }),
-      // A row of money-bag icons droppable into the copy (each bag ≈ $100k).
+      // Money-bag groups droppable into the copy. Each group is a cluster of
+      // bag icons (each ≈ $100k) with an amount, label, payer, and source —
+      // rendered side-by-side like the original subsidies graphic.
       BlocksFeature({
         blocks: [
           {
             slug: "moneyBags",
             labels: { singular: "Money Bags", plural: "Money Bags" },
             fields: [
-              { name: "count", type: "number", required: true, defaultValue: 1, min: 1, max: 200 },
-              { name: "note", type: "text", admin: { description: "Optional caption under the bags." } },
+              {
+                name: "sources",
+                type: "array",
+                minRows: 1,
+                fields: [
+                  {
+                    type: "row",
+                    fields: [
+                      { name: "amount", type: "text", required: true, admin: { width: "30%" } },
+                      { name: "label", type: "text", admin: { width: "40%" } },
+                      { name: "bags", type: "number", required: true, defaultValue: 1, min: 1, max: 200, admin: { width: "15%" } },
+                      { name: "recurring", type: "checkbox", label: "Per year", admin: { width: "15%" } },
+                    ],
+                  },
+                  { name: "payer", type: "text" },
+                  {
+                    type: "row",
+                    fields: [
+                      { name: "sourceLabel", type: "text", admin: { width: "50%" } },
+                      { name: "sourceHref", type: "text", admin: { width: "50%" } },
+                    ],
+                  },
+                ],
+              },
             ],
           },
         ],
