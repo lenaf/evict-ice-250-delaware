@@ -616,8 +616,8 @@ export const PowerMap: React.FC<PowerMapProps> = ({
         i,
         x: 0.25 * s.x + 0.5 * cx + 0.25 * t.x,
         y: 0.25 * s.y + 0.5 * cy + 0.25 * t.y,
-        hw: (l.label.length * FS * 0.55) / 2 + 5,
-        hh: FS / 2 + 6,
+        hw: (l.label.length * FS * 0.55) / 2 + 6,
+        hh: FS / 2 + 7,
       });
     });
 
@@ -642,7 +642,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
       };
     });
 
-    for (let pass = 0; pass < 80; pass++) {
+    for (let pass = 0; pass < 160; pass++) {
       // label ↔ label
       for (let a = 0; a < items.length; a++) {
         for (let b = a + 1; b < items.length; b++) {
@@ -829,6 +829,15 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                         <circle cx={lx} cy={ly} r={1.6} fill="#fff" fillOpacity={0.5} />
                       </>
                     )}
+                    <rect
+                      x={lp.x - (l.label.length * 4.7 + 7) / 2}
+                      y={lp.y - 7}
+                      width={l.label.length * 4.7 + 7}
+                      height={14}
+                      rx={2.5}
+                      fill="#0a0a0a"
+                      fillOpacity={0.78}
+                    />
                     <text
                       x={lp.x}
                       y={lp.y}
@@ -837,10 +846,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                       fontSize={8.5}
                       fontWeight={400}
                       fill="#fff"
-                      fillOpacity={0.85}
-                      stroke="#000"
-                      strokeWidth={3}
-                      paintOrder="stroke"
+                      fillOpacity={0.95}
                       style={{ fontFamily: "Inter, sans-serif" }}
                     >
                       {l.label}
