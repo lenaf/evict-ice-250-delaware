@@ -682,7 +682,10 @@ export const PowerMap: React.FC<PowerMapProps> = ({
         </div>
       )}
 
-      <div className="relative w-full" style={{ aspectRatio: `${W} / ${H}` }}>
+      <div
+        className={`relative w-full ${selected ? "invisible" : ""}`}
+        style={{ aspectRatio: `${W} / ${H}` }}
+      >
         <svg
           viewBox={`${-PAD} ${-PAD} ${W + 2 * PAD} ${H + 2 * PAD}`}
           className="w-full h-full block"
