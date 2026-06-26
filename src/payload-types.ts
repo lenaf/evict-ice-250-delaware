@@ -68,6 +68,9 @@ export interface Config {
   blocks: {};
   collections: {
     pages: Page;
+    people: Person;
+    affiliations: Affiliation;
+    donations: Donation;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -78,6 +81,9 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
+    people: PeopleSelect<false> | PeopleSelect<true>;
+    affiliations: AffiliationsSelect<false> | AffiliationsSelect<true>;
+    donations: DonationsSelect<false> | DonationsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -230,6 +236,100 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people".
+ */
+export interface Person {
+  id: number;
+  family: 'montante' | 'jacobs';
+  order?: number | null;
+  name: string;
+  /**
+   * Label shown on the map node — must match the 'person' on this family's affiliations/donations.
+   */
+  shortName: string;
+  title?: string | null;
+  /**
+   * Path under /public, e.g. /photos/montante/montante-carl-sr.jpg
+   */
+  photo?: string | null;
+  /**
+   * Shown in the node detail modal. Bold = emphasized.
+   */
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "affiliations".
+ */
+export interface Affiliation {
+  id: number;
+  family: 'montante' | 'jacobs';
+  /**
+   * Short name of the family member (must match a People shortName for this family).
+   */
+  person: string;
+  org: string;
+  role?: string | null;
+  category: 'education' | 'catholic' | 'business' | 'cultural' | 'sports' | 'charity' | 'civic' | 'government';
+  jurisdiction?: ('local' | 'state' | 'federal') | null;
+  href?: string | null;
+  /**
+   * What the family gives this org (shown in modal).
+   */
+  contribution?: string | null;
+  description?: string | null;
+  logoPath?: string | null;
+  coverImage?: string | null;
+  faviconDomain?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "donations".
+ */
+export interface Donation {
+  id: number;
+  family: 'montante' | 'jacobs';
+  order?: number | null;
+  /**
+   * Short name of the giver (matches People shortName).
+   */
+  person: string;
+  recipient: string;
+  amount?: string | null;
+  /**
+   * e.g. 2016 or 2006–10
+   */
+  period?: string | null;
+  jurisdiction?: ('local' | 'state' | 'federal') | null;
+  detail?: string | null;
+  /**
+   * Politician headshot path under /public (optional).
+   */
+  photo?: string | null;
+  href?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -281,6 +381,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'people';
+        value: number | Person;
+      } | null)
+    | ({
+        relationTo: 'affiliations';
+        value: number | Affiliation;
+      } | null)
+    | ({
+        relationTo: 'donations';
+        value: number | Donation;
       } | null)
     | ({
         relationTo: 'users';
@@ -394,6 +506,59 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people_select".
+ */
+export interface PeopleSelect<T extends boolean = true> {
+  family?: T;
+  order?: T;
+  name?: T;
+  shortName?: T;
+  title?: T;
+  photo?: T;
+  bio?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "affiliations_select".
+ */
+export interface AffiliationsSelect<T extends boolean = true> {
+  family?: T;
+  person?: T;
+  org?: T;
+  role?: T;
+  category?: T;
+  jurisdiction?: T;
+  href?: T;
+  contribution?: T;
+  description?: T;
+  logoPath?: T;
+  coverImage?: T;
+  faviconDomain?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "donations_select".
+ */
+export interface DonationsSelect<T extends boolean = true> {
+  family?: T;
+  order?: T;
+  person?: T;
+  recipient?: T;
+  amount?: T;
+  period?: T;
+  jurisdiction?: T;
+  detail?: T;
+  photo?: T;
+  href?: T;
   updatedAt?: T;
   createdAt?: T;
 }
