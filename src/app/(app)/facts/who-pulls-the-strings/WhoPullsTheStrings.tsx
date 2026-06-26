@@ -2,7 +2,6 @@
 
 import React from "react";
 import { SourceLink } from "../SourceLink";
-import { MoneyTree } from "@/components/MoneyTree";
 import { WealthHero } from "@/components/WealthHero";
 import { PowerMap, type AreaInfo } from "@/components/PowerMap";
 import type { FilterType } from "@/types/affiliation";
@@ -95,19 +94,6 @@ export const WhoPullsTheStrings: React.FC = () => {
         </SectionHeading>
         <div className="space-y-4 text-base md:text-lg leading-relaxed text-white/80">
           <p>
-            The 250 Delaware project was awarded{" "}
-            <strong className="text-[#FFD600]">
-              more than $10.8 million in public subsidies
-            </strong>{" "}
-            — $807,000 in sales-tax savings for Delaware North and roughly $10
-            million in real-estate-tax abatements, sales-tax and mortgage-tax
-            savings for Uniland.{" "}
-            <SourceLink
-              href="https://littlesis.org/reports/selling-out-new-yorks-immigrants/"
-              label="LittleSis"
-            />
-          </p>
-          <p>
             One month before ECIDA approved $9.6 million in tax breaks for
             Uniland to build 250 Delaware, the same agency quietly approved a
             separate{" "}
@@ -128,40 +114,7 @@ export const WhoPullsTheStrings: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-12">
-        <MoneyTree
-          sources={[
-            {
-              amount: "$807K",
-              label: "ECIDA sales tax waiver",
-              payer: "Erie County taxpayers · approved Nov 2013, a month before groundbreaking",
-              bags: 8,
-              source: {
-                href: "https://investigativepost.org/2013/11/26/delaware-norths-endless-subsidies/",
-                label: "Investigative Post",
-              },
-            },
-          ]}
-        />
-        </div>
-
-        <h3 className="font-black text-xl md:text-2xl leading-tight text-white mt-16 mb-3">
-          Excused from millions
-        </h3>
-        <p className="text-base md:text-lg leading-relaxed text-white/70 mb-8">
-          Do they pay taxes on 250 Delaware? Some — a reduced{" "}
-          <span className="text-white">&ldquo;payment in lieu of taxes.&rdquo;</span>{" "}
-          But New York State&apos;s own records show how much they were{" "}
-          <span className="text-[#FFD600]">excused</span> from paying. From 2017
-          to 2024, the building drew{" "}
-          <strong className="text-[#FFD600]">$5.84 million</strong> in tax
-          exemptions; the owners paid{" "}
-          <strong className="text-white">$1.68 million</strong> in PILOTs — a net
-          tax break of{" "}
-          <strong className="text-[#FFD600]">$4.17 million</strong> on a single
-          building.
-        </p>
-        <p className="text-sm md:text-base leading-relaxed text-white/50">
+        <p className="mt-12 text-sm md:text-base leading-relaxed text-white/50">
           The family also runs a private foundation — the Margaret D. &amp;
           Jeremy M. Jacobs Family Foundation — with{" "}
           <span className="text-white/70">$10.3 million in assets</span> and{" "}
