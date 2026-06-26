@@ -48,16 +48,8 @@ const ImageBlock: Block = {
     borderTop,
     { name: "heading", type: "text" },
     { name: "body", type: "richText" },
-    {
-      name: "imagePath",
-      type: "text",
-      label: "Image path (in /public)",
-      defaultValue: "/nys-ero-map.png",
-    },
-    { name: "alt", type: "text" },
+    { name: "image", type: "upload", relationTo: "media" },
     { name: "caption", type: "text" },
-    { name: "width", type: "number", defaultValue: 680 },
-    { name: "height", type: "number", defaultValue: 400 },
     {
       type: "row",
       fields: [

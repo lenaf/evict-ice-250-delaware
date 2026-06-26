@@ -18,11 +18,8 @@ interface SectionBlock {
   // imageBlock
   heading?: string;
   body?: SerializedRichText;
-  imagePath?: string;
-  alt?: string;
+  image?: { url?: string; alt?: string; width?: number; height?: number } | string | null;
   caption?: string;
-  width?: number;
-  height?: number;
   sourceLabel?: string;
   sourceHref?: string;
   // factsReadNextBlock
@@ -66,14 +63,14 @@ export function RenderSections({ sections }: { sections: SectionBlock[] }) {
                   <div className="md:flex-1">
                     <LexicalRenderer content={s.body} />
                   </div>
-                  {s.imagePath && (
+                  {s.image && typeof s.image === "object" && s.image.url && (
                     <div className="mt-8 md:mt-0 md:w-[260px] lg:w-[300px] shrink-0">
                       <div className="bg-white p-3 border-2 border-white">
                         <Image
-                          src={s.imagePath}
-                          alt={s.alt ?? ""}
-                          width={s.width ?? 680}
-                          height={s.height ?? 400}
+                          src={s.image.url}
+                          alt={s.image.alt ?? ""}
+                          width={s.image.width ?? 680}
+                          height={s.image.height ?? 400}
                           className="w-full h-auto"
                         />
                       </div>

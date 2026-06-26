@@ -171,11 +171,8 @@ export interface Page {
               };
               [k: string]: unknown;
             } | null;
-            imagePath?: string | null;
-            alt?: string | null;
+            image?: (number | null) | Media;
             caption?: string | null;
-            width?: number | null;
-            height?: number | null;
             sourceLabel?: string | null;
             sourceHref?: string | null;
             id?: string | null;
@@ -214,6 +211,25 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -237,25 +253,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -362,11 +359,8 @@ export interface PagesSelect<T extends boolean = true> {
               borderTop?: T;
               heading?: T;
               body?: T;
-              imagePath?: T;
-              alt?: T;
+              image?: T;
               caption?: T;
-              width?: T;
-              height?: T;
               sourceLabel?: T;
               sourceHref?: T;
               id?: T;
