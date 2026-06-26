@@ -253,9 +253,9 @@ function buildGraph(
   // Size by degree
   for (const n of nodes) {
     if (n.type === "person") {
-      n.r = 38 + n.degree * 2.6;
+      n.r = 44 + n.degree * 2.6;
     } else {
-      n.r = 15 + n.degree * 11;
+      n.r = 19 + n.degree * 11;
     }
   }
 
@@ -424,9 +424,9 @@ function PersonNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
       />
       <text
         x={n.x}
-        y={n.y + r + 20}
+        y={n.y + r + 22}
         textAnchor="middle"
-        fontSize={18}
+        fontSize={20}
         fontWeight={900}
         fill="#fff"
         {...HALO}
@@ -462,7 +462,7 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
         />
         <text
           textAnchor="middle"
-          fontSize={12.5}
+          fontSize={13.5}
           fontWeight={700}
           fill="#fff"
           stroke="#000"
@@ -471,7 +471,7 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           {lines.map((line, i) => (
-            <tspan key={i} x={n.x} y={n.y + r + 15 + i * 13}>
+            <tspan key={i} x={n.x} y={n.y + r + 16 + i * 14}>
               {line}
             </tspan>
           ))}
@@ -498,7 +498,7 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
       </text>
       <text
         textAnchor="middle"
-        fontSize={12.5}
+        fontSize={13.5}
         fontWeight={700}
         fill="#fff"
         stroke="#000"
@@ -507,7 +507,7 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
         style={{ fontFamily: "Inter, sans-serif" }}
       >
         {lines.map((line, i) => (
-          <tspan key={i} x={n.x} y={n.y + r + 15 + i * 13}>
+          <tspan key={i} x={n.x} y={n.y + r + 16 + i * 14}>
             {line}
           </tspan>
         ))}
@@ -650,17 +650,17 @@ export const PowerMap: React.FC<PowerMapProps> = ({
     // labels avoid the names too — not just the circles.
     const nameBoxes = visNodes.map((n) => {
       if (n.type === "person") {
-        const w = n.label.length * 18 * 0.55;
-        return { cx: n.x, cy: n.y + n.r + 11, hw: w / 2 + 3, hh: 11 };
+        const w = n.label.length * 20 * 0.55;
+        return { cx: n.x, cy: n.y + n.r + 12, hw: w / 2 + 3, hh: 12 };
       }
       const lines = labelLines(n.label);
       const maxLen = Math.max(...lines.map((l) => l.length));
       const top = n.y + n.r + 2.5;
-      const bottom = n.y + n.r + 15 + (lines.length - 1) * 13;
+      const bottom = n.y + n.r + 16 + (lines.length - 1) * 14;
       return {
         cx: n.x,
         cy: (top + bottom) / 2,
-        hw: (maxLen * 12.5 * 0.55) / 2 + 3,
+        hw: (maxLen * 13.5 * 0.55) / 2 + 3,
         hh: (bottom - top) / 2 + 3,
       };
     });
@@ -881,6 +881,10 @@ export const PowerMap: React.FC<PowerMapProps> = ({
           )}
         </svg>
       </div>
+
+      <p className="mt-3 text-xs text-white/30">
+        Click each circle for more information.
+      </p>
 
       {/* Modal */}
       {selected && (

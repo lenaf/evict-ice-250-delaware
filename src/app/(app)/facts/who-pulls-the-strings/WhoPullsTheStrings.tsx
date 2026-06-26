@@ -31,36 +31,45 @@ Maximum donations also came from the family&apos;s business enterprises includin
   business: {
     summary: (
       <>
-        Delaware North&apos;s global hospitality and gaming empire, a seat on
-        M&amp;T Bank&apos;s board, and the chair of the American Gaming
-        Association&apos;s CEO roundtable — the family&apos;s reach spans the
-        industries that live on government contracts and regulation.
+        The Jacobs fortune rests on Delaware North, a global hospitality and
+        gaming company built on government concessions and contracts. From
+        there the family&apos;s influence extends into the institutions that
+        regulate them: Jerry Jr. joined the board of M&amp;T Bank, Buffalo&apos;s
+        largest bank, in 2025, and Lou chairs the CEO roundtable of the American
+        Gaming Association, the casino industry&apos;s main lobbying arm.
       </>
     ),
   },
   education: {
     summary: (
       <>
-        A $30 million gift named UB&apos;s medical school, and the family has
-        chaired the University at Buffalo Council for years — Jerry Jr. was
-        appointed chair by Gov. Hochul in 2025.
+        A $30 million gift put the family&apos;s name on the University at
+        Buffalo&apos;s medical school, and the Jacobses have run the UB Council
+        for years. Jeremy Sr. chaired it for over a decade; in 2025 Gov. Hochul
+        appointed his son Jerry Jr. to the same seat — the same governor whose
+        husband Delaware North paid as general counsel.
       </>
     ),
   },
   civic: {
     summary: (
       <>
-        The Jacobs Family Foundation, the Corps Network, United Way and the
-        Partnership for New York City — tax-advantaged giving that buys standing
-        across civic and political life.
+        The family&apos;s philanthropy doubles as standing. The Jacobs Family
+        Foundation gives away hundreds of thousands a year, and family members
+        sit at the head of civic institutions from United Way of Buffalo to the
+        Partnership for New York City and the federal Corps Network — visible
+        generosity that also buys access.
       </>
     ),
   },
   sports: {
     summary: (
       <>
-        The family owns the Boston Bruins and chairs the NHL&apos;s Board of
-        Governors.
+        The Jacobses own the Boston Bruins, and Jeremy Sr. chairs the NHL&apos;s
+        Board of Governors — making him one of the most powerful figures in
+        professional hockey. The family also sits on the board of the regional
+        sports network NESN and backs the Bruins Foundation and Boston&apos;s
+        Sports Museum.
       </>
     ),
   },
