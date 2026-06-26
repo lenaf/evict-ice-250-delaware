@@ -704,14 +704,13 @@ export const PowerMap: React.FC<PowerMapProps> = ({
               const cy = (s.y + t.y) / 2 + (dx / len) * k;
               const lx = 0.25 * s.x + 0.5 * cx + 0.25 * t.x;
               const ly = 0.25 * s.y + 0.5 * cy + 0.25 * t.y;
-              const isDon = l.kind === "donation";
               return (
                 <g key={i} opacity={visible ? 1 : 0.06}>
                   <path
                     d={`M${s.x},${s.y} Q${cx},${cy} ${t.x},${t.y}`}
                     fill="none"
-                    stroke={isDon ? "#FFD600" : "#fff"}
-                    strokeOpacity={isDon ? 0.4 : 0.22}
+                    stroke="#fff"
+                    strokeOpacity={0.22}
                     strokeWidth={1.5}
                     strokeDasharray="5 4"
                   />
@@ -737,9 +736,9 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                           textAnchor="middle"
                           dominantBaseline="central"
                           fontSize={8.5}
-                          fontWeight={isDon ? 700 : 400}
-                          fill={isDon ? "#FFD600" : "#fff"}
-                          fillOpacity={isDon ? 1 : 0.75}
+                          fontWeight={400}
+                          fill="#fff"
+                          fillOpacity={0.8}
                           stroke="#000"
                           strokeWidth={2.5}
                           paintOrder="stroke"
