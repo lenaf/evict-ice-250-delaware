@@ -570,7 +570,6 @@ export const PowerMap: React.FC<PowerMapProps> = ({
   );
   const [laidOut, setLaidOut] = useState<SimNode[] | null>(null);
   const [selected, setSelected] = useState<SimNode | null>(null);
-  const [hoverId, setHoverId] = useState<string | null>(null);
   const [types, setTypes] = useState<Set<FilterType>>(new Set());
   const [jurs, setJurs] = useState<Set<Jurisdiction>>(new Set());
   const ran = useRef(false);
@@ -692,31 +691,23 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                     strokeWidth={1.5}
                     strokeDasharray="5 4"
                   />
-                  {l.label && visible && hoverId === l.target && (
-                    <>
-                      <rect
-                        x={lx - (l.label.length * 6.6 + 14) / 2}
-                        y={ly - 12}
-                        width={l.label.length * 6.6 + 14}
-                        height={22}
-                        rx={3}
-                        fill="#000"
-                        fillOpacity={0.85}
-                      />
-                      <text
-                        x={lx}
-                        y={ly}
-                        textAnchor="middle"
-                        dominantBaseline="central"
-                        fontSize={13}
-                        fontWeight={isDon ? 800 : 400}
-                        fill={isDon ? "#FFD600" : "#fff"}
-                        fillOpacity={isDon ? 1 : 0.9}
-                        style={{ fontFamily: "Inter, sans-serif" }}
-                      >
-                        {l.label}
-                      </text>
-                    </>
+                  {l.label && visible && (
+                    <text
+                      x={lx}
+                      y={ly}
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fontSize={8.5}
+                      fontWeight={isDon ? 700 : 400}
+                      fill={isDon ? "#FFD600" : "#fff"}
+                      fillOpacity={isDon ? 1 : 0.75}
+                      stroke="#000"
+                      strokeWidth={2.5}
+                      paintOrder="stroke"
+                      style={{ fontFamily: "Inter, sans-serif" }}
+                    >
+                      {l.label}
+                    </text>
                   )}
                 </g>
               );
@@ -731,8 +722,6 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                 key={n.id}
                 opacity={dim ? 0.12 : 1}
                 style={{ pointerEvents: dim ? "none" : undefined }}
-                onMouseEnter={() => setHoverId(n.id)}
-                onMouseLeave={() => setHoverId((cur) => (cur === n.id ? null : cur))}
               >
                 {n.type === "person" ? (
                   <PersonNodeG n={n} onClick={() => setSelected(n)} />
@@ -766,7 +755,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
       </div>
 
       <p className="mt-4 text-xs text-white/40 uppercase tracking-widest font-black">
-        Hover an institution to see the tie · tap any node to read more · bigger node = more ties
+        Tap any node to read more · bigger node = more ties
       </p>
 
       {/* Modal */}
