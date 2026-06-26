@@ -78,35 +78,11 @@ export const WhoPullsTheStrings: React.FC = () => {
           family="The Jacobs Family"
           lede={
             <>
-              The Jacobs family owns Delaware North outright, and Jeremy Jacobs
-              Sr. is{" "}
-              <SourceLink
-                href="https://buffalonews.com/news/local/business/jeremy-jacobs-sr-is-buffalo-niagaras-only-billionaire-forbes-says/article_26f0bac8-0aa3-5cc9-bee5-f398a84c3766.html"
-                label="Buffalo's only Forbes billionaire"
-              />
-              , worth about{" "}
-              <strong className="text-[#FFD600]">$4.6 billion</strong>. Their
-              global headquarters sits{" "}
-              <strong className="text-[#FFD600]">
-                directly above the ICE field office
-              </strong>{" "}
-              at 250 Delaware. They gave{" "}
-              <strong className="text-[#FFD600]">$65,000</strong> to
-              Trump&apos;s transition,{" "}
-              <SourceLink
-                href="https://data.ny.gov/d/4j2b-6a2j"
-                label="$401,854 to Gov. Hochul's campaigns"
-              />
-              , and paid the governor&apos;s husband{" "}
-              <strong className="text-[#FFD600]">
-                hundreds of thousands a year
-              </strong>{" "}
-              — while the building they anchor collects a{" "}
-              <strong className="text-[#FFD600]">$4.17 million</strong> tax
-              break. They have said nothing about what happens in the building
-              that bears their name.
+             Directly above the ICE offices sit the global headquarters of Delaware North — a $3 billion hospitality company owned by the Jacobs family.
+             Jeremy Jacobs Sr. is <strong className="text-[#FFD600]">Buffalo's only Forbes billionaire</strong>, worth about <strong className="text-[#FFD600]">$4.6 billion</strong>. 
             </>
-          }
+
+            }
           people={toHeroPeople(JACOBS_PEOPLE)}
         />
       </Section>
@@ -142,9 +118,11 @@ export const WhoPullsTheStrings: React.FC = () => {
             />
           </p>
           <p>
-            Simultaneously, Delaware North applied for up to{" "}
-            <strong className="text-[#FFD600]">$4 million</strong> in state
-            job-creation tax credits — roughly{" "}
+            Simultaneously, Delaware North applied to New York State for
+            job-creation tax credits on the 65 jobs it pledged — credits a source
+            estimated could be worth up to{" "}
+            <strong className="text-[#FFD600]">$4 million</strong> over ten years,
+            or roughly{" "}
             <strong className="text-white">$61,500 per promised job</strong>.
           </p>
         </div>
@@ -157,16 +135,6 @@ export const WhoPullsTheStrings: React.FC = () => {
               label: "ECIDA sales tax waiver",
               payer: "Erie County taxpayers · approved Nov 2013, a month before groundbreaking",
               bags: 8,
-              source: {
-                href: "https://investigativepost.org/2013/11/26/delaware-norths-endless-subsidies/",
-                label: "Investigative Post",
-              },
-            },
-            {
-              amount: "$4M",
-              label: "State job-creation credits",
-              payer: "New York State taxpayers · ~$61,500 per promised job",
-              bags: 40,
               source: {
                 href: "https://investigativepost.org/2013/11/26/delaware-norths-endless-subsidies/",
                 label: "Investigative Post",
