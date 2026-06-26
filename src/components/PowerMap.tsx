@@ -424,9 +424,9 @@ function PersonNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
       />
       <text
         x={n.x}
-        y={n.y + r + 24}
+        y={n.y + r + 20}
         textAnchor="middle"
-        fontSize={23}
+        fontSize={18}
         fontWeight={900}
         fill="#fff"
         {...HALO}
@@ -462,7 +462,7 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
         />
         <text
           textAnchor="middle"
-          fontSize={15}
+          fontSize={12.5}
           fontWeight={700}
           fill="#fff"
           stroke="#000"
@@ -471,7 +471,7 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           {lines.map((line, i) => (
-            <tspan key={i} x={n.x} y={n.y + r + 17 + i * 16}>
+            <tspan key={i} x={n.x} y={n.y + r + 15 + i * 13}>
               {line}
             </tspan>
           ))}
@@ -498,7 +498,7 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
       </text>
       <text
         textAnchor="middle"
-        fontSize={15}
+        fontSize={12.5}
         fontWeight={700}
         fill="#fff"
         stroke="#000"
@@ -507,7 +507,7 @@ function OrgNodeG({ n, onClick }: { n: SimNode; onClick: () => void }) {
         style={{ fontFamily: "Inter, sans-serif" }}
       >
         {lines.map((line, i) => (
-          <tspan key={i} x={n.x} y={n.y + r + 17 + i * 16}>
+          <tspan key={i} x={n.x} y={n.y + r + 15 + i * 13}>
             {line}
           </tspan>
         ))}
@@ -615,8 +615,8 @@ export const PowerMap: React.FC<PowerMapProps> = ({
         i,
         x: 0.25 * s.x + 0.5 * cx + 0.25 * t.x,
         y: 0.25 * s.y + 0.5 * cy + 0.25 * t.y,
-        hw: (l.label.length * FS * 0.55) / 2 + 2,
-        hh: FS / 2 + 2,
+        hw: (l.label.length * FS * 0.55) / 2 + 5,
+        hh: FS / 2 + 6,
       });
     });
 
@@ -752,19 +752,22 @@ export const PowerMap: React.FC<PowerMapProps> = ({
                   />
                   {l.label && visible && types.size > 0 && (() => {
                     const lp = labelPos.get(i) ?? { x: lx, y: ly };
-                    const moved = Math.hypot(lp.x - lx, lp.y - ly) > 10;
+                    const moved = Math.hypot(lp.x - lx, lp.y - ly) > 3;
                     return (
                       <>
                         {moved && (
-                          <line
-                            x1={lx}
-                            y1={ly}
-                            x2={lp.x}
-                            y2={lp.y}
-                            stroke="#fff"
-                            strokeOpacity={0.15}
-                            strokeWidth={0.75}
-                          />
+                          <>
+                            <line
+                              x1={lx}
+                              y1={ly}
+                              x2={lp.x}
+                              y2={lp.y}
+                              stroke="#fff"
+                              strokeOpacity={0.4}
+                              strokeWidth={0.75}
+                            />
+                            <circle cx={lx} cy={ly} r={1.6} fill="#fff" fillOpacity={0.5} />
+                          </>
                         )}
                         <text
                           x={lp.x}
