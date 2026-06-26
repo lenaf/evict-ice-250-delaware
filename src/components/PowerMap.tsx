@@ -735,7 +735,7 @@ export const PowerMap: React.FC<PowerMapProps> = ({
     <div>
       {/* Area selector — a row of toggle buttons above the map */}
       <p className="mb-3 text-xs font-black uppercase tracking-widest text-white/40">
-        Click an area to focus the network
+        Filter the network and click circle nodes to learn more.
       </p>
       <div className="flex flex-wrap gap-2 mb-6">
         {(() => {
@@ -766,6 +766,11 @@ export const PowerMap: React.FC<PowerMapProps> = ({
           {activeSummary}
         </div>
       )}
+            <div className="flex justify-center">
+      <p className="text-sm text-white/60 ">
+       
+      </p>
+      </div>
 
       <div
         className={`relative w-[calc(100%+2rem)] -mx-4 sm:w-full sm:mx-0 ${selected ? "invisible" : ""}`}
@@ -882,9 +887,6 @@ export const PowerMap: React.FC<PowerMapProps> = ({
         </svg>
       </div>
 
-      <p className="mt-3 text-xs text-white/30">
-        Click each circle for more information.
-      </p>
 
       {/* Modal */}
       {selected && (

@@ -14,7 +14,7 @@ export const FactsReadNext: React.FC<FactsReadNextProps> = ({
   href,
 }) => {
   return (
-    <Section variant="black">
+    <Section variant="blue">
       <p className="text-xs font-black uppercase tracking-widest text-white/40 mb-4">
         Continue Reading
       </p>
