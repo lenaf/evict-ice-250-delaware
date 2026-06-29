@@ -1,4 +1,5 @@
 import type { CollectionConfig, Field } from "payload";
+import { revalidateFamilyPages } from "../revalidate";
 
 const family: Field = {
   name: "family",
@@ -13,6 +14,10 @@ const family: Field = {
 
 export const People: CollectionConfig = {
   slug: "people" as const,
+  hooks: {
+    afterChange: [() => revalidateFamilyPages()],
+    afterDelete: [() => revalidateFamilyPages()],
+  },
   admin: {
     useAsTitle: "name",
     group: "🕸️ Power Map",

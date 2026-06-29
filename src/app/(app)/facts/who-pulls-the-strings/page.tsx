@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { loadFactsPage } from "@/lib/payload";
 import { RenderSections } from "@/components/RenderSections";
-import { WhoPullsTheStrings } from "./WhoPullsTheStrings";
 
 export const metadata: Metadata = {
   title: "Who Pulls the Strings: The Facts",
@@ -9,11 +9,12 @@ export const metadata: Metadata = {
     "Delaware North and the Jacobs family, the $3 billion anchor tenant above ICE at 250 Delaware Avenue in Buffalo, NY.",
 };
 
-export const dynamic = "force-dynamic";
+// ISR: prerendered at build, refreshed on a CMS save (revalidate hook) or hourly.
+export const revalidate = 3600;
 
 export default async function WhoPullsTheStringsPage() {
   const data = await loadFactsPage("facts/who-pulls-the-strings");
-  if (!data?.sections?.length) return <WhoPullsTheStrings />;
+  if (!data?.sections?.length) notFound();
   return (
     <main className="min-h-screen">
       <RenderSections

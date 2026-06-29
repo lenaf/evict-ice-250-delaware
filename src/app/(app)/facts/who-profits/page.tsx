@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { loadFactsPage } from "@/lib/payload";
 import { RenderSections } from "@/components/RenderSections";
-import { WhoProfits } from "./WhoProfits";
 
 export const metadata: Metadata = {
   title: "Who Profits: The Facts",
@@ -9,11 +9,12 @@ export const metadata: Metadata = {
     "Uniland, the Montante family, and the landlords profiting from ICE's lease at 250 Delaware Avenue in Buffalo, NY.",
 };
 
-export const dynamic = "force-dynamic";
+// ISR: prerendered at build, refreshed on a CMS save (revalidate hook) or hourly.
+export const revalidate = 3600;
 
 export default async function WhoProfitsPage() {
   const data = await loadFactsPage("facts/who-profits");
-  if (!data?.sections?.length) return <WhoProfits />;
+  if (!data?.sections?.length) notFound();
   return (
     <main className="min-h-screen">
       <RenderSections

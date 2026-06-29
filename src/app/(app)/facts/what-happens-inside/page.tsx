@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { getPageBySlug } from "@/lib/payload";
+import { notFound } from "next/navigation";
+import { loadFactsPage } from "@/lib/payload";
 import { RenderSections } from "@/components/RenderSections";
-import { WhatHappensInside } from "./WhatHappensInside";
 
 export const metadata: Metadata = {
   title: "What Happens Inside: The Facts",
@@ -9,17 +9,18 @@ export const metadata: Metadata = {
     "Field office. Hold rooms. Weapons storage. What the federal government runs out of 250 Delaware Avenue in downtown Buffalo.",
 };
 
-// Render from the CMS when available; fall back to the hardcoded view until
-// the page has been seeded (and so the build doesn't require a live DB).
-export const dynamic = "force-dynamic";
+// ISR: prerendered at build, refreshed on a CMS save (revalidate hook) or hourly.
+export const revalidate = 3600;
 
 export default async function WhatHappensInsidePage() {
-  const page = await getPageBySlug("facts/what-happens-inside");
-  const sections = (page?.sections ?? []) as Parameters<typeof RenderSections>[0]["sections"];
-  if (!sections.length) return <WhatHappensInside />;
+  const data = await loadFactsPage("facts/what-happens-inside");
+  if (!data?.sections?.length) notFound();
   return (
     <main className="min-h-screen">
-      <RenderSections sections={sections} />
+      <RenderSections
+        sections={data.sections as Parameters<typeof RenderSections>[0]["sections"]}
+        familyData={data.familyData}
+      />
     </main>
   );
 }
