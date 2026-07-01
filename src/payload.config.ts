@@ -6,6 +6,7 @@ import {
   TextStateFeature,
   BlocksFeature,
 } from "@payloadcms/richtext-lexical";
+import { s3Storage } from "@payloadcms/storage-s3";
 import path from "path";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
@@ -25,9 +26,36 @@ const allowList = [
   process.env.NEXT_PUBLIC_SITE_URL || "",
 ].filter(Boolean);
 
+// Persist Media uploads in Supabase Storage (S3-compatible) when configured;
+// falls back to local disk in dev if the S3 env vars aren't set.
+const storagePlugins = process.env.S3_BUCKET
+  ? [
+      s3Storage({
+        collections: {
+          media: {
+            prefix: "media",
+            generateFileURL: ({ filename, prefix }: { filename: string; prefix?: string }) =>
+              `${process.env.S3_PUBLIC_URL}/${prefix ? `${prefix}/` : ""}${filename}`,
+          },
+        },
+        bucket: process.env.S3_BUCKET,
+        config: {
+          endpoint: process.env.S3_ENDPOINT,
+          region: process.env.S3_REGION || "us-east-1",
+          forcePathStyle: true, // required by Supabase Storage's S3 API
+          credentials: {
+            accessKeyId: process.env.S3_ACCESS_KEY_ID || "",
+            secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || "",
+          },
+        },
+      }),
+    ]
+  : [];
+
 export default buildConfig({
   // Mount the admin at /cms — /admin is the existing volunteer admin.
   routes: { admin: "/cms" },
+  plugins: storagePlugins,
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
