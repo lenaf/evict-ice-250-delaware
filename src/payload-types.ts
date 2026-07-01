@@ -426,11 +426,23 @@ export interface Entity {
    */
   photo?: (number | null) | Media;
   /**
-   * What the family gives this entity (shown in the modal).
+   * Topline about this entity — shown at the top of its modal in the power map.
    */
-  contribution?: string | null;
-  description?: string | null;
-  href?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -451,6 +463,25 @@ export interface Relationship {
    * When, e.g. 2016 or 2006–10 (mainly donations).
    */
   period?: string | null;
+  /**
+   * This relationship's own note — shown under it in the entity modal, only on this family's page.
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  href?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -690,9 +721,7 @@ export interface EntitiesSelect<T extends boolean = true> {
   category?: T;
   jurisdiction?: T;
   photo?: T;
-  contribution?: T;
   description?: T;
-  href?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -706,6 +735,8 @@ export interface RelationshipsSelect<T extends boolean = true> {
   order?: T;
   label?: T;
   period?: T;
+  description?: T;
+  href?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -139,9 +139,9 @@ export async function getFamilyData(family: FamilyKey): Promise<FamilyData | nul
         role: (r.label as string) ?? "",
         category: (e.category as AffiliationCategory) ?? "civic",
         jurisdiction: (e.jurisdiction as Jurisdiction) ?? undefined,
-        href: (e.href as string) ?? undefined,
-        contribution: (e.contribution as string) ?? undefined,
-        description: (e.description as string) ?? undefined,
+        description: e.description ?? undefined, // entity topline (rich text)
+        detail: r.description ?? undefined, // this relationship's note (rich text)
+        href: (r.href as string) ?? undefined,
         coverImage: mediaUrl(e.photo) || undefined,
       });
     }

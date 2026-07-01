@@ -34,9 +34,23 @@ export interface Affiliation {
   jurisdiction?: Jurisdiction; // for the power-map jurisdiction filter (defaults to local)
 }
 
-// An affiliation flattened out and tagged with which person holds it.
-export interface AffiliationEntry extends Affiliation {
+// A power-map edge: a person connected to an entity (node). `description` is
+// the entity's topline (rich text); `detail` is this relationship's own
+// rich-text note. Both are Lexical JSON, rendered in the node modal.
+export interface AffiliationEntry {
   person: string;
+  org: string;
+  role: string; // the label shown on the edge (role or $ amount)
+  category: AffiliationCategory;
+  jurisdiction?: Jurisdiction;
+  coverImage?: string; // entity photo/logo URL
+  href?: string; // this relationship's source link
+  description?: unknown; // entity topline (rich text JSON)
+  detail?: unknown; // this relationship's description (rich text JSON)
+  // legacy optionals (no longer populated; kept so older references compile)
+  faviconDomain?: string;
+  logoPath?: string;
+  contribution?: string;
 }
 
 export interface BioSegment {

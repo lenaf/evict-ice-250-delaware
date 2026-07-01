@@ -45,8 +45,10 @@ export const Entities: CollectionConfig = {
       options: ["local", "state", "federal"].map((j) => ({ label: j, value: j })),
     },
     { name: "photo", type: "upload", relationTo: "media", admin: { description: "Logo or headshot for the node." } },
-    { name: "contribution", type: "text", admin: { description: "What the family gives this entity (shown in the modal)." } },
-    { name: "description", type: "textarea" },
-    { name: "href", type: "text", label: "Source link" },
+    {
+      name: "description",
+      type: "richText",
+      admin: { description: "Topline about this entity — shown at the top of its modal in the power map." },
+    },
   ],
 };

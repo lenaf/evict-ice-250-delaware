@@ -42,5 +42,11 @@ export const Relationships: CollectionConfig = {
       admin: { description: "Text shown on the connecting line — a role or a $ amount. Optional." },
     },
     { name: "period", type: "text", admin: { description: "When, e.g. 2016 or 2006–10 (mainly donations)." } },
+    {
+      name: "description",
+      type: "richText",
+      admin: { description: "This relationship's own note — shown under it in the entity modal, only on this family's page." },
+    },
+    { name: "href", type: "text", label: "Source link" },
   ],
 };

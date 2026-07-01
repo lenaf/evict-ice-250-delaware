@@ -8,6 +8,7 @@ import type {
   FilterType,
   Jurisdiction,
 } from "@/types/affiliation";
+import { LexicalRenderer, type SerializedRichText } from "@/components/LexicalRenderer";
 
 export interface PowerMapPerson {
   id: string;
@@ -115,10 +116,10 @@ interface SimNode {
   faviconDomain?: string;
   logoPath?: string;
   coverImage?: string;
-  description?: string;
+  description?: unknown; // entity topline (rich text JSON)
   href?: string;
   contribution?: string;
-  connections?: { person: string; role: string }[];
+  connections?: { person: string; role: string; detail?: unknown; href?: string }[];
   degree: number;
   nodeType?: FilterType; // for the type filter (person nodes have none)
   jurisdiction?: Jurisdiction; // for the jurisdiction filter
@@ -183,7 +184,7 @@ function buildGraph(
     if (!node.href && aff.href) node.href = aff.href;
     if (!node.contribution && aff.contribution) node.contribution = aff.contribution;
     if (aff.jurisdiction) node.jurisdiction = aff.jurisdiction;
-    node.connections!.push({ person: aff.person, role: aff.role });
+    node.connections!.push({ person: aff.person, role: aff.role, detail: aff.detail, href: aff.href });
     node.degree += 1;
     links.push({
       source: `person:${aff.person}`,
@@ -985,40 +986,39 @@ function OrgModalBody({ node, onClose }: { node: SimNode; onClose: () => void })
         accent={CATEGORY_COLOR[node.category!]}
         onClose={onClose}
       />
-      <div className="p-6 flex flex-col gap-4">
-        {node.contribution && (
-          <div className="bg-black text-white p-4">
-            <div className="text-[10px] font-black uppercase tracking-widest text-[#FFD600] mb-1">
-              What the family gives
-            </div>
-            <div className="font-black text-lg leading-snug">{node.contribution}</div>
+      <div className="p-6 flex flex-col gap-4 text-black/80">
+        {node.description ? (
+          <div className="text-sm md:text-base leading-relaxed text-black/80">
+            <LexicalRenderer content={node.description as SerializedRichText} />
           </div>
-        )}
-        <div className="space-y-2">
+        ) : null}
+        <div className="space-y-4 border-t-2 border-black pt-4">
           {node.connections!.map((c, i) => (
-            <div key={i} className="flex gap-3 text-sm">
-              <span className="font-black uppercase tracking-wider shrink-0 w-20 text-black/50">
-                {c.person}
-              </span>
-              <span className="text-black/80 leading-snug">{c.role}</span>
+            <div key={i}>
+              <div className="flex gap-3 text-sm">
+                <span className="font-black uppercase tracking-wider shrink-0 w-20 text-black/50">
+                  {c.person}
+                </span>
+                {c.role && <span className="font-semibold text-black leading-snug">{c.role}</span>}
+              </div>
+              {c.detail ? (
+                <div className="text-sm leading-relaxed text-black/70 pl-[5.75rem]">
+                  <LexicalRenderer content={c.detail as SerializedRichText} />
+                </div>
+              ) : null}
+              {c.href && (
+                <a
+                  href={c.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-[11px] text-black/40 underline underline-offset-2 hover:text-black transition cursor-pointer pl-[5.75rem]"
+                >
+                  Source &rarr;
+                </a>
+              )}
             </div>
           ))}
         </div>
-        {node.description && (
-          <p className="text-sm md:text-base leading-relaxed text-black/70 border-t-2 border-black pt-4">
-            {node.description}
-          </p>
-        )}
-        {node.href && (
-          <a
-            href={node.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-[11px] text-black/40 underline underline-offset-2 hover:text-black transition cursor-pointer"
-          >
-            Source &rarr;
-          </a>
-        )}
       </div>
     </>
   );
