@@ -72,13 +72,28 @@ function bioToParas(bio: unknown): BioSegment[][] {
 export async function getFamilyData(family: FamilyKey): Promise<FamilyData | null> {
   try {
     const payload = await getPayload();
-    const [peopleRes, affRes, donRes] = await Promise.all([
-      payload.find({ collection: "people", where: { family: { equals: family } }, sort: "order", limit: 100, depth: 0 }),
-      payload.find({ collection: "affiliations", where: { family: { equals: family } }, limit: 500, depth: 0 }),
-      payload.find({ collection: "donations", where: { family: { equals: family } }, sort: "order", limit: 200, depth: 0 }),
+    // People carry the family; affiliations/donations link to a person, so we
+    // scope those by this family's person IDs and map person → shortName.
+    const peopleRes = await payload.find({
+      collection: "people",
+      where: { family: { equals: family } },
+      sort: "order",
+      limit: 100,
+      depth: 0,
+    });
+    const peopleDocs = peopleRes.docs as unknown as Record<string, unknown>[];
+    const personIds = peopleDocs.map((d) => d.id);
+    const idToShortName = new Map(peopleDocs.map((d) => [d.id, (d.shortName as string) ?? ""]));
+
+    const [affRes, donRes] = await Promise.all([
+      personIds.length
+        ? payload.find({ collection: "affiliations", where: { person: { in: personIds } }, limit: 500, depth: 0 })
+        : Promise.resolve({ docs: [] as unknown[] }),
+      personIds.length
+        ? payload.find({ collection: "donations", where: { person: { in: personIds } }, sort: "order", limit: 200, depth: 0 })
+        : Promise.resolve({ docs: [] as unknown[] }),
     ]);
 
-    const peopleDocs = peopleRes.docs as unknown as Record<string, unknown>[];
     const people: PowerMapPerson[] = peopleDocs.map((d) => ({
       id: String(d.id),
       name: (d.name as string) ?? "",
@@ -97,7 +112,7 @@ export async function getFamilyData(family: FamilyKey): Promise<FamilyData | nul
     const affiliations: AffiliationEntry[] = affRes.docs.map((doc) => {
       const a = doc as unknown as Record<string, unknown>;
       return {
-        person: (a.person as string) ?? "",
+        person: idToShortName.get(a.person) ?? "",
         org: (a.org as string) ?? "",
         role: (a.role as string) ?? "",
         category: (a.category as AffiliationCategory) ?? "civic",
@@ -114,7 +129,7 @@ export async function getFamilyData(family: FamilyKey): Promise<FamilyData | nul
     const donations: PowerMapDonation[] = donRes.docs.map((doc) => {
       const o = doc as unknown as Record<string, unknown>;
       return {
-        person: (o.person as string) ?? "",
+        person: idToShortName.get(o.person) ?? "",
         recipient: (o.recipient as string) ?? "",
         amount: (o.amount as string) ?? "",
         period: (o.period as string) ?? undefined,

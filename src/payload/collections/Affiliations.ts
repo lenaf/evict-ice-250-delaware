@@ -1,16 +1,5 @@
-import type { CollectionConfig, Field } from "payload";
+import type { CollectionConfig } from "payload";
 import { revalidateFamilyPages } from "../revalidate";
-
-const family: Field = {
-  name: "family",
-  type: "select",
-  required: true,
-  options: [
-    { label: "Montante", value: "montante" },
-    { label: "Jacobs", value: "jacobs" },
-  ],
-  admin: { position: "sidebar" },
-};
 
 export const Affiliations: CollectionConfig = {
   slug: "affiliations" as const,
@@ -21,7 +10,7 @@ export const Affiliations: CollectionConfig = {
   admin: {
     useAsTitle: "org",
     group: "🕸️ Power Map",
-    defaultColumns: ["org", "person", "family", "category"],
+    defaultColumns: ["org", "person", "category"],
   },
   access: {
     read: () => true,
@@ -30,12 +19,15 @@ export const Affiliations: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   fields: [
-    family,
     {
       name: "person",
-      type: "text",
+      type: "relationship",
+      relationTo: "people",
       required: true,
-      admin: { description: "Short name of the family member (must match a People shortName for this family)." },
+      admin: {
+        position: "sidebar",
+        description: "The family member who holds this affiliation. The family is taken from the person.",
+      },
     },
     { name: "org", type: "text", required: true },
     { name: "role", type: "text" },

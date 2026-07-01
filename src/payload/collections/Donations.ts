@@ -1,16 +1,5 @@
-import type { CollectionConfig, Field } from "payload";
+import type { CollectionConfig } from "payload";
 import { revalidateFamilyPages } from "../revalidate";
-
-const family: Field = {
-  name: "family",
-  type: "select",
-  required: true,
-  options: [
-    { label: "Montante", value: "montante" },
-    { label: "Jacobs", value: "jacobs" },
-  ],
-  admin: { position: "sidebar" },
-};
 
 export const Donations: CollectionConfig = {
   slug: "donations" as const,
@@ -21,7 +10,7 @@ export const Donations: CollectionConfig = {
   admin: {
     useAsTitle: "recipient",
     group: "🕸️ Power Map",
-    defaultColumns: ["recipient", "person", "amount", "family"],
+    defaultColumns: ["recipient", "person", "amount"],
   },
   access: {
     read: () => true,
@@ -30,14 +19,17 @@ export const Donations: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   fields: [
-    family,
-    { name: "order", type: "number", admin: { position: "sidebar" } },
     {
       name: "person",
-      type: "text",
+      type: "relationship",
+      relationTo: "people",
       required: true,
-      admin: { description: "Short name of the giver (matches People shortName)." },
+      admin: {
+        position: "sidebar",
+        description: "The family member who gave. The family is taken from the person.",
+      },
     },
+    { name: "order", type: "number", admin: { position: "sidebar" } },
     { name: "recipient", type: "text", required: true },
     { name: "amount", type: "text" },
     { name: "period", type: "text", admin: { description: "e.g. 2016 or 2006–10" } },

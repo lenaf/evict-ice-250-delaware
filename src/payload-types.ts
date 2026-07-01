@@ -418,11 +418,10 @@ export interface Person {
  */
 export interface Affiliation {
   id: number;
-  family: 'montante' | 'jacobs';
   /**
-   * Short name of the family member (must match a People shortName for this family).
+   * The family member who holds this affiliation. The family is taken from the person.
    */
-  person: string;
+  person: number | Person;
   org: string;
   role?: string | null;
   category: 'education' | 'catholic' | 'business' | 'cultural' | 'sports' | 'charity' | 'civic' | 'government';
@@ -445,12 +444,11 @@ export interface Affiliation {
  */
 export interface Donation {
   id: number;
-  family: 'montante' | 'jacobs';
-  order?: number | null;
   /**
-   * Short name of the giver (matches People shortName).
+   * The family member who gave. The family is taken from the person.
    */
-  person: string;
+  person: number | Person;
+  order?: number | null;
   recipient: string;
   amount?: string | null;
   /**
@@ -699,7 +697,6 @@ export interface PeopleSelect<T extends boolean = true> {
  * via the `definition` "affiliations_select".
  */
 export interface AffiliationsSelect<T extends boolean = true> {
-  family?: T;
   person?: T;
   org?: T;
   role?: T;
@@ -719,9 +716,8 @@ export interface AffiliationsSelect<T extends boolean = true> {
  * via the `definition` "donations_select".
  */
 export interface DonationsSelect<T extends boolean = true> {
-  family?: T;
-  order?: T;
   person?: T;
+  order?: T;
   recipient?: T;
   amount?: T;
   period?: T;
