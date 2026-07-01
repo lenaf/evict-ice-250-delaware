@@ -138,7 +138,10 @@ export default buildConfig({
       ssl: { rejectUnauthorized: false },
     },
     push: process.env.NODE_ENV !== "production",
-    schemaName: "payload",
+    // Which Postgres schema Payload owns. Production leaves this unset →
+    // "payload". Set PAYLOAD_DB_SCHEMA=payload_dev locally so dev schema
+    // resets/reseeds never touch the production tables in the same database.
+    schemaName: process.env.PAYLOAD_DB_SCHEMA || "payload",
   }),
   sharp,
 });
