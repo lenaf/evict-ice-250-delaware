@@ -69,76 +69,94 @@ function bioToParas(bio: unknown): BioSegment[][] {
     .filter((para) => para.length > 0);
 }
 
+// A populated upload relationship (depth ≥1) → its public URL; else "".
+function mediaUrl(v: unknown): string {
+  if (v && typeof v === "object" && "url" in v) {
+    return String((v as { url?: string }).url ?? "");
+  }
+  return "";
+}
+
+// A relationship value → its id (populated object at depth ≥1, or a raw id).
+function relId(v: unknown): unknown {
+  if (v && typeof v === "object" && "id" in v) return (v as { id: unknown }).id;
+  return v;
+}
+
 export async function getFamilyData(family: FamilyKey): Promise<FamilyData | null> {
   try {
     const payload = await getPayload();
-    // People carry the family; affiliations/donations link to a person, so we
-    // scope those by this family's person IDs and map person → shortName.
+    // People carry the family; connections link to a person, so we scope
+    // connections by this family's person IDs. depth:1 populates the Media
+    // uploads (photo/image) and the person relationship.
     const peopleRes = await payload.find({
       collection: "people",
       where: { family: { equals: family } },
       sort: "order",
       limit: 100,
-      depth: 0,
+      depth: 1,
     });
     const peopleDocs = peopleRes.docs as unknown as Record<string, unknown>[];
     const personIds = peopleDocs.map((d) => d.id);
-    const idToShortName = new Map(peopleDocs.map((d) => [d.id, (d.shortName as string) ?? ""]));
+    const idToShortName = new Map(
+      peopleDocs.map((d) => [d.id, (d.shortName as string) ?? ""]),
+    );
 
-    const [affRes, donRes] = await Promise.all([
-      personIds.length
-        ? payload.find({ collection: "affiliations", where: { person: { in: personIds } }, limit: 500, depth: 0 })
-        : Promise.resolve({ docs: [] as unknown[] }),
-      personIds.length
-        ? payload.find({ collection: "donations", where: { person: { in: personIds } }, sort: "order", limit: 200, depth: 0 })
-        : Promise.resolve({ docs: [] as unknown[] }),
-    ]);
+    const connRes = personIds.length
+      ? await payload.find({
+          collection: "connections",
+          where: { person: { in: personIds } },
+          sort: "order",
+          limit: 1000,
+          depth: 1,
+        })
+      : { docs: [] as unknown[] };
 
     const people: PowerMapPerson[] = peopleDocs.map((d) => ({
       id: String(d.id),
       name: (d.name as string) ?? "",
       shortName: (d.shortName as string) ?? "",
       title: (d.title as string) ?? "",
-      photo: (d.photo as string) ?? "",
+      photo: mediaUrl(d.photo),
       bioParas: bioToParas(d.bio),
     }));
 
     const heroPeople: HeroPerson[] = peopleDocs.map((d) => ({
       name: (d.name as string) ?? "",
       title: (d.title as string) ?? "",
-      photo: (d.photo as string) ?? "",
+      photo: mediaUrl(d.photo),
     }));
 
-    const affiliations: AffiliationEntry[] = affRes.docs.map((doc) => {
-      const a = doc as unknown as Record<string, unknown>;
-      return {
-        person: idToShortName.get(a.person) ?? "",
-        org: (a.org as string) ?? "",
-        role: (a.role as string) ?? "",
-        category: (a.category as AffiliationCategory) ?? "civic",
-        jurisdiction: (a.jurisdiction as Jurisdiction) ?? undefined,
-        href: (a.href as string) ?? undefined,
-        contribution: (a.contribution as string) ?? undefined,
-        description: (a.description as string) ?? undefined,
-        logoPath: (a.logoPath as string) ?? undefined,
-        coverImage: (a.coverImage as string) ?? undefined,
-        faviconDomain: (a.faviconDomain as string) ?? undefined,
-      };
-    });
-
-    const donations: PowerMapDonation[] = donRes.docs.map((doc) => {
-      const o = doc as unknown as Record<string, unknown>;
-      return {
-        person: idToShortName.get(o.person) ?? "",
-        recipient: (o.recipient as string) ?? "",
-        amount: (o.amount as string) ?? "",
-        period: (o.period as string) ?? undefined,
-        jurisdiction: (o.jurisdiction as Jurisdiction) ?? "local",
-        detail: (o.detail as string) ?? undefined,
-        photo: (o.photo as string) ?? undefined,
-        href: (o.href as string) ?? undefined,
-      };
-    });
+    const affiliations: AffiliationEntry[] = [];
+    const donations: PowerMapDonation[] = [];
+    for (const doc of connRes.docs) {
+      const c = doc as unknown as Record<string, unknown>;
+      const shortName = idToShortName.get(relId(c.person)) ?? "";
+      if (c.type === "donation") {
+        donations.push({
+          person: shortName,
+          recipient: (c.org as string) ?? "",
+          amount: (c.label as string) ?? "",
+          period: (c.period as string) ?? undefined,
+          jurisdiction: (c.jurisdiction as Jurisdiction) ?? "local",
+          detail: (c.description as string) ?? undefined,
+          photo: mediaUrl(c.image) || undefined,
+          href: (c.href as string) ?? undefined,
+        });
+      } else {
+        affiliations.push({
+          person: shortName,
+          org: (c.org as string) ?? "",
+          role: (c.label as string) ?? "",
+          category: (c.category as AffiliationCategory) ?? "civic",
+          jurisdiction: (c.jurisdiction as Jurisdiction) ?? undefined,
+          href: (c.href as string) ?? undefined,
+          contribution: (c.contribution as string) ?? undefined,
+          description: (c.description as string) ?? undefined,
+          coverImage: mediaUrl(c.image) || undefined,
+        });
+      }
+    }
 
     return { people, heroPeople, affiliations, donations };
   } catch (err) {

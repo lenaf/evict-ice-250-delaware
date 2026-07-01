@@ -69,8 +69,7 @@ export interface Config {
   collections: {
     pages: Page;
     people: Person;
-    affiliations: Affiliation;
-    donations: Donation;
+    connections: Connection;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -82,8 +81,7 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
-    affiliations: AffiliationsSelect<false> | AffiliationsSelect<true>;
-    donations: DonationsSelect<false> | DonationsSelect<true>;
+    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -387,10 +385,7 @@ export interface Person {
    */
   shortName: string;
   title?: string | null;
-  /**
-   * Path under /public, e.g. /photos/montante/montante-carl-sr.jpg
-   */
-  photo?: string | null;
+  photo?: (number | null) | Media;
   /**
    * Shown in the node detail modal. Bold = emphasized.
    */
@@ -414,54 +409,43 @@ export interface Person {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "affiliations".
+ * via the `definition` "connections".
  */
-export interface Affiliation {
+export interface Connection {
   id: number;
   /**
-   * The family member who holds this affiliation. The family is taken from the person.
+   * The family member on this connection. Family is taken from the person.
    */
   person: number | Person;
+  type: 'affiliation' | 'donation';
+  order?: number | null;
+  /**
+   * The node this person connects to — an org, institution, or politician/committee.
+   */
   org: string;
-  role?: string | null;
+  /**
+   * Text shown on the line between them — e.g. a role ("Board Chair") or an amount ("$35,000"). Leave blank for no label.
+   */
+  label?: string | null;
+  /**
+   * Drives the area filter. Use "government" for politicians/donations.
+   */
   category: 'education' | 'catholic' | 'business' | 'cultural' | 'sports' | 'charity' | 'civic' | 'government';
   jurisdiction?: ('local' | 'state' | 'federal') | null;
+  /**
+   * When (mainly donations), e.g. 2016 or 2006–10.
+   */
+  period?: string | null;
   href?: string | null;
   /**
-   * What the family gives this org (shown in modal).
+   * What the family gives this org (shown in the modal).
    */
   contribution?: string | null;
   description?: string | null;
-  logoPath?: string | null;
-  coverImage?: string | null;
-  faviconDomain?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "donations".
- */
-export interface Donation {
-  id: number;
   /**
-   * The family member who gave. The family is taken from the person.
+   * Org logo or politician headshot.
    */
-  person: number | Person;
-  order?: number | null;
-  recipient: string;
-  amount?: string | null;
-  /**
-   * e.g. 2016 or 2006–10
-   */
-  period?: string | null;
-  jurisdiction?: ('local' | 'state' | 'federal') | null;
-  detail?: string | null;
-  /**
-   * Politician headshot path under /public (optional).
-   */
-  photo?: string | null;
-  href?: string | null;
+  image?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -524,12 +508,8 @@ export interface PayloadLockedDocument {
         value: number | Person;
       } | null)
     | ({
-        relationTo: 'affiliations';
-        value: number | Affiliation;
-      } | null)
-    | ({
-        relationTo: 'donations';
-        value: number | Donation;
+        relationTo: 'connections';
+        value: number | Connection;
       } | null)
     | ({
         relationTo: 'users';
@@ -694,37 +674,21 @@ export interface PeopleSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "affiliations_select".
+ * via the `definition` "connections_select".
  */
-export interface AffiliationsSelect<T extends boolean = true> {
+export interface ConnectionsSelect<T extends boolean = true> {
   person?: T;
+  type?: T;
+  order?: T;
   org?: T;
-  role?: T;
+  label?: T;
   category?: T;
   jurisdiction?: T;
+  period?: T;
   href?: T;
   contribution?: T;
   description?: T;
-  logoPath?: T;
-  coverImage?: T;
-  faviconDomain?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "donations_select".
- */
-export interface DonationsSelect<T extends boolean = true> {
-  person?: T;
-  order?: T;
-  recipient?: T;
-  amount?: T;
-  period?: T;
-  jurisdiction?: T;
-  detail?: T;
-  photo?: T;
-  href?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }

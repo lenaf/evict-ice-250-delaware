@@ -40,11 +40,7 @@ export const People: CollectionConfig = {
       admin: { description: "Label shown on the map node — must match the 'person' on this family's affiliations/donations." },
     },
     { name: "title", type: "text" },
-    {
-      name: "photo",
-      type: "text",
-      admin: { description: "Path under /public, e.g. /photos/montante/montante-carl-sr.jpg" },
-    },
+    { name: "photo", type: "upload", relationTo: "media" },
     { name: "bio", type: "richText", admin: { description: "Shown in the node detail modal. Bold = emphasized." } },
   ],
 };
