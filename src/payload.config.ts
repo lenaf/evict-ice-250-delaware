@@ -33,9 +33,8 @@ const storagePlugins = process.env.S3_BUCKET
       s3Storage({
         collections: {
           media: {
-            prefix: "media",
-            generateFileURL: ({ filename, prefix }: { filename: string; prefix?: string }) =>
-              `${process.env.S3_PUBLIC_URL}/${prefix ? `${prefix}/` : ""}${filename}`,
+            generateFileURL: ({ filename }: { filename: string }) =>
+              `${process.env.S3_PUBLIC_URL}/${filename}`,
           },
         },
         bucket: process.env.S3_BUCKET,
