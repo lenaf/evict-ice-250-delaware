@@ -86,9 +86,9 @@ function relId(v: unknown): unknown {
 export async function getFamilyData(family: FamilyKey): Promise<FamilyData | null> {
   try {
     const payload = await getPayload();
-    // People carry the family; connections link to a person, so we scope
-    // connections by this family's person IDs. depth:1 populates the Media
-    // uploads (photo/image) and the person relationship.
+    // People carry the family; relationships link a person to an entity (node).
+    // Scope relationships by this family's people; depth:2 populates the person,
+    // the entity, and the entity's Media photo.
     const peopleRes = await payload.find({
       collection: "people",
       where: { family: { equals: family } },
@@ -102,13 +102,13 @@ export async function getFamilyData(family: FamilyKey): Promise<FamilyData | nul
       peopleDocs.map((d) => [d.id, (d.shortName as string) ?? ""]),
     );
 
-    const connRes = personIds.length
+    const relRes = personIds.length
       ? await payload.find({
-          collection: "connections",
+          collection: "relationships",
           where: { person: { in: personIds } },
           sort: "order",
           limit: 1000,
-          depth: 1,
+          depth: 2,
         })
       : { docs: [] as unknown[] };
 
@@ -127,38 +127,26 @@ export async function getFamilyData(family: FamilyKey): Promise<FamilyData | nul
       photo: mediaUrl(d.photo),
     }));
 
+    // Each relationship becomes one power-map edge, its node the linked entity.
     const affiliations: AffiliationEntry[] = [];
-    const donations: PowerMapDonation[] = [];
-    for (const doc of connRes.docs) {
-      const c = doc as unknown as Record<string, unknown>;
-      const shortName = idToShortName.get(relId(c.person)) ?? "";
-      if (c.type === "donation") {
-        donations.push({
-          person: shortName,
-          recipient: (c.org as string) ?? "",
-          amount: (c.label as string) ?? "",
-          period: (c.period as string) ?? undefined,
-          jurisdiction: (c.jurisdiction as Jurisdiction) ?? "local",
-          detail: (c.description as string) ?? undefined,
-          photo: mediaUrl(c.image) || undefined,
-          href: (c.href as string) ?? undefined,
-        });
-      } else {
-        affiliations.push({
-          person: shortName,
-          org: (c.org as string) ?? "",
-          role: (c.label as string) ?? "",
-          category: (c.category as AffiliationCategory) ?? "civic",
-          jurisdiction: (c.jurisdiction as Jurisdiction) ?? undefined,
-          href: (c.href as string) ?? undefined,
-          contribution: (c.contribution as string) ?? undefined,
-          description: (c.description as string) ?? undefined,
-          coverImage: mediaUrl(c.image) || undefined,
-        });
-      }
+    for (const doc of relRes.docs) {
+      const r = doc as unknown as Record<string, unknown>;
+      const e = r.entity as Record<string, unknown> | null;
+      if (!e || typeof e !== "object") continue;
+      affiliations.push({
+        person: idToShortName.get(relId(r.person)) ?? "",
+        org: (e.name as string) ?? "",
+        role: (r.label as string) ?? "",
+        category: (e.category as AffiliationCategory) ?? "civic",
+        jurisdiction: (e.jurisdiction as Jurisdiction) ?? undefined,
+        href: (e.href as string) ?? undefined,
+        contribution: (e.contribution as string) ?? undefined,
+        description: (e.description as string) ?? undefined,
+        coverImage: mediaUrl(e.photo) || undefined,
+      });
     }
 
-    return { people, heroPeople, affiliations, donations };
+    return { people, heroPeople, affiliations, donations: [] };
   } catch (err) {
     console.error(`[payload] getFamilyData("${family}") failed:`, err);
     return null;

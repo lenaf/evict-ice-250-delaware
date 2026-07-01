@@ -69,7 +69,8 @@ export interface Config {
   collections: {
     pages: Page;
     people: Person;
-    connections: Connection;
+    entities: Entity;
+    relationships: Relationship;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -81,7 +82,8 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
-    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
+    entities: EntitiesSelect<false> | EntitiesSelect<true>;
+    relationships: RelationshipsSelect<false> | RelationshipsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -409,43 +411,46 @@ export interface Person {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections".
+ * via the `definition` "entities".
  */
-export interface Connection {
+export interface Entity {
   id: number;
+  name: string;
   /**
-   * The family member on this connection. Family is taken from the person.
-   */
-  person: number | Person;
-  type: 'affiliation' | 'donation';
-  order?: number | null;
-  /**
-   * The node this person connects to — an org, institution, or politician/committee.
-   */
-  org: string;
-  /**
-   * Text shown on the line between them — e.g. a role ("Board Chair") or an amount ("$35,000"). Leave blank for no label.
-   */
-  label?: string | null;
-  /**
-   * Drives the area filter. Use "government" for politicians/donations.
+   * Drives the map's area filter and node color. Use "government" for politicians/committees.
    */
   category: 'education' | 'catholic' | 'business' | 'cultural' | 'sports' | 'charity' | 'civic' | 'government';
   jurisdiction?: ('local' | 'state' | 'federal') | null;
   /**
-   * When (mainly donations), e.g. 2016 or 2006–10.
+   * Logo or headshot for the node.
    */
-  period?: string | null;
-  href?: string | null;
+  photo?: (number | null) | Media;
   /**
-   * What the family gives this org (shown in the modal).
+   * What the family gives this entity (shown in the modal).
    */
   contribution?: string | null;
   description?: string | null;
+  href?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "relationships".
+ */
+export interface Relationship {
+  id: number;
+  person: number | Person;
+  entity: number | Entity;
+  order?: number | null;
   /**
-   * Org logo or politician headshot.
+   * Text shown on the connecting line — a role or a $ amount. Optional.
    */
-  image?: (number | null) | Media;
+  label?: string | null;
+  /**
+   * When, e.g. 2016 or 2006–10 (mainly donations).
+   */
+  period?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -508,8 +513,12 @@ export interface PayloadLockedDocument {
         value: number | Person;
       } | null)
     | ({
-        relationTo: 'connections';
-        value: number | Connection;
+        relationTo: 'entities';
+        value: number | Entity;
+      } | null)
+    | ({
+        relationTo: 'relationships';
+        value: number | Relationship;
       } | null)
     | ({
         relationTo: 'users';
@@ -674,21 +683,29 @@ export interface PeopleSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections_select".
+ * via the `definition` "entities_select".
  */
-export interface ConnectionsSelect<T extends boolean = true> {
-  person?: T;
-  type?: T;
-  order?: T;
-  org?: T;
-  label?: T;
+export interface EntitiesSelect<T extends boolean = true> {
+  name?: T;
   category?: T;
   jurisdiction?: T;
-  period?: T;
-  href?: T;
+  photo?: T;
   contribution?: T;
   description?: T;
-  image?: T;
+  href?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "relationships_select".
+ */
+export interface RelationshipsSelect<T extends boolean = true> {
+  person?: T;
+  entity?: T;
+  order?: T;
+  label?: T;
+  period?: T;
   updatedAt?: T;
   createdAt?: T;
 }
