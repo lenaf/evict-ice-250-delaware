@@ -62,6 +62,7 @@ const sponsors: Sponsor[] = [
   { src: "/sponsors/east-side-stewards.png", name: "East Side Stewards", href: "https://www.eastsidestewards.com/", size: "lg" },
   { src: "/sponsors/do-something-southtowns.jpeg", name: "Do Something! Southtowns", href: "https://dosomethingsouthtowns.org/", size: "lg" },
   { src: "/sponsors/for-the-many.svg", name: "For The Many", href: "https://www.forthemany.org/", size: "lg" },
+  { src: "/sponsors/taisha-st-jean-tard.png", name: "Erie County Legislator Taisha St. Jean Tard", href: "https://www4.erie.gov/tard/", size: "xl" },
 ];
 
 // Each logo fills its grid cell and centers; the image is capped by height (its
