@@ -23,3 +23,8 @@ export function revalidatePageBySlug(slug?: string | null) {
 export function revalidateFamilyPages() {
   FAMILY_PAGES.forEach(safe);
 }
+
+// Sponsors changed → revalidate the homepage, which renders the logo grid.
+export function revalidateHome() {
+  safe("/");
+}

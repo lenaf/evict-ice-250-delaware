@@ -153,6 +153,49 @@ export async function getFamilyData(family: FamilyKey): Promise<FamilyData | nul
   }
 }
 
+// ---- Coalition sponsors ----------------------------------------------------
+
+export interface SponsorItem {
+  name: string;
+  href: string;
+  logo: string; // public URL of the logo image
+  scale: number; // relative size / space claimed in the packing, 1 = baseline
+  aspectRatio?: number; // width/height from the media doc, if known
+}
+
+// Fetch the coalition partners in their CMS display order (the `orderable`
+// drag order). Returns null on any failure so the homepage can fall back to
+// the hardcoded FALLBACK_SPONSORS list.
+export async function getSponsors(): Promise<SponsorItem[] | null> {
+  try {
+    const payload = await getPayload();
+    const res = await payload.find({
+      collection: "sponsors",
+      limit: 500,
+      depth: 1,
+    });
+    const items = res.docs
+      .map((doc) => {
+        const d = doc as unknown as Record<string, unknown>;
+        const logo = d.logo as { width?: number; height?: number } | null;
+        const w = logo?.width;
+        const h = logo?.height;
+        return {
+          name: (d.name as string) ?? "",
+          href: (d.href as string) || "#",
+          logo: mediaUrl(d.logo),
+          scale: typeof d.scale === "number" ? d.scale : 1,
+          aspectRatio: w && h ? w / h : undefined,
+        };
+      })
+      .filter((s) => s.logo);
+    return items.length ? items : null;
+  } catch (err) {
+    console.error("[payload] getSponsors() failed:", err);
+    return null;
+  }
+}
+
 // Load a facts page plus the family data any of its blocks reference.
 export async function loadFactsPage(slug: string) {
   const page = await getPageBySlug(slug);

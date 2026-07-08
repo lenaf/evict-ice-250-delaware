@@ -17,6 +17,7 @@ import { Pages } from "./payload/collections/Pages";
 import { People } from "./payload/collections/People";
 import { Entities } from "./payload/collections/Entities";
 import { Relationships } from "./payload/collections/Relationships";
+import { Sponsors } from "./payload/collections/Sponsors";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -63,7 +64,7 @@ export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   cors: allowList,
   csrf: allowList,
-  collections: [Pages, People, Entities, Relationships, Users, Media],
+  collections: [Pages, People, Entities, Relationships, Sponsors, Users, Media],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,

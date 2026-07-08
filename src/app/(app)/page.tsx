@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
-import { CoalitionLogos } from "@/components/CoalitionLogos";
+import { CoalitionLogos, getCoalitionSponsors } from "@/components/CoalitionLogos";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { OnTheGroundCarousel } from "@/components/OnTheGroundCarousel";
 import { TipForm } from "@/components/TipForm";
@@ -29,7 +29,8 @@ const jsonLd = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  const sponsors = await getCoalitionSponsors();
   return (
     <main className="min-h-screen">
       <script
@@ -89,7 +90,7 @@ export default function Home() {
 
       {/* ========== Coalition partners (full-width) ========== */}
       <section className="bg-white py-10 md:py-14">
-        <CoalitionLogos />
+        <CoalitionLogos sponsors={sponsors} />
       </section>
 
       {/* ========== Coalition statements (quotes) ========== */}

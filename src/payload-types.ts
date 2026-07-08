@@ -71,6 +71,7 @@ export interface Config {
     people: Person;
     entities: Entity;
     relationships: Relationship;
+    sponsors: Sponsor;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -84,6 +85,7 @@ export interface Config {
     people: PeopleSelect<false> | PeopleSelect<true>;
     entities: EntitiesSelect<false> | EntitiesSelect<true>;
     relationships: RelationshipsSelect<false> | RelationshipsSelect<true>;
+    sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -486,6 +488,28 @@ export interface Relationship {
   createdAt: string;
 }
 /**
+ * Coalition partners & endorsers on the homepage. Drag rows to reorder how they appear; set each logo's size with its slider.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors".
+ */
+export interface Sponsor {
+  id: number;
+  _order?: string | null;
+  name: string;
+  logo: number | Media;
+  /**
+   * Link to the partner's website.
+   */
+  href?: string | null;
+  /**
+   * How much space this logo claims in the wall. 1× is the baseline — drag bigger to give a logo a wider box (more presence), smaller to tuck it in. The logo itself is never stretched.
+   */
+  scale: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -550,6 +574,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'relationships';
         value: number | Relationship;
+      } | null)
+    | ({
+        relationTo: 'sponsors';
+        value: number | Sponsor;
       } | null)
     | ({
         relationTo: 'users';
@@ -737,6 +765,19 @@ export interface RelationshipsSelect<T extends boolean = true> {
   period?: T;
   description?: T;
   href?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors_select".
+ */
+export interface SponsorsSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  logo?: T;
+  href?: T;
+  scale?: T;
   updatedAt?: T;
   createdAt?: T;
 }
