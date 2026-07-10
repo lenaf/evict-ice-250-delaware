@@ -132,29 +132,19 @@ export function RenderSections({
                 )}
                 {s.buttons && s.buttons.length > 0 && (
                   <div className="flex flex-col sm:flex-row gap-4">
-                    {s.buttons.map((b, bi) => {
-                      const cls = `font-black text-sm uppercase tracking-wider px-8 py-4 border-2 hover:opacity-80 transition cursor-pointer text-center ${
-                        b.style === "outline"
-                          ? "bg-transparent text-white border-white"
-                          : "bg-[#DC2626] text-white border-[#DC2626]"
-                      }`;
-                      // Absolute URLs (e.g. the Action Network petition) open in a new tab.
-                      return b.href.startsWith("http") ? (
-                        <a
-                          key={b.id ?? bi}
-                          href={b.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={cls}
-                        >
-                          {b.label}
-                        </a>
-                      ) : (
-                        <Link key={b.id ?? bi} href={b.href} className={cls}>
-                          {b.label}
-                        </Link>
-                      );
-                    })}
+                    {s.buttons.map((b, bi) => (
+                      <Link
+                        key={b.id ?? bi}
+                        href={b.href}
+                        className={`font-black text-sm uppercase tracking-wider px-8 py-4 border-2 hover:opacity-80 transition cursor-pointer text-center ${
+                          b.style === "outline"
+                            ? "bg-transparent text-white border-white"
+                            : "bg-[#DC2626] text-white border-[#DC2626]"
+                        }`}
+                      >
+                        {b.label}
+                      </Link>
+                    ))}
                   </div>
                 )}
               </Section>

@@ -9,7 +9,6 @@
     "start": "next start",
     "lint": "eslint",
     "populate": "tsx scripts/populate.ts",
-    "seed:petition": "tsx scripts/seed-petition.ts",
     "payload:generate": "payload generate:types",
     "payload:importmap": "payload generate:importmap"
   },

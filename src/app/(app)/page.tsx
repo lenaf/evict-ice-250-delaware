@@ -88,6 +88,30 @@ export default async function Home() {
         </p>
       </Section>
 
+      {/* ========== Petition CTA ========== */}
+      <Section
+        variant="red"
+        pad="compact"
+        innerClassName="flex flex-col md:flex-row md:items-center gap-5 md:gap-8"
+      >
+        <div className="flex-1">
+          <h2 className="font-black text-2xl md:text-3xl uppercase leading-tight">
+            Uniland: don&apos;t renew ICE&apos;s lease
+          </h2>
+          <p className="text-base md:text-lg mt-1 text-white/90">
+            The lease at 250 Delaware expires March 31, 2027. Add your name.
+          </p>
+        </div>
+        <a
+          href="https://actionnetwork.org/petitions/petition-to-uniland-development"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 inline-block text-center bg-white text-[#DC2626] hover:bg-black hover:text-white font-black text-lg uppercase tracking-wider px-8 py-4 border-2 border-black transition cursor-pointer"
+        >
+          Sign the petition &rarr;
+        </a>
+      </Section>
+
       {/* ========== Coalition partners (full-width) ========== */}
       <section className="bg-white py-10 md:py-14">
         <CoalitionLogos sponsors={sponsors} />
