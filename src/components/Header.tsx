@@ -162,7 +162,7 @@ export function Header() {
             </a>
             <Link
               href="/donate"
-              className="bg-[#38BDF8] hover:opacity-80 text-black font-black text-xl tracking-wide px-5 py-2 transition"
+              className="bg-white hover:opacity-80 text-black font-black text-xl tracking-wide px-5 py-2 transition"
             >
               DONATE
             </Link>
@@ -197,7 +197,7 @@ export function Header() {
               <Link
                 href="/donate"
                 onClick={() => setMenuOpen(false)}
-                className="font-black text-xl tracking-wide py-3 border-b border-white/10 text-[#38BDF8] hover:text-white transition"
+                className="font-black text-xl tracking-wide py-3 border-b border-white/10 text-white hover:text-[#FFD600] transition"
               >
                 DONATE
               </Link>
