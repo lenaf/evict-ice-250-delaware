@@ -141,6 +141,12 @@ export function Header() {
             >
               JOIN US
             </Link>
+            <Link
+              href="/donate"
+              className={`font-black text-xl tracking-wide transition ${textColor}`}
+            >
+              DONATE
+            </Link>
             <a
               href="https://www.instagram.com/evictice250delaware/"
               target="_blank"
@@ -160,12 +166,6 @@ export function Header() {
             >
               PETITION
             </a>
-            <Link
-              href="/donate"
-              className="bg-white hover:opacity-80 text-black font-black text-xl tracking-wide px-5 py-2 transition"
-            >
-              DONATE
-            </Link>
           </div>
 
           {/* Mobile hamburger */}
