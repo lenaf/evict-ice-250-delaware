@@ -133,6 +133,12 @@ export function Header() {
               EVENTS
             </Link>
             <Link
+              href="/petition"
+              className={`font-black text-xl tracking-wide transition ${textColor}`}
+            >
+              PETITION
+            </Link>
+            <Link
               href="/#join"
               className={`font-black text-xl tracking-wide transition ${textColor}`}
             >
@@ -221,6 +227,13 @@ export function Header() {
                 className={`font-black text-xl tracking-wide py-3 border-b border-white/10 transition ${textColor}`}
               >
                 EVENTS
+              </Link>
+              <Link
+                href="/petition"
+                onClick={() => setMenuOpen(false)}
+                className={`font-black text-xl tracking-wide py-3 border-b border-white/10 transition ${textColor}`}
+              >
+                PETITION
               </Link>
               <a
                 href="https://www.instagram.com/evictice250delaware/"
