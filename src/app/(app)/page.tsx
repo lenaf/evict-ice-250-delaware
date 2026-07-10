@@ -8,6 +8,9 @@ import { TipForm } from "@/components/TipForm";
 import { Statements } from "./Statements";
 import { Section } from "@/components/Section";
 
+const AN_PETITION_URL =
+  "https://actionnetwork.org/petitions/petition-to-uniland-development";
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -72,6 +75,22 @@ export default async function Home() {
                 ICE
               </span>
             </h1>
+            <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <a
+                href={AN_PETITION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-center bg-[#DC2626] hover:bg-white hover:text-[#DC2626] text-white font-black text-base md:text-lg uppercase tracking-wider px-7 py-3.5 border-2 border-[#DC2626] hover:border-white transition cursor-pointer"
+              >
+                Sign the Petition
+              </a>
+              <Link
+                href="/facts/what-happens-inside"
+                className="inline-block text-center bg-transparent hover:bg-white hover:text-black text-white font-black text-base md:text-lg uppercase tracking-wider px-7 py-3.5 border-2 border-white transition cursor-pointer"
+              >
+                Learn More
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -86,30 +105,6 @@ export default async function Home() {
           We are a coalition of Buffalonians calling on Uniland to{" "}
           <span className="font-black text-[#FFD600]">EVICT ICE</span>.
         </p>
-      </Section>
-
-      {/* ========== Petition CTA ========== */}
-      <Section
-        variant="red"
-        pad="compact"
-        innerClassName="flex flex-col md:flex-row md:items-center gap-5 md:gap-8"
-      >
-        <div className="flex-1">
-          <h2 className="font-black text-2xl md:text-3xl uppercase leading-tight">
-            Uniland: don&apos;t renew ICE&apos;s lease
-          </h2>
-          <p className="text-base md:text-lg mt-1 text-white/90">
-            The lease at 250 Delaware expires March 31, 2027. Add your name.
-          </p>
-        </div>
-        <a
-          href="https://actionnetwork.org/petitions/petition-to-uniland-development"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="shrink-0 inline-block text-center bg-white text-[#DC2626] hover:bg-black hover:text-white font-black text-lg uppercase tracking-wider px-8 py-4 border-2 border-black transition cursor-pointer"
-        >
-          Sign the petition &rarr;
-        </a>
       </Section>
 
       {/* ========== Coalition partners (full-width) ========== */}
