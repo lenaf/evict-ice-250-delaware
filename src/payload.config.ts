@@ -22,9 +22,18 @@ import { Sponsors } from "./payload/collections/Sponsors";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+// Origins allowed to send the Payload auth cookie (cors + csrf). Writes POST an
+// Origin header that must match one of these, or Payload drops the cookie and
+// the request is treated as anonymous. Include both apex + www and the Vercel
+// deploy URL so a single mismatched env var can't silently break admin writes.
 const allowList = [
   "http://localhost:3000",
+  "https://www.evictice250delaware.com",
+  "https://evictice250delaware.com",
   process.env.NEXT_PUBLIC_SITE_URL || "",
+  process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "",
 ].filter(Boolean);
 
 // Persist Media uploads in Supabase Storage (S3-compatible) when configured;
