@@ -18,7 +18,7 @@ const FACTS_ITEMS = [
 ];
 
 const AN_PETITION_URL =
-  "https://actionnetwork.org/petitions/petition-to-uniland-development";
+  "https://actionnetwork.org/petitions/tell-uniland-dont-renew-the-ice-lease-2?source=website";
 
 export function Header() {
   const [visible, setVisible] = useState(true);

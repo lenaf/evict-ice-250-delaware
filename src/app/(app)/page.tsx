@@ -9,7 +9,7 @@ import { Statements } from "./Statements";
 import { Section } from "@/components/Section";
 
 const AN_PETITION_URL =
-  "https://actionnetwork.org/petitions/petition-to-uniland-development";
+  "https://actionnetwork.org/petitions/tell-uniland-dont-renew-the-ice-lease-2?source=website";
 
 const jsonLd = {
   "@context": "https://schema.org",
