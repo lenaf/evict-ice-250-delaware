@@ -174,10 +174,7 @@ export default async function Home() {
       <Section variant="yellow" pad="compact">
         <h2 className="font-black text-[clamp(2rem,5vw,3.5rem)] leading-[0.95]">
           We have
-          <InlineDaysLeft
-            targetDate="2027-03-31T00:00:00"
-            className="text-[#DC2626] mx-2"
-          />
+          <InlineDaysLeft className="text-[#DC2626] mx-2" />
           to change that.
         </h2>
       </Section>

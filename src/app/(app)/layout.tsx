@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import { getDaysUntilLeaseExpiry } from "@/lib/lease";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -71,7 +72,11 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 3600;
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const daysLeft = getDaysUntilLeaseExpiry();
+
   return (
     <html lang="en">
       <head>
@@ -91,7 +96,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           fontFamily: "var(--font-inter), system-ui, sans-serif",
         }}
       >
-        <Header />
+        <Header daysLeft={daysLeft} />
         <div className="flex flex-1 flex-col">{children}</div>
         <Footer />
         <ScrollToTop />

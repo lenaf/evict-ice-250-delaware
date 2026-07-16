@@ -4,24 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
-function getDaysLeft() {
-  const diff = new Date("2027-03-31T00:00:00").getTime() - Date.now();
-  if (diff <= 0) return 0;
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
-}
-
-
 const FACTS_ITEMS = [
   { label: "What Happens Inside", href: "/facts/what-happens-inside" },
   { label: "Who Profits", href: "/facts/who-profits" },
   { label: "Who Pulls the Strings", href: "/facts/who-pulls-the-strings" },
 ];
 
-export function Header() {
+interface HeaderProps {
+  daysLeft: number;
+}
+
+export const Header: React.FC<HeaderProps> = ({ daysLeft }) => {
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [bannerOpen, setBannerOpen] = useState(true);
-  const [days, setDays] = useState(getDaysLeft());
 
   const lastScrollY = useRef(0);
 
@@ -43,11 +39,6 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const id = setInterval(() => setDays(getDaysLeft()), 60000);
-    return () => clearInterval(id);
-  }, []);
-
   const textColor = "text-white hover:text-[#FFD600]";
   const bannerHeight = bannerOpen ? 40 : 0;
 
@@ -57,11 +48,8 @@ export function Header() {
       {bannerOpen && (
         <div className="sticky top-0 z-[60] bg-[#FFD600] text-center py-2 px-4">
           <p className="text-sm md:text-base font-semibold tracking-wide">
-            <span
-              className="text-[#DC2626] font-black text-lg md:text-xl tracking-[0.08em] mr-2"
-              suppressHydrationWarning
-            >
-              {days}
+            <span className="text-[#DC2626] font-black text-lg md:text-xl tracking-[0.08em] mr-2">
+              {daysLeft}
             </span>
             <span className="text-black">DAYS UNTIL THE LEASE EXPIRES</span>
           </p>
@@ -243,4 +231,4 @@ export function Header() {
       </header>
     </>
   );
-}
+};
