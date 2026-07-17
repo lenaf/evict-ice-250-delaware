@@ -35,9 +35,9 @@ interface Row {
 // taller target so rows hold fewer, larger, legible logos (a small target packs
 // too many tiny logos per row); desktop packs more per row.
 function targetsFor(width: number) {
-  if (width < 640) return { rowHeight: 88, gap: 12, maxHeight: 132, minHeight: 60 };
-  if (width < 1024) return { rowHeight: 96, gap: 18, maxHeight: 150, minHeight: 66 };
-  return { rowHeight: 104, gap: 22, maxHeight: 168, minHeight: 74 };
+  if (width < 640) return { rowHeight: 62, gap: 10, maxHeight: 92, minHeight: 44 };
+  if (width < 1024) return { rowHeight: 70, gap: 12, maxHeight: 104, minHeight: 50 };
+  return { rowHeight: 78, gap: 14, maxHeight: 116, minHeight: 56 };
 }
 
 // Justified-rows packer. Every row is scaled to fill the width exactly (gap-free);
@@ -170,7 +170,7 @@ export const JustifiedLogoWall: React.FC<{ logos: SponsorItem[] }> = ({ logos })
               target="_blank"
               rel="noopener noreferrer"
               title={item.name}
-              className="flex items-center justify-center shrink-0 p-1.5 md:p-3 hover:opacity-70 transition-opacity"
+              className="flex items-center justify-center shrink-0 p-1 md:p-2 hover:opacity-70 transition-opacity"
               style={{ width: item.boxWidth, height: row.height }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
