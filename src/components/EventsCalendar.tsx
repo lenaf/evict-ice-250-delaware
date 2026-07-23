@@ -58,6 +58,17 @@ export const EventsCalendar: React.FC = () => {
         </div>
       </div>
 
+      <div className="flex items-center gap-4 mb-3 text-xs font-bold uppercase tracking-wide">
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block w-3 h-3 bg-[#DC2626]" />
+          Weekly picket
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block w-3 h-3 bg-[#FFD600] border border-black" />
+          Event
+        </span>
+      </div>
+
       <div className="grid grid-cols-7 gap-px bg-black/15 border-2 border-black/15">
         {WEEKDAY_LETTERS.map((l, i) => (
           <div
