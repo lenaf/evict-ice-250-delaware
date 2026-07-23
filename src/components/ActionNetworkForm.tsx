@@ -2,28 +2,28 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 
-const HELP_OPTIONS = [
-  "Research",
-  "Design",
-  "Outreach",
-  "Social Media",
-  "Legal",
-  "Events",
-  "Other",
-  "Just Stay Informed",
-];
-
 const AN_WIDGET_URL =
-  "https://actionnetwork.org/widgets/v6/form/join-us-426?format=js&source=widget";
+  "https://actionnetwork.org/widgets/v6/form/evict-ice-join-us?format=js&source=widget";
 
-export function ActionNetworkForm() {
+const INPUT_CLASS =
+  "px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]";
+
+interface ActionNetworkFormProps {
+  /** Compact single-row layout (email + zip) for the footer signup bar. */
+  compact?: boolean;
+  /** Called when a signup succeeds (e.g. so the footer popup can dismiss). */
+  onSuccess?: () => void;
+}
+
+export function ActionNetworkForm({
+  compact = false,
+  onSuccess,
+}: ActionNetworkFormProps = {}) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
-    helpType: "",
-    helpOther: "",
+    zip: "",
   });
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
@@ -58,6 +58,11 @@ export function ActionNetworkForm() {
     return () => clearInterval(interval);
   }, []);
 
+  // Notify the parent (e.g. the footer popup) when a signup succeeds.
+  useEffect(() => {
+    if (status === "success") onSuccess?.();
+  }, [status, onSuccess]);
+
   const setAnField = useCallback(
     (form: HTMLFormElement, selector: string, value: string) => {
       const el = form.querySelector<HTMLInputElement>(selector);
@@ -84,7 +89,7 @@ export function ActionNetworkForm() {
     if (typeof window !== "undefined" && typeof window.gtag === "function") {
       window.gtag("event", "form_submit", {
         event_category: "engagement",
-        event_label: formData.helpType || "none selected",
+        event_label: "newsletter_signup",
       });
     }
 
@@ -111,38 +116,17 @@ export function ActionNetworkForm() {
         }
       };
 
-      // AN uses these field names for person identification
-      injectField("subscription[email]", formData.email);
-      injectField("subscription[given_name]", formData.firstName);
-      injectField("subscription[family_name]", formData.lastName);
-      if (formData.phone) {
-        injectField("answer[phone]", formData.phone);
-      }
+      // Field names for the evict-ice-join-us form (answer[...] naming).
+      injectField("answer[email]", formData.email);
+      injectField("answer[first_name]", formData.firstName);
+      injectField("answer[last_name]", formData.lastName);
+      injectField("answer[zip_code]", formData.zip);
 
-      // Also try filling any visible fields AN may have rendered (for logged-out users)
+      // Also fill the visible fields AN renders for logged-out users.
       setAnField(anForm, "#form-first_name", formData.firstName);
       setAnField(anForm, "#form-last_name", formData.lastName);
       setAnField(anForm, "#form-email", formData.email);
-      setAnField(anForm, "#form-phone_number", formData.phone);
-
-      // Set the Interests radio if user selected a help type
-      if (formData.helpType) {
-        const radios = anForm.querySelectorAll<HTMLInputElement>(
-          'input[name="Interests"]',
-        );
-        radios.forEach((radio) => {
-          if (radio.value === formData.helpType) {
-            radio.checked = true;
-            radio.dispatchEvent(new Event("change", { bubbles: true }));
-            radio.dispatchEvent(new Event("click", { bubbles: true }));
-          }
-        });
-      }
-
-      // If "Other", fill the text field
-      if (formData.helpType === "Other" && formData.helpOther) {
-        setAnField(anForm, '[name="Interests - Other"]', formData.helpOther);
-      }
+      setAnField(anForm, "#form-zip_code", formData.zip);
 
       // Small delay to let AN's JS process the field changes
       await new Promise((r) => setTimeout(r, 300));
@@ -195,7 +179,7 @@ export function ActionNetworkForm() {
       {/* Hidden AN widget — loaded on mount, used for submission */}
       <div
         ref={anContainerRef}
-        id="can-form-area-join-us-426"
+        id="can-form-area-evict-ice-join-us"
         aria-hidden="true"
         style={{
           position: "fixed",
@@ -211,111 +195,118 @@ export function ActionNetworkForm() {
       />
 
       {status === "success" ? (
-        <div className="text-center py-8">
-          <p className="font-black text-5xl mb-3">You&apos;re in!</p>
-          <p className="text-sm opacity-80">We&apos;ll be in touch soon.</p>
+        <div className={compact ? "py-2" : "text-center py-8"}>
+          <p
+            className={
+              compact ? "font-bold text-lg" : "font-black text-5xl mb-3"
+            }
+          >
+            You&apos;re in!
+          </p>
+          {!compact && (
+            <p className="text-sm opacity-80">We&apos;ll be in touch soon.</p>
+          )}
         </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
+      ) : compact ? (
+        <form onSubmit={handleSubmit} className="w-full">
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="email"
+              placeholder="Email *"
+              required
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              className={`${INPUT_CLASS} flex-1 min-w-0`}
+            />
             <input
               type="text"
-              placeholder="First name (optional)"
+              inputMode="numeric"
+              placeholder="ZIP *"
+              pattern="\d{5}(-\d{4})?"
+              maxLength={10}
+              required
+              value={formData.zip}
+              onChange={(e) => {
+                const sanitized = e.target.value.replace(/[^\d-]/g, "");
+                setFormData({ ...formData, zip: sanitized });
+              }}
+              className={`${INPUT_CLASS} sm:w-24`}
+            />
+            <button
+              type="submit"
+              disabled={status === "submitting"}
+              className="bg-[#DC2626] hover:opacity-80 disabled:opacity-50 text-white font-black text-base tracking-wider py-2 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all cursor-pointer whitespace-nowrap"
+            >
+              {status === "submitting" ? "..." : "Subscribe"}
+            </button>
+          </div>
+          {status === "error" && (
+            <p className="text-red-600 text-sm mt-2">
+              Something went wrong. Please try again.
+            </p>
+          )}
+        </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-3">
+          {/* Mobile: first/last share a row, email + zip stack full-width.
+              sm+: all four inline in a single row. */}
+          <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-row">
+            <input
+              type="text"
+              placeholder="First name"
               value={formData.firstName}
               onChange={(e) =>
                 setFormData({ ...formData, firstName: e.target.value })
               }
-              className="w-full px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]"
+              className={`${INPUT_CLASS} min-w-0 sm:flex-1`}
             />
             <input
               type="text"
-              placeholder="Last name (optional)"
+              placeholder="Last name"
               value={formData.lastName}
               onChange={(e) =>
                 setFormData({ ...formData, lastName: e.target.value })
               }
-              className="w-full px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]"
+              className={`${INPUT_CLASS} min-w-0 sm:flex-1`}
+            />
+            <input
+              type="email"
+              placeholder="Email *"
+              required
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              className={`${INPUT_CLASS} col-span-2 min-w-0 sm:flex-1`}
+            />
+            <input
+              type="text"
+              inputMode="numeric"
+              placeholder="ZIP *"
+              pattern="\d{5}(-\d{4})?"
+              maxLength={10}
+              required
+              value={formData.zip}
+              onChange={(e) => {
+                const sanitized = e.target.value.replace(/[^\d-]/g, "");
+                setFormData({ ...formData, zip: sanitized });
+              }}
+              className={`${INPUT_CLASS} col-span-2 sm:w-24 sm:flex-none`}
             />
           </div>
-          <input
-            type="email"
-            placeholder="Email address *"
-            required
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            className="w-full px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]"
-          />
-          <input
-            type="tel"
-            placeholder="Phone number (optional)"
-            pattern="[0-9+\-\s()]*"
-            maxLength={20}
-            value={formData.phone}
-            onChange={(e) => {
-              const sanitized = e.target.value.replace(/[^\d\s\-+()]/g, "");
-              setFormData({ ...formData, phone: sanitized });
-            }}
-            className="w-full px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]"
-          />
-
-          <fieldset>
-            <legend className="text-sm font-bold mb-2 uppercase tracking-wide">
-              How can you help?
-            </legend>
-            <div className="grid grid-cols-2 gap-2">
-              {HELP_OPTIONS.map((option) => (
-                <label
-                  key={option}
-                  className={`flex items-center gap-2 px-3 py-2 border-2 text-sm cursor-pointer transition ${
-                    formData.helpType === option
-                      ? "border-black bg-black text-white font-semibold"
-                      : "border-black/20 hover:border-black"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="helpType"
-                    value={option}
-                    checked={formData.helpType === option}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        helpType: e.target.value,
-                        helpOther: "",
-                      })
-                    }
-                    className="sr-only"
-                  />
-                  {option}
-                </label>
-              ))}
-            </div>
-            {formData.helpType === "Other" && (
-              <input
-                type="text"
-                placeholder="Tell us how you'd like to help..."
-                value={formData.helpOther}
-                onChange={(e) =>
-                  setFormData({ ...formData, helpOther: e.target.value })
-                }
-                className="w-full mt-2 px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]"
-              />
-            )}
-          </fieldset>
-
-          <p className="text-xs text-black/50">
-            Your info is only used to keep you updated on this campaign. We never share it with third parties.
-          </p>
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="w-full bg-[#DC2626] hover:opacity-80 disabled:opacity-50 text-white font-black text-xl tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all"
+            className="w-full bg-[#DC2626] hover:opacity-80 disabled:opacity-50 text-white font-black text-lg tracking-wider py-3 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all cursor-pointer"
           >
-            {status === "submitting" ? "Signing up..." : "Join the Fight"}
+            {status === "submitting" ? "Subscribing..." : "Subscribe"}
           </button>
-
+          <p className="text-xs text-black/60">
+            Your info is only used to keep you updated on this campaign. We
+            never share it with third parties.
+          </p>
           {status === "error" && (
             <p className="text-red-600 text-sm text-center">
               Something went wrong. Please try again.
