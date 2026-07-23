@@ -258,29 +258,18 @@ export default async function Home() {
       </Section>
 
       {/* ========== Join Form ========== */}
-      <section id="join" className="scroll-mt-14">
-        <div className="grid md:grid-cols-2">
-          <div className="bg-black text-white px-6 md:px-10 py-14 md:py-20 flex flex-col justify-center">
-            <h2 className="font-black text-3xl md:text-4xl leading-[0.95] mb-4">
-              Tell us about you.
-            </h2>
-            <p className="text-base md:text-lg leading-relaxed text-white max-w-md">
-              Whether you can knock on doors, make graphics, do research, or
-              just want to stay informed — we need you. Sign up and we&apos;ll
-              be in touch.
-            </p>
-          </div>
-          <div className="bg-[#FFD600] px-6 md:px-10 py-14 md:py-20 flex items-center">
-            <div className="w-full max-w-md mx-auto">
-              <ActionNetworkForm />
-            </div>
-          </div>
+      <Section variant="yellow" id="join" className="scroll-mt-14">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-black text-3xl md:text-4xl leading-[0.95] uppercase text-black mb-6">
+            Sign up for our newsletter
+          </h2>
+          <ActionNetworkForm />
         </div>
-      </section>
+      </Section>
 
       {/* ========== Send Us a Tip ========== */}
-      <Section variant="white" className="border-t-2 border-black">
-        <div className="max-w-xl">
+      <Section variant="white">
+        <div className="max-w-3xl mx-auto">
           <h2 className="font-black text-3xl md:text-4xl leading-tight uppercase mb-3">
             Send Us a Tip
           </h2>
