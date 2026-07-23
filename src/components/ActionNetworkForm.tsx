@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 
 const AN_WIDGET_URL =
-  "https://actionnetwork.org/widgets/v6/form/join-us-426?format=js&source=widget";
+  "https://actionnetwork.org/widgets/v6/form/evict-ice-join-us?format=js&source=widget";
 
 const INPUT_CLASS =
   "px-3 py-2 bg-white border-2 border-black text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-[#DC2626]";
@@ -116,13 +116,13 @@ export function ActionNetworkForm({
         }
       };
 
-      // AN uses these field names for person identification
-      injectField("subscription[email]", formData.email);
-      injectField("subscription[given_name]", formData.firstName);
-      injectField("subscription[family_name]", formData.lastName);
-      injectField("subscription[postal_code]", formData.zip);
+      // Field names for the evict-ice-join-us form (answer[...] naming).
+      injectField("answer[email]", formData.email);
+      injectField("answer[first_name]", formData.firstName);
+      injectField("answer[last_name]", formData.lastName);
+      injectField("answer[zip_code]", formData.zip);
 
-      // Also try filling any visible fields AN may have rendered (for logged-out users)
+      // Also fill the visible fields AN renders for logged-out users.
       setAnField(anForm, "#form-first_name", formData.firstName);
       setAnField(anForm, "#form-last_name", formData.lastName);
       setAnField(anForm, "#form-email", formData.email);
@@ -179,7 +179,7 @@ export function ActionNetworkForm({
       {/* Hidden AN widget — loaded on mount, used for submission */}
       <div
         ref={anContainerRef}
-        id="can-form-area-join-us-426"
+        id="can-form-area-evict-ice-join-us"
         aria-hidden="true"
         style={{
           position: "fixed",
