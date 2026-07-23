@@ -8,9 +8,11 @@ interface SignupFormProps {
   slot: Slot;
   onSuccess: () => void;
   onClose: () => void;
+  /** Hide the title/date/location recap when the parent already shows it. */
+  showHeader?: boolean;
 }
 
-export const SignupForm: React.FC<SignupFormProps> = ({ slot, onSuccess, onClose }) => {
+export const SignupForm: React.FC<SignupFormProps> = ({ slot, onSuccess, onClose, showHeader = true }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -71,14 +73,16 @@ export const SignupForm: React.FC<SignupFormProps> = ({ slot, onSuccess, onClose
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="bg-black/5 p-4 border-2 border-black mb-4">
-        <p className="font-bold">{slot.title}</p>
-        <p className="text-sm opacity-70">
-          {formatDate(slot.date)} &middot; {formatTime(slot.start_time)} –{" "}
-          {formatTime(slot.end_time)}
-        </p>
-        <p className="text-sm opacity-70">{slot.location}</p>
-      </div>
+      {showHeader && (
+        <div className="bg-black/5 p-4 border-2 border-black mb-4">
+          <p className="font-bold">{slot.title}</p>
+          <p className="text-sm opacity-70">
+            {formatDate(slot.date)} &middot; {formatTime(slot.start_time)} –{" "}
+            {formatTime(slot.end_time)}
+          </p>
+          <p className="text-sm opacity-70">{slot.location}</p>
+        </div>
+      )}
       <input
         type="text"
         placeholder="Your name *"
