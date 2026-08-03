@@ -102,11 +102,15 @@
 .an-embed li.core_field:has(#form-last_name) { grid-column: 2; }
 .an-embed li.core_field:has(#form-email) { grid-column: 3; }
 .an-embed li.core_field:has(#form-zip_code) { grid-column: 4; }
-/* Hide AN chrome: empty marker li, country, opt-in, and the inline/floating
-   labels (inputs keep their placeholders). */
+/* Hide AN chrome we don't want: empty marker li, country field + its
+   "Not in US?" toggle, the opt-in checkbox, the "Sponsored by" line, AN's
+   logo, and the inline/floating labels (inputs keep their placeholders). */
 .an-embed .form_builder_output,
 .an-embed .country_drop_wrap,
-.an-embed #d_sharing_opts,
+.an-embed .js-international_link_country,
+.an-embed #d_sharing,
+.an-embed #action_info,
+.an-embed #logo_wrap,
 .an-embed .control-label,
 .an-embed .floatlabel-label {
   display: none !important;

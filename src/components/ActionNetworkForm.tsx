@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const AN_WIDGET_URL =
   "https://actionnetwork.org/widgets/v6/form/evict-ice-join-us?format=js&source=widget";
@@ -10,6 +10,7 @@ const AN_WIDGET_URL =
 // `.an-embed` rules in globals.css. AN's own JS handles submission/validation.
 export function ActionNetworkForm() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -22,8 +23,7 @@ export function ActionNetworkForm() {
     script.async = true;
     container.appendChild(script);
 
-    // Once AN renders the form: relabel its submit button and default the
-    // hidden country field to US (it's required but we hide it via CSS).
+    let observer: MutationObserver | undefined;
     let tries = 0;
     const interval = setInterval(() => {
       const submit = container.querySelector<HTMLInputElement>(
@@ -35,22 +35,48 @@ export function ActionNetworkForm() {
         country.dispatchEvent(new Event("change", { bubbles: true }));
       }
       if (submit) {
+        // Relabel AN's submit button.
         submit.value = "Subscribe";
+        // The form is loaded. After a successful submit AN removes the form and
+        // replaces it with its own share/goal screen; detect that and show our
+        // own clean confirmation instead.
+        observer = new MutationObserver(() => {
+          if (!container.querySelector("form")) setSubmitted(true);
+        });
+        observer.observe(container, { childList: true, subtree: true });
         clearInterval(interval);
       }
       if (++tries > 100) clearInterval(interval);
     }, 200);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      observer?.disconnect();
+    };
   }, []);
 
   return (
     <div>
-      <div ref={containerRef} id="can-form-area-evict-ice-join-us" className="an-embed" />
-      <p className="mt-3 text-xs text-black/55">
-        Your info is only used to keep you updated on this campaign. We never
-        share it with third parties.
-      </p>
+      {submitted && (
+        <div className="text-center py-8">
+          <p className="font-black text-5xl mb-3">You&apos;re in!</p>
+          <p className="text-sm opacity-80">We&apos;ll be in touch soon.</p>
+        </div>
+      )}
+      {/* AN renders its real form into this container; kept mounted but hidden
+          after submit so its share screen doesn't show. */}
+      <div
+        ref={containerRef}
+        id="can-form-area-evict-ice-join-us"
+        className="an-embed"
+        style={submitted ? { display: "none" } : undefined}
+      />
+      {!submitted && (
+        <p className="mt-3 text-xs text-black/55">
+          Your info is only used to keep you updated on this campaign. We never
+          share it with third parties.
+        </p>
+      )}
     </div>
   );
 }
