@@ -83,3 +83,85 @@
     color: var(--section-highlight, currentColor);
   }
 }
+
+/* ── Action Network embedded form ─────────────────────────────────────── */
+/* Restyle Action Network's real widget to match the site design system.   */
+/* !important is used to win over AN's own injected widget stylesheet.      */
+.an-embed #form_col1 {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1.3fr 0.7fr;
+  gap: 12px;
+  align-items: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.an-embed #form_col1 > * { grid-column: 1 / -1; }
+.an-embed li.core_field { margin: 0 !important; padding: 0 !important; }
+.an-embed li.core_field:has(#form-first_name) { grid-column: 1; }
+.an-embed li.core_field:has(#form-last_name) { grid-column: 2; }
+.an-embed li.core_field:has(#form-email) { grid-column: 3; }
+.an-embed li.core_field:has(#form-zip_code) { grid-column: 4; }
+/* Hide AN chrome: empty marker li, country, opt-in, and the inline/floating
+   labels (inputs keep their placeholders). */
+.an-embed .form_builder_output,
+.an-embed .country_drop_wrap,
+.an-embed #d_sharing_opts,
+.an-embed .control-label,
+.an-embed .floatlabel-label {
+  display: none !important;
+}
+.an-embed .floatlabel-wrapper {
+  width: 100%;
+  margin: 0;
+}
+.an-embed input[type="text"],
+.an-embed input[type="email"] {
+  width: 100% !important;
+  box-sizing: border-box;
+  padding: 11px 12px !important;
+  margin: 0 !important;
+  background: #fff !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  font-size: 14px;
+  color: #000;
+  box-shadow: none !important;
+}
+.an-embed input::placeholder { color: rgba(0, 0, 0, 0.45); }
+.an-embed input[type="text"]:focus,
+.an-embed input[type="email"]:focus {
+  outline: none;
+  border-color: #dc2626 !important;
+}
+.an-embed input[name="commit"] {
+  width: 100% !important;
+  background: #dc2626 !important;
+  color: #fff !important;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 14px 24px !important;
+  margin: 0 !important;
+  border: 2px solid #dc2626 !important;
+  border-radius: 0 !important;
+  cursor: pointer;
+  font-size: 18px;
+}
+.an-embed input[name="commit"]:hover {
+  border-color: #000 !important;
+  opacity: 0.9;
+}
+/* AN may render its own title/description in the widget — we have our own heading */
+.an-embed .action_form_intro,
+.an-embed .form_title,
+.an-embed .widget_title,
+.an-embed h1,
+.an-embed h2 {
+  display: none !important;
+}
+@media (max-width: 640px) {
+  .an-embed #form_col1 { grid-template-columns: 1fr 1fr; }
+  .an-embed li.core_field:has(#form-email) { grid-column: 1 / -1; }
+  .an-embed li.core_field:has(#form-zip_code) { grid-column: 1 / -1; }
+}

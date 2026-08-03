@@ -1,42 +1,41 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 
 const DISMISS_KEY = "evictice_newsletter_dismissed";
 const DISMISS_DAYS = 30;
 const SCROLL_REVEAL = 0.35; // reveal once 35% of the page is scrolled
 const TIME_REVEAL_MS = 12000; // ...or after 12s, whichever comes first
 
-/** True if the user dismissed recently or already signed up. */
+/** True if the user dismissed recently. */
 const wasDismissed = (): boolean => {
   try {
     const raw = localStorage.getItem(DISMISS_KEY);
     if (!raw) return false;
-    if (raw === "signed-up") return true; // permanent after a successful signup
     const ts = Number(raw);
     if (Number.isNaN(ts)) return true;
     return Date.now() - ts < DISMISS_DAYS * 24 * 60 * 60 * 1000;
   } catch {
-    return false; // storage blocked — fail open, still let them dismiss in-session
+    return false;
   }
 };
 
-const persistDismissal = (value: string) => {
+const persistDismissal = () => {
   try {
-    localStorage.setItem(DISMISS_KEY, value);
+    localStorage.setItem(DISMISS_KEY, String(Date.now()));
   } catch {
     // ignore storage errors
   }
 };
 
 /**
- * NewsletterPopup — a dismissible bottom bar that nudges newsletter signups.
+ * NewsletterPopup — a dismissible bottom bar that nudges people to the signup
+ * form in the #join section. It doesn't embed a second copy of the Action
+ * Network form (AN uses a fixed container id, two would collide); its button
+ * scrolls to the real form instead.
  *
- * Best-practice behavior: appears only after engagement (scroll or delay), never
- * on immediate load; is easy to dismiss (X or Esc) and remembers the dismissal;
- * hides while the inline #join form is on screen so the same form isn't shown
- * twice; and disappears for good once the visitor subscribes.
+ * Appears only after engagement (scroll or delay), closes on the X or Esc,
+ * remembers the dismissal, and hides while the #join form is already on screen.
  */
 export function NewsletterPopup() {
   const [mounted, setMounted] = useState(false); // in the DOM once triggered
@@ -45,17 +44,14 @@ export function NewsletterPopup() {
 
   const dismiss = useCallback(() => {
     setShown(false);
-    persistDismissal(String(Date.now()));
+    persistDismissal();
     window.setTimeout(() => setMounted(false), 300);
   }, []);
 
-  const handleSuccess = useCallback(() => {
-    persistDismissal("signed-up");
-    window.setTimeout(() => {
-      setShown(false);
-      window.setTimeout(() => setMounted(false), 300);
-    }, 3000);
-  }, []);
+  const goToForm = useCallback(() => {
+    document.getElementById("join")?.scrollIntoView({ behavior: "smooth" });
+    dismiss();
+  }, [dismiss]);
 
   // Reveal on scroll depth or after a delay, whichever fires first.
   useEffect(() => {
@@ -90,7 +86,7 @@ export function NewsletterPopup() {
     return () => cancelAnimationFrame(id);
   }, [mounted]);
 
-  // Esc dismisses; suppress while the inline #join form is visible.
+  // Esc dismisses; suppress while the #join form is visible.
   useEffect(() => {
     if (!mounted) return;
 
@@ -138,8 +134,8 @@ export function NewsletterPopup() {
             &times;
           </span>
         </button>
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
-          <div className="md:flex-1">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
             <p className="font-black uppercase tracking-wide text-lg leading-tight">
               Sign up for our newsletter
             </p>
@@ -147,9 +143,13 @@ export function NewsletterPopup() {
               Campaign news, events, and ways to help. No spam.
             </p>
           </div>
-          <div className="w-full md:flex-[2]">
-            <ActionNetworkForm compact onSuccess={handleSuccess} />
-          </div>
+          <button
+            type="button"
+            onClick={goToForm}
+            className="shrink-0 bg-[#DC2626] hover:opacity-80 text-white font-black text-base tracking-wider py-2.5 px-6 border-2 border-[#DC2626] hover:border-black uppercase transition-all cursor-pointer"
+          >
+            Sign up
+          </button>
         </div>
       </div>
     </div>
