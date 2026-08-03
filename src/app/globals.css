@@ -111,6 +111,7 @@
 .an-embed #d_sharing,
 .an-embed #action_info,
 .an-embed #logo_wrap,
+.an-embed .ajax-loading,
 .an-embed .control-label,
 .an-embed .floatlabel-label {
   display: none !important;
@@ -161,7 +162,9 @@
 .an-embed .form_title,
 .an-embed .widget_title,
 .an-embed h1,
-.an-embed h2 {
+.an-embed h2,
+.an-embed h3,
+.an-embed h4 {
   display: none !important;
 }
 @media (max-width: 640px) {
