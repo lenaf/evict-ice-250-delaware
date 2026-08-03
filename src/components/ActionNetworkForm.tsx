@@ -37,13 +37,19 @@ export function ActionNetworkForm() {
       if (submit) {
         // Relabel AN's submit button.
         submit.value = "Subscribe";
-        // The form is loaded. After a successful submit AN removes the form and
-        // replaces it with its own share/goal screen; detect that and show our
-        // own clean confirmation instead.
+        // The form is loaded. After a successful submit AN either removes the
+        // form or hides it and swaps in its own share/goal screen. Detect
+        // either case (removed OR hidden) and show our clean confirmation.
         observer = new MutationObserver(() => {
-          if (!container.querySelector("form")) setSubmitted(true);
+          const f = container.querySelector<HTMLFormElement>("form");
+          if (!f || f.offsetParent === null) setSubmitted(true);
         });
-        observer.observe(container, { childList: true, subtree: true });
+        observer.observe(container, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["style", "class"],
+        });
         clearInterval(interval);
       }
       if (++tries > 100) clearInterval(interval);
