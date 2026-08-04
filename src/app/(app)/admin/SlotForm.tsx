@@ -24,11 +24,41 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
     initial?.target_volunteers != null ? String(initial.target_volunteers) : "",
   );
   const [signupLink, setSignupLink] = useState(initial?.signup_link || "");
+  const [imageUrl, setImageUrl] = useState(initial?.image_url || "");
+  const [uploading, setUploading] = useState(false);
   const [recurrence, setRecurrence] = useState(initial?.recurrence || "none");
   const [recurrenceEnd, setRecurrenceEnd] = useState(
     initial?.recurrence_end_date || "",
   );
   const [saving, setSaving] = useState(false);
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Please choose an image file.");
+      return;
+    }
+    setUploading(true);
+    try {
+      const data = new FormData();
+      data.append("file", file);
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { "x-admin-password": password },
+        body: data,
+      });
+      const json = await res.json();
+      if (res.ok) {
+        setImageUrl(json.url);
+      } else {
+        alert(json.error || "Upload failed");
+      }
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,6 +74,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
       location,
       target_volunteers: target ? parseInt(target) : null,
       signup_link: signupLink || null,
+      image_url: imageUrl || null,
       recurrence,
       recurrence_end_date: recurrence !== "none" ? recurrenceEnd : null,
     };
@@ -166,6 +197,37 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
           placeholder="https://..."
           className="w-full px-3 py-2 border-2 border-black text-sm focus:outline-none focus:border-[#DC2626]"
         />
+      </div>
+      <div>
+        <label className="block text-xs font-bold mb-1 uppercase">
+          Photo (optional)
+        </label>
+        {imageUrl ? (
+          <div className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imageUrl}
+              alt="Event"
+              className="h-20 w-20 object-cover border-2 border-black"
+            />
+            <button
+              type="button"
+              onClick={() => setImageUrl("")}
+              className="text-sm text-[#DC2626] hover:text-black underline cursor-pointer"
+            >
+              Remove
+            </button>
+          </div>
+        ) : (
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            disabled={uploading}
+            className="w-full text-sm file:mr-3 file:border-2 file:border-black file:bg-white file:px-3 file:py-1 file:font-bold file:cursor-pointer disabled:opacity-50"
+          />
+        )}
+        {uploading && <p className="text-xs text-black/50 mt-1">Uploading…</p>}
       </div>
       {!initial && (
         <>

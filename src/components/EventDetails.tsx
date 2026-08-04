@@ -18,6 +18,14 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ slot, onClose }) => 
 
   return (
     <div>
+      {slot.image_url && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={slot.image_url}
+          alt={slot.title}
+          className="mb-4 aspect-[16/9] w-full border-2 border-black object-cover"
+        />
+      )}
       <h3 className="font-black text-2xl leading-tight mb-2">{slot.title}</h3>
       <p className="text-sm font-bold text-black/70">
         {formatDateLong(slot.date)}

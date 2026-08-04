@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SwipeCarousel } from "@/components/SwipeCarousel";
-import { EventCard } from "@/components/EventCard";
+import { EventCardLarge } from "@/components/EventCardLarge";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import type { Slot } from "@/types/slots";
 
@@ -60,8 +60,9 @@ const photos: Photo[] = [
   },
 ];
 
-// Load every upcoming slot (pickets and events) for the carousel.
-// Returns [] on any error so the section still renders.
+// Load every upcoming slot (pickets and events) for the carousel, with active
+// signup counts so the "spots left" bar is accurate. Returns [] on any error so
+// the section still renders.
 async function getUpcomingSlots(): Promise<Slot[]> {
   const today = new Date().toISOString().split("T")[0];
   const { data, error } = await supabaseAdmin
@@ -70,8 +71,19 @@ async function getUpcomingSlots(): Promise<Slot[]> {
     .gte("date", today)
     .order("date", { ascending: true })
     .order("start_time", { ascending: true });
-  if (error) return [];
-  return (data as Slot[]) ?? [];
+  if (error || !data) return [];
+
+  const { data: counts } = await supabaseAdmin
+    .from("signups")
+    .select("slot_id")
+    .is("cancelled_at", null);
+
+  const countMap: Record<string, number> = {};
+  for (const row of counts || []) {
+    countMap[row.slot_id] = (countMap[row.slot_id] || 0) + 1;
+  }
+
+  return (data as Slot[]).map((s) => ({ ...s, signup_count: countMap[s.id] || 0 }));
 }
 
 // "Stand With Us" — the weekly-picket invite plus the next few special
@@ -112,7 +124,7 @@ export const OnTheGroundCarousel = async () => {
             >
               {slots.map((s) => (
                 <div key={s.id} className="shrink-0 snap-start w-72">
-                  <EventCard slot={s} />
+                  <EventCardLarge slot={s} />
                 </div>
               ))}
             </SwipeCarousel>

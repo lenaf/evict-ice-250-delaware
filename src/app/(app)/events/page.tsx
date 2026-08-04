@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { EventsCalendar } from "@/components/EventsCalendar";
+import { EventsSection } from "@/components/EventsSection";
 import { Section } from "@/components/Section";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -27,7 +29,10 @@ export default function EventsPage() {
       </Section>
 
       <Section variant="white">
-        <EventsCalendar />
+        <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide mb-8">
+          Upcoming
+        </h2>
+        <EventsSection />
       </Section>
     </main>
   );
