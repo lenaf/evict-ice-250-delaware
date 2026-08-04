@@ -30,7 +30,9 @@ export const Media: CollectionConfig = {
     {
       name: "alt",
       type: "text",
-      required: true,
+      admin: {
+        description: "Auto-filled from the filename if left blank.",
+      },
     },
   ],
 };

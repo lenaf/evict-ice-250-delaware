@@ -53,8 +53,10 @@ export const Press: CollectionConfig = {
       name: "logo",
       type: "upload",
       relationTo: "media",
-      required: true,
-      admin: { description: "The publication's logo (thumbnail)." },
+      admin: {
+        description:
+          "The publication's logo (thumbnail). Optional — the outlet name shows if there's no logo.",
+      },
     },
   ],
 };

@@ -39,12 +39,18 @@ export const PressSection = async () => {
             rel="noopener noreferrer"
             className="shrink-0 snap-start w-72 md:w-80 bg-white text-black border-2 border-black hover:border-[#DC2626] transition-colors p-5 flex flex-col cursor-pointer"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={a.logo}
-              alt={a.outlet}
-              className="h-8 md:h-10 w-auto object-contain self-start mb-4"
-            />
+            {a.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={a.logo}
+                alt={a.outlet}
+                className="h-8 md:h-10 w-auto object-contain self-start mb-4"
+              />
+            ) : (
+              <p className="font-black uppercase tracking-wide text-base mb-4">
+                {a.outlet}
+              </p>
+            )}
             <h3 className="font-black text-lg leading-tight mb-3">
               {a.headline}
             </h3>

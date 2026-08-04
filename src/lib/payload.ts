@@ -217,18 +217,16 @@ export async function getPress(): Promise<PressItem[] | null> {
       limit: 100,
       depth: 1,
     });
-    const items = res.docs
-      .map((doc) => {
-        const d = doc as unknown as Record<string, unknown>;
-        return {
-          outlet: (d.outlet as string) ?? "",
-          headline: (d.headline as string) ?? "",
-          url: (d.url as string) || "#",
-          date: (d.date as string) ?? "",
-          logo: mediaUrl(d.logo),
-        };
-      })
-      .filter((p) => p.logo);
+    const items = res.docs.map((doc) => {
+      const d = doc as unknown as Record<string, unknown>;
+      return {
+        outlet: (d.outlet as string) ?? "",
+        headline: (d.headline as string) ?? "",
+        url: (d.url as string) || "#",
+        date: (d.date as string) ?? "",
+        logo: mediaUrl(d.logo),
+      };
+    });
     return items.length ? items : null;
   } catch (err) {
     console.error("[payload] getPress() failed:", err);

@@ -364,7 +364,10 @@ export interface Page {
  */
 export interface Media {
   id: number;
-  alt: string;
+  /**
+   * Auto-filled from the filename if left blank.
+   */
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -536,9 +539,9 @@ export interface Press {
    */
   date: string;
   /**
-   * The publication's logo (thumbnail).
+   * The publication's logo (thumbnail). Optional — the outlet name shows if there's no logo.
    */
-  logo: number | Media;
+  logo?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
