@@ -26,24 +26,24 @@ export const PressSection = async () => {
           <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide mb-6">
             In the News
           </h2>
-          <ul className="border-t-2 border-black">
+          <ul className="border-t border-black">
             {articles.map((a) => (
               <li key={a.url}>
                 <a
                   href={a.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 py-4 border-b-2 border-black cursor-pointer"
+                  className="group flex items-center gap-4 py-4 border-b border-black cursor-pointer"
                 >
                   {a.logo ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={a.logo}
                       alt={a.outlet}
-                      className="h-7 md:h-8 w-20 md:w-24 object-contain object-left shrink-0"
+                      className="h-9 md:h-11 w-28 md:w-36 object-contain object-left shrink-0"
                     />
                   ) : (
-                    <span className="w-20 md:w-24 shrink-0 font-black uppercase text-xs leading-tight">
+                    <span className="w-28 md:w-36 shrink-0 font-black uppercase text-xs leading-tight">
                       {a.outlet}
                     </span>
                   )}
