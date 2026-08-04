@@ -100,6 +100,9 @@ export default async function Home() {
       {/* ========== Stand With Us (photos) ========== */}
       <OnTheGroundCarousel />
 
+      {/* ========== In the News ========== */}
+      <PressSection />
+
       {/* ========== Donate CTA ========== */}
       <Section
         variant="yellow"
@@ -257,9 +260,6 @@ export default async function Home() {
           </div>
         </div>
       </Section>
-
-      {/* ========== In the News ========== */}
-      <PressSection />
 
       {/* ========== Join Form ========== */}
       <Section variant="yellow" id="join" className="scroll-mt-14">

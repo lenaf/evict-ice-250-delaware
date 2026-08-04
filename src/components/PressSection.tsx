@@ -21,7 +21,7 @@ export const PressSection = async () => {
   if (!articles?.length) return null;
 
   return (
-    <section className="bg-black text-white py-12 md:py-16">
+    <section className="bg-white text-black py-12 md:py-16">
       <div className="px-6 md:px-10 mb-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide">
@@ -30,7 +30,7 @@ export const PressSection = async () => {
         </div>
       </div>
 
-      <SwipeCarousel tone="light" gapClassName="gap-4" ariaLabel="Press coverage">
+      <SwipeCarousel tone="dark" gapClassName="gap-4" ariaLabel="Press coverage">
         {articles.map((a) => (
           <a
             key={a.url}
@@ -51,7 +51,7 @@ export const PressSection = async () => {
                 {a.outlet}
               </p>
             )}
-            <h3 className="font-black text-lg leading-tight mb-3">
+            <h3 className="font-bold text-lg leading-tight mb-3">
               {a.headline}
             </h3>
             <p className="mt-auto text-xs uppercase tracking-wide text-black/60">
