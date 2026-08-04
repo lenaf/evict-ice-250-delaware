@@ -19,6 +19,9 @@ export const Media: CollectionConfig = {
   },
   upload: {
     mimeTypes: ["image/*"],
+    // Use the standard single-file create drawer (with a Save button) instead
+    // of the bulk-upload UI, which can leave inline uploads with no way to save.
+    bulkUpload: false,
   },
   access: {
     read: () => true,
