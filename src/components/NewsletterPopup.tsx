@@ -123,7 +123,7 @@ export function NewsletterPopup() {
         offscreen ? "translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="relative mx-auto max-w-5xl px-4 py-4 pr-12 md:px-8">
+      <div className="relative mx-auto max-w-5xl py-4 pl-4 md:pl-8 pr-14">
         <button
           type="button"
           onClick={dismiss}

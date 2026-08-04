@@ -27,8 +27,16 @@ const dirname = path.dirname(filename);
 // Origin header that must match one of these, or Payload drops the cookie and
 // the request is treated as anonymous. Include both apex + www and the Vercel
 // deploy URL so a single mismatched env var can't silently break admin writes.
+// In development, accept localhost on any common port so CMS writes aren't
+// blocked by CSRF when Next picks a different port (e.g. 3001 when 3000 is
+// taken). Production stays restricted to the real site origins.
+const devOrigins =
+  process.env.NODE_ENV === "production"
+    ? []
+    : Array.from({ length: 11 }, (_, i) => `http://localhost:${3000 + i}`);
+
 const allowList = [
-  "http://localhost:3000",
+  ...devOrigins,
   "https://www.evictice250delaware.com",
   "https://evictice250delaware.com",
   process.env.NEXT_PUBLIC_SITE_URL || "",
