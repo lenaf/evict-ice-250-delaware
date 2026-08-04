@@ -8,6 +8,7 @@ import { PressSection } from "@/components/PressSection";
 import { TipForm } from "@/components/TipForm";
 import { Statements } from "./Statements";
 import { Section } from "@/components/Section";
+import { PETITION_URL } from "@/lib/links";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -73,6 +74,22 @@ export default async function Home() {
                 ICE
               </span>
             </h1>
+            <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <a
+                href={PETITION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-center bg-[#DC2626] hover:bg-white hover:text-[#DC2626] text-white font-black text-base md:text-lg uppercase tracking-wider px-7 py-3.5 border-2 border-[#DC2626] hover:border-white transition cursor-pointer"
+              >
+                Sign the Petition
+              </a>
+              <Link
+                href="/facts/what-happens-inside"
+                className="inline-block text-center bg-transparent hover:bg-white hover:text-black text-white font-black text-base md:text-lg uppercase tracking-wider px-7 py-3.5 border-2 border-white transition cursor-pointer"
+              >
+                Learn More
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -181,6 +198,31 @@ export default async function Home() {
           <InlineDaysLeft className="text-[#DC2626] mx-2" />
           to change that.
         </h2>
+      </Section>
+
+      {/* ========== Petition CTA ========== */}
+      <Section
+        variant="red"
+        innerClassName="flex flex-col md:flex-row md:items-center gap-6 md:gap-10"
+      >
+        <div className="md:flex-1">
+          <h2 className="font-black text-3xl md:text-4xl leading-[0.95] uppercase mb-3">
+            Add your name.
+          </h2>
+          <p className="text-base md:text-lg leading-relaxed text-white max-w-xl">
+            Thousands of us are calling on Uniland to end the lease and evict ICE
+            from 250 Delaware. We&apos;re headed for 5,000 signatures. Sign the
+            petition and add yours.
+          </p>
+        </div>
+        <a
+          href={PETITION_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 self-start md:self-auto inline-block text-center bg-[#FFD600] hover:bg-white text-black font-black text-lg uppercase tracking-wider px-8 py-4 border-2 border-black transition cursor-pointer"
+        >
+          Sign the Petition &rarr;
+        </a>
       </Section>
 
       {/* ========== The Facts ========== */}
