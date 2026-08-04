@@ -206,32 +206,40 @@ export interface PressItem {
   logo: string; // public URL of the publication logo
 }
 
-// Fetch press articles newest-first for the homepage "In the News" carousel.
-// Returns null on any failure so the section can hide itself.
+// Fetch press articles newest-first for the homepage "In the News" section.
+// Retries transient DB/connection blips so a single failure doesn't blank the
+// section (and poison the ISR cache with an empty render). Returns null only
+// when there are genuinely no articles or all retries fail.
 export async function getPress(): Promise<PressItem[] | null> {
-  try {
-    const payload = await getPayload();
-    const res = await payload.find({
-      collection: "press",
-      sort: "-date",
-      limit: 100,
-      depth: 1,
-    });
-    const items = res.docs.map((doc) => {
-      const d = doc as unknown as Record<string, unknown>;
-      return {
-        outlet: (d.outlet as string) ?? "",
-        headline: (d.headline as string) ?? "",
-        url: (d.url as string) || "#",
-        date: (d.date as string) ?? "",
-        logo: mediaUrl(d.logo),
-      };
-    });
-    return items.length ? items : null;
-  } catch (err) {
-    console.error("[payload] getPress() failed:", err);
-    return null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const payload = await getPayload();
+      const res = await payload.find({
+        collection: "press",
+        sort: "-date",
+        limit: 100,
+        depth: 1,
+      });
+      const items = res.docs.map((doc) => {
+        const d = doc as unknown as Record<string, unknown>;
+        return {
+          outlet: (d.outlet as string) ?? "",
+          headline: (d.headline as string) ?? "",
+          url: (d.url as string) || "#",
+          date: (d.date as string) ?? "",
+          logo: mediaUrl(d.logo),
+        };
+      });
+      return items.length ? items : null;
+    } catch (err) {
+      if (attempt === 3) {
+        console.error("[payload] getPress() failed after retries:", err);
+        return null;
+      }
+      await new Promise((r) => setTimeout(r, 200 * attempt));
+    }
   }
+  return null;
 }
 
 // Load a facts page plus the family data any of its blocks reference.
