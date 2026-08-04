@@ -40,10 +40,10 @@ export const PressSection = async () => {
                     <img
                       src={a.logo}
                       alt={a.outlet}
-                      className="h-9 md:h-11 w-28 md:w-32 object-contain object-right shrink-0"
+                      className="h-12 w-12 md:h-14 md:w-14 object-contain shrink-0"
                     />
                   ) : (
-                    <span className="w-28 md:w-32 shrink-0 text-right font-black uppercase text-xs leading-tight">
+                    <span className="w-12 md:w-14 shrink-0 flex items-center font-black uppercase text-[10px] leading-tight">
                       {a.outlet}
                     </span>
                   )}
