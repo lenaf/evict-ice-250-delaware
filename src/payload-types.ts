@@ -72,6 +72,7 @@ export interface Config {
     entities: Entity;
     relationships: Relationship;
     sponsors: Sponsor;
+    press: Press;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -86,6 +87,7 @@ export interface Config {
     entities: EntitiesSelect<false> | EntitiesSelect<true>;
     relationships: RelationshipsSelect<false> | RelationshipsSelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
+    press: PressSelect<false> | PressSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -510,6 +512,37 @@ export interface Sponsor {
   createdAt: string;
 }
 /**
+ * Press coverage for the homepage 'In the News' carousel. Articles show newest first by date.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "press".
+ */
+export interface Press {
+  id: number;
+  /**
+   * Publication name, e.g. "Investigative Post".
+   */
+  outlet: string;
+  /**
+   * The article title.
+   */
+  headline: string;
+  /**
+   * Link to the article.
+   */
+  url: string;
+  /**
+   * Publish date. Newest articles show first.
+   */
+  date: string;
+  /**
+   * The publication's logo (thumbnail).
+   */
+  logo: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -578,6 +611,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sponsors';
         value: number | Sponsor;
+      } | null)
+    | ({
+        relationTo: 'press';
+        value: number | Press;
       } | null)
     | ({
         relationTo: 'users';
@@ -778,6 +815,19 @@ export interface SponsorsSelect<T extends boolean = true> {
   logo?: T;
   href?: T;
   scale?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "press_select".
+ */
+export interface PressSelect<T extends boolean = true> {
+  outlet?: T;
+  headline?: T;
+  url?: T;
+  date?: T;
+  logo?: T;
   updatedAt?: T;
   createdAt?: T;
 }

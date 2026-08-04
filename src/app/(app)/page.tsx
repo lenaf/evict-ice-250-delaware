@@ -4,6 +4,7 @@ import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { CoalitionLogos, getCoalitionSponsors } from "@/components/CoalitionLogos";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { OnTheGroundCarousel } from "@/components/OnTheGroundCarousel";
+import { PressSection } from "@/components/PressSection";
 import { TipForm } from "@/components/TipForm";
 import { Statements } from "./Statements";
 import { Section } from "@/components/Section";
@@ -256,6 +257,9 @@ export default async function Home() {
           </div>
         </div>
       </Section>
+
+      {/* ========== In the News ========== */}
+      <PressSection />
 
       {/* ========== Join Form ========== */}
       <Section variant="yellow" id="join" className="scroll-mt-14">

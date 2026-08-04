@@ -1,0 +1,60 @@
+import type { CollectionConfig } from "payload";
+import { revalidateHome } from "../revalidate";
+
+// Press coverage shown in the homepage "In the News" carousel. One doc per
+// article: the publication, the headline, a link out, the date (drives the
+// newest-first order), and the publication's logo (uploaded to Media).
+export const Press: CollectionConfig = {
+  slug: "press" as const,
+  hooks: {
+    afterChange: [() => revalidateHome()],
+    afterDelete: [() => revalidateHome()],
+  },
+  admin: {
+    useAsTitle: "headline",
+    group: "📰 Press",
+    defaultColumns: ["outlet", "headline", "date", "logo"],
+    listSearchableFields: ["outlet", "headline"],
+    description:
+      "Press coverage for the homepage 'In the News' carousel. Articles show newest first by date.",
+  },
+  access: {
+    read: () => true,
+    create: ({ req: { user } }) => !!user,
+    update: ({ req: { user } }) => !!user,
+    delete: ({ req: { user } }) => !!user,
+  },
+  fields: [
+    {
+      name: "outlet",
+      type: "text",
+      required: true,
+      admin: { description: "Publication name, e.g. \"Investigative Post\"." },
+    },
+    {
+      name: "headline",
+      type: "text",
+      required: true,
+      admin: { description: "The article title." },
+    },
+    {
+      name: "url",
+      type: "text",
+      required: true,
+      admin: { description: "Link to the article." },
+    },
+    {
+      name: "date",
+      type: "date",
+      required: true,
+      admin: { description: "Publish date. Newest articles show first." },
+    },
+    {
+      name: "logo",
+      type: "upload",
+      relationTo: "media",
+      required: true,
+      admin: { description: "The publication's logo (thumbnail)." },
+    },
+  ],
+};

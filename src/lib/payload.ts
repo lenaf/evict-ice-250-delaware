@@ -196,6 +196,46 @@ export async function getSponsors(): Promise<SponsorItem[] | null> {
   }
 }
 
+// ---- Press coverage --------------------------------------------------------
+
+export interface PressItem {
+  outlet: string;
+  headline: string;
+  url: string;
+  date: string; // ISO date
+  logo: string; // public URL of the publication logo
+}
+
+// Fetch press articles newest-first for the homepage "In the News" carousel.
+// Returns null on any failure so the section can hide itself.
+export async function getPress(): Promise<PressItem[] | null> {
+  try {
+    const payload = await getPayload();
+    const res = await payload.find({
+      collection: "press",
+      sort: "-date",
+      limit: 100,
+      depth: 1,
+    });
+    const items = res.docs
+      .map((doc) => {
+        const d = doc as unknown as Record<string, unknown>;
+        return {
+          outlet: (d.outlet as string) ?? "",
+          headline: (d.headline as string) ?? "",
+          url: (d.url as string) || "#",
+          date: (d.date as string) ?? "",
+          logo: mediaUrl(d.logo),
+        };
+      })
+      .filter((p) => p.logo);
+    return items.length ? items : null;
+  } catch (err) {
+    console.error("[payload] getPress() failed:", err);
+    return null;
+  }
+}
+
 // Load a facts page plus the family data any of its blocks reference.
 export async function loadFactsPage(slug: string) {
   const page = await getPageBySlug(slug);
