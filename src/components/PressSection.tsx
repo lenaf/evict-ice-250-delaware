@@ -33,17 +33,17 @@ export const PressSection = async () => {
                   href={a.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 py-4 border-b border-black cursor-pointer"
+                  className="group flex items-center gap-3 py-4 border-b border-black cursor-pointer"
                 >
                   {a.logo ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={a.logo}
                       alt={a.outlet}
-                      className="h-9 md:h-11 w-28 md:w-36 object-contain object-left shrink-0"
+                      className="h-9 md:h-11 w-auto max-w-[130px] md:max-w-[160px] object-contain shrink-0"
                     />
                   ) : (
-                    <span className="w-28 md:w-36 shrink-0 font-black uppercase text-xs leading-tight">
+                    <span className="shrink-0 max-w-[130px] md:max-w-[160px] font-black uppercase text-xs leading-tight">
                       {a.outlet}
                     </span>
                   )}
