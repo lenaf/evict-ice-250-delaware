@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
 import { CoalitionLogos, getCoalitionSponsors } from "@/components/CoalitionLogos";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
-import { OnTheGroundCarousel } from "@/components/OnTheGroundCarousel";
+import { StandWithUs } from "@/components/StandWithUs";
+import { OnTheGroundPhotos } from "@/components/OnTheGroundPhotos";
 import { PressSection } from "@/components/PressSection";
 import { TipForm } from "@/components/TipForm";
 import { Statements } from "./Statements";
@@ -55,7 +56,7 @@ export default async function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent md:via-black/25" />
         </div>
-        <div className="relative z-10 w-full px-6 md:px-10">
+        <div className="relative z-10 w-full px-6 md:px-10 py-12 md:py-0">
           <div className="max-w-6xl mx-auto">
             <h1 className="uppercase tracking-tight leading-[0.95] text-white max-w-sm [text-shadow:0_2px_16px_rgba(0,0,0,0.65)]">
               <span className="block text-[clamp(1.1rem,3vw,1.75rem)] font-light tracking-[-0.04em] mb-1 md:mb-1.5">
@@ -114,11 +115,14 @@ export default async function Home() {
       {/* ========== Coalition statements (quotes) ========== */}
       <Statements />
 
-      {/* ========== Stand With Us (photos) ========== */}
-      <OnTheGroundCarousel />
+      {/* ========== Stand With Us (events) ========== */}
+      <StandWithUs />
 
       {/* ========== In the News ========== */}
       <PressSection />
+
+      {/* ========== On the Ground (photos) ========== */}
+      <OnTheGroundPhotos />
 
       {/* ========== Donate CTA ========== */}
       <Section
