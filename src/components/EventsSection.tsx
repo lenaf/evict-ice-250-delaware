@@ -1,7 +1,7 @@
 import React from "react";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import type { Slot } from "@/types/slots";
-import { EventCardLarge } from "@/components/EventCardLarge";
+import { EventRow } from "@/components/EventRow";
 
 // Upcoming slots (pickets + events), soonest first, with active signup counts.
 async function getUpcomingSlotsWithCounts(): Promise<Slot[]> {
@@ -44,10 +44,10 @@ export const EventsSection = async () => {
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="max-w-3xl border-t-2 border-black">
       {slots.map((slot) => (
-        <EventCardLarge key={slot.id} slot={slot} />
+        <EventRow key={slot.id} slot={slot} />
       ))}
-    </div>
+    </ul>
   );
 };

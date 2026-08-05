@@ -53,7 +53,7 @@ export const StandWithUs = async () => {
   const slots = await getHomepageSlots();
 
   return (
-    <section className="bg-[#FFD600] text-black border-y-2 border-black py-10 md:py-14">
+    <section className="bg-white text-black border-b-2 border-black py-10 md:py-14">
       <div className="px-6 md:px-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide">
