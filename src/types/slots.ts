@@ -10,6 +10,7 @@ export interface Slot {
   target_volunteers: number | null;
   signup_link: string | null;
   image_url: string | null;
+  featured: boolean;
   recurrence: "none" | "weekly" | "biweekly";
   recurrence_end_date: string | null;
   parent_slot_id: string | null;

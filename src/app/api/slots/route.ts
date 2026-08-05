@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { type, title, description, date, start_time, end_time, location, target_volunteers, signup_link, image_url, recurrence, recurrence_end_date } = body;
+  const { type, title, description, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, recurrence, recurrence_end_date } = body;
 
   if (!title || !date || !start_time || !end_time) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
       target_volunteers: target_volunteers || null,
       signup_link: signup_link || null,
       image_url: image_url || null,
+      featured: featured || false,
       recurrence: recurrence || "none",
       recurrence_end_date: recurrence_end_date || null,
     })
@@ -102,6 +103,7 @@ export async function POST(request: Request) {
         target_volunteers: target_volunteers || null,
         signup_link: signup_link || null,
         image_url: image_url || null,
+        featured: featured || false,
         recurrence,
         recurrence_end_date,
         parent_slot_id: slot.id,

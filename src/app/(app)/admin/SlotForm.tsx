@@ -26,6 +26,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
   const [signupLink, setSignupLink] = useState(initial?.signup_link || "");
   const [imageUrl, setImageUrl] = useState(initial?.image_url || "");
   const [uploading, setUploading] = useState(false);
+  const [featured, setFeatured] = useState(initial?.featured ?? false);
   const [recurrence, setRecurrence] = useState(initial?.recurrence || "none");
   const [recurrenceEnd, setRecurrenceEnd] = useState(
     initial?.recurrence_end_date || "",
@@ -75,6 +76,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
       target_volunteers: target ? parseInt(target) : null,
       signup_link: signupLink || null,
       image_url: imageUrl || null,
+      featured,
       recurrence,
       recurrence_end_date: recurrence !== "none" ? recurrenceEnd : null,
     };
@@ -229,6 +231,23 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
         )}
         {uploading && <p className="text-xs text-black/50 mt-1">Uploading…</p>}
       </div>
+      <label className="flex items-start gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={featured}
+          onChange={(e) => setFeatured(e.target.checked)}
+          className="mt-0.5 h-4 w-4 accent-[#DC2626]"
+        />
+        <span>
+          <span className="block text-xs font-bold uppercase">
+            Feature on homepage
+          </span>
+          <span className="block text-xs text-black/50">
+            Featured events show on the homepage, alongside the next weekly
+            picket.
+          </span>
+        </span>
+      </label>
       {!initial && (
         <>
           <div>

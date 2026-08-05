@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SwipeCarousel } from "@/components/SwipeCarousel";
-import { EventCardLarge } from "@/components/EventCardLarge";
+import { EventRow } from "@/components/EventRow";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import type { Slot } from "@/types/slots";
 
@@ -60,10 +60,10 @@ const photos: Photo[] = [
   },
 ];
 
-// Load every upcoming slot (pickets and events) for the carousel, with active
-// signup counts so the "spots left" bar is accurate. Returns [] on any error so
-// the section still renders.
-async function getUpcomingSlots(): Promise<Slot[]> {
+// Events to feature on the homepage: every upcoming event marked `featured`,
+// plus a single next occurrence of the standing weekly picket. Includes active
+// signup counts. Returns [] on any error so the section still renders.
+async function getHomepageSlots(): Promise<Slot[]> {
   const today = new Date().toISOString().split("T")[0];
   const { data, error } = await supabaseAdmin
     .from("slots")
@@ -83,14 +83,31 @@ async function getUpcomingSlots(): Promise<Slot[]> {
     countMap[row.slot_id] = (countMap[row.slot_id] || 0) + 1;
   }
 
-  return (data as Slot[]).map((s) => ({ ...s, signup_count: countMap[s.id] || 0 }));
+  const slots = (data as Slot[]).map((s) => ({
+    ...s,
+    signup_count: countMap[s.id] || 0,
+  }));
+
+  // Featured events, plus the single soonest upcoming picket (the list is
+  // already date-sorted, so the first picket is the next one).
+  const chosen = slots.filter((s) => s.featured);
+  const nextPicket = slots.find((s) => s.type === "picket");
+  if (nextPicket && !chosen.some((s) => s.id === nextPicket.id)) {
+    chosen.push(nextPicket);
+  }
+
+  return chosen.sort((a, b) =>
+    a.date === b.date
+      ? a.start_time.localeCompare(b.start_time)
+      : a.date.localeCompare(b.date),
+  );
 }
 
 // "Stand With Us" — the weekly-picket invite plus the next few special
 // (non-picket) events, on a yellow band. The demonstration photos follow on
 // their own black band.
 export const OnTheGroundCarousel = async () => {
-  const slots = await getUpcomingSlots();
+  const slots = await getHomepageSlots();
 
   return (
     <>
@@ -108,34 +125,21 @@ export const OnTheGroundCarousel = async () => {
               . Join us.
             </p>
             {slots.length > 0 && (
-              <h3 className="font-black text-base md:text-lg uppercase tracking-wider text-black mt-8">
-                Upcoming Events
-              </h3>
+              <div className="mt-8 max-w-3xl">
+                <h3 className="font-black text-base md:text-lg uppercase tracking-wider text-black">
+                  Upcoming Events
+                </h3>
+                <ul className="mt-4 border-t-2 border-black">
+                  {slots.map((s) => (
+                    <EventRow key={s.id} slot={s} />
+                  ))}
+                </ul>
+              </div>
             )}
-          </div>
-        </div>
 
-        {slots.length > 0 && (
-          <div className="mt-4">
-            <SwipeCarousel
-              tone="dark"
-              gapClassName="gap-4"
-              ariaLabel="Upcoming events"
-            >
-              {slots.map((s) => (
-                <div key={s.id} className="shrink-0 snap-start w-72">
-                  <EventCardLarge slot={s} />
-                </div>
-              ))}
-            </SwipeCarousel>
-          </div>
-        )}
-
-        <div className="px-6 md:px-10 mt-8">
-          <div className="max-w-6xl mx-auto">
             <Link
               href="/events"
-              className="inline-block font-black text-sm uppercase tracking-wider text-black hover:text-[#DC2626] transition"
+              className="mt-8 inline-block font-black text-sm uppercase tracking-wider text-black hover:text-[#DC2626] transition"
             >
               See all events &amp; details &rarr;
             </Link>
