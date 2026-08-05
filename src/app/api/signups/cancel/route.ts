@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 // POST /api/signups/cancel — cancel a signup via token
@@ -23,6 +24,10 @@ export async function POST(request: Request) {
       { status: 404 },
     );
   }
+
+  // Keep the homepage carousel's "spots left" count fresh.
+  revalidatePath("/");
+  revalidatePath("/events");
 
   return NextResponse.json({ ok: true });
 }

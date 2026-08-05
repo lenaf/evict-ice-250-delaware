@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { sendConfirmationEmail } from "@/lib/email";
+
+// Refresh the statically-cached homepage carousel + events list so signup
+// counts ("spots left") stay current.
+function revalidateEventViews() {
+  revalidatePath("/");
+  revalidatePath("/events");
+}
 
 // POST /api/signups — sign up for a slot
 export async function POST(request: Request) {
@@ -55,6 +63,7 @@ export async function POST(request: Request) {
       sendConfirmationEmail(email, name, slot, updated.cancel_token).catch(console.error);
     }
 
+    revalidateEventViews();
     return NextResponse.json({ ok: true, signup_id: existing.id }, { status: 201 });
   }
 
@@ -72,5 +81,6 @@ export async function POST(request: Request) {
   // Send confirmation email (don't block response on email)
   sendConfirmationEmail(email, name, slot, signup.cancel_token).catch(console.error);
 
+  revalidateEventViews();
   return NextResponse.json({ ok: true, signup_id: signup.id }, { status: 201 });
 }

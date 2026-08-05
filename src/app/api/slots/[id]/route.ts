@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { sendCancellationNotice } from "@/lib/email";
 
@@ -84,6 +85,10 @@ export async function PUT(
     );
   }
 
+  // Refresh the statically-cached homepage carousel + events list.
+  revalidatePath("/");
+  revalidatePath("/events");
+
   return NextResponse.json(slot);
 }
 
@@ -125,6 +130,10 @@ export async function DELETE(
       signups.map((s) => sendCancellationNotice(s.email, s.name, slot, "deleted")),
     );
   }
+
+  // Refresh the statically-cached homepage carousel + events list.
+  revalidatePath("/");
+  revalidatePath("/events");
 
   return NextResponse.json({ ok: true });
 }

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
@@ -112,6 +113,10 @@ export async function POST(request: Request) {
       await supabaseAdmin.from("slots").insert(slots);
     }
   }
+
+  // Refresh the statically-cached homepage carousel + events list.
+  revalidatePath("/");
+  revalidatePath("/events");
 
   return NextResponse.json(slot, { status: 201 });
 }
