@@ -73,6 +73,7 @@ export interface Config {
     relationships: Relationship;
     sponsors: Sponsor;
     press: Press;
+    groundPhotos: GroundPhoto;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -88,6 +89,7 @@ export interface Config {
     relationships: RelationshipsSelect<false> | RelationshipsSelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     press: PressSelect<false> | PressSelect<true>;
+    groundPhotos: GroundPhotosSelect<false> | GroundPhotosSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -546,6 +548,27 @@ export interface Press {
   createdAt: string;
 }
 /**
+ * Photos in the homepage 'On the Ground' strip. Drag rows to reorder how they appear.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "groundPhotos".
+ */
+export interface GroundPhoto {
+  id: number;
+  _order?: string | null;
+  image: number | Media;
+  /**
+   * Describes the photo for screen readers (e.g. "Demonstrators holding 'Evict ICE' signs").
+   */
+  alt?: string | null;
+  /**
+   * Optional photo credit shown in the corner (e.g. "Photo: REUTERS/Lindsay DeDario").
+   */
+  credit?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -618,6 +641,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'press';
         value: number | Press;
+      } | null)
+    | ({
+        relationTo: 'groundPhotos';
+        value: number | GroundPhoto;
       } | null)
     | ({
         relationTo: 'users';
@@ -831,6 +858,18 @@ export interface PressSelect<T extends boolean = true> {
   url?: T;
   date?: T;
   logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "groundPhotos_select".
+ */
+export interface GroundPhotosSelect<T extends boolean = true> {
+  _order?: T;
+  image?: T;
+  alt?: T;
+  credit?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -118,11 +118,11 @@ export default async function Home() {
       {/* ========== Stand With Us (events) ========== */}
       <StandWithUs />
 
+      {/* ========== On the Ground (photos) — divider between events & press ===== */}
+      <OnTheGroundPhotos />
+
       {/* ========== In the News ========== */}
       <PressSection />
-
-      {/* ========== On the Ground (photos) ========== */}
-      <OnTheGroundPhotos />
 
       {/* ========== Donate CTA ========== */}
       <Section

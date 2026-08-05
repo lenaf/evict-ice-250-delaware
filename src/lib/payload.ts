@@ -242,6 +242,43 @@ export async function getPress(): Promise<PressItem[] | null> {
   return null;
 }
 
+// ---- On-the-ground photos --------------------------------------------------
+
+export interface GroundPhotoItem {
+  src: string; // public URL of the image
+  alt: string;
+  credit: string;
+}
+
+// Fetch the homepage "On the Ground" photos in their CMS drag order. Returns
+// null on any failure or when empty so the component can fall back to its
+// hardcoded photo set.
+export async function getGroundPhotos(): Promise<GroundPhotoItem[] | null> {
+  try {
+    const payload = await getPayload();
+    const res = await payload.find({
+      collection: "groundPhotos",
+      limit: 500,
+      depth: 1,
+    });
+    const items = res.docs
+      .map((doc) => {
+        const d = doc as unknown as Record<string, unknown>;
+        const media = d.image as { alt?: string } | null;
+        return {
+          src: mediaUrl(d.image),
+          alt: (d.alt as string) || (media?.alt ?? ""),
+          credit: (d.credit as string) ?? "",
+        };
+      })
+      .filter((p) => p.src);
+    return items.length ? items : null;
+  } catch (err) {
+    console.error("[payload] getGroundPhotos() failed:", err);
+    return null;
+  }
+}
+
 // Load a facts page plus the family data any of its blocks reference.
 export async function loadFactsPage(slug: string) {
   const page = await getPageBySlug(slug);

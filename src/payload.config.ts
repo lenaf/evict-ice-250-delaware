@@ -19,6 +19,7 @@ import { Entities } from "./payload/collections/Entities";
 import { Relationships } from "./payload/collections/Relationships";
 import { Sponsors } from "./payload/collections/Sponsors";
 import { Press } from "./payload/collections/Press";
+import { GroundPhotos } from "./payload/collections/GroundPhotos";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -82,7 +83,7 @@ export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   cors: allowList,
   csrf: allowList,
-  collections: [Pages, People, Entities, Relationships, Sponsors, Press, Users, Media],
+  collections: [Pages, People, Entities, Relationships, Sponsors, Press, GroundPhotos, Users, Media],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
