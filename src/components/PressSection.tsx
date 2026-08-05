@@ -22,11 +22,11 @@ export const PressSection = async () => {
   return (
     <section className="bg-white text-black py-12 md:py-16">
       <div className="px-6 md:px-10">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide mb-6">
             In the News
           </h2>
-          <ul className="border-t border-black">
+          <ul className="max-w-3xl border-t border-black">
             {articles.map((a) => (
               <li key={a.url}>
                 <a
