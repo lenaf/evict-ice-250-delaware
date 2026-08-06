@@ -74,6 +74,7 @@ export interface Config {
     sponsors: Sponsor;
     press: Press;
     groundPhotos: GroundPhoto;
+    statements: Statement;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -90,6 +91,7 @@ export interface Config {
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     press: PressSelect<false> | PressSelect<true>;
     groundPhotos: GroundPhotosSelect<false> | GroundPhotosSelect<true>;
+    statements: StatementsSelect<false> | StatementsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -569,6 +571,34 @@ export interface GroundPhoto {
   createdAt: string;
 }
 /**
+ * Coalition endorsement statements on the homepage. Drag rows to reorder how they appear.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "statements".
+ */
+export interface Statement {
+  id: number;
+  _order?: string | null;
+  /**
+   * Organization name (shown as the link label).
+   */
+  org: string;
+  /**
+   * Link to the org's website or Instagram (optional).
+   */
+  href?: string | null;
+  /**
+   * Short teaser shown on the card (~3 lines). Leave blank to show the start of the full statement instead.
+   */
+  keyPoint?: string | null;
+  /**
+   * The full statement, shown in the 'Read full statement' popup. Separate paragraphs with a blank line.
+   */
+  statement: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -645,6 +675,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'groundPhotos';
         value: number | GroundPhoto;
+      } | null)
+    | ({
+        relationTo: 'statements';
+        value: number | Statement;
       } | null)
     | ({
         relationTo: 'users';
@@ -870,6 +904,19 @@ export interface GroundPhotosSelect<T extends boolean = true> {
   image?: T;
   alt?: T;
   credit?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "statements_select".
+ */
+export interface StatementsSelect<T extends boolean = true> {
+  _order?: T;
+  org?: T;
+  href?: T;
+  keyPoint?: T;
+  statement?: T;
   updatedAt?: T;
   createdAt?: T;
 }

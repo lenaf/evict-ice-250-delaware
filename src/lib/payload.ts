@@ -279,6 +279,51 @@ export async function getGroundPhotos(): Promise<GroundPhotoItem[] | null> {
   }
 }
 
+// ---- Coalition statements --------------------------------------------------
+
+export interface StatementItem {
+  org: string;
+  href: string;
+  keyPoint?: string; // short teaser; full text opens in the modal
+  paragraphs: string[];
+}
+
+// Fetch the homepage coalition endorsement statements in their CMS drag order.
+// The `statement` textarea is split on blank lines into paragraphs. Returns null
+// on any failure or when empty so the component can fall back to its hardcoded
+// set.
+export async function getStatements(): Promise<StatementItem[] | null> {
+  try {
+    const payload = await getPayload();
+    const res = await payload.find({
+      collection: "statements",
+      limit: 200,
+      depth: 0,
+    });
+    const items = res.docs
+      .map((doc) => {
+        const d = doc as unknown as Record<string, unknown>;
+        const full = ((d.statement as string) ?? "").trim();
+        const paragraphs = full
+          .split(/\n\s*\n/)
+          .map((p) => p.trim())
+          .filter(Boolean);
+        const kp = ((d.keyPoint as string) ?? "").trim();
+        return {
+          org: (d.org as string) ?? "",
+          href: (d.href as string) ?? "",
+          keyPoint: kp || undefined,
+          paragraphs: paragraphs.length ? paragraphs : full ? [full] : [],
+        };
+      })
+      .filter((s) => s.org && s.paragraphs.length);
+    return items.length ? items : null;
+  } catch (err) {
+    console.error("[payload] getStatements() failed:", err);
+    return null;
+  }
+}
+
 // Load a facts page plus the family data any of its blocks reference.
 export async function loadFactsPage(slug: string) {
   const page = await getPageBySlug(slug);

@@ -1,23 +1,12 @@
-"use client";
+import React from "react";
+import { getStatements, type StatementItem } from "@/lib/payload";
+import { StatementsCarousel } from "./StatementsCarousel";
 
-import React, { useEffect, useState } from "react";
-import { SwipeCarousel } from "@/components/SwipeCarousel";
-
-interface Statement {
-  org: string;
-  href: string;
-  logo: string;
-  // Optional ~3-line teaser shown on the card; the full statement opens on
-  // "Read full statement". If omitted, the single paragraph is the full text.
-  keyPoint?: string;
-  paragraphs: string[];
-}
-
-const statements: Statement[] = [
+// Shown until statements are added in the CMS (the `statements` collection).
+const FALLBACK_STATEMENTS: StatementItem[] = [
   {
     org: "Colored Girls Bike Too",
     href: "https://www.instagram.com/coloredgirlsbiketoo/",
-    logo: "/sponsors/colored-girls-bike-too.webp",
     keyPoint:
       "We are clear that ICE, policing, over-policing, and the occupation of Black and Brown neighborhoods are not separate crises but interconnected mechanisms of the same system. ",
     paragraphs: [
@@ -32,7 +21,6 @@ const statements: Statement[] = [
   {
     org: "BreadHive",
     href: "https://www.breadhive.com/",
-    logo: "/sponsors/breadhive.jpg",
     keyPoint:
       "We stand with our neighbors against the violent abuses of human rights ICE is committing daily. Our city should be a leader in housing, education, and healthcare — not the destruction of families.",
     paragraphs: [
@@ -42,7 +30,6 @@ const statements: Statement[] = [
   {
     org: "Burning Books",
     href: "https://www.burningbooks.com/",
-    logo: "/sponsors/burning-books.jpeg",
     keyPoint:
       "State-sanctioned bigotry and violence must be strongly and consistently resisted. No-one is illegal. America was never great. The future is what the people struggle to make it.",
     paragraphs: [
@@ -52,7 +39,6 @@ const statements: Statement[] = [
   {
     org: "Buffalo Niagara LGBTQ History Project",
     href: "https://bflolgbtqhistoryproject.org/",
-    logo: "/sponsors/buffalo-niagara-lgbtq-history.png",
     keyPoint:
       "As a queer community we have long stood in solidarity with immigrant rights — and we know that an attack on one marginalized community is an attack on all of us.",
     paragraphs: [
@@ -62,7 +48,6 @@ const statements: Statement[] = [
   {
     org: "U-Belong Coalition",
     href: "https://www.instagram.com/ubelongcoalition/",
-    logo: "/sponsors/u-belong-coalition.png",
     keyPoint:
       "The UBelong Coalition is outraged at the brazen abduction of our UB students. We demand their immediate release and stand in total solidarity with all targeted by ICE.",
     paragraphs: [
@@ -72,7 +57,6 @@ const statements: Statement[] = [
   {
     org: "Peace Action New York State",
     href: "https://www.panys.org/",
-    logo: "/sponsors/panys.webp",
     keyPoint:
       "We see ICE enforcement as an extension of the same systems of militarism and violence we have always opposed. We stand with immigrants and all people targeted by state violence.",
     paragraphs: [
@@ -82,7 +66,6 @@ const statements: Statement[] = [
   {
     org: "WNY Environmental Alliance",
     href: "https://www.wnyea.org/",
-    logo: "/sponsors/wnyea.jpg",
     keyPoint:
       "Supporting the environment means creating a world that supports all life — including people. WNY EA stands with our immigrant neighbors and calls for policies that protect families and communities.",
     paragraphs: [
@@ -92,7 +75,6 @@ const statements: Statement[] = [
   {
     org: "Rights of Nature WNY",
     href: "https://www.wnyea.org/rights-of-nature.html",
-    logo: "/sponsors/rights-of-nature-wny.png",
     keyPoint:
       "Communities should have a say over how we care for each other. The people of Buffalo do not consent to authoritarian policing and the forceful removal of our neighbors.",
     paragraphs: [
@@ -103,7 +85,6 @@ const statements: Statement[] = [
   {
     org: "Liberate Buffalo State",
     href: "https://www.instagram.com/liberate.buff.state/",
-    logo: "/sponsors/liberate-buffalo-state.png",
     keyPoint:
       "We are firmly opposed to ICE terror, on and off campus. Surveillance funded by our own money makes this a student issue, a workers issue, and a revolutionary issue.",
     paragraphs: [
@@ -111,108 +92,22 @@ const statements: Statement[] = [
       "The violence inflicted on our neighbors through abductions, harassment, deportations and murders is a direct reflection of the fascist history of this country and it must not continue. We proudly join our voices and in our resistance with the Evict ICE from 250 Delaware Campaign and other coalition members to demand ICE be removed from the heart of OUR city, to have their lease terminated, and to be expelled from Buffalo altogether. Power concedes nothing without demand, and our demands will not waver. ICE terror and abuse must end, and we must be the ones to end it for our neighbors.",
     ],
   },
+  {
+    org: "One of a Kind Yoga",
+    href: "https://www.oneofakindyoga.com/",
+    keyPoint:
+      "Endorsing the Evict ICE from 250 Delaware campaign aligns with our values of compassion, justice, and human dignity. We believe that true wellness cannot exist without safety, belonging, and the protection of our neighbors.",
+    paragraphs: [
+      "At the heart of our organization is community. Everything we do is rooted in giving back—whether through accessible wellness, volunteering our time, creating spaces for meaningful conversations, or supporting organizations throughout Western New York. As a small, community-centered business, we believe that caring for our neighbors extends beyond the walls of our studio.",
+      "Through the \"Let's Talk About It Buffalo\" discussion group, we've encouraged civic engagement, education, and collective action on issues that directly impact our community. Endorsing the Evict ICE from 250 Delaware campaign aligns with our values of compassion, justice, and human dignity. We believe that true wellness cannot exist without safety, belonging, and the protection of our neighbors.",
+      "While we may be a small organization, we recognize that meaningful change is built through many voices coming together, and we are committed to using our platform to support causes that reflect the values of the community we strive to cultivate every day.",
+    ],
+  },
 ];
 
-export const Statements: React.FC = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const open = openIndex !== null ? statements[openIndex] : null;
-
-  // While the modal is open: close on Escape and lock background scroll.
-  useEffect(() => {
-    if (openIndex === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpenIndex(null);
-    };
-    document.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [openIndex]);
-
-  return (
-    <section className="bg-[#1E3A8A] text-white py-12 md:py-20">
-      <SwipeCarousel
-        tone="light"
-        ariaLabel="Coalition statements"
-        gapClassName="gap-4 md:gap-10"
-        paddingClassName="px-4 md:px-16"
-      >
-        {statements.map((statement, i) => (
-          <figure
-            key={statement.org}
-            className="shrink-0 snap-center md:snap-start w-[82vw] md:w-[calc(50%-1.25rem)] px-8 md:px-0 flex flex-col"
-          >
-            <svg
-              aria-hidden
-              viewBox="0 0 42 24"
-              className="self-start w-7 h-4 md:w-8 md:h-5 fill-white mt-2 mb-3"
-            >
-              <path d="M0 24C0 13 5 5 16 2L17.5 6C11 8.5 8.5 12 8.5 16H16V24H0ZM24 24C24 13 29 5 40 2L41.5 6C35 8.5 32.5 12 32.5 16H40V24H24Z" />
-            </svg>
-            <blockquote className="flex-1 text-lg md:text-xl leading-snug">
-              {(statement.keyPoint ?? statement.paragraphs[0]).trim()}
-            </blockquote>
-            <div className="mt-5 flex flex-col items-start gap-2">
-              <a
-                href={statement.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-black text-sm uppercase tracking-wider text-[#FFD600] hover:text-white transition"
-              >
-                {statement.org}
-              </a>
-              {statement.keyPoint && (
-                <button
-                  onClick={() => setOpenIndex(i)}
-                  className="text-xs font-bold uppercase tracking-wider text-white/70 underline underline-offset-4 hover:text-[#FFD600] transition cursor-pointer"
-                >
-                  Read full statement
-                </button>
-              )}
-            </div>
-          </figure>
-        ))}
-      </SwipeCarousel>
-
-      {/* Full-statement modal */}
-      {open && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${open.org} full statement`}
-        >
-          <div className="relative bg-white text-black border-2 border-black w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 md:p-10">
-            <div className="flex items-start justify-between gap-4 mb-6">
-              <a
-                href={open.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-black text-base uppercase tracking-wider text-[#1E3A8A] hover:text-[#DC2626] transition"
-              >
-                {open.org}
-              </a>
-              <button
-                onClick={() => setOpenIndex(null)}
-                aria-label="Close"
-                className="shrink-0 w-9 h-9 flex items-center justify-center border-2 border-black text-black font-black hover:opacity-80 transition cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-            <blockquote className="space-y-4">
-              {open.paragraphs.map((p, i) => (
-                <p key={i} className="text-base md:text-lg leading-relaxed">
-                  {p}
-                </p>
-              ))}
-            </blockquote>
-          </div>
-        </div>
-      )}
-    </section>
-  );
+// "Coalition statements" — endorsement quotes, CMS-managed with a hardcoded
+// fallback so the section always renders.
+export const Statements = async () => {
+  const statements = (await getStatements()) ?? FALLBACK_STATEMENTS;
+  return <StatementsCarousel statements={statements} />;
 };
