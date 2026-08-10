@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { MoneyTree, type MoneySource } from "@/components/MoneyTree";
 
 /**
@@ -81,7 +82,7 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
         return <h1 key={key} className="type-hero mb-6">{renderChildren(node.children)}</h1>;
       if (tag === "h3")
         return (
-          <h3 key={key} className="text-base md:text-lg uppercase tracking-wider font-black mb-3">
+          <h3 key={key} className="text-base md:text-lg tracking-wider font-black mb-3">
             {renderChildren(node.children)}
           </h3>
         );
@@ -121,7 +122,70 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
           sourceLabel?: string;
           sourceHref?: string;
         }>;
+        label?: string;
+        href?: string;
+        style?: "primary" | "outline";
+        image?: { url?: string; alt?: string; width?: number; height?: number } | string;
+        caption?: string;
+        sourceLabel?: string;
+        sourceHref?: string;
       }) || {};
+
+      if (fields.blockType === "richButton") {
+        const cls = `inline-block font-black text-sm uppercase tracking-wider px-8 py-4 border-2 hover:opacity-80 transition cursor-pointer text-center ${
+          fields.style === "outline"
+            ? "bg-transparent text-white border-white"
+            : "bg-[#DC2626] text-white border-[#DC2626]"
+        }`;
+        const href = fields.href ?? "#";
+        const external = /^https?:\/\//.test(href);
+        return (
+          <div key={key} className="my-6">
+            <a
+              href={href}
+              className={cls}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
+              {fields.label}
+            </a>
+          </div>
+        );
+      }
+
+      if (fields.blockType === "richImage") {
+        const image = fields.image;
+        if (!image || typeof image !== "object" || !image.url) return null;
+        return (
+          <div key={key} className="my-8 max-w-md">
+            <div className="bg-white p-3 border-2 border-white">
+              <Image
+                src={image.url}
+                alt={image.alt ?? ""}
+                width={image.width ?? 680}
+                height={image.height ?? 400}
+                className="w-full h-auto"
+              />
+            </div>
+            {fields.caption && (
+              <p className="font-light text-xs mt-2 leading-snug opacity-90">{fields.caption}</p>
+            )}
+            {fields.sourceHref && (
+              <p className="font-light text-xs opacity-50 mt-2">
+                Source:{" "}
+                <a
+                  href={fields.sourceHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-[#DC2626] transition"
+                >
+                  {fields.sourceLabel ?? fields.sourceHref}
+                </a>
+              </p>
+            )}
+          </div>
+        );
+      }
+
       if (fields.blockType === "moneyBags") {
         const sources: MoneySource[] = (fields.sources ?? []).map((s) => ({
           amount: s.amount ?? "",

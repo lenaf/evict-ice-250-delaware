@@ -145,6 +145,48 @@ export default buildConfig({
               },
             ],
           },
+          // A single button droppable mid-copy. Mirrors ctaButtonsBlock's per-button
+          // fields; defaults to "primary" (solid red) since that reads fine on any
+          // section background, unlike "outline" which assumes a dark section.
+          {
+            slug: "richButton",
+            labels: { singular: "Button", plural: "Buttons" },
+            fields: [
+              {
+                type: "row",
+                fields: [
+                  { name: "label", type: "text", required: true, admin: { width: "50%" } },
+                  { name: "href", type: "text", required: true, admin: { width: "50%" } },
+                ],
+              },
+              {
+                name: "style",
+                type: "select",
+                defaultValue: "primary",
+                options: [
+                  { label: "Primary (red)", value: "primary" },
+                  { label: "Outline (dark sections only)", value: "outline" },
+                ],
+              },
+            ],
+          },
+          // A single photo droppable mid-copy, with the same caption/source
+          // convention as imageBlock.
+          {
+            slug: "richImage",
+            labels: { singular: "Photo", plural: "Photos" },
+            fields: [
+              { name: "image", type: "upload", relationTo: "media", required: true },
+              { name: "caption", type: "text" },
+              {
+                type: "row",
+                fields: [
+                  { name: "sourceLabel", type: "text", admin: { width: "50%" } },
+                  { name: "sourceHref", type: "text", admin: { width: "50%" } },
+                ],
+              },
+            ],
+          },
         ],
       }),
     ],

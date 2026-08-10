@@ -18,7 +18,6 @@ interface SectionBlock {
   id?: string;
   sectionVariant?: SectionVariant;
   hero?: boolean;
-  borderTop?: boolean;
   content?: SerializedRichText;
   // imageBlock
   heading?: string;
@@ -40,9 +39,17 @@ interface SectionBlock {
   familyKey?: string;
   lede?: SerializedRichText;
   areas?: Partial<Record<FilterType, SerializedRichText>>;
+  // dividerBlock
+  color?: SectionVariant;
 }
 
-const borderClass = (on?: boolean) => (on ? "border-t border-white/10" : "");
+const dividerColor: Record<SectionVariant, string> = {
+  black: "bg-black",
+  blue: "bg-[#1E3A8A]",
+  yellow: "bg-[#FFD600]",
+  white: "bg-white",
+  red: "bg-[#DC2626]",
+};
 
 export function RenderSections({
   sections,
@@ -62,7 +69,6 @@ export function RenderSections({
                 key={key}
                 variant={s.sectionVariant ?? "black"}
                 hero={s.hero}
-                className={borderClass(s.borderTop)}
               >
                 <LexicalRenderer content={s.content} />
               </Section>
@@ -73,7 +79,6 @@ export function RenderSections({
               <Section
                 key={key}
                 variant={s.sectionVariant ?? "blue"}
-                className={borderClass(s.borderTop)}
               >
                 {s.heading && <h2 className="type-section mb-6">{s.heading}</h2>}
                 <div className="md:flex md:gap-14 md:items-start">
@@ -120,7 +125,6 @@ export function RenderSections({
               <Section
                 key={key}
                 variant={s.sectionVariant ?? "black"}
-                className={borderClass(s.borderTop)}
               >
                 {s.heading && (
                   <h2 className="text-3xl md:text-4xl lg:text-5xl normal-case mb-3">
@@ -189,7 +193,6 @@ export function RenderSections({
               <Section
                 key={key}
                 variant={s.sectionVariant ?? "black"}
-                className={borderClass(s.borderTop)}
               >
                 {s.heading && <SectionHeading>{s.heading}</SectionHeading>}
                 <div className="mb-8">
@@ -206,6 +209,15 @@ export function RenderSections({
               </Section>
             );
           }
+
+          case "dividerBlock":
+            return (
+              <div
+                key={key}
+                aria-hidden="true"
+                className={`h-2 md:h-3 border-y-2 border-black ${dividerColor[s.color ?? "red"]}`}
+              />
+            );
 
           case "factsReadNextBlock":
             return (

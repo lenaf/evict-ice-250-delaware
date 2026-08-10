@@ -15,13 +15,6 @@ const sectionVariant: Field = {
   ],
 };
 
-const borderTop: Field = {
-  name: "borderTop",
-  type: "checkbox",
-  label: "Thin top divider",
-  defaultValue: false,
-};
-
 // The workhorse: any prose section (headings, paragraphs, lists, quotes,
 // links, highlights, inline money bags).
 const RichTextSection: Block = {
@@ -35,8 +28,28 @@ const RichTextSection: Block = {
       label: "Hero (extra top padding to clear the header)",
       defaultValue: false,
     },
-    borderTop,
     { name: "content", type: "richText" },
+  ],
+};
+
+// A standalone colored bar between sections — an alternative to relying on
+// adjacent section-color contrast alone.
+const DividerBlock: Block = {
+  slug: "dividerBlock",
+  labels: { singular: "Divider", plural: "Dividers" },
+  fields: [
+    {
+      name: "color",
+      type: "select",
+      defaultValue: "red",
+      options: [
+        { label: "Red", value: "red" },
+        { label: "Yellow", value: "yellow" },
+        { label: "Blue", value: "blue" },
+        { label: "Black", value: "black" },
+        { label: "White", value: "white" },
+      ],
+    },
   ],
 };
 
@@ -46,7 +59,6 @@ const ImageBlock: Block = {
   labels: { singular: "Text + Image Section", plural: "Text + Image Sections" },
   fields: [
     { ...sectionVariant, defaultValue: "blue" },
-    borderTop,
     { name: "heading", type: "text" },
     { name: "body", type: "richText" },
     { name: "image", type: "upload", relationTo: "media" },
@@ -78,7 +90,6 @@ const CtaButtonsBlock: Block = {
   labels: { singular: "CTA Buttons Section", plural: "CTA Buttons Sections" },
   fields: [
     { ...sectionVariant, defaultValue: "black" },
-    borderTop,
     { name: "heading", type: "text" },
     { name: "intro", type: "textarea" },
     {
@@ -136,7 +147,6 @@ const PowerMapBlock: Block = {
   labels: { singular: "Power Map", plural: "Power Maps" },
   fields: [
     sectionVariant,
-    borderTop,
     familyKey,
     { name: "heading", type: "text", defaultValue: "Network of Influence" },
     { name: "intro", type: "richText" },
@@ -189,6 +199,7 @@ export const Pages: CollectionConfig = {
         ImageBlock,
         FactsReadNextBlock,
         CtaButtonsBlock,
+        DividerBlock,
       ],
     },
   ],

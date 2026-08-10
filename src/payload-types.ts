@@ -146,7 +146,6 @@ export interface Page {
         | {
             sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
             hero?: boolean | null;
-            borderTop?: boolean | null;
             content?: {
               root: {
                 type: string;
@@ -191,7 +190,6 @@ export interface Page {
           }
         | {
             sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
-            borderTop?: boolean | null;
             familyKey: 'montante' | 'jacobs';
             heading?: string | null;
             intro?: {
@@ -307,7 +305,6 @@ export interface Page {
           }
         | {
             sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
-            borderTop?: boolean | null;
             heading?: string | null;
             body?: {
               root: {
@@ -342,7 +339,6 @@ export interface Page {
           }
         | {
             sectionVariant?: ('black' | 'blue' | 'yellow' | 'white' | 'red') | null;
-            borderTop?: boolean | null;
             heading?: string | null;
             intro?: string | null;
             buttons?:
@@ -356,6 +352,12 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'ctaButtonsBlock';
+          }
+        | {
+            color?: ('red' | 'yellow' | 'blue' | 'black' | 'white') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'dividerBlock';
           }
       )[]
     | null;
@@ -745,7 +747,6 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               sectionVariant?: T;
               hero?: T;
-              borderTop?: T;
               content?: T;
               id?: T;
               blockName?: T;
@@ -764,7 +765,6 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               sectionVariant?: T;
-              borderTop?: T;
               familyKey?: T;
               heading?: T;
               intro?: T;
@@ -785,7 +785,6 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               sectionVariant?: T;
-              borderTop?: T;
               heading?: T;
               body?: T;
               image?: T;
@@ -808,7 +807,6 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               sectionVariant?: T;
-              borderTop?: T;
               heading?: T;
               intro?: T;
               buttons?:
@@ -819,6 +817,13 @@ export interface PagesSelect<T extends boolean = true> {
                     style?: T;
                     id?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        dividerBlock?:
+          | T
+          | {
+              color?: T;
               id?: T;
               blockName?: T;
             };
