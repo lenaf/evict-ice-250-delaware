@@ -16,6 +16,29 @@ import { MoneyTree, type MoneySource } from "@/components/MoneyTree";
 const IS_BOLD = 1;
 const IS_ITALIC = 2;
 
+// Matches Section.tsx's variant palette — used by the inline dividerBlock.
+const dividerColor = {
+  black: "bg-black",
+  blue: "bg-[#1E3A8A]",
+  yellow: "bg-[#FFD600]",
+  white: "bg-white",
+  red: "bg-[#DC2626]",
+};
+
+// richButton/richImage: full-width in the flow by default, or a floated side
+// column with text wrapping around it at a chosen fraction of the width.
+const columnWidthClass: Record<string, string> = {
+  "25%": "md:w-1/4",
+  "33%": "md:w-1/3",
+  "50%": "md:w-1/2",
+  "66%": "md:w-2/3",
+};
+
+function embedWrapClass(layout?: string, columnWidth?: string): string {
+  if (layout !== "column") return "";
+  return `w-full md:float-right md:ml-10 md:mb-4 ${columnWidthClass[columnWidth ?? "33%"] ?? "md:w-1/3"}`;
+}
+
 interface LexNode {
   type: string;
   text?: string;
@@ -129,6 +152,9 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
         caption?: string;
         sourceLabel?: string;
         sourceHref?: string;
+        layout?: "inline" | "column";
+        columnWidth?: string;
+        color?: keyof typeof dividerColor;
       }) || {};
 
       if (fields.blockType === "richButton") {
@@ -140,7 +166,7 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
         const href = fields.href ?? "#";
         const external = /^https?:\/\//.test(href);
         return (
-          <div key={key} className="my-6">
+          <div key={key} className={`my-6 ${embedWrapClass(fields.layout, fields.columnWidth)}`}>
             <a
               href={href}
               className={cls}
@@ -155,8 +181,12 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
       if (fields.blockType === "richImage") {
         const image = fields.image;
         if (!image || typeof image !== "object" || !image.url) return null;
+        const isColumn = fields.layout === "column";
         return (
-          <div key={key} className="my-8 max-w-md">
+          <div
+            key={key}
+            className={`my-8 ${isColumn ? "" : "max-w-md"} ${embedWrapClass(fields.layout, fields.columnWidth)}`}
+          >
             <div className="bg-white p-3 border-2 border-white">
               <Image
                 src={image.url}
@@ -183,6 +213,16 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
               </p>
             )}
           </div>
+        );
+      }
+
+      if (fields.blockType === "dividerBlock") {
+        return (
+          <div
+            key={key}
+            aria-hidden="true"
+            className={`my-6 h-[.5px] ${dividerColor[fields.color ?? "red"]}`}
+          />
         );
       }
 

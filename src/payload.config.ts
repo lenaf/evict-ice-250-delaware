@@ -1,4 +1,4 @@
-import { buildConfig } from "payload";
+import { buildConfig, type Field } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import {
   lexicalEditor,
@@ -71,6 +71,41 @@ const storagePlugins = process.env.S3_BUCKET
       }),
     ]
   : [];
+
+// Shared by richButton/richImage: whether the embed sits full-width in the
+// text flow, or floats as a side column with text wrapping around it.
+const layoutFields: Field[] = [
+  {
+    type: "row",
+    fields: [
+      {
+        name: "layout",
+        type: "select",
+        defaultValue: "inline",
+        options: [
+          { label: "Inline (full width)", value: "inline" },
+          { label: "Side column (text wraps around it)", value: "column" },
+        ],
+        admin: { width: "50%" },
+      },
+      {
+        name: "columnWidth",
+        type: "select",
+        defaultValue: "33%",
+        options: [
+          { label: "25%", value: "25%" },
+          { label: "33%", value: "33%" },
+          { label: "50%", value: "50%" },
+          { label: "66%", value: "66%" },
+        ],
+        admin: {
+          width: "50%",
+          condition: (_, siblingData) => siblingData?.layout === "column",
+        },
+      },
+    ],
+  },
+];
 
 export default buildConfig({
   // Mount the admin at /cms — /admin is the existing volunteer admin.
@@ -168,6 +203,7 @@ export default buildConfig({
                   { label: "Outline (dark sections only)", value: "outline" },
                 ],
               },
+              ...layoutFields,
             ],
           },
           // A single photo droppable mid-copy, with the same caption/source
@@ -183,6 +219,27 @@ export default buildConfig({
                 fields: [
                   { name: "sourceLabel", type: "text", admin: { width: "50%" } },
                   { name: "sourceHref", type: "text", admin: { width: "50%" } },
+                ],
+              },
+              ...layoutFields,
+            ],
+          },
+          // A standalone colored bar droppable mid-copy — same look as the
+          // page-level Divider section block, but usable between paragraphs.
+          {
+            slug: "dividerBlock",
+            labels: { singular: "Divider", plural: "Dividers" },
+            fields: [
+              {
+                name: "color",
+                type: "select",
+                defaultValue: "red",
+                options: [
+                  { label: "Red", value: "red" },
+                  { label: "Yellow", value: "yellow" },
+                  { label: "Blue", value: "blue" },
+                  { label: "Black", value: "black" },
+                  { label: "White", value: "white" },
                 ],
               },
             ],
