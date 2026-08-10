@@ -215,7 +215,7 @@ export function RenderSections({
               <div
                 key={key}
                 aria-hidden="true"
-                className={`h-2 md:h-3 border-y-2 border-black ${dividerColor[s.color ?? "red"]}`}
+                className={`h-[.5px]  ${dividerColor[s.color ?? "red"]}`}
               />
             );
 
