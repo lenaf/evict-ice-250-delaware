@@ -105,7 +105,7 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
         return <h1 key={key} className="type-hero mb-6">{renderChildren(node.children)}</h1>;
       if (tag === "h3")
         return (
-          <h3 key={key} className="text-base md:text-lg tracking-wider font-black mb-3">
+          <h3 key={key} className="text-lg md:text-xl font-black mb-3">
             {renderChildren(node.children)}
           </h3>
         );
@@ -248,7 +248,7 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
 
     case "quote":
       return (
-        <blockquote key={key} className="font-black text-lg md:text-xl leading-relaxed mb-6">
+        <blockquote key={key} className="leading-relaxed mb-6">
           {renderChildren(node.children)}
         </blockquote>
       );
