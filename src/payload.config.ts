@@ -123,8 +123,16 @@ export default buildConfig({
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
-      // Inline links (used as SourceLinks on the front end)
-      LinkFeature({}),
+      // Inline links (used as SourceLinks on the front end). Source citations
+      // should open in a new tab by default so readers don't lose their place.
+      LinkFeature({
+        fields: ({ defaultFields }) =>
+          defaultFields.map((field) =>
+            "name" in field && field.name === "newTab"
+              ? ({ ...field, defaultValue: true } as Field)
+              : field,
+          ),
+      }),
       // Inline brand-colored highlights. `section` follows the Section variant.
       TextStateFeature({
         state: {
