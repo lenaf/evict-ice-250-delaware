@@ -129,7 +129,7 @@ function renderNode(node: LexNode, key: number): React.ReactNode {
             style={{ backgroundColor: "var(--section-highlight)" }}
             aria-hidden="true"
           />
-          <span>{renderChildren(node.children)}</span>
+          <span className="[&_p]:mb-0">{renderChildren(node.children)}</span>
         </li>
       );
 
