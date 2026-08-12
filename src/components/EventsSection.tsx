@@ -44,7 +44,7 @@ export const EventsSection = async () => {
   }
 
   return (
-    <ul className="max-w-3xl border-t-2 border-black">
+    <ul className="max-w-5xl border-t-2 border-black">
       {slots.map((slot) => (
         <EventRow key={slot.id} slot={slot} />
       ))}
