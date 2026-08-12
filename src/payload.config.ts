@@ -109,16 +109,17 @@ const layoutFields: Field[] = [
 ];
 
 export default buildConfig({
-  // Mount the admin at /cms — /admin is the existing volunteer admin.
-  routes: { admin: "/cms" },
+  // Payload CMS lives at /admin (its default); the custom events admin is a
+  // sibling at /admin-events.
+  routes: { admin: "/admin" },
   plugins: storagePlugins,
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: " - Evict ICE" },
     components: {
-      // A sidebar link to the custom events admin (/admin) — one login, both
-      // admins reachable from the same nav.
+      // A sidebar link to the custom events admin (/admin-events) — one login,
+      // both admins reachable from the same nav.
       afterNavLinks: ["/payload/admin/EventsNavLink#EventsNavLink"],
     },
   },

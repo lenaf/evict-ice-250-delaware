@@ -7,7 +7,7 @@ import '@payloadcms/next/css'
 import type { ServerFunctionClient } from 'payload'
 /* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
 import React from 'react'
-import { importMap } from './cms/importMap'
+import { importMap } from './admin/importMap'
 
 import './custom.scss'
 

@@ -52,8 +52,8 @@
 - Try to keep files under ~200 lines (soft rule) — extract sub-components when they can stand alone
 
 ## Admin
-- Two admin surfaces, one login: `/cms` (Payload CMS) and `/admin` (custom events UI). Both authenticate with the Payload `users` collection (email/password, `payload-token` cookie) — there is no separate `ADMIN_PASSWORD`.
-- `/admin` is gated server-side (`page.tsx` redirects to `/cms/login?redirect=/admin` when signed out). The events API routes authorize via `getAdminUser()` in `src/lib/adminAuth.ts`.
-- `/cms` sidebar has an "Events" link to `/admin` (`src/payload/admin/EventsNavLink.tsx`, registered as `admin.components.afterNavLinks`).
-- Admin actions on events and CMS collections are recorded in the `auditLog` collection (🗒 Activity in `/cms`) via `src/payload/audit.ts`.
+- Two admin surfaces, one login: `/admin` (Payload CMS) and `/admin-events` (custom events UI). Both authenticate with the Payload `users` collection (email/password, `payload-token` cookie) — there is no separate `ADMIN_PASSWORD`.
+- `/admin-events` is gated server-side (`page.tsx` redirects to `/admin/login?redirect=/admin-events` when signed out). The events API routes authorize via `getAdminUser()` in `src/lib/adminAuth.ts`.
+- `/admin` (CMS) sidebar has an "Events" link to `/admin-events` (`src/payload/admin/EventsNavLink.tsx`, registered as `admin.components.afterNavLinks`); the events page has a "← Back to CMS" link to `/admin`.
+- Admin actions on events and CMS collections are recorded in the `auditLog` collection (🗒 Activity in `/admin`) via `src/payload/audit.ts`.
 - Admin pages should have `robots: { index: false }` metadata
