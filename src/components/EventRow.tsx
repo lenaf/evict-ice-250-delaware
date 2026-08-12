@@ -42,33 +42,16 @@ export const EventRow: React.FC<EventRowProps> = ({ slot }) => {
           </span>
         </span>
 
-        {slot.image_url && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={slot.image_url}
-            alt={slot.title}
-            className="hidden shrink-0 border-2 border-black object-cover sm:block sm:h-14 sm:w-14 md:h-16 md:w-16"
-          />
-        )}
-
         {/* Title (+ time/location stacked under it on mobile) */}
         <span className="min-w-0 flex-1">
           <span className="block font-black text-base md:text-xl leading-tight group-hover:text-[#DC2626] transition-colors">
             {slot.title}
           </span>
-          <span className="mt-1 block text-sm font-semibold text-black/80 md:hidden">
+          <span className="mt-1 block text-sm md:text-base font-semibold text-black/80">
             {time}
           </span>
           {slot.location && (
-            <span className="block text-xs text-black/60 md:hidden">{slot.location}</span>
-          )}
-        </span>
-
-        {/* Time + location, right-aligned on desktop so the row uses the width */}
-        <span className="hidden shrink-0 flex-col items-end text-right md:flex md:min-w-[200px]">
-          <span className="text-base font-semibold text-black/80">{time}</span>
-          {slot.location && (
-            <span className="text-sm text-black/55">{slot.location}</span>
+            <span className="block text-xs md:text-sm text-black/60">{slot.location}</span>
           )}
         </span>
 
