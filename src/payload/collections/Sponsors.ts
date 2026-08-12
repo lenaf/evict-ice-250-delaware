@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { revalidateHome } from "../revalidate";
+import { auditChange, auditDelete } from "../audit";
 
 // Coalition partners & endorsers shown on the homepage. One doc per logo.
 // `orderable: true` gives the list view drag handles so the display order is
@@ -9,8 +10,8 @@ export const Sponsors: CollectionConfig = {
   slug: "sponsors" as const,
   orderable: true,
   hooks: {
-    afterChange: [() => revalidateHome()],
-    afterDelete: [() => revalidateHome()],
+    afterChange: [() => revalidateHome(), auditChange("Coalition Partner")],
+    afterDelete: [() => revalidateHome(), auditDelete("Coalition Partner")],
   },
   admin: {
     useAsTitle: "name",

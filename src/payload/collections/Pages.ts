@@ -1,5 +1,6 @@
 import type { Block, CollectionConfig, Field } from "payload";
 import { revalidatePageBySlug } from "../revalidate";
+import { auditChange, auditDelete } from "../audit";
 
 // Shared: which colored band a section renders in (matches Section.tsx variants).
 const sectionVariant: Field = {
@@ -170,8 +171,14 @@ export const Pages: CollectionConfig = {
   slug: "pages" as const,
   admin: { useAsTitle: "title", group: "📄 Content" },
   hooks: {
-    afterChange: [({ doc }) => revalidatePageBySlug((doc as { slug?: string }).slug)],
-    afterDelete: [({ doc }) => revalidatePageBySlug((doc as { slug?: string }).slug)],
+    afterChange: [
+      ({ doc }) => revalidatePageBySlug((doc as { slug?: string }).slug),
+      auditChange("Page"),
+    ],
+    afterDelete: [
+      ({ doc }) => revalidatePageBySlug((doc as { slug?: string }).slug),
+      auditDelete("Page"),
+    ],
   },
   access: {
     read: () => true,

@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { sendCancellationNotice } from "@/lib/email";
+import { getAdminUser } from "@/lib/adminAuth";
+import { getPayload } from "@/lib/payload";
+import { logAudit } from "@/payload/audit";
 
 // GET /api/slots/[id] — get slot details + signups (admin only for signups)
 export async function GET(
@@ -9,9 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const authHeader = request.headers.get("x-admin-password");
-  const isAdmin = adminPassword && authHeader === adminPassword;
+  const isAdmin = !!(await getAdminUser(request));
 
   const { data: slot, error } = await supabaseAdmin
     .from("slots")
@@ -53,9 +54,8 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const authHeader = request.headers.get("x-admin-password");
-  if (!adminPassword || authHeader !== adminPassword) {
+  const user = await getAdminUser(request);
+  if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -71,6 +71,14 @@ export async function PUT(
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  await logAudit(await getPayload(), {
+    action: "updated",
+    entity: "Event",
+    label: slot.title,
+    docId: id,
+    user: user.email,
+  });
 
   // Notify signed-up volunteers about the change
   const { data: signups } = await supabaseAdmin
@@ -98,9 +106,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const authHeader = request.headers.get("x-admin-password");
-  if (!adminPassword || authHeader !== adminPassword) {
+  const user = await getAdminUser(request);
+  if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -123,6 +130,14 @@ export async function DELETE(
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  await logAudit(await getPayload(), {
+    action: "deleted",
+    entity: "Event",
+    label: slot?.title,
+    docId: id,
+    user: user.email,
+  });
 
   // Notify volunteers
   if (slot && signups && signups.length > 0) {

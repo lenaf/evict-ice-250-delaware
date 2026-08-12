@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase-server";
+import { getAdminUser } from "@/lib/adminAuth";
+import { getPayload } from "@/lib/payload";
+import { logAudit } from "@/payload/audit";
 
 export const dynamic = "force-dynamic";
 
@@ -43,22 +46,21 @@ export async function GET(request: Request) {
   return NextResponse.json(slotsWithCounts);
 }
 
-// POST /api/slots — create a new slot (admin only)
+// POST /api/slots — create a new slot (admin only). Each save is a single row;
+// repeating events are made by duplicating, not by a recurrence rule.
 export async function POST(request: Request) {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const authHeader = request.headers.get("x-admin-password");
-  if (!adminPassword || authHeader !== adminPassword) {
+  const user = await getAdminUser(request);
+  if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const body = await request.json();
-  const { type, title, description, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, recurrence, recurrence_end_date } = body;
+  const { type, title, description, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured } = body;
 
   if (!title || !date || !start_time || !end_time) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
-  // Create the first slot
   const { data: slot, error } = await supabaseAdmin
     .from("slots")
     .insert({
@@ -73,8 +75,6 @@ export async function POST(request: Request) {
       signup_link: signup_link || null,
       image_url: image_url || null,
       featured: featured || false,
-      recurrence: recurrence || "none",
-      recurrence_end_date: recurrence_end_date || null,
     })
     .select()
     .single();
@@ -83,38 +83,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  // If recurring, generate future slots
-  if (recurrence && recurrence !== "none" && recurrence_end_date) {
-    const interval = recurrence === "weekly" ? 7 : 14;
-    const endDate = new Date(recurrence_end_date);
-    const slots = [];
-    const currentDate = new Date(date);
-    currentDate.setDate(currentDate.getDate() + interval);
-
-    while (currentDate <= endDate) {
-      slots.push({
-        type: type || "picket",
-        title,
-        description: description || null,
-        date: currentDate.toISOString().split("T")[0],
-        start_time,
-        end_time,
-        location: location || "250 Delaware Ave, Buffalo, NY",
-        target_volunteers: target_volunteers || null,
-        signup_link: signup_link || null,
-        image_url: image_url || null,
-        featured: featured || false,
-        recurrence,
-        recurrence_end_date,
-        parent_slot_id: slot.id,
-      });
-      currentDate.setDate(currentDate.getDate() + interval);
-    }
-
-    if (slots.length > 0) {
-      await supabaseAdmin.from("slots").insert(slots);
-    }
-  }
+  await logAudit(await getPayload(), {
+    action: "created",
+    entity: "Event",
+    label: title,
+    docId: slot.id,
+    user: user.email,
+  });
 
   // Refresh the statically-cached homepage carousel + events list.
   revalidatePath("/");

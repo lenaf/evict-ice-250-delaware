@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase-server";
+import { getAdminUser } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
@@ -11,9 +12,8 @@ const MAX_BYTES = 5 * 1024 * 1024; // 5MB
 // Accepts multipart form-data with a single "file" field; stores it in the
 // public `event-images` Supabase Storage bucket and returns its public URL.
 export async function POST(request: Request) {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const authHeader = request.headers.get("x-admin-password");
-  if (!adminPassword || authHeader !== adminPassword) {
+  const user = await getAdminUser(request);
+  if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

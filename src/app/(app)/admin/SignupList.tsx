@@ -5,21 +5,18 @@ import type { Signup } from "@/types/slots";
 
 interface SignupListProps {
   slotId: string;
-  password: string;
 }
 
-export const SignupList: React.FC<SignupListProps> = ({ slotId, password }) => {
+export const SignupList: React.FC<SignupListProps> = ({ slotId }) => {
   const [signups, setSignups] = useState<Signup[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/slots/${slotId}`, {
-      headers: { "x-admin-password": password },
-    })
+    fetch(`/api/slots/${slotId}`)
       .then((r) => r.json())
       .then((data) => setSignups(data.signups || []))
       .finally(() => setLoading(false));
-  }, [slotId, password]);
+  }, [slotId]);
 
   if (loading) return <p className="text-sm text-black/50">Loading...</p>;
   if (signups.length === 0)
