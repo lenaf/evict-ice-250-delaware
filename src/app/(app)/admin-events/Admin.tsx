@@ -26,7 +26,7 @@ export const Admin: React.FC = () => {
       const res = await fetch("/api/admin/slots");
       // Session expired mid-visit — send them back through the CMS login.
       if (res.status === 401) {
-        window.location.href = "/cms/login?redirect=/admin";
+        window.location.href = "/admin/login?redirect=/admin-events";
         return;
       }
       setSlots(await res.json());
@@ -59,6 +59,15 @@ export const Admin: React.FC = () => {
   return (
     <main className="min-h-screen bg-white pt-28 pb-20 px-6 md:px-10">
       <div className="max-w-4xl mx-auto">
+        {/* Hard nav on purpose: /admin is the Payload admin, a separate root
+            layout from this Tailwind app — next/link can't soft-navigate there. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a
+          href="/admin"
+          className="inline-block mb-6 text-sm font-bold text-black/50 hover:text-black transition"
+        >
+          ← Back to CMS
+        </a>
         <div className="flex items-center justify-between mb-8">
           <h1 className="font-black text-3xl">Events</h1>
           <button

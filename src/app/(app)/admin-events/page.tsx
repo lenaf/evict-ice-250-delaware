@@ -9,11 +9,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Same login as /cms — gate on the Payload session, bounce to the CMS login if
-// signed out (which returns here via ?redirect).
+// Same login as the CMS (/admin) — gate on the Payload session, bounce to the
+// CMS login if signed out (which returns here via ?redirect).
 export default async function AdminPage() {
   const payload = await getPayload();
   const { user } = await payload.auth({ headers: await headers() });
-  if (!user) redirect("/cms/login?redirect=/admin");
+  if (!user) redirect("/admin/login?redirect=/admin-events");
   return <Admin />;
 }

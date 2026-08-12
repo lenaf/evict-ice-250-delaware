@@ -1,7 +1,7 @@
 // Canonical coalition partner list. This is the fallback the homepage renders
 // when the CMS is unavailable/unseeded, and the source the `populate` script
 // uses to seed the Sponsors collection. Once the CMS is seeded, edits happen in
-// /cms (drag to reorder, slider to resize) — this list is just the safety net.
+// /admin (drag to reorder, slider to resize) — this list is just the safety net.
 //
 // `scale` is the per-logo size (1 = baseline). All default to 1: the logo wall
 // auto-balances every logo to roughly equal visual area, so sizes need no manual
