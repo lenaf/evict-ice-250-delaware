@@ -77,7 +77,7 @@ export const StandWithUs = async () => {
             . Join us.
           </p>
           {slots.length > 0 && (
-            <div className="mt-8 max-w-3xl">
+            <div className="mt-8 max-w-4xl">
               <h3 className="font-black text-base md:text-lg uppercase tracking-wider text-black">
                 Upcoming Events
               </h3>
