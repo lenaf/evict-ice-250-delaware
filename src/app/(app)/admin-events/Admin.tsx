@@ -6,25 +6,43 @@ import { formatDate, formatTime } from "@/lib/format";
 import { SlotForm } from "./SlotForm";
 import { SignupList } from "./SignupList";
 
+interface EventGroup {
+  groupId: string;
+  slots: Slot[]; // sorted by date ascending
+}
+
+// Collapse the flat slot list into one entry per logical event (group_id),
+// dates sorted, groups ordered by their soonest date.
+function groupSlots(slots: Slot[]): EventGroup[] {
+  const map = new Map<string, Slot[]>();
+  for (const s of slots) {
+    const key = s.group_id || s.id;
+    (map.get(key) ?? map.set(key, []).get(key)!).push(s);
+  }
+  const groups = [...map.entries()].map(([groupId, rows]) => ({
+    groupId,
+    slots: rows.sort((a, b) => a.date.localeCompare(b.date)),
+  }));
+  return groups.sort((a, b) => a.slots[0].date.localeCompare(b.slots[0].date));
+}
+
 export const Admin: React.FC = () => {
   const [slots, setSlots] = useState<Slot[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editingSlot, setEditingSlot] = useState<Slot | undefined>();
-  const [expandedSlot, setExpandedSlot] = useState<string | null>(null);
+  const [editingGroup, setEditingGroup] = useState<Slot[] | undefined>();
+  const [seedSlot, setSeedSlot] = useState<Slot | undefined>();
+  const [expandedDate, setExpandedDate] = useState<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (showForm) {
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [showForm, editingSlot]);
+    if (showForm) formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [showForm, editingGroup, seedSlot]);
 
   const fetchSlots = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/slots");
-      // Session expired mid-visit — send them back through the CMS login.
       if (res.status === 401) {
         window.location.href = "/admin/login?redirect=/admin-events";
         return;
@@ -39,22 +57,114 @@ export const Admin: React.FC = () => {
     fetchSlots();
   }, [fetchSlots]);
 
-  const handleDelete = async (slotId: string) => {
-    if (!confirm("Delete this event? Signed-up volunteers will be notified.")) return;
-    await fetch(`/api/slots/${slotId}`, { method: "DELETE" });
-    fetchSlots();
+  const closeForm = () => {
+    setShowForm(false);
+    setEditingGroup(undefined);
+    setSeedSlot(undefined);
   };
 
-  // Duplicate = open the create form pre-filled from this event, minus its
-  // identity (blank id → create mode, blank date so a new date is chosen).
-  const handleDuplicate = (slot: Slot) => {
-    setEditingSlot({ ...slot, id: "", date: "" });
+  const openNew = () => {
+    setEditingGroup(undefined);
+    setSeedSlot(undefined);
+    setShowForm(true);
+  };
+  const openEdit = (group: EventGroup) => {
+    setEditingGroup(group.slots);
+    setSeedSlot(undefined);
+    setShowForm(true);
+  };
+  const openDuplicate = (group: EventGroup) => {
+    setSeedSlot(group.slots[0]);
+    setEditingGroup(undefined);
     setShowForm(true);
   };
 
+  const handleDeleteEvent = async (group: EventGroup) => {
+    const dateWord = group.slots.length > 1 ? `${group.slots.length} dates` : "this date";
+    if (!confirm(`Delete this event (${dateWord})? Signed-up volunteers will be notified.`))
+      return;
+    await fetch(`/api/slots/group/${group.groupId}`, { method: "DELETE" });
+    fetchSlots();
+  };
+
   const today = new Date().toISOString().split("T")[0];
-  const upcoming = slots.filter((s) => s.date >= today);
-  const past = slots.filter((s) => s.date < today).reverse();
+  const groups = groupSlots(slots);
+  // A group is "upcoming" if any of its dates is today or later.
+  const upcoming = groups.filter((g) => g.slots.some((s) => s.date >= today));
+  const past = groups.filter((g) => g.slots.every((s) => s.date < today)).reverse();
+
+  const formKey =
+    editingGroup?.[0]?.group_id ?? (seedSlot ? `dup-${seedSlot.id}` : "new");
+
+  const renderGroup = (group: EventGroup, dim: boolean) => {
+    const totalSignups = group.slots.reduce((n, s) => n + (s.signup_count || 0), 0);
+    const base = group.slots[0];
+    return (
+      <div
+        key={group.groupId}
+        className={dim ? "border border-black/20 p-4" : "border-2 border-black p-4"}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className={dim ? "font-bold" : "font-black text-lg"}>{base.title}</p>
+            <p className="text-sm text-black/60">
+              {formatTime(base.start_time)} – {formatTime(base.end_time)} &middot;{" "}
+              {base.location}
+            </p>
+            <p className="text-sm font-semibold mt-1">
+              {group.slots.length} date{group.slots.length > 1 ? "s" : ""} &middot;{" "}
+              {totalSignups} signed up
+              {base.target_volunteers ? ` (target ${base.target_volunteers}/date)` : ""}
+            </p>
+          </div>
+          <div className="flex gap-2 shrink-0">
+            <button
+              onClick={() => openEdit(group)}
+              className="text-xs font-bold text-black/50 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => openDuplicate(group)}
+              className="text-xs font-bold text-black/50 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
+            >
+              Duplicate
+            </button>
+            <button
+              onClick={() => handleDeleteEvent(group)}
+              className="text-xs font-bold text-[#DC2626] hover:opacity-80 px-2 py-1 border border-[#DC2626] transition cursor-pointer"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        <div className="mt-3 border-t border-black/10 pt-2 space-y-1">
+          {group.slots.map((s) => (
+            <div key={s.id}>
+              <div className="flex items-center justify-between gap-3 text-sm">
+                <span className={s.date < today ? "text-black/40" : ""}>
+                  {formatDate(s.date)}
+                  {s.date < today ? " (past)" : ""}
+                </span>
+                <span className="flex items-center gap-3">
+                  <span className="text-black/50">{s.signup_count || 0} signed up</span>
+                  <button
+                    onClick={() =>
+                      setExpandedDate(expandedDate === s.id ? null : s.id)
+                    }
+                    className="text-xs font-bold text-[#1E3A8A] hover:text-black cursor-pointer"
+                  >
+                    {expandedDate === s.id ? "Hide" : "Signups"}
+                  </button>
+                </span>
+              </div>
+              {expandedDate === s.id && <SignupList slotId={s.id} />}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <main className="min-h-screen bg-white pt-28 pb-20 px-6 md:px-10">
@@ -71,10 +181,7 @@ export const Admin: React.FC = () => {
         <div className="flex items-center justify-between mb-8">
           <h1 className="font-black text-3xl">Events</h1>
           <button
-            onClick={() => {
-              setEditingSlot(undefined);
-              setShowForm(true);
-            }}
+            onClick={openNew}
             className="bg-[#DC2626] hover:opacity-80 text-white font-bold text-sm py-2 px-5 transition cursor-pointer"
           >
             + New Event
@@ -82,22 +189,16 @@ export const Admin: React.FC = () => {
         </div>
 
         {showForm && (
-          <div
-            ref={formRef}
-            className="mb-10 p-6 border-2 border-[#FFD600] bg-[#FFD600]/5"
-          >
+          <div ref={formRef} className="mb-10 p-6 border-2 border-[#FFD600] bg-[#FFD600]/5">
             <SlotForm
-              key={editingSlot?.id || "new"}
-              initial={editingSlot}
+              key={formKey}
+              groupSlots={editingGroup}
+              seedFrom={seedSlot}
               onSaved={() => {
-                setShowForm(false);
-                setEditingSlot(undefined);
+                closeForm();
                 fetchSlots();
               }}
-              onCancel={() => {
-                setShowForm(false);
-                setEditingSlot(undefined);
-              }}
+              onCancel={closeForm}
             />
           </div>
         )}
@@ -113,55 +214,7 @@ export const Admin: React.FC = () => {
               <p className="text-black/50 mb-8">No upcoming events.</p>
             ) : (
               <div className="space-y-4 mb-10">
-                {upcoming.map((slot) => (
-                  <div key={slot.id} className="border-2 border-black p-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="font-black text-lg">{slot.title}</p>
-                        <p className="text-sm text-black/60">
-                          {formatDate(slot.date)} &middot;{" "}
-                          {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
-                        </p>
-                        <p className="text-sm text-black/60">{slot.location}</p>
-                        <p className="text-sm font-semibold mt-1">
-                          {slot.signup_count || 0} / {slot.target_volunteers} signed up
-                        </p>
-                      </div>
-                      <div className="flex gap-2 shrink-0">
-                        <button
-                          onClick={() =>
-                            setExpandedSlot(expandedSlot === slot.id ? null : slot.id)
-                          }
-                          className="text-xs font-bold text-[#1E3A8A] hover:text-black px-2 py-1 border border-[#1E3A8A] hover:border-black transition cursor-pointer"
-                        >
-                          {expandedSlot === slot.id ? "Hide" : "Signups"}
-                        </button>
-                        <button
-                          onClick={() => {
-                            setEditingSlot(slot);
-                            setShowForm(true);
-                          }}
-                          className="text-xs font-bold text-black/50 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDuplicate(slot)}
-                          className="text-xs font-bold text-black/50 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
-                        >
-                          Duplicate
-                        </button>
-                        <button
-                          onClick={() => handleDelete(slot.id)}
-                          className="text-xs font-bold text-[#DC2626] hover:opacity-80 px-2 py-1 border border-[#DC2626] transition cursor-pointer"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                    {expandedSlot === slot.id && <SignupList slotId={slot.id} />}
-                  </div>
-                ))}
+                {upcoming.map((g) => renderGroup(g, false))}
               </div>
             )}
 
@@ -171,40 +224,7 @@ export const Admin: React.FC = () => {
                   Past ({past.length})
                 </h2>
                 <div className="space-y-4 opacity-60">
-                  {past.map((slot) => (
-                    <div key={slot.id} className="border border-black/20 p-4">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <p className="font-bold">{slot.title}</p>
-                          <p className="text-sm text-black/60">
-                            {formatDate(slot.date)} &middot;{" "}
-                            {formatTime(slot.start_time)} –{" "}
-                            {formatTime(slot.end_time)}
-                          </p>
-                          <p className="text-sm font-semibold mt-1">
-                            {slot.signup_count || 0} / {slot.target_volunteers} signed up
-                          </p>
-                        </div>
-                        <div className="flex gap-2 shrink-0">
-                          <button
-                            onClick={() =>
-                              setExpandedSlot(expandedSlot === slot.id ? null : slot.id)
-                            }
-                            className="text-xs font-bold text-black/40 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
-                          >
-                            {expandedSlot === slot.id ? "Hide" : "Signups"}
-                          </button>
-                          <button
-                            onClick={() => handleDuplicate(slot)}
-                            className="text-xs font-bold text-black/40 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
-                          >
-                            Duplicate
-                          </button>
-                        </div>
-                      </div>
-                      {expandedSlot === slot.id && <SignupList slotId={slot.id} />}
-                    </div>
-                  ))}
+                  {past.map((g) => renderGroup(g, true))}
                 </div>
               </>
             )}

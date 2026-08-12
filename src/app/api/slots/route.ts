@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { getAdminUser } from "@/lib/adminAuth";
@@ -46,8 +47,9 @@ export async function GET(request: Request) {
   return NextResponse.json(slotsWithCounts);
 }
 
-// POST /api/slots — create a new slot (admin only). Each save is a single row;
-// repeating events are made by duplicating, not by a recurrence rule.
+// POST /api/slots — create an event (admin only). One event can span multiple
+// dates: we insert one row per date, all sharing a group_id, so per-date RSVPs
+// and reminders keep working while the event is edited in one place.
 export async function POST(request: Request) {
   const user = await getAdminUser(request);
   if (!user) {
@@ -55,29 +57,40 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { type, title, description, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured } = body;
+  const { type, title, description, dates, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured } = body;
 
-  if (!title || !date || !start_time || !end_time) {
+  // Accept a dates[] (multi-date) or a single `date` for back-compat. Dedupe.
+  const dateList: string[] = Array.from(
+    new Set(
+      (Array.isArray(dates) && dates.length ? dates : date ? [date] : []).filter(
+        Boolean,
+      ),
+    ),
+  );
+
+  if (!title || dateList.length === 0 || !start_time || !end_time) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
-  const { data: slot, error } = await supabaseAdmin
+  const group_id = randomUUID();
+  const shared = {
+    type: type || "picket",
+    title,
+    description: description || null,
+    start_time,
+    end_time,
+    location: location || "250 Delaware Ave, Buffalo, NY",
+    target_volunteers: target_volunteers || null,
+    signup_link: signup_link || null,
+    image_url: image_url || null,
+    featured: featured || false,
+    group_id,
+  };
+
+  const { data: slots, error } = await supabaseAdmin
     .from("slots")
-    .insert({
-      type: type || "picket",
-      title,
-      description: description || null,
-      date,
-      start_time,
-      end_time,
-      location: location || "250 Delaware Ave, Buffalo, NY",
-      target_volunteers: target_volunteers || null,
-      signup_link: signup_link || null,
-      image_url: image_url || null,
-      featured: featured || false,
-    })
-    .select()
-    .single();
+    .insert(dateList.map((d) => ({ ...shared, date: d })))
+    .select();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -86,8 +99,8 @@ export async function POST(request: Request) {
   await logAudit(await getPayload(), {
     action: "created",
     entity: "Event",
-    label: title,
-    docId: slot.id,
+    label: dateList.length > 1 ? `${title} (${dateList.length} dates)` : title,
+    docId: group_id,
     user: user.email,
   });
 
@@ -95,5 +108,5 @@ export async function POST(request: Request) {
   revalidatePath("/");
   revalidatePath("/events");
 
-  return NextResponse.json(slot, { status: 201 });
+  return NextResponse.json({ group_id, slots }, { status: 201 });
 }

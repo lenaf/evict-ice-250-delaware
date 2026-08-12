@@ -4,9 +4,10 @@ import { EventRow } from "@/components/EventRow";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import type { Slot } from "@/types/slots";
 
-// Events to feature on the homepage: every upcoming event marked `featured`,
-// plus a single next occurrence of the standing weekly picket. Includes active
-// signup counts. Returns [] on any error so the section still renders.
+// Events to feature on the homepage: each upcoming event marked `featured`
+// (its next date only, so a multi-date event doesn't repeat), plus a single
+// next occurrence of the standing weekly picket. Includes active signup counts.
+// Returns [] on any error so the section still renders.
 async function getHomepageSlots(): Promise<Slot[]> {
   const today = new Date().toISOString().split("T")[0];
   const { data, error } = await supabaseAdmin
@@ -32,11 +33,20 @@ async function getHomepageSlots(): Promise<Slot[]> {
     signup_count: countMap[s.id] || 0,
   }));
 
-  // Featured events, plus the single soonest upcoming picket (the list is
-  // already date-sorted, so the first picket is the next one).
-  const chosen = slots.filter((s) => s.featured);
+  // Featured events (soonest date per event), plus the single soonest upcoming
+  // picket. The list is date-sorted, so the first row of each group_id is its
+  // next date — dedupe on group_id so a multi-date event shows once.
+  const seenGroups = new Set<string>();
+  const chosen: Slot[] = [];
+  for (const s of slots) {
+    if (!s.featured) continue;
+    const g = s.group_id || s.id;
+    if (seenGroups.has(g)) continue;
+    seenGroups.add(g);
+    chosen.push(s);
+  }
   const nextPicket = slots.find((s) => s.type === "picket");
-  if (nextPicket && !chosen.some((s) => s.id === nextPicket.id)) {
+  if (nextPicket && !seenGroups.has(nextPicket.group_id || nextPicket.id)) {
     chosen.push(nextPicket);
   }
 

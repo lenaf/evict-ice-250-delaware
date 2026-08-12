@@ -11,6 +11,9 @@ export interface Slot {
   signup_link: string | null;
   image_url: string | null;
   featured: boolean;
+  // Dates that belong to one logical event share a group_id (one slot row per
+  // date). Edited together in the admin; rendered as separate dates publicly.
+  group_id: string;
   recurrence: "none" | "weekly" | "biweekly";
   recurrence_end_date: string | null;
   parent_slot_id: string | null;
