@@ -16,27 +16,28 @@ const monthAbbr = (date: string) =>
   atNoon(date).toLocaleDateString("en-US", { month: "short" }).toUpperCase();
 const dayNum = (date: string) => atNoon(date).getDate();
 
-// Horizontal event row for the "Upcoming" lists (homepage + /events). A big
-// date column carries the weekday / day / month; then an optional photo, the
-// title and time, and a sign-up affordance. Opens the shared RSVP modal.
+// Horizontal event row for the "Upcoming" lists (homepage + /events). A compact
+// date column, optional photo, the title, and — on desktop — a right-aligned
+// time/location column so the row spans the full width. Opens the RSVP modal.
 export const EventRow: React.FC<EventRowProps> = ({ slot }) => {
   const [open, setOpen] = useState(false);
+  const time = `${formatTime(slot.start_time)} – ${formatTime(slot.end_time)}`;
 
   return (
     <li>
       <button
         onClick={() => setOpen(true)}
-        className="group flex w-full items-center gap-4 md:gap-8 border-b-2 border-black py-5 md:py-8 text-left cursor-pointer"
+        className="group flex w-full items-center gap-4 md:gap-6 border-b-2 border-black py-4 text-left cursor-pointer"
       >
-        {/* Date — always prominent, sized up on desktop. */}
-        <span className="flex shrink-0 flex-col items-center justify-center w-14 md:w-28 leading-none">
-          <span className="text-[10px] md:text-sm font-black uppercase tracking-widest text-[#DC2626]">
+        {/* Date */}
+        <span className="flex shrink-0 flex-col items-center justify-center w-12 md:w-16 leading-none">
+          <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-[#DC2626]">
             {weekdayAbbr(slot.date)}
           </span>
-          <span className="text-4xl md:text-7xl font-black tabular-nums">
+          <span className="text-2xl md:text-3xl font-black tabular-nums">
             {dayNum(slot.date)}
           </span>
-          <span className="text-[10px] md:text-sm font-black uppercase tracking-widest text-black/60">
+          <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-black/60">
             {monthAbbr(slot.date)}
           </span>
         </span>
@@ -46,27 +47,34 @@ export const EventRow: React.FC<EventRowProps> = ({ slot }) => {
           <img
             src={slot.image_url}
             alt={slot.title}
-            className="hidden shrink-0 border-2 border-black object-cover sm:block sm:h-20 sm:w-20 md:h-28 md:w-28"
+            className="hidden shrink-0 border-2 border-black object-cover sm:block sm:h-14 sm:w-14 md:h-16 md:w-16"
           />
         )}
 
+        {/* Title (+ time/location stacked under it on mobile) */}
         <span className="min-w-0 flex-1">
-          <span className="block font-black text-xl md:text-3xl leading-tight group-hover:text-[#DC2626] transition-colors">
+          <span className="block font-black text-base md:text-xl leading-tight group-hover:text-[#DC2626] transition-colors">
             {slot.title}
           </span>
-          <span className="mt-1 md:mt-2 block text-sm md:text-lg font-semibold text-black/80">
-            {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
+          <span className="mt-1 block text-sm font-semibold text-black/80 md:hidden">
+            {time}
           </span>
           {slot.location && (
-            <span className="mt-0.5 block text-xs md:text-base text-black/60">
-              {slot.location}
-            </span>
+            <span className="block text-xs text-black/60 md:hidden">{slot.location}</span>
           )}
         </span>
 
-        <span className="flex shrink-0 items-center gap-1 font-black text-xs md:text-base uppercase tracking-wider text-black/70 group-hover:text-[#DC2626] transition-colors">
+        {/* Time + location, right-aligned on desktop so the row uses the width */}
+        <span className="hidden shrink-0 flex-col items-end text-right md:flex md:min-w-[200px]">
+          <span className="text-base font-semibold text-black/80">{time}</span>
+          {slot.location && (
+            <span className="text-sm text-black/55">{slot.location}</span>
+          )}
+        </span>
+
+        <span className="flex shrink-0 items-center gap-1 font-black text-xs md:text-sm uppercase tracking-wider text-black/70 group-hover:text-[#DC2626] transition-colors">
           <span className="hidden sm:inline">Sign up</span>
-          <span aria-hidden="true" className="text-base md:text-xl leading-none">
+          <span aria-hidden="true" className="text-base leading-none">
             &rarr;
           </span>
         </span>
