@@ -2,23 +2,23 @@
 
 import React, { useState } from "react";
 import type { Slot } from "@/types/slots";
-import { formatDate, formatTime } from "@/lib/format";
+import { formatTime } from "@/lib/format";
 import { EventModal } from "@/components/EventModal";
 
 interface EventRowProps {
   slot: Slot;
 }
 
+const atNoon = (date: string) => new Date(date + "T00:00:00");
+const weekdayAbbr = (date: string) =>
+  atNoon(date).toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
 const monthAbbr = (date: string) =>
-  new Date(date + "T00:00:00")
-    .toLocaleDateString("en-US", { month: "short" })
-    .toUpperCase();
+  atNoon(date).toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+const dayNum = (date: string) => atNoon(date).getDate();
 
-const dayNum = (date: string) => new Date(date + "T00:00:00").getDate();
-
-// Horizontal event row for the homepage "Upcoming" list — thumbnail (photo or a
-// red date block), title, date/time, location, and a sign-up affordance. Mirrors
-// the divided-list styling of the press section. Opens the shared RSVP modal.
+// Horizontal event row for the "Upcoming" lists (homepage + /events). A big
+// date column carries the weekday / day / month; then an optional photo, the
+// title and time, and a sign-up affordance. Opens the shared RSVP modal.
 export const EventRow: React.FC<EventRowProps> = ({ slot }) => {
   const [open, setOpen] = useState(false);
 
@@ -26,42 +26,47 @@ export const EventRow: React.FC<EventRowProps> = ({ slot }) => {
     <li>
       <button
         onClick={() => setOpen(true)}
-        className="group flex w-full items-center gap-4 border-b-2 border-black py-4 text-left cursor-pointer"
+        className="group flex w-full items-center gap-4 md:gap-8 border-b-2 border-black py-5 md:py-8 text-left cursor-pointer"
       >
-        {slot.image_url ? (
+        {/* Date — always prominent, sized up on desktop. */}
+        <span className="flex shrink-0 flex-col items-center justify-center w-14 md:w-28 leading-none">
+          <span className="text-[10px] md:text-sm font-black uppercase tracking-widest text-[#DC2626]">
+            {weekdayAbbr(slot.date)}
+          </span>
+          <span className="text-4xl md:text-7xl font-black tabular-nums">
+            {dayNum(slot.date)}
+          </span>
+          <span className="text-[10px] md:text-sm font-black uppercase tracking-widest text-black/60">
+            {monthAbbr(slot.date)}
+          </span>
+        </span>
+
+        {slot.image_url && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={slot.image_url}
             alt={slot.title}
-            className="h-16 w-16 shrink-0 border-2 border-black object-cover md:h-20 md:w-20"
+            className="hidden shrink-0 border-2 border-black object-cover sm:block sm:h-20 sm:w-20 md:h-28 md:w-28"
           />
-        ) : (
-          <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center border-2 border-black bg-[#DC2626] leading-none text-white md:h-20 md:w-20">
-            <div className="text-[10px] font-black uppercase tracking-widest">
-              {monthAbbr(slot.date)}
-            </div>
-            <div className="text-2xl font-black md:text-3xl">
-              {dayNum(slot.date)}
-            </div>
-          </div>
         )}
 
         <span className="min-w-0 flex-1">
-          <span className="block font-black text-lg leading-tight group-hover:text-[#DC2626] transition-colors">
+          <span className="block font-black text-xl md:text-3xl leading-tight group-hover:text-[#DC2626] transition-colors">
             {slot.title}
           </span>
-          <span className="mt-1 block text-sm font-semibold text-black/80">
-            {formatDate(slot.date)} · {formatTime(slot.start_time)} –{" "}
-            {formatTime(slot.end_time)}
+          <span className="mt-1 md:mt-2 block text-sm md:text-lg font-semibold text-black/80">
+            {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
           </span>
           {slot.location && (
-            <span className="block text-xs text-black/60">{slot.location}</span>
+            <span className="mt-0.5 block text-xs md:text-base text-black/60">
+              {slot.location}
+            </span>
           )}
         </span>
 
-        <span className="shrink-0 flex items-center gap-1 font-black text-xs md:text-sm uppercase tracking-wider text-black/70 group-hover:text-[#DC2626] transition-colors">
+        <span className="flex shrink-0 items-center gap-1 font-black text-xs md:text-base uppercase tracking-wider text-black/70 group-hover:text-[#DC2626] transition-colors">
           <span className="hidden sm:inline">Sign up</span>
-          <span aria-hidden="true" className="text-base leading-none">
+          <span aria-hidden="true" className="text-base md:text-xl leading-none">
             &rarr;
           </span>
         </span>
