@@ -52,5 +52,8 @@
 - Try to keep files under ~200 lines (soft rule) — extract sub-components when they can stand alone
 
 ## Admin
-- `/admin` uses shared password auth via `ADMIN_PASSWORD` env var
+- Two admin surfaces, one login: `/cms` (Payload CMS) and `/admin` (custom events UI). Both authenticate with the Payload `users` collection (email/password, `payload-token` cookie) — there is no separate `ADMIN_PASSWORD`.
+- `/admin` is gated server-side (`page.tsx` redirects to `/cms/login?redirect=/admin` when signed out). The events API routes authorize via `getAdminUser()` in `src/lib/adminAuth.ts`.
+- `/cms` sidebar has an "Events" link to `/admin` (`src/payload/admin/EventsNavLink.tsx`, registered as `admin.components.afterNavLinks`).
+- Admin actions on events and CMS collections are recorded in the `auditLog` collection (🗒 Activity in `/cms`) via `src/payload/audit.ts`.
 - Admin pages should have `robots: { index: false }` metadata

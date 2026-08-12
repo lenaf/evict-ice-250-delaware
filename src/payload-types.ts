@@ -75,6 +75,7 @@ export interface Config {
     press: Press;
     groundPhotos: GroundPhoto;
     statements: Statement;
+    auditLog: AuditLog;
     users: User;
     media: Media;
     'payload-kv': PayloadKv;
@@ -92,6 +93,7 @@ export interface Config {
     press: PressSelect<false> | PressSelect<true>;
     groundPhotos: GroundPhotosSelect<false> | GroundPhotosSelect<true>;
     statements: StatementsSelect<false> | StatementsSelect<true>;
+    auditLog: AuditLogSelect<false> | AuditLogSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -601,6 +603,31 @@ export interface Statement {
   createdAt: string;
 }
 /**
+ * Who added, edited, or deleted events and CMS content. Newest first. Read-only.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auditLog".
+ */
+export interface AuditLog {
+  id: number;
+  action?: ('created' | 'updated' | 'deleted') | null;
+  /**
+   * What kind of thing — Event, Press, Statement, etc.
+   */
+  entity?: string | null;
+  /**
+   * The item's title.
+   */
+  label?: string | null;
+  docId?: string | null;
+  /**
+   * Who did it (email).
+   */
+  user?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -681,6 +708,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'statements';
         value: number | Statement;
+      } | null)
+    | ({
+        relationTo: 'auditLog';
+        value: number | AuditLog;
       } | null)
     | ({
         relationTo: 'users';
@@ -922,6 +953,19 @@ export interface StatementsSelect<T extends boolean = true> {
   href?: T;
   keyPoint?: T;
   statement?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auditLog_select".
+ */
+export interface AuditLogSelect<T extends boolean = true> {
+  action?: T;
+  entity?: T;
+  label?: T;
+  docId?: T;
+  user?: T;
   updatedAt?: T;
   createdAt?: T;
 }

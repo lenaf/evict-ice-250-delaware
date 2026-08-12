@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-server";
+import { getAdminUser } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
 // GET /api/admin/slots — list all slots (upcoming + past) with signup counts
 export async function GET(request: Request) {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const authHeader = request.headers.get("x-admin-password");
-  if (!adminPassword || authHeader !== adminPassword) {
+  const user = await getAdminUser(request);
+  if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

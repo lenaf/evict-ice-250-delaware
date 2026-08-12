@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { revalidateHome } from "../revalidate";
+import { auditChange, auditDelete } from "../audit";
 
 // Photos for the homepage "On the Ground" strip. One doc per photo.
 // `orderable: true` gives the list view drag handles so the display order is
@@ -8,8 +9,8 @@ export const GroundPhotos: CollectionConfig = {
   slug: "groundPhotos" as const,
   orderable: true,
   hooks: {
-    afterChange: [() => revalidateHome()],
-    afterDelete: [() => revalidateHome()],
+    afterChange: [() => revalidateHome(), auditChange("Photo")],
+    afterDelete: [() => revalidateHome(), auditDelete("Photo")],
   },
   admin: {
     useAsTitle: "alt",

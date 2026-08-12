@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { revalidateHome } from "../revalidate";
+import { auditChange, auditDelete } from "../audit";
 
 // Coalition endorsement statements shown on the homepage carousel. One doc per
 // organization. `orderable: true` gives the list view drag handles so the
@@ -8,8 +9,8 @@ export const Statements: CollectionConfig = {
   slug: "statements" as const,
   orderable: true,
   hooks: {
-    afterChange: [() => revalidateHome()],
-    afterDelete: [() => revalidateHome()],
+    afterChange: [() => revalidateHome(), auditChange("Statement")],
+    afterDelete: [() => revalidateHome(), auditDelete("Statement")],
   },
   admin: {
     useAsTitle: "org",

@@ -3,18 +3,15 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import type { Slot } from "@/types/slots";
 import { formatDate, formatTime } from "@/lib/format";
-import { LoginForm } from "./LoginForm";
 import { SlotForm } from "./SlotForm";
 import { SignupList } from "./SignupList";
 
 export const Admin: React.FC = () => {
-  const [password, setPassword] = useState<string | null>(null);
   const [slots, setSlots] = useState<Slot[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingSlot, setEditingSlot] = useState<Slot | undefined>();
   const [expandedSlot, setExpandedSlot] = useState<string | null>(null);
-  const [authError, setAuthError] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,54 +20,37 @@ export const Admin: React.FC = () => {
     }
   }, [showForm, editingSlot]);
 
-  const fetchSlots = useCallback(async (pw: string) => {
+  const fetchSlots = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/slots", {
-        headers: { "x-admin-password": pw },
-      });
+      const res = await fetch("/api/admin/slots");
+      // Session expired mid-visit — send them back through the CMS login.
       if (res.status === 401) {
-        setAuthError(true);
-        setPassword(null);
+        window.location.href = "/cms/login?redirect=/admin";
         return;
       }
-      const data = await res.json();
-      setSlots(data);
-      setAuthError(false);
+      setSlots(await res.json());
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const handleLogin = (pw: string) => {
-    setPassword(pw);
-    fetchSlots(pw);
-  };
+  useEffect(() => {
+    fetchSlots();
+  }, [fetchSlots]);
 
   const handleDelete = async (slotId: string) => {
-    if (!password) return;
-    if (!confirm("Delete this slot? Signed-up volunteers will be notified.")) return;
-
-    await fetch(`/api/slots/${slotId}`, {
-      method: "DELETE",
-      headers: { "x-admin-password": password },
-    });
-
-    fetchSlots(password);
+    if (!confirm("Delete this event? Signed-up volunteers will be notified.")) return;
+    await fetch(`/api/slots/${slotId}`, { method: "DELETE" });
+    fetchSlots();
   };
 
-  if (!password || authError) {
-    return (
-      <div>
-        <LoginForm onLogin={handleLogin} />
-        {authError && (
-          <p className="text-center text-red-600 text-sm -mt-20">
-            Wrong password. Try again.
-          </p>
-        )}
-      </div>
-    );
-  }
+  // Duplicate = open the create form pre-filled from this event, minus its
+  // identity (blank id → create mode, blank date so a new date is chosen).
+  const handleDuplicate = (slot: Slot) => {
+    setEditingSlot({ ...slot, id: "", date: "" });
+    setShowForm(true);
+  };
 
   const today = new Date().toISOString().split("T")[0];
   const upcoming = slots.filter((s) => s.date >= today);
@@ -80,7 +60,7 @@ export const Admin: React.FC = () => {
     <main className="min-h-screen bg-white pt-28 pb-20 px-6 md:px-10">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="font-black text-3xl">Volunteer Slots</h1>
+          <h1 className="font-black text-3xl">Events</h1>
           <button
             onClick={() => {
               setEditingSlot(undefined);
@@ -88,7 +68,7 @@ export const Admin: React.FC = () => {
             }}
             className="bg-[#DC2626] hover:opacity-80 text-white font-bold text-sm py-2 px-5 transition cursor-pointer"
           >
-            + New Slot
+            + New Event
           </button>
         </div>
 
@@ -98,13 +78,12 @@ export const Admin: React.FC = () => {
             className="mb-10 p-6 border-2 border-[#FFD600] bg-[#FFD600]/5"
           >
             <SlotForm
-              key={editingSlot?.id ?? "new"}
+              key={editingSlot?.id || "new"}
               initial={editingSlot}
-              password={password}
               onSaved={() => {
                 setShowForm(false);
                 setEditingSlot(undefined);
-                fetchSlots(password);
+                fetchSlots();
               }}
               onCancel={() => {
                 setShowForm(false);
@@ -122,7 +101,7 @@ export const Admin: React.FC = () => {
               Upcoming ({upcoming.length})
             </h2>
             {upcoming.length === 0 ? (
-              <p className="text-black/50 mb-8">No upcoming slots.</p>
+              <p className="text-black/50 mb-8">No upcoming events.</p>
             ) : (
               <div className="space-y-4 mb-10">
                 {upcoming.map((slot) => (
@@ -158,6 +137,12 @@ export const Admin: React.FC = () => {
                           Edit
                         </button>
                         <button
+                          onClick={() => handleDuplicate(slot)}
+                          className="text-xs font-bold text-black/50 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
+                        >
+                          Duplicate
+                        </button>
+                        <button
                           onClick={() => handleDelete(slot.id)}
                           className="text-xs font-bold text-[#DC2626] hover:opacity-80 px-2 py-1 border border-[#DC2626] transition cursor-pointer"
                         >
@@ -165,9 +150,7 @@ export const Admin: React.FC = () => {
                         </button>
                       </div>
                     </div>
-                    {expandedSlot === slot.id && (
-                      <SignupList slotId={slot.id} password={password} />
-                    )}
+                    {expandedSlot === slot.id && <SignupList slotId={slot.id} />}
                   </div>
                 ))}
               </div>
@@ -193,18 +176,24 @@ export const Admin: React.FC = () => {
                             {slot.signup_count || 0} / {slot.target_volunteers} signed up
                           </p>
                         </div>
-                        <button
-                          onClick={() =>
-                            setExpandedSlot(expandedSlot === slot.id ? null : slot.id)
-                          }
-                          className="text-xs font-bold text-black/40 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
-                        >
-                          {expandedSlot === slot.id ? "Hide" : "Signups"}
-                        </button>
+                        <div className="flex gap-2 shrink-0">
+                          <button
+                            onClick={() =>
+                              setExpandedSlot(expandedSlot === slot.id ? null : slot.id)
+                            }
+                            className="text-xs font-bold text-black/40 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
+                          >
+                            {expandedSlot === slot.id ? "Hide" : "Signups"}
+                          </button>
+                          <button
+                            onClick={() => handleDuplicate(slot)}
+                            className="text-xs font-bold text-black/40 hover:text-black px-2 py-1 border border-black/20 hover:border-black transition cursor-pointer"
+                          >
+                            Duplicate
+                          </button>
+                        </div>
                       </div>
-                      {expandedSlot === slot.id && (
-                        <SignupList slotId={slot.id} password={password} />
-                      )}
+                      {expandedSlot === slot.id && <SignupList slotId={slot.id} />}
                     </div>
                   ))}
                 </div>

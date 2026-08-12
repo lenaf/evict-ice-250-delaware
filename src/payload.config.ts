@@ -21,6 +21,7 @@ import { Sponsors } from "./payload/collections/Sponsors";
 import { Press } from "./payload/collections/Press";
 import { GroundPhotos } from "./payload/collections/GroundPhotos";
 import { Statements } from "./payload/collections/Statements";
+import { AuditLog } from "./payload/collections/AuditLog";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -115,11 +116,16 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: " - Evict ICE" },
+    components: {
+      // A sidebar link to the custom events admin (/admin) — one login, both
+      // admins reachable from the same nav.
+      afterNavLinks: ["/payload/admin/EventsNavLink#EventsNavLink"],
+    },
   },
   serverURL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   cors: allowList,
   csrf: allowList,
-  collections: [Pages, People, Entities, Relationships, Sponsors, Press, GroundPhotos, Statements, Users, Media],
+  collections: [Pages, People, Entities, Relationships, Sponsors, Press, GroundPhotos, Statements, AuditLog, Users, Media],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,

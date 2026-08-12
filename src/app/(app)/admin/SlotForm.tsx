@@ -4,13 +4,15 @@ import React, { useState } from "react";
 import type { Slot } from "@/types/slots";
 
 interface SlotFormProps {
+  // A slot with an id → editing it. A slot with no id (from Duplicate) → a
+  // pre-filled new slot. Undefined → a blank new slot.
   initial?: Slot;
-  password: string;
   onSaved: () => void;
   onCancel: () => void;
 }
 
-export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, onCancel }) => {
+export const SlotForm: React.FC<SlotFormProps> = ({ initial, onSaved, onCancel }) => {
+  const isEdit = !!initial?.id;
   const [type, setType] = useState<"picket" | "event">(initial?.type || "picket");
   const [title, setTitle] = useState(initial?.title || "");
   const [description, setDescription] = useState(initial?.description || "");
@@ -27,10 +29,6 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
   const [imageUrl, setImageUrl] = useState(initial?.image_url || "");
   const [uploading, setUploading] = useState(false);
   const [featured, setFeatured] = useState(initial?.featured ?? false);
-  const [recurrence, setRecurrence] = useState(initial?.recurrence || "none");
-  const [recurrenceEnd, setRecurrenceEnd] = useState(
-    initial?.recurrence_end_date || "",
-  );
   const [saving, setSaving] = useState(false);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +44,6 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
       data.append("file", file);
       const res = await fetch("/api/admin/upload", {
         method: "POST",
-        headers: { "x-admin-password": password },
         body: data,
       });
       const json = await res.json();
@@ -77,20 +74,15 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
       signup_link: signupLink || null,
       image_url: imageUrl || null,
       featured,
-      recurrence,
-      recurrence_end_date: recurrence !== "none" ? recurrenceEnd : null,
     };
 
-    const url = initial ? `/api/slots/${initial.id}` : "/api/slots";
-    const method = initial ? "PUT" : "POST";
+    const url = isEdit ? `/api/slots/${initial!.id}` : "/api/slots";
+    const method = isEdit ? "PUT" : "POST";
 
     try {
       const res = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-          "x-admin-password": password,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
@@ -108,7 +100,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
       <h2 className="font-black text-2xl">
-        {initial ? "Edit Slot" : "Create Slot"}
+        {isEdit ? "Edit Event" : "Create Event"}
       </h2>
       <div>
         <label className="block text-xs font-bold mb-1 uppercase">Type *</label>
@@ -248,44 +240,13 @@ export const SlotForm: React.FC<SlotFormProps> = ({ initial, password, onSaved, 
           </span>
         </span>
       </label>
-      {!initial && (
-        <>
-          <div>
-            <label className="block text-xs font-bold mb-1 uppercase">
-              Recurrence
-            </label>
-            <select
-              value={recurrence}
-              onChange={(e) => setRecurrence(e.target.value as Slot["recurrence"])}
-              className="w-full px-3 py-2 border-2 border-black text-sm focus:outline-none focus:border-[#DC2626]"
-            >
-              <option value="none">One-time</option>
-              <option value="weekly">Weekly</option>
-              <option value="biweekly">Biweekly</option>
-            </select>
-          </div>
-          {recurrence !== "none" && (
-            <div>
-              <label className="block text-xs font-bold mb-1 uppercase">
-                Repeat until
-              </label>
-              <input
-                type="date"
-                value={recurrenceEnd}
-                onChange={(e) => setRecurrenceEnd(e.target.value)}
-                className="w-full px-3 py-2 border-2 border-black text-sm focus:outline-none focus:border-[#DC2626]"
-              />
-            </div>
-          )}
-        </>
-      )}
       <div className="flex gap-3 pt-2">
         <button
           type="submit"
           disabled={saving}
           className="bg-[#DC2626] hover:opacity-80 disabled:opacity-50 text-white font-bold py-2 px-6 transition cursor-pointer"
         >
-          {saving ? "Saving..." : initial ? "Update" : "Create"}
+          {saving ? "Saving..." : isEdit ? "Update" : "Create"}
         </button>
         <button
           type="button"

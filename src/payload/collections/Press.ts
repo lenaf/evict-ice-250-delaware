@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { revalidateHome } from "../revalidate";
+import { auditChange, auditDelete } from "../audit";
 
 // Press coverage shown in the homepage "In the News" carousel. One doc per
 // article: the publication, the headline, a link out, the date (drives the
@@ -7,8 +8,8 @@ import { revalidateHome } from "../revalidate";
 export const Press: CollectionConfig = {
   slug: "press" as const,
   hooks: {
-    afterChange: [() => revalidateHome()],
-    afterDelete: [() => revalidateHome()],
+    afterChange: [() => revalidateHome(), auditChange("Press")],
+    afterDelete: [() => revalidateHome(), auditDelete("Press")],
   },
   admin: {
     useAsTitle: "headline",
