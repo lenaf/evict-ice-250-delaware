@@ -11,7 +11,7 @@ export const Relationships: CollectionConfig = {
   },
   admin: {
     useAsTitle: "label",
-    group: "🕸️ Power Map",
+    group: "Power Map",
     defaultColumns: ["person", "entity", "label"],
   },
   access: {

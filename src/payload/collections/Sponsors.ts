@@ -15,7 +15,7 @@ export const Sponsors: CollectionConfig = {
   },
   admin: {
     useAsTitle: "name",
-    group: "🤝 Coalition",
+    group: "Coalition",
     defaultColumns: ["name", "logo", "scale", "href"],
     listSearchableFields: ["name"],
     description:

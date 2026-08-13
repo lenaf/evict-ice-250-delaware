@@ -14,7 +14,7 @@ export const GroundPhotos: CollectionConfig = {
   },
   admin: {
     useAsTitle: "alt",
-    group: "📷 On the Ground",
+    group: "On the Ground",
     defaultColumns: ["alt", "image", "credit"],
     listSearchableFields: ["alt", "credit"],
     description:

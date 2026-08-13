@@ -3,13 +3,13 @@ import type { CollectionConfig } from "payload";
 // Append-only activity trail: who created / updated / deleted which event or
 // CMS item, and when. Rows are written by collection hooks and the events API
 // via the local API (overrideAccess). Create/update/delete are closed in the UI
-// so the log can't be edited; any logged-in user can read it under 🗒 Activity.
+// so the log can't be edited; any logged-in user can read it under Activity.
 export const AuditLog: CollectionConfig = {
   slug: "auditLog" as const,
   defaultSort: "-createdAt",
   admin: {
     useAsTitle: "label",
-    group: "🗒 Activity",
+    group: "Activity",
     defaultColumns: ["action", "entity", "label", "user", "createdAt"],
     description:
       "Who added, edited, or deleted events and CMS content. Newest first. Read-only.",

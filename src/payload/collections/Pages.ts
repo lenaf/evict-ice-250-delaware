@@ -169,7 +169,7 @@ const PowerMapBlock: Block = {
 
 export const Pages: CollectionConfig = {
   slug: "pages" as const,
-  admin: { useAsTitle: "title", group: "📄 Content" },
+  admin: { useAsTitle: "title", group: "Content" },
   hooks: {
     afterChange: [
       ({ doc }) => revalidatePageBySlug((doc as { slug?: string }).slug),

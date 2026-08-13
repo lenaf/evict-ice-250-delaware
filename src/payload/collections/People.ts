@@ -20,7 +20,7 @@ export const People: CollectionConfig = {
   },
   admin: {
     useAsTitle: "name",
-    group: "🕸️ Power Map",
+    group: "Power Map",
     defaultColumns: ["name", "family", "title"],
   },
   access: {
