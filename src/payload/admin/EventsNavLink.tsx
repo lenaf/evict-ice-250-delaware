@@ -17,7 +17,7 @@ export const EventsNavLink: React.FC = () => {
         textDecoration: "none",
       }}
     >
-      📅 Events
+      Events
     </a>
   );
 };

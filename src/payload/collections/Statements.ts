@@ -14,7 +14,7 @@ export const Statements: CollectionConfig = {
   },
   admin: {
     useAsTitle: "org",
-    group: "💬 Endorsements",
+    group: "Coalition",
     defaultColumns: ["org", "href"],
     listSearchableFields: ["org", "keyPoint", "statement"],
     description:

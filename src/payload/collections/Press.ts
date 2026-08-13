@@ -13,7 +13,7 @@ export const Press: CollectionConfig = {
   },
   admin: {
     useAsTitle: "headline",
-    group: "📰 Press",
+    group: "Articles",
     defaultColumns: ["outlet", "headline", "date", "logo"],
     listSearchableFields: ["outlet", "headline"],
     description:

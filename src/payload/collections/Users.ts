@@ -5,7 +5,7 @@ export const Users: CollectionConfig = {
   auth: true,
   admin: {
     useAsTitle: "email",
-    group: "⚙️ Settings",
+    group: "Settings",
   },
   fields: [
     {
