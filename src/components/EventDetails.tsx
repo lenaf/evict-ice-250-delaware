@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import type { Slot } from "@/types/slots";
 import { formatDateLong, formatTime } from "@/lib/format";
 import { localKey } from "@/lib/events";
@@ -19,12 +20,15 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ slot, onClose }) => 
   return (
     <div>
       {slot.image_url && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={slot.image_url}
-          alt={slot.title}
-          className="mb-4 aspect-[16/9] w-full border-2 border-black object-cover"
-        />
+        <div className="relative mb-4 aspect-[16/9] w-full border-2 border-black overflow-hidden">
+          <Image
+            src={slot.image_url}
+            alt={slot.title}
+            fill
+            sizes="(min-width: 640px) 448px, 100vw"
+            className="object-cover"
+          />
+        </div>
       )}
       <h3 className="font-black text-2xl leading-tight mb-2">{slot.title}</h3>
       <p className="text-sm font-bold text-black/70">

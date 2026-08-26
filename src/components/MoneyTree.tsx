@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import type { WealthRef } from "@/types/affiliation";
 
 export interface MoneySource {
@@ -180,9 +181,16 @@ export const MoneyTree: React.FC<MoneyTreeProps> = ({ sources, people, entityNam
       <div className="grid gap-px" style={{ gridTemplateColumns: `repeat(${p}, 1fr)` }}>
         {people.map((person) => (
           <div key={person.id}>
-            <div className="aspect-square overflow-hidden bg-white/5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={person.photo} alt={person.name} className="w-full h-full object-cover" />
+            <div className="relative aspect-square overflow-hidden bg-white/5">
+              {person.photo && (
+                <Image
+                  src={person.photo}
+                  alt={person.name}
+                  fill
+                  sizes="(min-width: 768px) 160px, 33vw"
+                  className="object-cover"
+                />
+              )}
             </div>
             <div className="p-3 bg-white/5">
               <div className="font-black text-white text-xs leading-tight">{person.name}</div>

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { SwipeCarousel } from "@/components/SwipeCarousel";
 import { getGroundPhotos, type GroundPhotoItem } from "@/lib/payload";
 
@@ -61,7 +62,9 @@ const FALLBACK_PHOTOS: GroundPhotoItem[] = [
 // "On the Ground" — the demonstration photo strip on a black band. Photos come
 // from the CMS (`groundPhotos`), falling back to the hardcoded set when empty.
 export const OnTheGroundPhotos = async () => {
-  const photos = (await getGroundPhotos()) ?? FALLBACK_PHOTOS;
+  const photos = ((await getGroundPhotos()) ?? FALLBACK_PHOTOS).filter(
+    (p) => p.src,
+  );
 
   return (
     <section className="bg-black text-white py-12 md:py-16">
@@ -83,11 +86,12 @@ export const OnTheGroundPhotos = async () => {
             key={`${photo.src}-${i}`}
             className="relative shrink-0 snap-start h-64 md:h-80 aspect-square overflow-hidden"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={photo.src}
               alt={photo.alt}
-              className="absolute inset-0 h-full w-full object-cover"
+              fill
+              sizes="(min-width: 768px) 320px, 256px"
+              className="object-cover"
             />
             {photo.credit && (
               <figcaption className="absolute bottom-0 right-0 bg-black/70 text-white/90 text-[10px] leading-none px-1.5 py-1">

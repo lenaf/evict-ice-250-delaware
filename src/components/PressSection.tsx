@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { getPress } from "@/lib/payload";
 
 const fmtDate = (iso: string): string => {
@@ -36,12 +37,24 @@ export const PressSection = async () => {
                   className="group flex items-center gap-3 py-4 border-b border-black cursor-pointer"
                 >
                   {a.logo ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={a.logo}
-                      alt={a.outlet}
-                      className="h-12 w-12 md:h-14 md:w-14 object-contain shrink-0"
-                    />
+                    a.logo.toLowerCase().endsWith(".svg") ? (
+                      // Vector logo, a few KB — serve as-is (skips the optimizer,
+                      // which would need dangerouslyAllowSVG for remote SVGs).
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={a.logo}
+                        alt={a.outlet}
+                        className="h-12 w-12 md:h-14 md:w-14 object-contain shrink-0"
+                      />
+                    ) : (
+                      <Image
+                        src={a.logo}
+                        alt={a.outlet}
+                        width={56}
+                        height={56}
+                        className="h-12 w-12 md:h-14 md:w-14 object-contain shrink-0"
+                      />
+                    )
                   ) : (
                     <span className="w-12 md:w-14 shrink-0 flex items-center font-black uppercase text-[10px] leading-tight">
                       {a.outlet}

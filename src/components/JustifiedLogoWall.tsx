@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import Image from "next/image";
 import type { SponsorItem } from "@/lib/payload";
 
 // Assumed content width for the first (server + hydration) paint, before the
@@ -173,15 +174,30 @@ export const JustifiedLogoWall: React.FC<{ logos: SponsorItem[] }> = ({ logos })
               className="flex items-center justify-center shrink-0 p-1 md:p-2 hover:opacity-70 transition-opacity"
               style={{ width: item.boxWidth, height: row.height }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={item.logo}
-                alt={item.name}
-                loading="lazy"
-                decoding="async"
-                onLoad={onImgLoad(item.name)}
-                className="w-full h-full object-contain"
-              />
+              <span className="relative block w-full h-full">
+                {!item.logo ? null : item.logo.toLowerCase().endsWith(".svg") ? (
+                  // SVGs are vector and tiny (a few KB); serve as-is rather than
+                  // through the image optimizer, which would need dangerouslyAllowSVG.
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={item.logo}
+                    alt={item.name}
+                    loading="lazy"
+                    decoding="async"
+                    onLoad={onImgLoad(item.name)}
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src={item.logo}
+                    alt={item.name}
+                    fill
+                    sizes="200px"
+                    onLoad={onImgLoad(item.name)}
+                    className="object-contain"
+                  />
+                )}
+              </span>
             </a>
           ))}
         </div>
