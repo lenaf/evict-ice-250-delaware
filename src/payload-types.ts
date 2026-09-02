@@ -547,6 +547,10 @@ export interface Press {
    */
   date: string;
   /**
+   * Show this article in the homepage 'In the News' section. Uncheck to keep it on the /news page only.
+   */
+  showOnHomepage?: boolean | null;
+  /**
    * The publication's logo (thumbnail). Optional — the outlet name shows if there's no logo.
    */
   logo?: (number | null) | Media;
@@ -927,6 +931,7 @@ export interface PressSelect<T extends boolean = true> {
   headline?: T;
   url?: T;
   date?: T;
+  showOnHomepage?: T;
   logo?: T;
   updatedAt?: T;
   createdAt?: T;

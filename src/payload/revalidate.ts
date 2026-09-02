@@ -28,3 +28,9 @@ export function revalidateFamilyPages() {
 export function revalidateHome() {
   safe("/");
 }
+
+// Press changed → revalidate the homepage strip and the full /news page.
+export function revalidatePress() {
+  safe("/");
+  safe("/news");
+}

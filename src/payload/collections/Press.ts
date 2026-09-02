@@ -1,5 +1,5 @@
 import type { CollectionConfig } from "payload";
-import { revalidateHome } from "../revalidate";
+import { revalidatePress } from "../revalidate";
 import { auditChange, auditDelete } from "../audit";
 
 // Press coverage shown in the homepage "In the News" carousel. One doc per
@@ -8,13 +8,13 @@ import { auditChange, auditDelete } from "../audit";
 export const Press: CollectionConfig = {
   slug: "press" as const,
   hooks: {
-    afterChange: [() => revalidateHome(), auditChange("Press")],
-    afterDelete: [() => revalidateHome(), auditDelete("Press")],
+    afterChange: [() => revalidatePress(), auditChange("Press")],
+    afterDelete: [() => revalidatePress(), auditDelete("Press")],
   },
   admin: {
     useAsTitle: "headline",
     group: "Articles",
-    defaultColumns: ["outlet", "headline", "date", "logo"],
+    defaultColumns: ["outlet", "headline", "date", "showOnHomepage", "logo"],
     listSearchableFields: ["outlet", "headline"],
     description:
       "Press coverage for the homepage 'In the News' carousel. Articles show newest first by date.",
@@ -49,6 +49,16 @@ export const Press: CollectionConfig = {
       type: "date",
       required: true,
       admin: { description: "Publish date. Newest articles show first." },
+    },
+    {
+      name: "showOnHomepage",
+      type: "checkbox",
+      defaultValue: true,
+      admin: {
+        position: "sidebar",
+        description:
+          "Show this article in the homepage 'In the News' section. Uncheck to keep it on the /news page only.",
+      },
     },
     {
       name: "logo",

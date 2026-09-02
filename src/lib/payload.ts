@@ -204,6 +204,7 @@ export interface PressItem {
   url: string;
   date: string; // ISO date
   logo: string; // public URL of the publication logo
+  showOnHomepage: boolean; // featured in the homepage "In the News" section
 }
 
 // Fetch press articles newest-first for the homepage "In the News" section.
@@ -228,6 +229,9 @@ export async function getPress(): Promise<PressItem[] | null> {
           url: (d.url as string) || "#",
           date: (d.date as string) ?? "",
           logo: mediaUrl(d.logo),
+          // Only articles checked "Show on homepage" appear in the homepage
+          // strip; the rest live on /news. (Existing rows default to checked.)
+          showOnHomepage: d.showOnHomepage === true,
         };
       });
       return items.length ? items : null;
