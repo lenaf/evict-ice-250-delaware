@@ -93,7 +93,7 @@ export const StatementsCarousel: React.FC<StatementsCarouselProps> = ({
           aria-modal="true"
           aria-label={`${open.org} full statement`}
         >
-          <div className="relative bg-[#1E3A8A] text-white border-2 border-black w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 md:p-10">
+          <div className="relative bg-[#1E3A8A] text-white border-2 border-black w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8 md:p-14">
             <div className="flex justify-end mb-4">
               <button
                 onClick={() => setOpenIndex(null)}
