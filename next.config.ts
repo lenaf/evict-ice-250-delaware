@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
       // Supabase Storage public objects (CMS media)
       { protocol: "https", hostname: "*.supabase.co" },
     ],
+    // Serve one modern format instead of AVIF+WebP, and keep the width ladders
+    // tight — the logo wall and headshots render small, so we don't need the
+    // large-viewport variants. Fewer variants = far fewer Vercel image
+    // transformations. Large photos are local files, so trimming deviceSizes
+    // costs nothing but optimizer work.
+    formats: ["image/webp"],
+    deviceSizes: [640, 828, 1200, 1920],
+    imageSizes: [64, 128, 256, 384],
+    minimumCacheTTL: 2678400, // 31 days
   },
   async headers() {
     return [

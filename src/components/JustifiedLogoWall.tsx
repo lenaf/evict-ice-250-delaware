@@ -174,7 +174,7 @@ export const JustifiedLogoWall: React.FC<{ logos: SponsorItem[] }> = ({ logos })
               className="flex items-center justify-center shrink-0 p-1 md:p-2 hover:opacity-70 transition-opacity"
               style={{ width: item.boxWidth, height: row.height }}
             >
-              <span className="relative block w-full h-full">
+              <span className="block w-full h-full">
                 {!item.logo ? null : item.logo.toLowerCase().endsWith(".svg") ? (
                   // SVGs are vector and tiny (a few KB); serve as-is rather than
                   // through the image optimizer, which would need dangerouslyAllowSVG.
@@ -191,10 +191,10 @@ export const JustifiedLogoWall: React.FC<{ logos: SponsorItem[] }> = ({ logos })
                   <Image
                     src={item.logo}
                     alt={item.name}
-                    fill
-                    sizes="200px"
+                    width={256}
+                    height={256}
                     onLoad={onImgLoad(item.name)}
-                    className="object-contain"
+                    className="w-full h-full object-contain"
                   />
                 )}
               </span>

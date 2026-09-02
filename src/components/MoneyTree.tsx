@@ -181,14 +181,14 @@ export const MoneyTree: React.FC<MoneyTreeProps> = ({ sources, people, entityNam
       <div className="grid gap-px" style={{ gridTemplateColumns: `repeat(${p}, 1fr)` }}>
         {people.map((person) => (
           <div key={person.id}>
-            <div className="relative aspect-square overflow-hidden bg-white/5">
+            <div className="aspect-square overflow-hidden bg-white/5">
               {person.photo && (
                 <Image
                   src={person.photo}
                   alt={person.name}
-                  fill
-                  sizes="(min-width: 768px) 160px, 33vw"
-                  className="object-cover"
+                  width={192}
+                  height={192}
+                  className="w-full h-full object-cover"
                 />
               )}
             </div>

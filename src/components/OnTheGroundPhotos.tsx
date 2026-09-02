@@ -89,9 +89,9 @@ export const OnTheGroundPhotos = async () => {
             <Image
               src={photo.src}
               alt={photo.alt}
-              fill
-              sizes="(min-width: 768px) 320px, 256px"
-              className="object-cover"
+              width={320}
+              height={320}
+              className="w-full h-full object-cover"
             />
             {photo.credit && (
               <figcaption className="absolute bottom-0 right-0 bg-black/70 text-white/90 text-[10px] leading-none px-1.5 py-1">
