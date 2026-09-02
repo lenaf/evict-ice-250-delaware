@@ -94,14 +94,7 @@ export const StatementsCarousel: React.FC<StatementsCarouselProps> = ({
           aria-label={`${open.org} full statement`}
         >
           <div className="relative bg-[#1E3A8A] text-white border-2 border-black w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 md:p-10">
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <svg
-                aria-hidden
-                viewBox="0 0 42 24"
-                className="w-7 h-4 md:w-8 md:h-5 fill-white mt-1"
-              >
-                <path d="M0 24C0 13 5 5 16 2L17.5 6C11 8.5 8.5 12 8.5 16H16V24H0ZM24 24C24 13 29 5 40 2L41.5 6C35 8.5 32.5 12 32.5 16H40V24H24Z" />
-              </svg>
+            <div className="flex justify-end mb-4">
               <button
                 onClick={() => setOpenIndex(null)}
                 aria-label="Close"
@@ -110,6 +103,13 @@ export const StatementsCarousel: React.FC<StatementsCarouselProps> = ({
                 ✕
               </button>
             </div>
+            <svg
+              aria-hidden
+              viewBox="0 0 42 24"
+              className="w-7 h-4 md:w-8 md:h-5 fill-white mb-4"
+            >
+              <path d="M0 24C0 13 5 5 16 2L17.5 6C11 8.5 8.5 12 8.5 16H16V24H0ZM24 24C24 13 29 5 40 2L41.5 6C35 8.5 32.5 12 32.5 16H40V24H24Z" />
+            </svg>
             <blockquote className="space-y-4">
               {open.paragraphs.map((p, i) => (
                 <p key={i} className="text-base md:text-lg leading-relaxed">
