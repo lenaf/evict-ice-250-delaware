@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import { SmartImage } from "@/components/SmartImage";
 import { SwipeCarousel } from "@/components/SwipeCarousel";
 import { getGroundPhotos, type GroundPhotoItem } from "@/lib/payload";
 
@@ -86,7 +86,7 @@ export const OnTheGroundPhotos = async () => {
             key={`${photo.src}-${i}`}
             className="relative shrink-0 snap-start h-64 md:h-80 aspect-square overflow-hidden"
           >
-            <Image
+            <SmartImage
               src={photo.src}
               alt={photo.alt}
               width={320}

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { SmartImage } from "@/components/SmartImage";
 import type { WealthRef } from "@/types/affiliation";
 
 export interface MoneySource {
@@ -183,7 +183,7 @@ export const MoneyTree: React.FC<MoneyTreeProps> = ({ sources, people, entityNam
           <div key={person.id}>
             <div className="aspect-square overflow-hidden bg-white/5">
               {person.photo && (
-                <Image
+                <SmartImage
                   src={person.photo}
                   alt={person.name}
                   width={192}

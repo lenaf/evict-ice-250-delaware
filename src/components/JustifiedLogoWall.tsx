@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { SmartImage } from "@/components/SmartImage";
 import type { SponsorItem } from "@/lib/payload";
 
 // Assumed content width for the first (server + hydration) paint, before the
@@ -188,7 +188,7 @@ export const JustifiedLogoWall: React.FC<{ logos: SponsorItem[] }> = ({ logos })
                     className="w-full h-full object-contain"
                   />
                 ) : (
-                  <Image
+                  <SmartImage
                     src={item.logo}
                     alt={item.name}
                     width={256}
