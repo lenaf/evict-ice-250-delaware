@@ -210,7 +210,7 @@ export const JustifiedLogoWall: React.FC<{ logos: SponsorItem[] }> = ({ logos })
             onClick={() => setExpanded((v) => !v)}
             className="border-2 border-black px-6 py-2.5 font-black uppercase tracking-wider text-xs hover:bg-[#DC2626] hover:text-white hover:border-[#DC2626] transition cursor-pointer"
           >
-            {expanded ? "Show fewer" : `Show all ${logos.length} partners`}
+            {expanded ? "Show fewer" : `Show all ${logos.length}`}
           </button>
         </div>
       )}

@@ -29,5 +29,16 @@ export const CoalitionLogos: React.FC<{ sponsors: SponsorItem[] }> = ({
       Partners &amp; Endorsers
     </h2>
     <JustifiedLogoWall logos={sponsors} />
+    <div className="text-center mt-8 md:mt-10">
+      <p className="text-black/70 mb-4">Want to join the coalition?</p>
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLScqQInAoXnjdfccXvrf42k5ERmNuwSPA2WSFTeTs0P6irRhJA/viewform"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block border-2 border-[#DC2626] text-[#DC2626] px-7 py-3 font-black uppercase tracking-wider text-sm hover:bg-[#DC2626] hover:text-white transition cursor-pointer"
+      >
+        Become a Partner or Sponsor
+      </a>
+    </div>
   </div>
 );
