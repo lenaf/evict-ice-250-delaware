@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { DonateWidget } from "./DonateWidget";
+import { SwipeCarousel } from "@/components/SwipeCarousel";
 
 export const metadata: Metadata = {
   title: "Donate",
@@ -28,7 +29,12 @@ const funds = [
   },
 ];
 
-const photos = [
+const photos: { src: string; alt: string; credit?: string }[] = [
+  {
+    src: "/photos/campaign/banners-250-delaware.jpg",
+    alt: "Demonstrators hold 'Montante Detention Center' and 'Detentionland' banners in the street in front of 250 Delaware",
+    credit: "Tito Ruiz/TRu iNk Media",
+  },
   {
     src: "/photos/campaign/billboard-montante-detention-center.jpg",
     alt: "Billboard near 250 Delaware reading 'You've arrived: Montante Detention Center. Uniland leases the 7th floor to ICE. Evict ICE!'",
@@ -72,41 +78,9 @@ export default async function DonatePage({
             </div>
           )}
 
-          <h1 className="uppercase tracking-tight mb-6 md:mb-8">
-            <span className="block font-black text-6xl md:text-8xl leading-[0.9]">
-              Donate
-            </span>
-            <span className="block font-bold text-lg md:text-2xl leading-snug text-balance mt-3 md:mt-4">
-              fund <span className="text-[#FFD600]">billboards</span>,{" "}
-              <span className="text-[#FFD600]">legal support</span>, and the{" "}
-              <span className="text-[#FFD600]">materials</span> that keep our
-              movement growing
-            </span>
+          <h1 className="uppercase tracking-tight mb-6 md:mb-8 font-black text-6xl md:text-8xl leading-[0.9]">
+            Donate
           </h1>
-
-          {/* Lead photo full width, the rest in a row below it. */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            {photos.map((p, i) => (
-              <div
-                key={p.src}
-                className={`relative border-2 border-black ${
-                  i === 0 ? "col-span-3 aspect-[2/1]" : "aspect-[4/3]"
-                }`}
-              >
-                <Image
-                  src={p.src}
-                  alt={p.alt}
-                  fill
-                  sizes={
-                    i === 0
-                      ? "(min-width: 768px) 640px, 100vw"
-                      : "(min-width: 768px) 210px, 33vw"
-                  }
-                  className={`object-cover ${i === 0 ? "object-[center_30%]" : "object-center"}`}
-                />
-              </div>
-            ))}
-          </div>
 
           <p className="font-bold text-base md:text-lg mb-4">
             Your contribution is{" "}
@@ -148,6 +122,32 @@ export default async function DonatePage({
             .
           </p>
         </div>
+      </div>
+
+      {/* Gallery — one swipeable row of same-size photos. Negative margin
+          cancels the page padding so the arrows sit in the gutter. */}
+      <div className="-mx-6 md:-mx-10 mt-10 md:mt-14">
+        <SwipeCarousel tone="light" gapClassName="gap-3" ariaLabel="Campaign photos">
+          {photos.map((p) => (
+            <figure
+              key={p.src}
+              className="relative shrink-0 snap-start h-56 md:h-72 aspect-[4/3] border-2 border-black overflow-hidden"
+            >
+              <Image
+                src={p.src}
+                alt={p.alt}
+                fill
+                sizes="(min-width: 768px) 384px, 300px"
+                className="object-cover object-center"
+              />
+              {p.credit && (
+                <figcaption className="absolute bottom-0 right-0 bg-black/70 text-white/90 text-[10px] leading-none px-1.5 py-1">
+                  {p.credit}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </SwipeCarousel>
       </div>
     </main>
   );
