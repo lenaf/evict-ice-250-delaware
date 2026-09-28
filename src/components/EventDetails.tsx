@@ -21,15 +21,15 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ slot, onClose }) => 
   return (
     <div>
       {slot.image_url && (
-        <div className="relative mb-4 aspect-[16/9] w-full border-2 border-black overflow-hidden">
-          <Image
-            src={slot.image_url}
-            alt={slot.title}
-            fill
-            sizes="(min-width: 640px) 448px, 100vw"
-            className="object-cover"
-          />
-        </div>
+        // Natural aspect ratio so posters and flyers show uncropped.
+        <Image
+          src={slot.image_url}
+          alt={slot.title}
+          width={0}
+          height={0}
+          sizes="(min-width: 640px) 576px, 100vw"
+          className="mb-4 block h-auto w-full border-2 border-black"
+        />
       )}
       <h3 className="font-black text-2xl leading-tight mb-2">{slot.title}</h3>
       <p className="text-sm font-bold text-black/70">
