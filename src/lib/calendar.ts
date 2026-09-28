@@ -47,12 +47,12 @@ export function generateIcsContent(slot: CalendarSlot) {
 
 export function googleCalUrl(slot: CalendarSlot) {
   const params = new URLSearchParams({
-    action: "TEMPLATE",
     text: slot.title,
     dates: `${stamp(slot.date, slot.start_time)}/${stamp(slot.date, slot.end_time)}`,
     ctz: "America/New_York",
     location: slot.location,
     details: [slot.description, slot.id && eventUrl(slot.id)].filter(Boolean).join("\n\n"),
   });
-  return `https://calendar.google.com/calendar/render?${params}`;
+  // eventedit (not /render?action=TEMPLATE) keeps the prefill on phones.
+  return `https://calendar.google.com/calendar/r/eventedit?${params}`;
 }
