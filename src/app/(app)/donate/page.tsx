@@ -153,17 +153,17 @@ export default async function DonatePage({
                   <p className="text-sm md:text-base leading-relaxed text-white/85 mt-1">
                     {f.body}
                   </p>
-                  <div className="flex flex-wrap gap-2 mt-3">
+                  <div className="grid grid-cols-3 gap-2 mt-3 max-w-md">
                     {f.photos.map((p) => (
                       <div
                         key={p.src}
-                        className="relative w-28 md:w-36 aspect-[4/3] border-2 border-black overflow-hidden"
+                        className="relative aspect-[4/3] border-2 border-black overflow-hidden"
                       >
                         <Image
                           src={p.src}
                           alt={p.alt}
                           fill
-                          sizes="144px"
+                          sizes="(min-width: 768px) 144px, 30vw"
                           className="object-cover object-center"
                         />
                       </div>
