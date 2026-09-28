@@ -5,7 +5,7 @@ import { DonateWidget } from "./DonateWidget";
 export const metadata: Metadata = {
   title: "Donate",
   description:
-    "Support the campaign to evict ICE from 250 Delaware in Buffalo. Your contribution funds billboards and materials.",
+    "Support the campaign to evict ICE from 250 Delaware in Buffalo. Your contribution funds billboards, legal support, and materials.",
 };
 
 const CONTACT_EMAIL = "evictice250delaware@proton.me";
@@ -17,18 +17,22 @@ const funds = [
     body: "Everyone passing 250 Delaware Ave should be made aware of what occurs in this unmarked building. Our goal is to keep the billboards running until ICE is no longer in the building.",
   },
   {
-    lead: "Materials",
-    rest: " for demonstrations and community education programs",
-    body: "We're out in front of 250 Delaware Ave every Tuesday from 4:30–5:30pm and we co-host regular workshops with campaign co-sponsors. That takes time, materials, and resources — your contribution makes it a reality.",
+    lead: "Legal Support",
+    rest: " for demonstrators and organizers",
+    body: "Ensure we receive adequate legal advice to keep community members safe before and after each demonstration.",
   },
   {
-    lead: "Legal Support",
-    rest: "",
-     body: "We are training Buffalo residents and a new generation of community organizers to confront authoritarianism through non-violent direct action. Giving to this will ensure we receive adequate legal advice to keep community members safe before and after each demonstration."
-  }
+    lead: "Materials",
+    rest: ", including banners and signs, for demonstrations and community education programs",
+    body: "We're out in front of 250 Delaware Ave every Tuesday from 4:30–5:30pm and we co-host regular workshops with campaign co-sponsors. That takes time, materials, and resources — your contribution makes it a reality.",
+  },
 ];
 
 const photos = [
+  {
+    src: "/photos/campaign/billboard-montante-detention-center.jpg",
+    alt: "Billboard near 250 Delaware reading 'You've arrived: Montante Detention Center. Uniland leases the 7th floor to ICE. Evict ICE!'",
+  },
   {
     src: "/photos/campaign/billboard-uniland-owns.jpg",
     alt: "Billboard reading 'Uniland owns ICE headquarters — Evict ICE!'",
@@ -73,24 +77,32 @@ export default async function DonatePage({
               Donate
             </span>
             <span className="block font-bold text-lg md:text-2xl leading-snug text-balance mt-3 md:mt-4">
-              keep our{" "}
-              <span className="text-[#FFD600]">billboard running</span> and our
+              fund <span className="text-[#FFD600]">billboards</span>,{" "}
+              <span className="text-[#FFD600]">legal support</span>, and the{" "}
+              <span className="text-[#FFD600]">materials</span> that keep our
               movement growing
             </span>
           </h1>
 
-          <div className="flex flex-wrap gap-3 mb-6">
-            {photos.map((p) => (
+          {/* Lead photo full width, the rest in a row below it. */}
+          <div className="grid grid-cols-3 gap-3 mb-6">
+            {photos.map((p, i) => (
               <div
                 key={p.src}
-                className="relative w-36 h-28 md:w-48 md:h-36 shrink-0 border-2 border-black"
+                className={`relative border-2 border-black ${
+                  i === 0 ? "col-span-3 aspect-[2/1]" : "aspect-[4/3]"
+                }`}
               >
                 <Image
                   src={p.src}
                   alt={p.alt}
                   fill
-                  sizes="192px"
-                  className="object-cover object-center"
+                  sizes={
+                    i === 0
+                      ? "(min-width: 768px) 640px, 100vw"
+                      : "(min-width: 768px) 210px, 33vw"
+                  }
+                  className={`object-cover ${i === 0 ? "object-[center_30%]" : "object-center"}`}
                 />
               </div>
             ))}
@@ -118,7 +130,6 @@ export default async function DonatePage({
               </li>
             ))}
           </ul>
-
         </div>
 
         {/* Right — donate widget */}
@@ -132,7 +143,7 @@ export default async function DonatePage({
             >
               {CONTACT_EMAIL}
             </a>
-            . 
+            .
           </p>
         </div>
       </div>

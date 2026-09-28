@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ActionNetworkForm } from "@/components/ActionNetworkForm";
-import { CoalitionLogos, getCoalitionSponsors } from "@/components/CoalitionLogos";
+import {
+  CoalitionLogos,
+  getCoalitionSponsors,
+} from "@/components/CoalitionLogos";
 import { InlineDaysLeft } from "@/components/CountdownTimer";
 import { StandWithUs } from "@/components/StandWithUs";
 import { OnTheGroundPhotos } from "@/components/OnTheGroundPhotos";
@@ -131,12 +134,12 @@ export default async function Home() {
       >
         <div>
           <h2 className="font-black text-3xl md:text-4xl leading-[0.95] uppercase mb-3">
-            Chip in to keep the{" "}
-            <span className="text-[#DC2626]">billboards</span> up.
+            Chip in to keep the <span className="text-[#DC2626]">movement</span>{" "}
+            growing.
           </h2>
           <p className="text-base md:text-lg leading-relaxed max-w-xl mb-6">
-            Every dollar funds billboards across from ICE headquarters and
-            materials for our weekly demonstrations. All contributions are
+            Every dollar funds billboards, legal support for demonstrators, and
+            materials for our demonstrations. All contributions are
             tax-deductible.
           </p>
           <Link
@@ -147,6 +150,15 @@ export default async function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-4">
+          <div className="relative col-span-2 aspect-[16/9] border-2 border-black">
+            <Image
+              src="/photos/campaign/billboard-montante-detention-center.jpg"
+              alt="Billboard near 250 Delaware reading 'You've arrived: Montante Detention Center. Uniland leases the 7th floor to ICE. Evict ICE!'"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover object-[center_30%]"
+            />
+          </div>
           <div className="relative aspect-[4/3] border-2 border-black">
             <Image
               src="/photos/campaign/billboard-uniland-owns.jpg"
@@ -214,9 +226,9 @@ export default async function Home() {
             Add your name.
           </h2>
           <p className="text-base md:text-lg leading-relaxed text-white max-w-xl">
-            Thousands of us are calling on Uniland to end the lease and evict ICE
-            from 250 Delaware. We&apos;re headed for 5,000 signatures. Sign the
-            petition and add yours.
+            Thousands of us are calling on Uniland to end the lease and evict
+            ICE from 250 Delaware. We&apos;re headed for 5,000 signatures. Sign
+            the petition and add yours.
           </p>
         </div>
         <a
@@ -247,8 +259,8 @@ export default async function Home() {
               <li>
                 Every ICE action in Western New York, Central New York, the
                 Finger Lakes, Southern Tier, North Country, Mohawk Valley,
-                Capital Region, and Mid-Hudson — all of it — is coordinated
-                from 250 Delaware.
+                Capital Region, and Mid-Hudson — all of it — is coordinated from
+                250 Delaware.
               </li>
               <li>
                 And it&apos;s not just coordination and administration — 250
@@ -275,18 +287,18 @@ export default async function Home() {
             </h3>
             <ul className="space-y-4 text-base leading-relaxed text-black">
               <li>
-                Uniland Development (the Montante family) owns the building
-                and Delaware North (the Jacobs family) is the anchor tenant.
-                In 2013, the Erie County Industrial Development Agency
-                approved $9.6 million in property and sales tax breaks for
-                this project — public money that subsidized a building now
-                profiting from ICE operations.
+                Uniland Development (the Montante family) owns the building and
+                Delaware North (the Jacobs family) is the anchor tenant. In
+                2013, the Erie County Industrial Development Agency approved
+                $9.6 million in property and sales tax breaks for this project —
+                public money that subsidized a building now profiting from ICE
+                operations.
               </li>
               <li>
                 Today, Uniland collects $2 million per year from ICE&apos;s
                 lease, while taxpayers continue to subsidize the building
-                through generous tax abatement that cost Buffalo and Erie
-                County $791,000 in 2024 alone.
+                through generous tax abatement that cost Buffalo and Erie County
+                $791,000 in 2024 alone.
               </li>
             </ul>
             <div className="mt-5 flex flex-col gap-2">

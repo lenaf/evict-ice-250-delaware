@@ -375,7 +375,7 @@ export interface Page {
 export interface Media {
   id: number;
   /**
-   * Auto-filled from the filename if left blank.
+   * The image's name in the CMS and its alt text on the site. Auto-filled from the filename if left blank.
    */
   alt?: string | null;
   updatedAt: string;
