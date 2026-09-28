@@ -6,6 +6,7 @@ import type { Slot } from "@/types/slots";
 import { formatDateLong, formatTime } from "@/lib/format";
 import { localKey } from "@/lib/events";
 import { SignupForm } from "@/components/SignupForm";
+import { AddToCalendar } from "@/components/AddToCalendar";
 
 interface EventDetailsProps {
   slot: Slot;
@@ -37,6 +38,8 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ slot, onClose }) => 
         {formatTime(slot.start_time)} – {formatTime(slot.end_time)}
       </p>
       <p className="text-sm text-black/70 mb-4">{slot.location}</p>
+
+      {!isPast && <AddToCalendar slot={slot} />}
 
       {slot.description && (
         <p className="text-sm leading-relaxed whitespace-pre-line mb-6">

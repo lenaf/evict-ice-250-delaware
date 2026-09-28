@@ -12,54 +12,8 @@ export function getFromEmail() {
 
 const REPLY_TO = "evictice250delaware@proton.me";
 
-function getSiteUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL || "https://evictice250delaware.com";
-}
-
 import { formatDateLong as formatDate, formatTime } from "@/lib/format";
-
-function generateIcsContent(slot: {
-  title: string;
-  date: string;
-  start_time: string;
-  end_time: string;
-  location: string;
-  description?: string | null;
-}) {
-  const startDt = slot.date.replace(/-/g, "") + "T" + slot.start_time.replace(/:/g, "") + "00";
-  const endDt = slot.date.replace(/-/g, "") + "T" + slot.end_time.replace(/:/g, "") + "00";
-  return [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//EvictICE250//EN",
-    "BEGIN:VEVENT",
-    `DTSTART:${startDt}`,
-    `DTEND:${endDt}`,
-    `SUMMARY:${slot.title}`,
-    `LOCATION:${slot.location}`,
-    `DESCRIPTION:${slot.description || "Volunteer shift for Evict ICE 250 Delaware"}`,
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\r\n");
-}
-
-function googleCalUrl(slot: {
-  title: string;
-  date: string;
-  start_time: string;
-  end_time: string;
-  location: string;
-}) {
-  const startDt = slot.date.replace(/-/g, "") + "T" + slot.start_time.replace(/:/g, "") + "00";
-  const endDt = slot.date.replace(/-/g, "") + "T" + slot.end_time.replace(/:/g, "") + "00";
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: slot.title,
-    dates: `${startDt}/${endDt}`,
-    location: slot.location,
-  });
-  return `https://calendar.google.com/calendar/render?${params}`;
-}
+import { generateIcsContent, googleCalUrl, getSiteUrl } from "@/lib/calendar";
 
 export async function sendConfirmationEmail(
   to: string,

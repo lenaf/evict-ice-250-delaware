@@ -148,6 +148,14 @@ export const Admin: React.FC = () => {
                 </span>
                 <span className="flex items-center gap-3">
                   <span className="text-black/50">{s.signup_count || 0} signed up</span>
+                  <a
+                    href={`/events/${s.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-bold text-[#1E3A8A] hover:text-black cursor-pointer"
+                  >
+                    Page
+                  </a>
                   <button
                     onClick={() =>
                       setExpandedDate(expandedDate === s.id ? null : s.id)
