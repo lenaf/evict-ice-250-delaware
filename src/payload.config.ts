@@ -19,6 +19,7 @@ import { Entities } from "./payload/collections/Entities";
 import { Relationships } from "./payload/collections/Relationships";
 import { Sponsors } from "./payload/collections/Sponsors";
 import { Press } from "./payload/collections/Press";
+import { PressReleases } from "./payload/collections/PressReleases";
 import { GroundPhotos } from "./payload/collections/GroundPhotos";
 import { Statements } from "./payload/collections/Statements";
 import { AuditLog } from "./payload/collections/AuditLog";
@@ -57,6 +58,11 @@ const storagePlugins = process.env.S3_BUCKET
           media: {
             generateFileURL: ({ filename }: { filename: string }) =>
               `${process.env.S3_PUBLIC_URL}/${filename}`,
+          },
+          "press-releases": {
+            prefix: "press-releases",
+            generateFileURL: ({ filename, prefix }: { filename: string; prefix?: string }) =>
+              `${process.env.S3_PUBLIC_URL}/${prefix}/${filename}`,
           },
         },
         bucket: process.env.S3_BUCKET,
@@ -126,7 +132,7 @@ export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   cors: allowList,
   csrf: allowList,
-  collections: [Pages, People, Entities, Relationships, Sponsors, Press, GroundPhotos, Statements, AuditLog, Users, Media],
+  collections: [Pages, People, Entities, Relationships, Sponsors, Press, PressReleases, GroundPhotos, Statements, AuditLog, Users, Media],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,

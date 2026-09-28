@@ -17,9 +17,9 @@ interface PressListProps {
   items: PressItem[];
 }
 
-// The divided list of press coverage (logo, headline, date, "Read" link), shared
-// by the homepage "In the News" section and the full /news page. Publication
-// logos render as plain <img> — they're a handful of tiny files, so serving them
+// The divided list of press coverage and press releases (logo, headline, date,
+// "Read"/"PDF" link), shared by the homepage "In the News" section and the full
+// /news page. Publication logos render as plain <img> — they're a handful of tiny files, so serving them
 // directly is cheaper than an optimizer transformation and needs no variants.
 export const PressList: React.FC<PressListProps> = ({ items }) => (
   <ul className="max-w-3xl border-t border-black">
@@ -41,7 +41,11 @@ export const PressList: React.FC<PressListProps> = ({ items }) => (
               className="h-12 w-12 md:h-14 md:w-14 object-contain shrink-0"
             />
           ) : (
-            <span className="w-12 md:w-14 shrink-0 flex items-center font-black uppercase text-[10px] leading-tight">
+            <span
+              className={`w-12 md:w-14 shrink-0 flex items-center font-black uppercase text-[10px] leading-tight ${
+                a.kind === "release" ? "text-[#DC2626]" : ""
+              }`}
+            >
               {a.outlet}
             </span>
           )}
@@ -56,7 +60,9 @@ export const PressList: React.FC<PressListProps> = ({ items }) => (
             )}
           </span>
           <span className="shrink-0 flex items-center gap-1 font-bold text-xs md:text-sm uppercase tracking-wide text-black/55 group-hover:text-[#DC2626] transition-colors">
-            <span className="hidden sm:inline">Read</span>
+            <span className="hidden sm:inline">
+              {a.kind === "release" ? "PDF" : "Read"}
+            </span>
             <span aria-hidden="true" className="text-base leading-none">
               &#8599;
             </span>

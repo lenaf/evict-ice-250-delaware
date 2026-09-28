@@ -73,6 +73,7 @@ export interface Config {
     relationships: Relationship;
     sponsors: Sponsor;
     press: Press;
+    'press-releases': PressRelease;
     groundPhotos: GroundPhoto;
     statements: Statement;
     auditLog: AuditLog;
@@ -91,6 +92,7 @@ export interface Config {
     relationships: RelationshipsSelect<false> | RelationshipsSelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     press: PressSelect<false> | PressSelect<true>;
+    'press-releases': PressReleasesSelect<false> | PressReleasesSelect<true>;
     groundPhotos: GroundPhotosSelect<false> | GroundPhotosSelect<true>;
     statements: StatementsSelect<false> | StatementsSelect<true>;
     auditLog: AuditLogSelect<false> | AuditLogSelect<true>;
@@ -558,6 +560,39 @@ export interface Press {
   createdAt: string;
 }
 /**
+ * Press release PDFs. They show in 'In the News' with press coverage, newest first by date.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "press-releases".
+ */
+export interface PressRelease {
+  id: number;
+  /**
+   * The press release headline.
+   */
+  title: string;
+  /**
+   * Release date. Newest items show first.
+   */
+  date: string;
+  /**
+   * Show this release in the homepage 'In the News' section. Uncheck to keep it on the /news page only.
+   */
+  showOnHomepage?: boolean | null;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
  * Photos in the homepage 'On the Ground' strip. Drag rows to reorder how they appear.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -704,6 +739,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'press';
         value: number | Press;
+      } | null)
+    | ({
+        relationTo: 'press-releases';
+        value: number | PressRelease;
       } | null)
     | ({
         relationTo: 'groundPhotos';
@@ -935,6 +974,27 @@ export interface PressSelect<T extends boolean = true> {
   logo?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "press-releases_select".
+ */
+export interface PressReleasesSelect<T extends boolean = true> {
+  title?: T;
+  date?: T;
+  showOnHomepage?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

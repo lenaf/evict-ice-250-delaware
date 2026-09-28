@@ -199,6 +199,7 @@ export async function getSponsors(): Promise<SponsorItem[] | null> {
 // ---- Press coverage --------------------------------------------------------
 
 export interface PressItem {
+  kind: "article" | "release"; // outside coverage, or our own PDF press release
   outlet: string;
   headline: string;
   url: string;
@@ -207,23 +208,23 @@ export interface PressItem {
   showOnHomepage: boolean; // featured in the homepage "In the News" section
 }
 
-// Fetch press articles newest-first for the homepage "In the News" section.
+// Fetch press articles and press releases, merged newest-first, for the
+// homepage "In the News" section and /news.
 // Retries transient DB/connection blips so a single failure doesn't blank the
 // section (and poison the ISR cache with an empty render). Returns null only
-// when there are genuinely no articles or all retries fail.
+// when there are genuinely no items or all retries fail.
 export async function getPress(): Promise<PressItem[] | null> {
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       const payload = await getPayload();
-      const res = await payload.find({
-        collection: "press",
-        sort: "-date",
-        limit: 100,
-        depth: 1,
-      });
-      const items = res.docs.map((doc) => {
+      const [articles, releases] = await Promise.all([
+        payload.find({ collection: "press", sort: "-date", limit: 100, depth: 1 }),
+        payload.find({ collection: "press-releases", sort: "-date", limit: 100, depth: 0 }),
+      ]);
+      const articleItems: PressItem[] = articles.docs.map((doc) => {
         const d = doc as unknown as Record<string, unknown>;
         return {
+          kind: "article",
           outlet: (d.outlet as string) ?? "",
           headline: (d.headline as string) ?? "",
           url: (d.url as string) || "#",
@@ -234,6 +235,21 @@ export async function getPress(): Promise<PressItem[] | null> {
           showOnHomepage: d.showOnHomepage === true,
         };
       });
+      const releaseItems: PressItem[] = releases.docs.map((doc) => {
+        const d = doc as unknown as Record<string, unknown>;
+        return {
+          kind: "release",
+          outlet: "Press release",
+          headline: (d.title as string) ?? "",
+          url: (d.url as string) || "#",
+          date: (d.date as string) ?? "",
+          logo: "",
+          showOnHomepage: d.showOnHomepage === true,
+        };
+      });
+      const items = [...articleItems, ...releaseItems].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
       return items.length ? items : null;
     } catch (err) {
       if (attempt === 3) {
