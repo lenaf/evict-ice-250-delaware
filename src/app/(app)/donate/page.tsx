@@ -95,7 +95,7 @@ export default async function DonatePage({
   const canceled = params.canceled === "1";
 
   return (
-    <main className="flex-1 bg-[#1E3A8A] text-white px-6 md:px-10 pt-28 md:pt-32 pb-12 md:pb-16">
+    <main className="flex-1 bg-[#1E3A8A] text-white px-6 md:px-10 pt-10 md:pt-14 pb-12 md:pb-16">
       {/* Mobile: heading, widget, then bullets. Desktop: heading + bullets on
           the left, widget sticky on the right. */}
       <div className="max-w-6xl mx-auto grid md:grid-cols-[3fr_2fr] md:grid-rows-[auto_1fr] gap-y-6 md:gap-x-10 md:gap-y-0 items-start">
