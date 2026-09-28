@@ -7,6 +7,7 @@ import { auditChange, auditDelete } from "../audit";
 // newest-first order), and the publication's logo (uploaded to Media).
 export const Press: CollectionConfig = {
   slug: "press" as const,
+  labels: { singular: "News Article", plural: "News Articles" },
   hooks: {
     afterChange: [() => revalidatePress(), auditChange("Press")],
     afterDelete: [() => revalidatePress(), auditDelete("Press")],

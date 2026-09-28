@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import type { Slot } from "@/types/slots";
-import { googleCalUrl } from "@/lib/calendar";
 
 interface AddToCalendarProps {
   slot: Slot;
@@ -27,7 +26,7 @@ export const AddToCalendar: React.FC<AddToCalendarProps> = ({ slot }) => {
 
   return (
     <div className="flex flex-wrap gap-2 mb-6">
-      <a href={googleCalUrl(slot)} target="_blank" rel="noopener noreferrer" className={linkClass}>
+      <a href={`/events/${slot.id}/google`} target="_blank" rel="noopener noreferrer" className={linkClass}>
         Google Calendar
       </a>
       <a href={`/events/${slot.id}/ics`} className={linkClass}>
