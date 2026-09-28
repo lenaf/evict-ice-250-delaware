@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
+import { DONATION_PAYMENT_METHODS } from "@/lib/donation";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     const paymentIntent = await getStripe().paymentIntents.create({
       amount: cents,
       currency: "usd",
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: DONATION_PAYMENT_METHODS,
       description: "Evict ICE 250 Delaware campaign donation",
     });
 

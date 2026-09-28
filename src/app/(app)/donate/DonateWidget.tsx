@@ -9,6 +9,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import QRCode from "react-qr-code";
+import { DONATION_PAYMENT_METHODS } from "@/lib/donation";
 
 // TODO: replace with the campaign's real Cash App cashtag.
 // Both the QR code and the "Open Cash App" button are generated from this.
@@ -123,6 +124,7 @@ export const DonateWidget: React.FC = () => {
       mode: "payment" as const,
       amount: INITIAL_CENTS,
       currency: "usd",
+      paymentMethodTypes: DONATION_PAYMENT_METHODS,
       appearance: {
         theme: "stripe" as const,
         variables: {
