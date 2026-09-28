@@ -88,7 +88,12 @@ const CardForm: React.FC<{ amountCents: number; valid: boolean }> = ({
 
   return (
     <form onSubmit={submit} className="space-y-4">
-      <PaymentElement />
+      <PaymentElement
+        options={{
+          // Joined rows instead of spaced cards keeps the method list short.
+          layout: { type: "accordion", defaultCollapsed: true, radios: "never", spacedAccordionItems: false },
+        }}
+      />
       {error && <p className="text-[#DC2626] text-sm font-bold">{error}</p>}
       <button
         type="submit"
