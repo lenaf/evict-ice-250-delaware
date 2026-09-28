@@ -109,7 +109,9 @@ export default async function DonatePage({
           </div>
 
           <p className="font-bold text-base md:text-lg mb-4">
-            Your contribution directly powers this work. It will fund:
+            Your contribution is{" "}
+            <span className="text-[#FFD600]">tax-deductible</span> and directly
+            powers this work. It will fund:
           </p>
 
           <ul className="space-y-4 mb-6">
