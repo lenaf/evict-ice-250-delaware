@@ -17,7 +17,7 @@ export default async function NewsPage() {
 
   return (
     <main className="min-h-screen bg-white text-black px-6 md:px-10 py-14 md:py-20">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <h1 className="font-black text-3xl md:text-4xl uppercase tracking-wide mb-2">
           In the News
         </h1>

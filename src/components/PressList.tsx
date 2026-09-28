@@ -15,28 +15,21 @@ const fmtDate = (iso: string): string => {
 
 interface PressListProps {
   items: PressItem[];
-  columns?: 1 | 2; // 2 splits the list into two columns on desktop
 }
 
 // The divided list of press coverage and press releases (logo, headline, date,
 // "Read"/"PDF" link), shared by the homepage "In the News" section and the full
 // /news page. Publication logos render as plain <img> — they're a handful of tiny files, so serving them
 // directly is cheaper than an optimizer transformation and needs no variants.
-export const PressList: React.FC<PressListProps> = ({ items, columns = 1 }) => (
-  <ul
-    className={
-      columns === 2
-        ? "grid md:grid-cols-2 md:gap-x-10 border-t border-black"
-        : "max-w-3xl border-t border-black"
-    }
-  >
+export const PressList: React.FC<PressListProps> = ({ items }) => (
+  <ul className="w-full border-t border-black">
     {items.map((a) => (
       <li key={a.url}>
         <a
           href={a.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex h-full items-center gap-3 py-2.5 border-b border-black cursor-pointer"
+          className="group flex items-center gap-3 md:gap-6 py-2 border-b border-black cursor-pointer"
         >
           {a.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -45,11 +38,11 @@ export const PressList: React.FC<PressListProps> = ({ items, columns = 1 }) => (
               alt={a.outlet}
               loading="lazy"
               decoding="async"
-              className="h-9 w-9 md:h-10 md:w-10 object-contain shrink-0"
+              className="h-8 w-8 md:h-9 md:w-9 object-contain shrink-0"
             />
           ) : (
             <span
-              className={`w-9 md:w-10 shrink-0 flex items-center font-black uppercase text-[9px] leading-tight ${
+              className={`w-8 md:w-9 shrink-0 flex items-center font-black uppercase text-[9px] leading-tight ${
                 a.kind === "release" ? "text-[#DC2626]" : ""
               }`}
             >
@@ -61,12 +54,15 @@ export const PressList: React.FC<PressListProps> = ({ items, columns = 1 }) => (
               {a.headline}
             </span>
             {fmtDate(a.date) && (
-              <span className="block text-[11px] uppercase tracking-wide text-black/50 mt-0.5">
+              <span className="block md:hidden text-[11px] uppercase tracking-wide text-black/50 mt-0.5">
                 {fmtDate(a.date)}
               </span>
             )}
           </span>
-          <span className="shrink-0 flex items-center gap-1 font-bold text-xs uppercase tracking-wide text-black/55 group-hover:text-[#DC2626] transition-colors">
+          <span className="hidden md:block shrink-0 w-40 text-right text-xs uppercase tracking-wide text-black/50">
+            {fmtDate(a.date)}
+          </span>
+          <span className="shrink-0 sm:w-14 flex items-center justify-end gap-1 font-bold text-xs uppercase tracking-wide text-black/55 group-hover:text-[#DC2626] transition-colors">
             <span className="hidden sm:inline">
               {a.kind === "release" ? "PDF" : "Read"}
             </span>

@@ -18,7 +18,7 @@ export const PressSection = async () => {
           <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide mb-6">
             In the News
           </h2>
-          <PressList items={featured} columns={2} />
+          <PressList items={featured} />
           <Link
             href="/news"
             className="group mt-6 inline-flex items-center gap-1 font-black text-sm uppercase tracking-wider text-black hover:text-[#DC2626] transition-colors cursor-pointer"
