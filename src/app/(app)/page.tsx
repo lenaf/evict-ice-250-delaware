@@ -47,8 +47,8 @@ export default async function Home() {
             photo's left edge blended into it so there's no hard line. */}
         <div className="absolute inset-y-0 right-0 w-full md:w-[70%]">
           <Image
-            src="/photos/campaign/rally-megaphone-crowd.jpg"
-            alt="Demonstrators gather outside 250 Delaware Avenue as a speaker addresses the crowd with a megaphone"
+            src="/photos/campaign/sit-in-250-delaware.jpg"
+            alt="Six protesters in Evict ICE shirts sit linked arm in arm in the street in front of 250 Delaware Avenue, with an Abolish ICE banner and a crowd behind them"
             fill
             priority
             sizes="(min-width: 768px) 70vw, 100vw"
