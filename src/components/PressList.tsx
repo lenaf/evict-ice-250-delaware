@@ -29,7 +29,7 @@ export const PressList: React.FC<PressListProps> = ({ items }) => (
           href={a.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center gap-3 md:gap-6 py-2 border-b border-black cursor-pointer"
+          className="group flex items-center gap-4 md:gap-6 py-3 md:py-3.5 border-b border-black cursor-pointer"
         >
           {a.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -38,14 +38,17 @@ export const PressList: React.FC<PressListProps> = ({ items }) => (
               alt={a.outlet}
               loading="lazy"
               decoding="async"
-              className="h-8 w-8 md:h-9 md:w-9 object-contain shrink-0"
+              className="h-10 w-10 md:h-12 md:w-12 object-contain shrink-0"
             />
+          ) : a.kind === "release" ? (
+            // Red tile the size of a logo so the label never runs into the headline.
+            <span className="h-10 w-10 md:h-12 md:w-12 shrink-0 flex items-center justify-center bg-[#DC2626] text-white font-black uppercase text-[8px] md:text-[9px] leading-tight text-center">
+              Press
+              <br />
+              release
+            </span>
           ) : (
-            <span
-              className={`w-8 md:w-9 shrink-0 flex items-center font-black uppercase text-[9px] leading-tight ${
-                a.kind === "release" ? "text-[#DC2626]" : ""
-              }`}
-            >
+            <span className="w-10 md:w-12 shrink-0 flex items-center font-black uppercase text-[10px] leading-tight break-words overflow-hidden">
               {a.outlet}
             </span>
           )}
