@@ -4,6 +4,10 @@ export const Media: CollectionConfig = {
   slug: "media" as const,
   admin: {
     group: "Media",
+    // Show and search by the editable alt text (filenames can't be renamed).
+    useAsTitle: "alt",
+    listSearchableFields: ["alt", "filename"],
+    defaultColumns: ["filename", "alt", "updatedAt"],
   },
   hooks: {
     beforeChange: [
@@ -34,7 +38,8 @@ export const Media: CollectionConfig = {
       name: "alt",
       type: "text",
       admin: {
-        description: "Auto-filled from the filename if left blank.",
+        description:
+          "The image's name in the CMS and its alt text on the site. Auto-filled from the filename if left blank.",
       },
     },
   ],
