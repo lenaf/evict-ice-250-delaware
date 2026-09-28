@@ -93,6 +93,8 @@ const CardForm: React.FC<{ amountCents: number; valid: boolean }> = ({
         options={{
           // Joined rows instead of spaced cards keeps the method list short.
           layout: { type: "accordion", defaultCollapsed: true, radios: "never", spacedAccordionItems: false },
+          // Link's wallet brings back Klarna and a Link-only bank option.
+          wallets: { link: "never" },
         }}
       />
       {error && <p className="text-[#DC2626] text-sm font-bold">{error}</p>}
