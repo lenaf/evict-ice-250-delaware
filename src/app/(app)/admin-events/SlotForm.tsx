@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import type { Slot } from "@/types/slots";
+import { getSlugError, slugify } from "@/lib/slug";
 
 interface DateRow {
   id?: string; // present → an existing slot row; absent → a new date
@@ -26,6 +27,8 @@ export const SlotForm: React.FC<SlotFormProps> = ({ groupSlots, seedFrom, onSave
 
   const [type, setType] = useState<"picket" | "event">(base?.type || "picket");
   const [title, setTitle] = useState(base?.title || "");
+  // Duplicates start without a slug, since slugs are unique per event.
+  const [slug, setSlug] = useState(isEdit ? base?.slug || "" : "");
   const [description, setDescription] = useState(base?.description || "");
   const [startTime, setStartTime] = useState(base?.start_time || "");
   const [endTime, setEndTime] = useState(base?.end_time || "");
@@ -107,6 +110,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ groupSlots, seedFrom, onSave
       signup_link: signupLink || null,
       image_url: imageUrl || null,
       featured,
+      slug: slug || null,
     };
 
     const url = isEdit ? `/api/slots/group/${groupId}` : "/api/slots";
@@ -130,6 +134,8 @@ export const SlotForm: React.FC<SlotFormProps> = ({ groupSlots, seedFrom, onSave
       setSaving(false);
     }
   };
+
+  const slugError = slug ? getSlugError(slug) : null;
 
   const input =
     "w-full px-3 py-2 border-2 border-black text-sm focus:outline-none focus:border-[#DC2626]";
@@ -156,6 +162,35 @@ export const SlotForm: React.FC<SlotFormProps> = ({ groupSlots, seedFrom, onSave
         onChange={(e) => setTitle(e.target.value)}
         className={input}
       />
+      <div>
+        <label className="block text-xs font-bold mb-1 uppercase">Custom URL (optional)</label>
+        <div className="flex items-center gap-1 text-sm">
+          <span className="text-black/50 whitespace-nowrap">/events/</span>
+          <input
+            type="text"
+            value={slug}
+            onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
+            placeholder={slugify(title) || "rally-oct-12"}
+            className={input}
+          />
+        </div>
+        {slug ? (
+          slugError && <p className="text-xs text-[#DC2626] mt-1">{slugError}</p>
+        ) : (
+          title && (
+            <button
+              type="button"
+              onClick={() => setSlug(slugify(title))}
+              className="mt-1 text-xs font-bold text-[#1E3A8A] hover:text-black cursor-pointer"
+            >
+              Use title
+            </button>
+          )
+        )}
+        <p className="text-xs text-black/50 mt-1">
+          Blank uses the event id. Changing it later breaks links you&apos;ve shared.
+        </p>
+      </div>
       <textarea
         placeholder="Description (optional)"
         value={description}
@@ -307,7 +342,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ groupSlots, seedFrom, onSave
       <div className="flex gap-3 pt-2">
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || !!slugError}
           className="bg-[#DC2626] hover:opacity-80 disabled:opacity-50 text-white font-bold py-2 px-6 transition cursor-pointer"
         >
           {saving ? "Saving..." : isEdit ? "Update" : "Create"}

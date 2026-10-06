@@ -5,6 +5,7 @@ import { sendCancellationNotice } from "@/lib/email";
 import { getAdminUser } from "@/lib/adminAuth";
 import { getPayload } from "@/lib/payload";
 import { logAudit } from "@/payload/audit";
+import { getSlugProblem } from "@/lib/slots";
 import type { Slot } from "@/types/slots";
 
 // A logical event is a set of slot rows sharing group_id (one row per date).
@@ -45,11 +46,17 @@ export async function PUT(
   }
 
   const body = await request.json();
-  const { type, title, description, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, dates } = body;
+  const { type, title, description, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, slug, dates } = body;
 
   const incoming: IncomingDate[] = Array.isArray(dates) ? dates.filter((d) => d?.date) : [];
   if (!title || incoming.length === 0 || !start_time || !end_time) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+  }
+
+  const cleanSlug = typeof slug === "string" && slug.trim() ? slug.trim() : null;
+  if (cleanSlug) {
+    const problem = await getSlugProblem(cleanSlug, groupId);
+    if (problem) return NextResponse.json({ error: problem }, { status: 409 });
   }
 
   const { data: existing, error: fetchErr } = await supabaseAdmin
@@ -72,6 +79,7 @@ export async function PUT(
     signup_link: signup_link || null,
     image_url: image_url || null,
     featured: featured || false,
+    slug: cleanSlug,
   };
 
   const existingById = new Map(existing.map((r) => [r.id, r]));

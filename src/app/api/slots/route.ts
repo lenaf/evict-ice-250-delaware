@@ -5,6 +5,7 @@ import { supabaseAdmin } from "@/lib/supabase-server";
 import { getAdminUser } from "@/lib/adminAuth";
 import { getPayload } from "@/lib/payload";
 import { logAudit } from "@/payload/audit";
+import { getSlugProblem } from "@/lib/slots";
 
 export const dynamic = "force-dynamic";
 
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { type, title, description, dates, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured } = body;
+  const { type, title, description, dates, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, slug } = body;
 
   // Accept a dates[] (multi-date) or a single `date` for back-compat. Dedupe.
   const dateList: string[] = Array.from(
@@ -72,6 +73,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
+  const cleanSlug = typeof slug === "string" && slug.trim() ? slug.trim() : null;
+  if (cleanSlug) {
+    const problem = await getSlugProblem(cleanSlug);
+    if (problem) return NextResponse.json({ error: problem }, { status: 409 });
+  }
+
   const group_id = randomUUID();
   const shared = {
     type: type || "picket",
@@ -84,6 +91,7 @@ export async function POST(request: Request) {
     signup_link: signup_link || null,
     image_url: image_url || null,
     featured: featured || false,
+    slug: cleanSlug,
     group_id,
   };
 

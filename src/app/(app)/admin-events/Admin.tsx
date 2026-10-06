@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import type { Slot } from "@/types/slots";
 import { formatDate, formatTime } from "@/lib/format";
+import { eventPath } from "@/lib/slug";
 import { SlotForm } from "./SlotForm";
 import { SignupList } from "./SignupList";
 
@@ -107,6 +108,16 @@ export const Admin: React.FC = () => {
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <p className={dim ? "font-bold" : "font-black text-lg"}>{base.title}</p>
+            {base.slug && (
+              <a
+                href={eventPath(base)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-[#1E3A8A] hover:text-black cursor-pointer"
+              >
+                {eventPath(base)}
+              </a>
+            )}
             <p className="text-sm text-black/60">
               {formatTime(base.start_time)} – {formatTime(base.end_time)} &middot;{" "}
               {base.location}

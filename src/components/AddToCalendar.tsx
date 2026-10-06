@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import type { Slot } from "@/types/slots";
 import { googleCalUrl } from "@/lib/calendar";
+import { eventPath } from "@/lib/slug";
 
 interface AddToCalendarProps {
   slot: Slot;
@@ -26,7 +27,7 @@ export const AddToCalendar: React.FC<AddToCalendarProps> = ({ slot }) => {
 
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/events/${slot.id}`);
+      await navigator.clipboard.writeText(`${window.location.origin}${eventPath(slot)}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {

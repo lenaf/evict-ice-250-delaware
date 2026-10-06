@@ -1,6 +1,8 @@
 export interface Slot {
   id: string;
   type: "picket" | "event";
+  // Custom URL (/events/<slug>), shared by every date in the group.
+  slug: string | null;
   title: string;
   description: string | null;
   date: string; // YYYY-MM-DD
