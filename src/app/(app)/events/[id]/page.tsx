@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getSlot } from "@/lib/slots";
+import { getAdminUser } from "@/lib/adminAuth";
 import { formatDateLong, formatTime } from "@/lib/format";
 import { Section } from "@/components/Section";
 import { EventPage } from "./EventPage";
@@ -11,8 +13,16 @@ interface Params {
   params: Promise<{ id: string }>;
 }
 
+// Unpublished events 404 for the public; logged-in admins can still preview them.
+async function getVisibleSlot(idOrSlug: string) {
+  const slot = await getSlot(idOrSlug);
+  if (!slot) return null;
+  if (slot.published) return slot;
+  return (await getAdminUser({ headers: new Headers(await headers()) })) ? slot : null;
+}
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const slot = await getSlot((await params).id);
+  const slot = await getVisibleSlot((await params).id);
   if (!slot) return { title: "Event not found" };
   const when = `${formatDateLong(slot.date)} · ${formatTime(slot.start_time)}`;
   const description = `${when} at ${slot.location}.${slot.description ? " " + slot.description : ""}`.slice(0, 200);
@@ -28,7 +38,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function EventDetailPage({ params }: Params) {
-  const slot = await getSlot((await params).id);
+  const slot = await getVisibleSlot((await params).id);
   if (!slot) notFound();
 
   return (

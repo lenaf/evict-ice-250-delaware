@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     .eq("id", slot_id)
     .single();
 
-  if (slotError || !slot) {
+  if (slotError || !slot || !slot.published) {
     return NextResponse.json({ error: "Slot not found" }, { status: 404 });
   }
 

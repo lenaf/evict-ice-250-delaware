@@ -107,7 +107,14 @@ export const Admin: React.FC = () => {
       >
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className={dim ? "font-bold" : "font-black text-lg"}>{base.title}</p>
+            <p className={dim ? "font-bold" : "font-black text-lg"}>
+              {base.title}
+              {!base.published && (
+                <span className="ml-2 align-middle text-xs font-bold uppercase border border-black/40 text-black/60 px-1.5 py-0.5">
+                  Draft
+                </span>
+              )}
+            </p>
             {base.slug && (
               <a
                 href={eventPath(base)}

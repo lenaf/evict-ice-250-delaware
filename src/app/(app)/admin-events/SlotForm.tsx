@@ -41,6 +41,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ groupSlots, seedFrom, onSave
   const [signupLink, setSignupLink] = useState(base?.signup_link || "");
   const [imageUrl, setImageUrl] = useState(base?.image_url || "");
   const [featured, setFeatured] = useState(base?.featured ?? false);
+  const [published, setPublished] = useState(base?.published ?? true);
   const [dates, setDates] = useState<DateRow[]>(
     isEdit
       ? [...groupSlots!]
@@ -110,6 +111,7 @@ export const SlotForm: React.FC<SlotFormProps> = ({ groupSlots, seedFrom, onSave
       signup_link: signupLink || null,
       image_url: imageUrl || null,
       featured,
+      published,
       slug: slug || null,
     };
 
@@ -336,6 +338,20 @@ export const SlotForm: React.FC<SlotFormProps> = ({ groupSlots, seedFrom, onSave
           <span className="block text-xs text-black/50">
             Featured events show on the homepage (next date), alongside the next
             weekly picket.
+          </span>
+        </span>
+      </label>
+      <label className="flex items-start gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={published}
+          onChange={(e) => setPublished(e.target.checked)}
+          className="mt-0.5 h-4 w-4 accent-[#DC2626]"
+        />
+        <span>
+          <span className="block text-xs font-bold uppercase">Published</span>
+          <span className="block text-xs text-black/50">
+            Unpublished events are hidden from the site but stay here.
           </span>
         </span>
       </label>

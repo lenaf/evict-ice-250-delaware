@@ -20,6 +20,7 @@ export async function GET(request: Request) {
   const { data: slots } = await supabaseAdmin
     .from("slots")
     .select("*")
+    .eq("published", true)
     .eq("date", tomorrowStr);
 
   if (!slots || slots.length === 0) {

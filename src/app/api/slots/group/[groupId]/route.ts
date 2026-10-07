@@ -46,7 +46,7 @@ export async function PUT(
   }
 
   const body = await request.json();
-  const { type, title, description, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, slug, dates } = body;
+  const { type, title, description, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, published, slug, dates } = body;
 
   const incoming: IncomingDate[] = Array.isArray(dates) ? dates.filter((d) => d?.date) : [];
   if (!title || incoming.length === 0 || !start_time || !end_time) {
@@ -79,6 +79,7 @@ export async function PUT(
     signup_link: signup_link || null,
     image_url: image_url || null,
     featured: featured || false,
+    published: published ?? true,
     slug: cleanSlug,
   };
 

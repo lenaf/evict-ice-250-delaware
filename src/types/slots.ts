@@ -13,6 +13,8 @@ export interface Slot {
   signup_link: string | null;
   image_url: string | null;
   featured: boolean;
+  // Unpublished events are hidden from the public site but kept in the admin.
+  published: boolean;
   // Dates that belong to one logical event share a group_id (one slot row per
   // date). Edited together in the admin; rendered as separate dates publicly.
   group_id: string;

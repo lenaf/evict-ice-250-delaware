@@ -9,6 +9,7 @@ async function getUpcomingSlotsWithCounts(): Promise<Slot[]> {
   const { data: slots, error } = await supabaseAdmin
     .from("slots")
     .select("*")
+    .eq("published", true)
     .gte("date", today)
     .order("date", { ascending: true })
     .order("start_time", { ascending: true });

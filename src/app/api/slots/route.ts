@@ -19,6 +19,7 @@ export async function GET(request: Request) {
   let query = supabaseAdmin
     .from("slots")
     .select("*")
+    .eq("published", true)
     .order("date", { ascending: true })
     .order("start_time", { ascending: true });
   if (!includeAll) query = query.gte("date", today);
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { type, title, description, dates, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, slug } = body;
+  const { type, title, description, dates, date, start_time, end_time, location, target_volunteers, signup_link, image_url, featured, published, slug } = body;
 
   // Accept a dates[] (multi-date) or a single `date` for back-compat. Dedupe.
   const dateList: string[] = Array.from(
@@ -91,6 +92,7 @@ export async function POST(request: Request) {
     signup_link: signup_link || null,
     image_url: image_url || null,
     featured: featured || false,
+    published: published ?? true,
     slug: cleanSlug,
     group_id,
   };
