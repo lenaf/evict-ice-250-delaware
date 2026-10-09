@@ -7,12 +7,9 @@ import { PressCard } from "@/components/PressCard";
 const AllCoverageLink: React.FC = () => (
   <Link
     href="/news"
-    className="inline-flex items-center gap-1 font-black text-sm uppercase tracking-wider text-black hover:text-[#DC2626] transition-colors cursor-pointer"
+    className="mt-8 inline-block font-black text-sm uppercase tracking-wider text-black hover:text-[#DC2626] transition cursor-pointer"
   >
-    See all news coverage
-    <span aria-hidden="true" className="text-base leading-none">
-      &rarr;
-    </span>
+    See all news coverage &rarr;
   </Link>
 );
 
@@ -31,12 +28,9 @@ export const PressSection = async () => {
     <section className="bg-white text-black py-12 md:py-16">
       <div className="px-6 md:px-10">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 mb-6">
-            <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide">
-              Featured News
-            </h2>
-            <AllCoverageLink />
-          </div>
+          <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide mb-6">
+            Featured News
+          </h2>
           {cards.length > 0 && (
             <div
               className={`flex flex-col gap-4 ${rest.length > 0 ? "mb-8 md:mb-10" : ""}`}
@@ -47,6 +41,7 @@ export const PressSection = async () => {
             </div>
           )}
           {rest.length > 0 && <PressList items={rest} />}
+          <AllCoverageLink />
         </div>
       </div>
     </section>
