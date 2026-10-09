@@ -18,7 +18,7 @@ const AllCoverageLink: React.FC = () => (
 
 // "Featured News" — the homepage press section. Shows only items flagged
 // `showOnHomepage` in the CMS: those also marked `featured` as large cards up
-// top, the rest as a compact list under "More Featured News". The full list
+// top, the rest as a compact list below them. The full list
 // lives at /news. Renders nothing when no item is flagged for the homepage.
 export const PressSection = async () => {
   const articles = await getPress();
@@ -31,34 +31,22 @@ export const PressSection = async () => {
     <section className="bg-white text-black py-12 md:py-16">
       <div className="px-6 md:px-10">
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide mb-6">
-            Featured News
-          </h2>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 mb-6">
+            <h2 className="font-black text-2xl md:text-3xl uppercase tracking-wide">
+              Featured News
+            </h2>
+            <AllCoverageLink />
+          </div>
           {cards.length > 0 && (
-            <div className="flex flex-col gap-4 mb-8 md:mb-10">
+            <div
+              className={`flex flex-col gap-4 ${rest.length > 0 ? "mb-8 md:mb-10" : ""}`}
+            >
               {cards.map((a) => (
                 <PressCard key={a.url} item={a} />
               ))}
             </div>
           )}
-          {cards.length > 0 && rest.length > 0 ? (
-            <>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 mb-3">
-                <h3 className="font-black text-lg md:text-xl uppercase tracking-wide">
-                  More Featured News
-                </h3>
-                <AllCoverageLink />
-              </div>
-              <PressList items={rest} />
-            </>
-          ) : (
-            <>
-              {rest.length > 0 && <PressList items={rest} />}
-              <div className={rest.length > 0 ? "mt-6" : undefined}>
-                <AllCoverageLink />
-              </div>
-            </>
-          )}
+          {rest.length > 0 && <PressList items={rest} />}
         </div>
       </div>
     </section>
