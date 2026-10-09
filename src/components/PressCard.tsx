@@ -8,8 +8,8 @@ interface PressCardProps {
 }
 
 // The card view of a press item: photo thumbnail, outlet and date, headline,
-// optional subheading, and a "Read" button. Used for featured articles on the
-// homepage and for every item on /news. Without a photo, the thumbnail shows
+// optional subheading, and a "Read ↗" cue like the list rows. Used for
+// featured articles on the homepage. Without a photo, the thumbnail shows
 // the outlet logo (or name), or a red "Press release" panel for our releases.
 export const PressCard: React.FC<PressCardProps> = ({ item }) => {
   const date = formatPressDate(item.date);
@@ -75,9 +75,9 @@ export const PressCard: React.FC<PressCardProps> = ({ item }) => {
             {item.subheading}
           </p>
         )}
-        <span className="mt-4 self-start inline-flex items-center gap-1 bg-[#DC2626] group-hover:bg-black text-white font-black text-xs uppercase tracking-wider px-4 py-2 border-2 border-black transition">
-          {isRelease ? "Read the release" : "Read the story"}
-          <span aria-hidden="true" className="text-sm leading-none">
+        <span className="mt-3 self-start flex items-center gap-1 font-bold text-xs uppercase tracking-wide text-black/55 group-hover:text-[#DC2626] transition-colors">
+          {isRelease ? "PDF" : "Read"}
+          <span aria-hidden="true" className="text-base leading-none">
             &#8599;
           </span>
         </span>
