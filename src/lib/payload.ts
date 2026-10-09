@@ -77,6 +77,14 @@ function mediaUrl(v: unknown): string {
   return "";
 }
 
+// A populated upload relationship → its alt text; else "".
+function mediaAlt(v: unknown): string {
+  if (v && typeof v === "object" && "alt" in v) {
+    return String((v as { alt?: string }).alt ?? "");
+  }
+  return "";
+}
+
 // A relationship value → its id (populated object at depth ≥1, or a raw id).
 function relId(v: unknown): unknown {
   if (v && typeof v === "object" && "id" in v) return (v as { id: unknown }).id;
@@ -205,7 +213,12 @@ export interface PressItem {
   url: string;
   date: string; // ISO date
   logo: string; // public URL of the publication logo
-  showOnHomepage: boolean; // featured in the homepage "In the News" section
+  showOnHomepage: boolean; // listed in the homepage "Featured News" section
+  featured: boolean; // shown as a large card at the top of that section
+  subheading: string;
+  image: string; // public URL of the card photo, "" if none
+  imageAlt: string;
+  imageCredit: string;
 }
 
 // Fetch press articles and press releases, merged newest-first, for the
@@ -233,6 +246,11 @@ export async function getPress(): Promise<PressItem[] | null> {
           // Only articles checked "Show on homepage" appear in the homepage
           // strip; the rest live on /news. (Existing rows default to checked.)
           showOnHomepage: d.showOnHomepage === true,
+          featured: d.featured === true,
+          subheading: (d.subheading as string) ?? "",
+          image: mediaUrl(d.image),
+          imageAlt: mediaAlt(d.image),
+          imageCredit: (d.imageCredit as string) ?? "",
         };
       });
       const releaseItems: PressItem[] = releases.docs.map((doc) => {
@@ -245,6 +263,11 @@ export async function getPress(): Promise<PressItem[] | null> {
           date: (d.date as string) ?? "",
           logo: "",
           showOnHomepage: d.showOnHomepage === true,
+          featured: false,
+          subheading: "",
+          image: "",
+          imageAlt: "",
+          imageCredit: "",
         };
       });
       const items = [...articleItems, ...releaseItems].sort(

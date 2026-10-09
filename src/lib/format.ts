@@ -22,3 +22,16 @@ export function formatTime(time: string) {
   const h12 = hour % 12 || 12;
   return `${h12}:${m} ${ampm}`;
 }
+
+// "October 3, 2026" from an ISO timestamp; empty string if it doesn't parse.
+export function formatPressDate(iso: string) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime())
+    ? ""
+    : new Intl.DateTimeFormat("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }).format(d);
+}

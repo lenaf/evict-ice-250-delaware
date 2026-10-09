@@ -525,7 +525,7 @@ export interface Sponsor {
   createdAt: string;
 }
 /**
- * Press coverage for the homepage 'In the News' carousel. Articles show newest first by date.
+ * Press coverage for the homepage 'Featured News' section and /news. Articles show newest first by date.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "press".
@@ -549,13 +549,29 @@ export interface Press {
    */
   date: string;
   /**
-   * Show this article in the homepage 'In the News' section. Uncheck to keep it on the /news page only.
+   * Show this article in the homepage 'Featured News' section. Uncheck to keep it on the /news page only.
    */
   showOnHomepage?: boolean | null;
+  /**
+   * Show as a large card at the top of the homepage section. Any number of articles can be featured.
+   */
+  featured?: boolean | null;
   /**
    * The publication's logo (thumbnail). Optional — the outlet name shows if there's no logo.
    */
   logo?: (number | null) | Media;
+  /**
+   * Optional line under the headline on the card, e.g. the article's subtitle or a key sentence.
+   */
+  subheading?: string | null;
+  /**
+   * Optional photo for the card (usually the article's lead photo). The logo shows in its place if empty.
+   */
+  image?: (number | null) | Media;
+  /**
+   * Optional photo credit shown in the corner (e.g. "Tito Ruiz / TRu iNk Media").
+   */
+  imageCredit?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -971,7 +987,11 @@ export interface PressSelect<T extends boolean = true> {
   url?: T;
   date?: T;
   showOnHomepage?: T;
+  featured?: T;
   logo?: T;
+  subheading?: T;
+  image?: T;
+  imageCredit?: T;
   updatedAt?: T;
   createdAt?: T;
 }

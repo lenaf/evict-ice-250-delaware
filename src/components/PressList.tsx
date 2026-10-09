@@ -1,17 +1,6 @@
 import React from "react";
 import type { PressItem } from "@/lib/payload";
-
-const fmtDate = (iso: string): string => {
-  if (!iso) return "";
-  const d = new Date(iso);
-  return Number.isNaN(d.getTime())
-    ? ""
-    : new Intl.DateTimeFormat("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      }).format(d);
-};
+import { formatPressDate } from "@/lib/format";
 
 interface PressListProps {
   items: PressItem[];
@@ -56,14 +45,14 @@ export const PressList: React.FC<PressListProps> = ({ items }) => (
             <span className="block font-semibold text-sm md:text-[15px] leading-snug group-hover:text-[#DC2626] transition-colors">
               {a.headline}
             </span>
-            {fmtDate(a.date) && (
+            {formatPressDate(a.date) && (
               <span className="block md:hidden text-[11px] uppercase tracking-wide text-black/50 mt-0.5">
-                {fmtDate(a.date)}
+                {formatPressDate(a.date)}
               </span>
             )}
           </span>
           <span className="hidden md:block shrink-0 w-40 text-right text-xs uppercase tracking-wide text-black/50">
-            {fmtDate(a.date)}
+            {formatPressDate(a.date)}
           </span>
           <span className="shrink-0 sm:w-14 flex items-center justify-end gap-1 font-bold text-xs uppercase tracking-wide text-black/55 group-hover:text-[#DC2626] transition-colors">
             <span className="hidden sm:inline">
