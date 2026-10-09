@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getPress } from "@/lib/payload";
-import { PressCard } from "@/components/PressCard";
+import { PressList } from "@/components/PressList";
 
 export const metadata: Metadata = {
   title: "In the News",
@@ -26,11 +26,7 @@ export default async function NewsPage() {
         </p>
 
         {articles?.length ? (
-          <div className="flex flex-col gap-4">
-            {articles.map((a) => (
-              <PressCard key={a.url} item={a} />
-            ))}
-          </div>
+          <PressList items={articles} />
         ) : (
           <p className="text-black/60">No coverage yet.</p>
         )}
