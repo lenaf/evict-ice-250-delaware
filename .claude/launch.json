@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "evict-ice-dev",
-      "runtimeExecutable": "/bin/bash",
-      "runtimeArgs": ["-c", "cd /Users/lena.forti/Repos/evict-ice-250-delaware && pnpm run dev"],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["-C", "/Users/lena.forti/Repos/evict-ice-250-delaware", "run", "dev"],
       "port": 3000,
       "autoPort": false
     }

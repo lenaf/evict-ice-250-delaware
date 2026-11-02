@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { EXCLUDED_PAYMENT_METHODS } from "@/lib/donation";
+import { CAMPAIGNS, EXCLUDED_PAYMENT_METHODS, isCampaign } from "@/lib/donation";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +11,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const cents = Math.round(Number(body?.amount));
+    const rawCampaign = body?.campaign;
+    const campaign = isCampaign(rawCampaign) ? rawCampaign : undefined;
 
     if (!Number.isFinite(cents) || cents < MIN_CENTS || cents > MAX_CENTS) {
       return NextResponse.json(
@@ -24,7 +26,10 @@ export async function POST(request: Request) {
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       excluded_payment_method_types: EXCLUDED_PAYMENT_METHODS,
-      description: "Evict ICE 250 Delaware campaign donation",
+      description: campaign
+        ? `Evict ICE 250 Delaware campaign donation — ${CAMPAIGNS[campaign]}`
+        : "Evict ICE 250 Delaware campaign donation",
+      metadata: campaign ? { campaign } : undefined,
     });
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });

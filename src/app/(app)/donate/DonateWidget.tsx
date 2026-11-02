@@ -9,7 +9,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import QRCode from "react-qr-code";
-import { EXCLUDED_PAYMENT_METHODS } from "@/lib/donation";
+import { EXCLUDED_PAYMENT_METHODS, type Campaign } from "@/lib/donation";
 
 // TODO: replace with the campaign's real Cash App cashtag.
 // Both the QR code and the "Open Cash App" button are generated from this.
@@ -29,10 +29,11 @@ const fmt = (dollars: number) =>
 
 // Inner form: the Payment Element renders immediately (deferred mode); the
 // PaymentIntent is created on submit, then confirmed.
-const CardForm: React.FC<{ amountCents: number; valid: boolean }> = ({
-  amountCents,
-  valid,
-}) => {
+const CardForm: React.FC<{
+  amountCents: number;
+  valid: boolean;
+  campaign?: Campaign;
+}> = ({ amountCents, valid, campaign }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -60,7 +61,7 @@ const CardForm: React.FC<{ amountCents: number; valid: boolean }> = ({
       const res = await fetch("/api/donate/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: amountCents }),
+        body: JSON.stringify({ amount: amountCents, campaign }),
       });
       const data = await res.json();
       if (!res.ok || !data.clientSecret) {
@@ -73,7 +74,7 @@ const CardForm: React.FC<{ amountCents: number; valid: boolean }> = ({
         elements,
         clientSecret: data.clientSecret,
         confirmParams: {
-          return_url: `${window.location.origin}/donate?success=1`,
+          return_url: `${window.location.origin}${window.location.pathname}?success=1`,
         },
       });
       // On success Stripe redirects to return_url; we only reach here on error.
@@ -111,7 +112,9 @@ const CardForm: React.FC<{ amountCents: number; valid: boolean }> = ({
   );
 };
 
-export const DonateWidget: React.FC = () => {
+export const DonateWidget: React.FC<{ campaign?: Campaign }> = ({
+  campaign,
+}) => {
   const [tab, setTab] = useState<"card" | "cashapp">("card");
   const [selected, setSelected] = useState<number | "custom">(50);
   const [custom, setCustom] = useState("");
@@ -192,7 +195,7 @@ export const DonateWidget: React.FC = () => {
             className="w-full px-3 py-2 border-2 border-black mb-4 focus:outline-none focus:border-[#DC2626]"
           />
           <Elements stripe={stripePromise} options={options}>
-            <CardForm amountCents={amountCents} valid={valid} />
+            <CardForm amountCents={amountCents} valid={valid} campaign={campaign} />
           </Elements>
           <p className="text-xs text-black/50 mt-3">
             Secured by Stripe. All contributions are tax-deductible.
