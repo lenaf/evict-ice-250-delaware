@@ -42,16 +42,20 @@ export default async function PuppetsDonatePage({
             </div>
           )}
 
-          <h1 className="uppercase tracking-tight md:mb-8 font-black text-6xl md:text-8xl leading-[0.9]">
+          <h1 className="uppercase tracking-tight mb-3 md:mb-8 font-black text-6xl md:text-8xl leading-[0.9]">
             Puppet Raising
           </h1>
+          <p className="font-bold text-base md:text-lg text-white/90">
+            Funding puppets, banners, and performance art for the campaign to
+            Evict ICE from 250 Delaware.
+          </p>
         </div>
 
         {/* Donate widget */}
         <div className="md:col-start-2 md:row-start-1 md:row-span-2 md:sticky md:top-28">
           <DonateWidget campaign="puppets" />
           <p className="text-sm text-white/70 mt-4">
-            Prefer to give by check or host a house party? Email{" "}
+            Prefer to give by check? Email{" "}
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="font-bold text-[#FFD600] underline underline-offset-2 hover:text-white transition"
