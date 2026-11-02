@@ -179,21 +179,16 @@ export default async function DonatePage({
             ))}
           </ul>
 
-          <div className="border-2 border-black bg-[#FFD600] text-black p-4">
-            <p className="font-black uppercase tracking-wide mb-1">
-              Fund the art
-            </p>
-            <p className="text-sm mb-3">
-              We&rsquo;re also raising money separately for the puppets,
-              banners, and performance art that power our actions.
-            </p>
+          <p className="text-sm text-white/70">
+            Want to donate specifically to performance art?{" "}
             <a
               href="/donate/puppets"
-              className="inline-block bg-black text-white font-black uppercase tracking-wider px-4 py-2 hover:opacity-80 transition cursor-pointer"
+              className="font-bold text-[#FFD600] underline underline-offset-2 hover:text-white transition"
             >
               Donate to Puppet Raising
             </a>
-          </div>
+            .
+          </p>
         </div>
 
       </div>
