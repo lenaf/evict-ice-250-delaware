@@ -49,7 +49,7 @@ export default async function PuppetsDonatePage({
 
         {/* Copy */}
         <div className="md:col-start-1 md:row-start-2">
-          <div className="relative aspect-[4/3] border-2 border-black overflow-hidden mb-6">
+          <div className="relative aspect-[3/2] border-2 border-black overflow-hidden mb-6">
             <Image
               src="/photos/puppets/montante-puppets-no-ice.jpg"
               alt="Demonstrators outside 250 Delaware hold towering puppet effigies of Carl Montante, one labeled 'ICE's Puppet,' beside a 'NO ICE' sign"
@@ -60,7 +60,7 @@ export default async function PuppetsDonatePage({
             />
           </div>
 
-          <blockquote className="border-l-4 border-[#FFD600] pl-4 italic text-white/90 mb-6">
+          <blockquote className="italic text-lg md:text-xl text-white/90 mb-6">
             &ldquo;It is the job of the artist&hellip;to think outside the
             boundaries of permissible thought and dare to say things that no
             one else will say.&rdquo;
