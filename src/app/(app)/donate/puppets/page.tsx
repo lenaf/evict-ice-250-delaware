@@ -42,7 +42,7 @@ export default async function PuppetsDonatePage({
             </div>
           )}
 
-          <h1 className="uppercase tracking-tight mb-3 md:mb-8 font-black text-6xl md:text-8xl leading-[0.9]">
+          <h1 className="uppercase tracking-tight mb-3 md:mb-8 font-black text-5xl md:text-7xl leading-[0.95]">
             Puppet Raising
           </h1>
           <p className="font-bold text-base md:text-lg text-white/90">
