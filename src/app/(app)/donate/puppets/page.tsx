@@ -42,9 +42,16 @@ export default async function PuppetsDonatePage({
             </div>
           )}
 
-          <h1 className="uppercase tracking-tight md:mb-8 font-black text-5xl md:text-7xl leading-[0.95]">
+          <h1 className="uppercase tracking-tight md:mb-8 font-black text-4xl sm:text-5xl md:text-7xl leading-[0.95] whitespace-nowrap">
             Puppet Raising
           </h1>
+
+          <a
+            href="#donate-widget"
+            className="md:hidden inline-block mt-4 bg-[#FFD600] text-black font-black uppercase tracking-wider px-5 py-3 hover:opacity-80 transition cursor-pointer"
+          >
+            Donate now ↓
+          </a>
         </div>
 
         {/* Copy */}
@@ -55,7 +62,7 @@ export default async function PuppetsDonatePage({
               alt="Demonstrators outside 250 Delaware hold towering puppet effigies of Carl Montante, one labeled 'ICE's Puppet,' beside a 'NO ICE' sign"
               fill
               sizes="(min-width: 768px) 60vw, 100vw"
-              className="object-cover object-top"
+              className="object-cover object-bottom"
               priority
             />
           </div>
@@ -118,7 +125,10 @@ export default async function PuppetsDonatePage({
         </div>
 
         {/* Donate widget */}
-        <div className="md:col-start-2 md:row-start-1 md:row-span-2 md:sticky md:top-28">
+        <div
+          id="donate-widget"
+          className="scroll-mt-28 md:col-start-2 md:row-start-1 md:row-span-2 md:sticky md:top-28"
+        >
           <DonateWidget campaign="puppets" />
           <p className="text-sm text-white/70 mt-4">
             Prefer to give by check? Email{" "}
