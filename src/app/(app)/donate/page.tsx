@@ -96,8 +96,8 @@ export default async function DonatePage({
 
   return (
     <main className="flex-1 bg-[#1E3A8A] text-white px-6 md:px-10 pt-10 md:pt-14 pb-12 md:pb-16">
-      {/* Mobile: heading, widget, then bullets. Desktop: heading + bullets on
-          the left, widget sticky on the right. */}
+      {/* Mobile: heading, then the full pitch, then the widget last.
+          Desktop: heading + pitch on the left, widget sticky on the right. */}
       <div className="max-w-6xl mx-auto grid md:grid-cols-[3fr_2fr] md:grid-rows-[auto_1fr] gap-y-6 md:gap-x-10 md:gap-y-0 items-start">
         <div className="md:col-start-1 md:row-start-1">
           {donated && (
@@ -114,21 +114,6 @@ export default async function DonatePage({
           <h1 className="uppercase tracking-tight md:mb-8 font-black text-6xl md:text-8xl leading-[0.9]">
             Donate
           </h1>
-        </div>
-
-        {/* Donate widget */}
-        <div className="md:col-start-2 md:row-start-1 md:row-span-2 md:sticky md:top-28">
-          <DonateWidget />
-          <p className="text-sm text-white/70 mt-4">
-            Prefer to give by check or host a house party? Email{" "}
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="font-bold text-[#FFD600] underline underline-offset-2 hover:text-white transition"
-            >
-              {CONTACT_EMAIL}
-            </a>
-            .
-          </p>
         </div>
 
         {/* What your gift funds */}
@@ -186,6 +171,21 @@ export default async function DonatePage({
               className="font-bold text-[#FFD600] underline underline-offset-2 hover:text-white transition"
             >
               Donate to Puppet Raising
+            </a>
+            .
+          </p>
+        </div>
+
+        {/* Donate widget */}
+        <div className="md:col-start-2 md:row-start-1 md:row-span-2 md:sticky md:top-28">
+          <DonateWidget />
+          <p className="text-sm text-white/70 mt-4">
+            Prefer to give by check or host a house party? Email{" "}
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="font-bold text-[#FFD600] underline underline-offset-2 hover:text-white transition"
+            >
+              {CONTACT_EMAIL}
             </a>
             .
           </p>
