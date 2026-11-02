@@ -27,10 +27,11 @@ export default async function PuppetsDonatePage({
 
   return (
     <main className="flex-1 bg-[#1E3A8A] text-white px-6 md:px-10 pt-10 md:pt-14 pb-12 md:pb-16">
-      {/* Mobile: heading, then the full pitch, then the widget last.
-          Desktop: heading + pitch on the left, widget sticky on the right. */}
-      <div className="max-w-6xl mx-auto grid md:grid-cols-[3fr_2fr] md:grid-rows-[auto_1fr] gap-y-6 md:gap-x-10 md:gap-y-0 items-start">
-        <div className="md:col-start-1 md:row-start-1">
+      {/* Mobile and tablet: heading, then the full pitch, then the widget
+          last. Desktop (lg+): heading + pitch on the left, widget sticky on
+          the right — the sidebar column gets cramped below that. */}
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-[3fr_2fr] lg:grid-rows-[auto_1fr] gap-y-6 lg:gap-x-10 lg:gap-y-0 items-start">
+        <div className="lg:col-start-1 lg:row-start-1">
           {donated && (
             <div className="border-2 border-black bg-[#FFD600] text-black p-3 mb-5 font-bold">
               Thank you for your contribution — it directly powers the campaign.
@@ -48,7 +49,7 @@ export default async function PuppetsDonatePage({
         </div>
 
         {/* Copy */}
-        <div className="md:col-start-1 md:row-start-2">
+        <div className="lg:col-start-1 lg:row-start-2">
           <div className="relative aspect-[3/2] border-2 border-black overflow-hidden mb-6">
             <Image
               src="/photos/puppets/montante-puppets-no-ice.jpg"
@@ -118,7 +119,7 @@ export default async function PuppetsDonatePage({
         </div>
 
         {/* Donate widget */}
-        <div className="md:col-start-2 md:row-start-1 md:row-span-2 md:sticky md:top-28">
+        <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-28">
           <DonateWidget campaign="puppets" />
           <p className="text-sm text-white/70 mt-4">
             Prefer to give by check? Email{" "}
