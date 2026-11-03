@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { DonateWidget } from "./DonateWidget";
+import { DEFAULT_OG_IMAGE } from "@/lib/metadata";
+
+const title = "Donate";
+const description =
+  "Support the campaign to evict ICE from 250 Delaware in Buffalo. Your contribution funds billboards, legal support, and materials.";
 
 export const metadata: Metadata = {
-  title: "Donate",
-  description:
-    "Support the campaign to evict ICE from 250 Delaware in Buffalo. Your contribution funds billboards, legal support, and materials.",
+  title,
+  description,
+  openGraph: { title, description, images: DEFAULT_OG_IMAGE },
 };
 
 const CONTACT_EMAIL = "evictice250delaware@proton.me";

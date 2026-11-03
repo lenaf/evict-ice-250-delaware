@@ -2,11 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getPress } from "@/lib/payload";
 import { PressList } from "@/components/PressList";
+import { DEFAULT_OG_IMAGE } from "@/lib/metadata";
+
+const title = "In the News";
+const description =
+  "Press coverage of the campaign to evict ICE from 250 Delaware Avenue in Buffalo, NY.";
 
 export const metadata: Metadata = {
-  title: "In the News",
-  description:
-    "Press coverage of the campaign to evict ICE from 250 Delaware Avenue in Buffalo, NY.",
+  title,
+  description,
+  openGraph: { title, description, images: DEFAULT_OG_IMAGE },
 };
 
 // ISR: prerendered, refreshed on a CMS Press save (revalidate hook) or hourly.

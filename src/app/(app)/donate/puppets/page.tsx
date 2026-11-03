@@ -2,10 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { DonateWidget } from "../DonateWidget";
 
+const title = "Puppet Raising";
+const description =
+  "Fund the puppets, banners, and performance art powering the campaign to Evict ICE from 250 Delaware.";
+
 export const metadata: Metadata = {
-  title: "Puppet Raising",
-  description:
-    "Fund the puppets, banners, and performance art powering the campaign to Evict ICE from 250 Delaware.",
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    images: [{ url: "/photos/puppets/montante-puppets-no-ice.jpg" }],
+  },
 };
 
 const CONTACT_EMAIL = "evictice250delaware@proton.me";

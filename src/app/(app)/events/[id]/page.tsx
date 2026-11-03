@@ -6,6 +6,7 @@ import { getAdminUser } from "@/lib/adminAuth";
 import { formatDateLong, formatTime } from "@/lib/format";
 import { Section } from "@/components/Section";
 import { EventPage } from "./EventPage";
+import { DEFAULT_OG_IMAGE } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     openGraph: {
       title: slot.title,
       description,
-      ...(slot.image_url ? { images: [slot.image_url] } : {}),
+      images: slot.image_url ? [slot.image_url] : DEFAULT_OG_IMAGE,
     },
   };
 }

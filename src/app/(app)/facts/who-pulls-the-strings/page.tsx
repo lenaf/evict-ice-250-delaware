@@ -2,11 +2,16 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { loadFactsPage } from "@/lib/payload";
 import { RenderSections } from "@/components/RenderSections";
+import { DEFAULT_OG_IMAGE } from "@/lib/metadata";
+
+const title = "Who Pulls the Strings: The Facts";
+const description =
+  "Delaware North and the Jacobs family, the $3 billion anchor tenant above ICE at 250 Delaware Avenue in Buffalo, NY.";
 
 export const metadata: Metadata = {
-  title: "Who Pulls the Strings: The Facts",
-  description:
-    "Delaware North and the Jacobs family, the $3 billion anchor tenant above ICE at 250 Delaware Avenue in Buffalo, NY.",
+  title,
+  description,
+  openGraph: { title, description, images: DEFAULT_OG_IMAGE },
 };
 
 // ISR: prerendered at build, refreshed on a CMS save (revalidate hook) or hourly.

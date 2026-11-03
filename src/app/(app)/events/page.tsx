@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import { EventsSection } from "@/components/EventsSection";
 import { Section } from "@/components/Section";
+import { DEFAULT_OG_IMAGE } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
+const title = "Events";
+const description =
+  "Join us at our weekly pickets and community events to help evict ICE from 250 Delaware. See the full calendar and sign up.";
+
 export const metadata: Metadata = {
-  title: "Events",
-  description:
-    "Join us at our weekly pickets and community events to help evict ICE from 250 Delaware. See the full calendar and sign up.",
+  title,
+  description,
+  openGraph: { title, description, images: DEFAULT_OG_IMAGE },
 };
 
 export default function EventsPage() {
