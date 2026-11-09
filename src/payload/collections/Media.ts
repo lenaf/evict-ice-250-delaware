@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { revalidateAll } from "../revalidate";
 
 export const Media: CollectionConfig = {
   slug: "media" as const,
@@ -10,6 +11,7 @@ export const Media: CollectionConfig = {
     defaultColumns: ["filename", "alt", "updatedAt"],
   },
   hooks: {
+    afterChange: [() => revalidateAll()],
     beforeChange: [
       ({ data, req }) => {
         if (req.file && !data.alt) {

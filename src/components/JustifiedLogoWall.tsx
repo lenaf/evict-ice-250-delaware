@@ -175,7 +175,7 @@ export const JustifiedLogoWall: React.FC<{ logos: SponsorItem[] }> = ({ logos })
               style={{ width: item.boxWidth, height: row.height }}
             >
               <span className="block w-full h-full">
-                {!item.logo ? null : item.logo.toLowerCase().endsWith(".svg") ? (
+                {!item.logo ? null : item.logo.split("?")[0].toLowerCase().endsWith(".svg") ? (
                   // SVGs are vector and tiny (a few KB); serve as-is rather than
                   // through the image optimizer, which would need dangerouslyAllowSVG.
                   // eslint-disable-next-line @next/next/no-img-element

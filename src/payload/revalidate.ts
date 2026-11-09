@@ -34,3 +34,12 @@ export function revalidatePress() {
   safe("/");
   safe("/news");
 }
+
+// Media changed → revalidate every page, since any of them can render it.
+export function revalidateAll() {
+  try {
+    revalidatePath("/", "layout");
+  } catch {
+    /* not in a request scope (seed/CLI) — ignore */
+  }
+}

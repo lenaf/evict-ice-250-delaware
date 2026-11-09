@@ -70,9 +70,13 @@ function bioToParas(bio: unknown): BioSegment[][] {
 }
 
 // A populated upload relationship (depth ≥1) → its public URL; else "".
+// Versioned by updatedAt since a crop overwrites the file under the same name.
 function mediaUrl(v: unknown): string {
   if (v && typeof v === "object" && "url" in v) {
-    return String((v as { url?: string }).url ?? "");
+    const { updatedAt, url } = v as { updatedAt?: string; url?: string };
+    if (!url) return "";
+    const version = updatedAt ? Date.parse(updatedAt) : NaN;
+    return Number.isNaN(version) ? url : `${url}?v=${version}`;
   }
   return "";
 }
