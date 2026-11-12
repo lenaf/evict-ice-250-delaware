@@ -26,9 +26,22 @@ interface Fund {
   body: string;
   photos: Photo[];
   credit?: string; // shown as-is under the thumbnails
+  link?: { href: string; label: string };
 }
 
 const funds: Fund[] = [
+  {
+    lead: "Art",
+    rest: ", including puppets, banners, signs, music, and other interactive elements",
+    body: "We believe that powerful visual and performance art is key to amplifying our message and demands to Evict ICE from 250 Delaware.",
+    photos: [
+      {
+        src: "/photos/puppets/montante-puppets-no-ice.jpg",
+        alt: "Demonstrators outside 250 Delaware hold towering puppet effigies of Carl Montante, one labeled 'ICE's Puppet,' beside a 'NO ICE' sign",
+      },
+    ],
+    link: { href: "/donate/puppets", label: "Donate to Puppet Raising" },
+  },
   {
     lead: "Billboards",
     rest: " across from ICE headquarters at 250 Delaware Ave",
@@ -130,7 +143,7 @@ export default async function DonatePage({
             powers this work. It will fund:
           </p>
 
-          <ul className="space-y-6 mb-6">
+          <ul className="space-y-6">
             {funds.map((f) => (
               <li key={f.lead} className="flex gap-2.5">
                 <span className="text-[#FFD600] font-black shrink-0 leading-snug">
@@ -148,14 +161,26 @@ export default async function DonatePage({
                     {f.photos.map((p) => (
                       <div
                         key={p.src}
-                        className="relative aspect-[4/3] border-2 border-black overflow-hidden"
+                        className={`relative border-2 border-black overflow-hidden ${
+                          f.photos.length === 1
+                            ? "col-span-3 aspect-[3/2]"
+                            : "aspect-[4/3]"
+                        }`}
                       >
                         <Image
                           src={p.src}
                           alt={p.alt}
                           fill
-                          sizes="(min-width: 768px) 144px, 30vw"
-                          className="object-cover object-center"
+                          sizes={
+                            f.photos.length === 1
+                              ? "(min-width: 768px) 448px, 90vw"
+                              : "(min-width: 768px) 144px, 30vw"
+                          }
+                          className={
+                            f.photos.length === 1
+                              ? "object-cover object-bottom"
+                              : "object-cover object-center"
+                          }
                         />
                       </div>
                     ))}
@@ -165,21 +190,19 @@ export default async function DonatePage({
                       {f.credit}
                     </p>
                   )}
+                  {f.link && (
+                    <a
+                      href={f.link.href}
+                      className="inline-block mt-2 text-sm font-bold text-[#FFD600] underline underline-offset-2 hover:text-white transition"
+                    >
+                      {f.link.label} &rarr;
+                    </a>
+                  )}
                 </div>
               </li>
             ))}
           </ul>
 
-          <p className="text-sm text-white/70">
-            Want to donate specifically to performance art?{" "}
-            <a
-              href="/donate/puppets"
-              className="font-bold text-[#FFD600] underline underline-offset-2 hover:text-white transition"
-            >
-              Donate to Puppet Raising
-            </a>
-            .
-          </p>
         </div>
 
         {/* Donate widget */}

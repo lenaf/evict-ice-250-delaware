@@ -150,15 +150,6 @@ export default async function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="relative col-span-2 aspect-[16/9] border-2 border-black">
-            <Image
-              src="/photos/campaign/billboard-montante-detention-center.jpg"
-              alt="Billboard near 250 Delaware reading 'You've arrived: Montante Detention Center. Uniland leases the 7th floor to ICE. Evict ICE!'"
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover object-[center_30%]"
-            />
-          </div>
           <div className="relative aspect-[4/3] border-2 border-black">
             <Image
               src="/photos/campaign/billboard-uniland-owns.jpg"
@@ -170,11 +161,11 @@ export default async function Home() {
           </div>
           <div className="relative aspect-[4/3] border-2 border-black">
             <Image
-              src="/photos/campaign/billboard-250-delaware.jpg"
-              alt="Billboard reading 'ICE headquarters is located at 250 Delaware'"
+              src="/photos/puppets/montante-puppets-no-ice.jpg"
+              alt="Demonstrators outside 250 Delaware hold towering puppet effigies of Carl Montante, one labeled 'ICE's Puppet,' beside a 'NO ICE' sign"
               fill
               sizes="(min-width: 768px) 25vw, 50vw"
-              className="object-cover object-center"
+              className="object-cover object-bottom"
             />
           </div>
         </div>
